@@ -1,0 +1,43 @@
+import type { CollectionSettings } from "@contextspeak/contracts";
+export interface LocalConnection extends CollectionSettings {
+  token: string;
+  identity: string;
+}
+export interface ConnectionDependencies {
+  read(): Promise<LocalConnection>;
+  write(value: LocalConnection): Promise<void>;
+  authenticate(token: string): Promise<LocalConnection>;
+  putSettings(value: CollectionSettings, token?: string): Promise<unknown>;
+}
+// All account/settings transitions share one queue; a new connect invalidates stale work immediately.
+export class ConnectionManager {
+  private revision = 0;
+  private pending: Promise<unknown> = Promise.resolve();
+  constructor(private deps: ConnectionDependencies) {}
+  private serialize<T>(fn: () => Promise<T>) {
+    const result = this.pending.then(fn);
+    this.pending = result.catch(() => {});
+    return result;
+  }
+  connect(token: string) {
+    const revision = ++this.revision;
+    return this.serialize(async () => {
+      const value = await this.deps.authenticate(token);
+      if (revision !== this.revision) throw new Error("Connection changed");
+      await this.deps.write(value);
+    });
+  }
+  saveSettings(value: CollectionSettings) {
+    const revision = this.revision;
+    return this.serialize(async () => {
+      if (revision !== this.revision) throw new Error("Connection changed");
+      const current = await this.deps.read();
+      if (revision !== this.revision) throw new Error("Connection changed");
+      await this.deps.write({ ...current, ...value, enabled: false });
+      if (revision !== this.revision) throw new Error("Connection changed");
+      await this.deps.putSettings(value, current.token);
+      if (revision !== this.revision) throw new Error("Connection changed");
+      await this.deps.write({ ...current, ...value });
+    });
+  }
+}

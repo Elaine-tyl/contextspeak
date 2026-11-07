@@ -1,3 +1,4 @@
+import { ConnectionManager } from "../src/connection-manager";
 import { defineBackground } from "wxt/utils/define-background";
 import { browser } from "wxt/browser";
 import {
@@ -40,7 +41,23 @@ export default defineBackground(() => {
       return api<LookupReceipt>("/v1/lookups", "POST", value, current.token);
     },
   });
-  let settingsOperation = Promise.resolve();
+  const manager = new ConnectionManager({
+    read: connection,
+    write: async (value) => {
+      await browser.storage.local.set({ connection: value });
+    },
+    authenticate: async (token) => {
+      const identity = await verifiedIdentity(token);
+      const remote = await api<{ enabled: boolean; excludedOrigins: string[] }>(
+        "/v1/settings",
+        "GET",
+        undefined,
+        token,
+      );
+      return { token, identity, ...remote };
+    },
+    putSettings: (value, token) => api("/v1/settings", "PUT", value, token),
+  });
   browser.alarms.create("sync", { periodInMinutes: 1 });
   browser.alarms.onAlarm.addListener(() => {
     void outbox.flushOutbox();
@@ -57,32 +74,13 @@ export default defineBackground(() => {
       try {
         if (message.type === "connect") {
           const token = String(message.token ?? "");
-          const identity = await verifiedIdentity(token);
-          const remote = await api<{
-            enabled: boolean;
-            excludedOrigins: string[];
-          }>("/v1/settings", "GET", undefined, token);
-          await browser.storage.local.set({
-            connection: { token, identity, ...remote },
-          });
+          await manager.connect(token);
           void outbox.flushOutbox();
           return { ok: true };
         }
         if (message.type === "settings") {
           const settings = settingsSchema.parse(message.value);
-          // Disable locally first so queued content is not transmitted while settings are updated.
-          const work = settingsOperation.then(async () => {
-            const current = await connection();
-            await browser.storage.local.set({
-              connection: { ...current, ...settings, enabled: false },
-            });
-            await api("/v1/settings", "PUT", settings);
-            await browser.storage.local.set({
-              connection: { ...current, ...settings },
-            });
-          });
-          settingsOperation = work.catch(() => {});
-          await work;
+          await manager.saveSettings(settings);
           await outbox.flushOutbox();
           return { ok: true };
         }
@@ -91,7 +89,7 @@ export default defineBackground(() => {
           return { ok: true };
         }
         if (message.type === "discard") {
-          await browser.storage.local.set({ outbox: { records: [] } });
+          await outbox.discard();
           return { ok: true };
         }
         if (message.type === "status") {

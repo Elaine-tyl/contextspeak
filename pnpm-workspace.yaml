@@ -14,3 +14,7 @@ allowBuilds:
   "@embedded-postgres/linux-x64": true
   "@embedded-postgres/linux-arm64": true
   "@embedded-postgres/win32-x64": true
+
+overrides:
+  "effect@<3.20.0": "3.20.0"
+  "deepmerge-ts@<8.0.0": "8.0.0"

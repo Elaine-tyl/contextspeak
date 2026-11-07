@@ -1,3 +1,4 @@
+import { selectionExcerpt } from "../src/selection";
 import { defineContentScript } from "wxt/utils/define-content-script";
 import { browser } from "wxt/browser";
 export default defineContentScript({
@@ -8,23 +9,9 @@ export default defineContentScript({
       if (host?.contains(event.target as Node)) return;
       host?.remove();
       host = undefined;
-      const selection = window.getSelection();
-      const text = selection?.toString().trim();
-      const node = selection?.anchorNode?.parentElement;
-      if (
-        !text ||
-        !node ||
-        Array.from(text).length > 200 ||
-        node.closest('input,textarea,select,[contenteditable],[role="textbox"]')
-      )
-        return;
-      if (
-        (event.target as Element)?.closest?.(
-          'input,textarea,[contenteditable],[role="textbox"]',
-        )
-      )
-        return;
-      const context = node.textContent?.trim().slice(0, 1000) || undefined;
+      const excerpt = selectionExcerpt(window.getSelection());
+      if (!excerpt) return;
+      const { text, context } = excerpt;
       host = document.createElement("div");
       host.setAttribute("data-contextspeak", "panel");
       host.style.cssText =

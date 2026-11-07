@@ -10,9 +10,12 @@
     "@nestjs/common": "12.3.3",
     "@nestjs/core": "12.3.3",
     "@nestjs/platform-express": "12.3.3",
-    "@prisma/client": "6.19.0",
+    "@prisma/client": "6.19.3",
     "jose": "6.2.15",
     "reflect-metadata": "0.2.2",
     "rxjs": "7.8.2"
+  },
+  "devDependencies": {
+    "prisma": "6.19.3"
   }
 }

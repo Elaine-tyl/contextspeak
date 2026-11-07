@@ -165,3 +165,88 @@ test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () =>
     })
     .toBe(1);
 });
+
+test("editable_descendants_are_excluded_from_context_and_crossing_selections", async () => {
+  const popup = await browser.newPage();
+  await popup.goto(`chrome-extension://${extensionId}/popup.html`);
+  await pair(popup, tokenA);
+  await popup.getByRole("checkbox").check();
+  await popup.getByRole("button", { name: "Save collection settings" }).click();
+  await expect(popup.getByRole("status")).toHaveText("Updated.");
+  const sample = await browser.newPage();
+  await sample.goto("http://127.0.0.1:3000/sample.html");
+  await sample.locator("#privacy").evaluate((el) => {
+    const range = document.createRange();
+    range.selectNodeContents(el.firstChild!);
+    const selection = window.getSelection()!;
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+  await sample.locator("#privacy").dispatchEvent("mouseup");
+  await sample
+    .getByRole("button", { name: "Translate selection", exact: true })
+    .click();
+  await expect
+    .poll(async () => {
+      const response = await browser.request.get(
+        "http://127.0.0.1:4318/v1/lookups?limit=100",
+        { headers: { Authorization: `Bearer ${tokenA}` } },
+      );
+      return (
+        (await response.json()).items.find((x: any) => x.text === "available")
+          ?.context ?? "missing"
+      );
+    })
+    .toBe("available");
+  const response = await browser.request.get(
+    "http://127.0.0.1:4318/v1/lookups?limit=100",
+    { headers: { Authorization: `Bearer ${tokenA}` } },
+  );
+  expect(
+    (await response.json()).items.some((x: any) => x.text === "available"),
+  ).toBeTruthy();
+  await sample.locator("#privacy").evaluate((el) => {
+    const range = document.createRange();
+    range.selectNodeContents(el);
+    const selection = window.getSelection()!;
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+  await sample.locator("#privacy").dispatchEvent("mouseup");
+  await expect(
+    sample.getByRole("button", { name: "Translate selection", exact: true }),
+  ).toHaveCount(0);
+});
+
+test("loaded_history_remains_visible_across_the_polling_interval", async () => {
+  const headers = { Authorization: `Bearer ${tokenB}` };
+  await browser.request.put("http://127.0.0.1:4318/v1/settings", {
+    headers,
+    data: { enabled: true, excludedOrigins: [] },
+  });
+  for (let i = 0; i < 21; i++) {
+    const response = await browser.request.post(
+      "http://127.0.0.1:4318/v1/lookups",
+      {
+        headers,
+        data: {
+          eventId: crypto.randomUUID(),
+          text: "available",
+          context: `Pagination example ${i}`,
+          sourceLanguage: "en",
+          targetLanguage: "en",
+        },
+      },
+    );
+    expect(response.status()).toBe(201);
+  }
+  const page = await browser.newPage();
+  await page.goto("http://127.0.0.1:3000/library");
+  await pair(page, tokenB);
+  await expect(page.getByTestId("lookup-card")).toHaveCount(20);
+  await page.getByRole("button", { name: "Load more", exact: true }).click();
+  await expect(page.getByTestId("lookup-card")).toHaveCount(21);
+  // Observe the actual three-second polling boundary, not only the immediate append.
+  await page.waitForTimeout(3500);
+  await expect(page.getByTestId("lookup-card")).toHaveCount(21);
+});

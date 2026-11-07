@@ -25,6 +25,7 @@ interface Dependencies {
   send(input: LookupInput, identity: string): Promise<LookupReceipt>;
 }
 export class Outbox {
+  private discardRevision = 0;
   private operation: Promise<unknown> = Promise.resolve();
   constructor(private deps: Dependencies) {}
   private serialize<T>(fn: () => Promise<T>): Promise<T> {
@@ -66,8 +67,20 @@ export class Outbox {
       await this.deps.storage.write(state);
     });
   }
+  discard() {
+    ++this.discardRevision;
+    return this.serialize(async () => {
+      const settings = await this.deps.settings();
+      const state = await this.deps.storage.read();
+      state.records = state.records.filter(
+        (r) => r.identity !== settings.identity,
+      );
+      await this.deps.storage.write(state);
+    });
+  }
   flushOutbox() {
     return this.serialize(async () => {
+      const revision = this.discardRevision;
       let state = await this.deps.storage.read();
       for (const record of [...state.records]) {
         if (record.status === "synchronized" || record.status === "failed")
@@ -81,6 +94,7 @@ export class Outbox {
         }
         try {
           const remote = await this.deps.remoteSettings();
+          if (revision !== this.discardRevision) return;
           const latest = await this.deps.settings();
           if (latest.identity !== record.identity) break;
           if (
@@ -91,10 +105,13 @@ export class Outbox {
             await this.deps.storage.write(state);
             continue;
           }
+          if (revision !== this.discardRevision) return;
           record.receipt = await this.deps.send(record.input, record.identity);
+          if (revision !== this.discardRevision) return;
           record.status = "synchronized";
           delete record.error;
         } catch (e) {
+          if (revision !== this.discardRevision) return;
           const status = (e as { status?: number }).status;
           record.error =
             status === 401

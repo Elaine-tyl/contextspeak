@@ -153,3 +153,30 @@ describe("durable consent-aware outbox", () => {
     expect(h.accepted.size).toBe(0);
   });
 });
+
+it("discard_cancels_an_unsent_snapshot_without_resurrection", async () => {
+  const h = harness();
+  let release!: () => void;
+  let entered!: () => void;
+  const gate = new Promise<void>((r) => {
+    release = r;
+  });
+  const started = new Promise<void>((r) => {
+    entered = r;
+  });
+  const original = h.deps.remoteSettings;
+  h.deps.remoteSettings = async () => {
+    entered();
+    await gate;
+    return original();
+  };
+  const outbox = new Outbox(h.deps);
+  await outbox.enqueueLookup(input());
+  const flushing = outbox.flushOutbox();
+  await started;
+  const discarding = outbox.discard();
+  release();
+  await Promise.all([flushing, discarding]);
+  expect(h.accepted.size).toBe(0);
+  expect(h.queue()).toHaveLength(0);
+});

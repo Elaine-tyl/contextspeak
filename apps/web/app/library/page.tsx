@@ -6,6 +6,7 @@ import type {
   LookupRecord,
   Page,
 } from "@contextspeak/contracts";
+import { toggleCollection } from "../../src/collection";
 import { api } from "../../src/api";
 import "./library.css";
 export default function Library() {
@@ -21,8 +22,13 @@ export default function Library() {
   const [view, setView] = useState<"history" | "candidates">("history");
   const token = useRef("");
   const generation = useRef(0);
-  async function refresh(value = token.current, append = false) {
-    if (!value) return;
+  const browsingMore = useRef(false);
+  const historyRequest = useRef(0);
+  async function refresh(value = token.current, append = false, reset = false) {
+    if (!value || (!append && browsingMore.current && !reset)) return;
+    if (append) browsingMore.current = true;
+    if (reset) browsingMore.current = false;
+    const request = ++historyRequest.current;
     const current = generation.current;
     try {
       const [lookups, items, settings] = await Promise.all([
@@ -34,7 +40,8 @@ export default function Library() {
         api<Page<Candidate>>(value, "/v1/learning-items"),
         api<CollectionSettings>(value, "/v1/settings"),
       ]);
-      if (current !== generation.current) return;
+      if (current !== generation.current || request !== historyRequest.current)
+        return;
       setHistory((previous) =>
         append ? [...previous, ...lookups.items] : lookups.items,
       );
@@ -50,6 +57,7 @@ export default function Library() {
   }
   async function connect(value = draft) {
     const current = ++generation.current;
+    browsingMore.current = false;
     token.current = "";
     setHistory([]);
     setCandidates([]);
@@ -88,20 +96,20 @@ export default function Library() {
   }, []);
   async function toggle() {
     try {
-      const current = await api<CollectionSettings>(
-        token.current,
-        "/v1/settings",
-      );
-      const updated = await api<CollectionSettings>(
-        token.current,
-        "/v1/settings",
-        "PUT",
-        { ...current, enabled: !current.enabled },
-      );
-      setEnabled(updated.enabled);
-      setMessage(
-        "Collection preference updated. The extension checks this before syncing.",
-      );
+      const applied = await toggleCollection({
+        session: () => ({
+          token: token.current,
+          generation: generation.current,
+        }),
+        get: (value) => api<CollectionSettings>(value, "/v1/settings"),
+        put: (value, settings) =>
+          api<CollectionSettings>(value, "/v1/settings", "PUT", settings),
+        apply: (value) => setEnabled(value.enabled),
+      });
+      if (applied)
+        setMessage(
+          "Collection preference updated. The extension checks this before syncing.",
+        );
     } catch (e) {
       setMessage(e instanceof Error ? e.message : "Could not update settings.");
     }
@@ -263,7 +271,7 @@ export default function Library() {
             </div>
             <button
               className="secondary"
-              onClick={() => refresh()}
+              onClick={() => refresh(token.current, false, true)}
               disabled={!connected}
             >
               Refresh

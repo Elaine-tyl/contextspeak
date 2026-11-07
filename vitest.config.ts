@@ -6,6 +6,7 @@ export default defineConfig({
       "apps/api/test/**/*.test.ts",
       "apps/api/test/**/*.e2e-spec.ts",
       "apps/extension/test/**/*.test.ts",
+      "apps/web/test/**/*.test.ts",
       "packages/**/*.test.ts",
     ],
     testTimeout: 30000,
