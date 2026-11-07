@@ -1,0 +1,16 @@
+{
+  "name": "@contextspeak/web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run --root ../..",
+    "dev": "next dev --hostname 127.0.0.1 --port 3000",
+    "build": "next build --webpack"
+  },
+  "dependencies": {
+    "@contextspeak/contracts": "workspace:*",
+    "next": "16.4.5",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  }
+}

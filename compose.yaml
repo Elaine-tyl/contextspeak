@@ -1,0 +1,13 @@
+services:
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_USER: contextspeak
+      POSTGRES_PASSWORD: contextspeak
+      POSTGRES_DB: contextspeak
+    ports:
+      - '127.0.0.1:55432:5432'
+    volumes:
+      - contextspeak_pg:/var/lib/postgresql/data
+volumes:
+  contextspeak_pg:

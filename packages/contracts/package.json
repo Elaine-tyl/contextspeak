@@ -1,0 +1,9 @@
+{
+  "name": "@contextspeak/contracts",
+  "private": true,
+  "type": "module",
+  "exports": "./src/lookup.ts",
+  "dependencies": {
+    "zod": "4.6.7"
+  }
+}

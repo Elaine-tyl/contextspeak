@@ -21,3 +21,11 @@ coverage/
 # Private learner material and local recordings
 local-data/
 recordings/
+
+# Development and test artifacts
+.local/
+.superpowers/
+playwright-report/
+test-results/
+*.tsbuildinfo
+next-env.d.ts
