@@ -2,10 +2,11 @@ import {
   test,
   expect,
   chromium,
+  request as http,
   type BrowserContext,
   type Page,
 } from "@playwright/test";
-import { readFile, mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 let browser: BrowserContext;
@@ -13,11 +14,96 @@ let directory: string;
 let tokenA: string;
 let tokenB: string;
 let extensionId: string;
+async function provision(subject: string) {
+  const client = await http.newContext();
+  const origin = "http://127.0.0.1:4318";
+  const start = await client.get(origin + "/auth/login", { maxRedirects: 0 });
+  expect(start.status()).toBe(302);
+  const authorize = new URL(start.headers().location);
+  authorize.searchParams.set("test_user", subject);
+  const redirect = await client.get(authorize.href, { maxRedirects: 0 });
+  await client.get(redirect.headers().location, { maxRedirects: 0 });
+  const session = await (await client.get(origin + "/auth/session")).json();
+  const pairing = await (
+    await client.post(origin + "/auth/pairings", { data: {} })
+  ).json();
+  const approval = await client.post(origin + "/auth/pairings/approve", {
+    headers: {
+      Origin: "http://127.0.0.1:3000",
+      "X-CSRF-Token": session.csrfToken,
+    },
+    data: { userCode: pairing.userCode },
+  });
+  expect(approval.ok()).toBeTruthy();
+  const result = await (
+    await client.post(origin + "/auth/pairings/poll", {
+      data: { deviceCode: pairing.deviceCode },
+    })
+  ).json();
+  await client.dispose();
+  return result.token as string;
+}
+async function signIn(page: Page, token: string) {
+  const signedOut = page.getByRole("button", { name: "Sign out", exact: true });
+  // Wait for session restoration before choosing the next test account.
+  if (await signedOut.isVisible()) await signedOut.click();
+  if (
+    !(await page.getByRole("link", { name: "Sign in with Google" }).isVisible())
+  ) {
+    await expect(signedOut).toBeVisible();
+    await signedOut.click();
+  }
+  await page.getByRole("link", { name: "Sign in with Google" }).click();
+  await page
+    .getByRole("link", {
+      name: token === tokenB ? "Test learner B" : "Test learner A",
+      exact: true,
+    })
+    .click();
+}
 async function pair(page: Page, token: string) {
-  if (!(await page.getByLabel("Developer token", { exact: true }).isVisible()))
-    await page.locator("summary").click();
-  await page.getByLabel("Developer token", { exact: true }).fill(token);
-  await page.getByRole("button", { name: "Connect", exact: true }).click();
+  if (page.url().startsWith("chrome-extension:")) {
+    const opened = browser.waitForEvent("page");
+    await page
+      .getByRole("button", { name: "Pair extension", exact: true })
+      .click();
+    const approval = await opened;
+    await approval.waitForURL(/\/pair\?code=/);
+    const code = await page.getByTestId("pairing-code").textContent();
+    await expect(approval.getByLabel("Pairing code")).toHaveValue(code!);
+    // Ensure approval happens as the requested account, independent of existing web cookies.
+    const authSession = await browser.request.get(
+      "http://127.0.0.1:4318/auth/session",
+    );
+    if (authSession.ok()) {
+      const session = await authSession.json();
+      await browser.request.post("http://127.0.0.1:4318/auth/logout", {
+        headers: {
+          Origin: "http://127.0.0.1:3000",
+          "X-CSRF-Token": session.csrfToken,
+        },
+      });
+      await approval.reload();
+    }
+    await approval.getByRole("link", { name: "Sign in with Google" }).click();
+    await approval
+      .getByRole("link", {
+        name: token === tokenB ? "Test learner B" : "Test learner A",
+        exact: true,
+      })
+      .click();
+    await expect(approval.getByLabel("Pairing code")).toHaveValue(code!);
+    await approval.getByRole("button", { name: "Approve extension" }).click();
+    await expect(approval.getByRole("status")).toContainText(
+      "Extension approved",
+    );
+    await expect(page.getByTestId("pairing-code")).toHaveCount(0, {
+      timeout: 15000,
+    });
+    await approval.close();
+  } else {
+    await signIn(page, token);
+  }
   await expect(page.getByText("Connected", { exact: true })).toBeVisible();
 }
 async function select(page: Page, id: string) {
@@ -34,7 +120,8 @@ async function select(page: Page, id: string) {
     .click();
 }
 test.beforeAll(async () => {
-  ({ tokenA, tokenB } = JSON.parse(await readFile(".local/demo.json", "utf8")));
+  tokenA = await provision("learner-a");
+  tokenB = await provision("learner-b");
   directory = await mkdtemp(join(tmpdir(), "cs-browser-"));
   const path = resolve("apps/extension/.output/chrome-mv3");
   browser = await chromium.launchPersistentContext(directory, {
@@ -300,4 +387,59 @@ test("collection_off_uses_one_transient_translation_without_history", async () =
   expect(after).toBe(before);
   expect(transient).toBe(1);
   browser.off("request", observe);
+});
+
+test("website_signout_and_extension_revocation_are_independent", async () => {
+  const popup = await browser.newPage();
+  await popup.goto(`chrome-extension://${extensionId}/popup.html`);
+  await pair(popup, tokenA);
+  await expect(popup.getByLabel("Developer token")).toHaveCount(0);
+  const worker = browser.serviceWorkers()[0];
+  const extensionToken = await worker.evaluate(async () => {
+    const { connection } = await (globalThis as any).chrome.storage.local.get(
+      "connection",
+    );
+    return connection.token;
+  });
+  const library = await browser.newPage();
+  await library.goto("http://127.0.0.1:3000/library");
+  await expect(library.getByRole("button", { name: "Sign out" })).toBeVisible();
+  await library.getByRole("button", { name: "Sign out" }).click();
+  expect(
+    (await browser.request.get("http://127.0.0.1:4318/auth/session")).status(),
+  ).toBe(401);
+  expect(
+    (
+      await browser.request.get("http://127.0.0.1:4318/v1/identity", {
+        headers: { Authorization: `Bearer ${extensionToken}` },
+      })
+    ).status(),
+  ).toBe(200);
+  await signIn(library, tokenA);
+  await library.getByRole("button", { name: "Revoke all extensions" }).click();
+  await expect(library.getByRole("status")).toContainText(
+    "All paired extensions revoked",
+  );
+  expect(
+    (
+      await browser.request.get("http://127.0.0.1:4318/v1/identity", {
+        headers: { Authorization: `Bearer ${extensionToken}` },
+      })
+    ).status(),
+  ).toBe(401);
+  await popup.getByRole("button", { name: "Disconnect", exact: true }).click();
+  await expect(popup.getByText("Not connected", { exact: true })).toBeVisible();
+});
+
+test("pairing_poll_does_not_overwrite_unsaved_popup_settings", async () => {
+  const popup = await browser.newPage();
+  await popup.goto(`chrome-extension://${extensionId}/popup.html`);
+  await expect(popup.getByText("Not connected", { exact: true })).toBeVisible();
+  await popup.getByRole("checkbox").check();
+  await popup.getByLabel("Excluded origins").fill("https://private.example");
+  await popup.waitForTimeout(6000);
+  await expect(popup.getByRole("checkbox")).toBeChecked();
+  await expect(popup.getByLabel("Excluded origins")).toHaveValue(
+    "https://private.example",
+  );
 });

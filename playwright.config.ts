@@ -7,7 +7,7 @@ export default defineConfig({
   reporter: "list",
   use: { trace: "retain-on-failure" },
   webServer: {
-    command: "pnpm dev",
+    command: "pnpm dev:test",
     url: "http://127.0.0.1:3000/library",
     reuseExistingServer: false,
     timeout: 120000,

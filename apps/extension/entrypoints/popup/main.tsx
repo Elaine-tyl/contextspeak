@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { WEB, type Connection } from "../../src/settings";
 import { browser } from "wxt/browser";
 function Popup() {
-  const [token, setToken] = useState("");
+  const [pairing, setPairing] = useState("");
   const [enabled, setEnabled] = useState(false);
   const [excluded, setExcluded] = useState("");
   const [records, setRecords] = useState<
@@ -13,6 +14,7 @@ function Popup() {
   async function refresh() {
     const r = await browser.runtime.sendMessage({ type: "status" });
     if (r.ok) {
+      setPairing(r.pairing ?? "");
       setEnabled(r.connection.enabled);
       setExcluded(r.connection.excludedOrigins.join("\n"));
       setIdentity(r.connection.identity);
@@ -21,6 +23,34 @@ function Popup() {
   }
   useEffect(() => {
     void refresh();
+    const changed = (
+      changes: Record<string, { newValue?: unknown; oldValue?: unknown }>,
+      area: string,
+    ) => {
+      if (area !== "local") return;
+      if (changes.pairing)
+        setPairing(
+          (changes.pairing.newValue as { userCode?: string } | undefined)
+            ?.userCode ?? "",
+        );
+      const next = changes.connection?.newValue as Connection | undefined;
+      const previous = changes.connection?.oldValue as Connection | undefined;
+      if (next?.token !== previous?.token) void refresh();
+    };
+    browser.storage.onChanged.addListener(changed);
+    const timer = setInterval(() => {
+      void browser.runtime
+        .sendMessage({ type: "pairing-poll" })
+        .then((result) => {
+          if (result.changed) void refresh();
+          if (!result.ok) setStatus(result.error);
+        })
+        .catch(() => {});
+    }, 5500);
+    return () => {
+      clearInterval(timer);
+      browser.storage.onChanged.removeListener(changed);
+    };
   }, []);
   async function send(value: unknown) {
     const r = await browser.runtime.sendMessage(value);
@@ -29,28 +59,35 @@ function Popup() {
   }
   return (
     <main>
-      <small>CONTEXTSPEAK / LOCAL DEVELOPMENT</small>
+      <small>CONTEXTSPEAK</small>
       <h1>Capture settings</h1>
       <p>
-        Connect with the short-lived token available through{" "}
-        <code>pnpm demo:token</code>. Tokens are not sent to webpages.
+        Sign in on the website and approve this extension. Your Google
+        credentials stay outside the extension.
       </p>
-      <label>
-        Developer token
-        <textarea
-          aria-label="Developer token"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-        />
-      </label>
       <button
         onClick={async () => {
-          await send({ type: "connect", token });
-          setToken("");
+          const result = await browser.runtime.sendMessage({
+            type: "pairing-start",
+          });
+          if (!result.ok) {
+            setStatus(result.error);
+            return;
+          }
+          setPairing(result.userCode);
+          await browser.tabs.create({ url: result.verificationUrl });
         }}
       >
-        Connect
-      </button>
+        Pair extension
+      </button>{" "}
+      <button onClick={() => send({ type: "disconnect" })}>Disconnect</button>
+      {pairing && (
+        <p>
+          Pairing code: <strong data-testid="pairing-code">{pairing}</strong>.
+          Match it on the website, then approve. Keep this window open or reopen
+          it to finish pairing.
+        </p>
+      )}
       <p>{identity ? "Connected" : "Not connected"}</p>
       <label>
         <input
@@ -103,7 +140,7 @@ function Popup() {
           </li>
         ))}
       </ul>
-      <a href="http://127.0.0.1:3000/library" target="_blank" rel="noreferrer">
+      <a href={WEB + "/library"} target="_blank" rel="noreferrer">
         Open learning library
       </a>
     </main>

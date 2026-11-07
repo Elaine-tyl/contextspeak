@@ -1,6 +1,11 @@
 import { browser } from "wxt/browser";
 import type { CollectionSettings } from "@contextspeak/contracts";
-export const API = "http://127.0.0.1:4318";
+export const API =
+  (import.meta.env as unknown as Record<string, string | undefined>)
+    .WXT_API_ORIGIN ?? "http://127.0.0.1:4318";
+export const WEB =
+  (import.meta.env as unknown as Record<string, string | undefined>)
+    .WXT_WEB_ORIGIN ?? "http://127.0.0.1:3000";
 export interface Connection {
   token: string;
   identity: string;
@@ -29,6 +34,7 @@ export async function api<T>(
   const auth = token ?? (await connection()).token;
   const response = await fetch(API + path, {
     method,
+    credentials: "omit",
     headers: {
       Authorization: `Bearer ${auth}`,
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),

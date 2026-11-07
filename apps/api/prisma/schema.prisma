@@ -14,8 +14,11 @@ model User {
   collectionEnabled Boolean        @default(false)
   excludedOrigins   String[]       @default([])
   consentVersion    Int            @default(0)
+  extensionVersion  Int            @default(0)
   items             LearningItem[]
   lookups           LookupEvent[]
+  sessions          AuthSession[]
+  pairings          ExtensionPairing[]
 
   @@unique([issuer, subject])
 }
@@ -59,4 +62,39 @@ model LookupEvent {
   @@unique([userId, eventId])
   @@index([userId, createdAt, id])
   @@index([translationStatus])
+}
+
+model LoginAttempt {
+  stateHash   String   @id
+  browserHash String
+  verifier    String
+  nonce       String
+  destination String
+  expiresAt   DateTime
+}
+
+model AuthSession {
+  tokenHash String   @id
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  kind      String
+  extensionVersion Int @default(0)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId, kind])
+  @@index([expiresAt])
+}
+
+model ExtensionPairing {
+  deviceHash   String    @id
+  userCodeHash String    @unique
+  userId       String?
+  extensionVersion Int @default(0)
+  user         User?     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt    DateTime
+  consumedAt   DateTime?
+  lastPolledAt DateTime?
+
+  @@index([expiresAt])
 }

@@ -67,3 +67,32 @@ for (const stage of ["write", "put"] as const)
     expect(current).toEqual(B);
     expect(remote.get("token-b")).toEqual(B);
   });
+
+it("disconnect_invalidates_an_in_flight_pairing_connection", async () => {
+  let current: LocalConnection = structuredClone(A);
+  const blocked = deferred();
+  const started = deferred();
+  const manager = new ConnectionManager({
+    read: async () => current,
+    write: async (value) => {
+      current = value;
+    },
+    authenticate: async () => {
+      started.resolve();
+      await blocked.promise;
+      return B;
+    },
+    putSettings: async () => {},
+  });
+  const connecting = manager.connect("token-b").catch(() => {});
+  await started.promise;
+  const disconnecting = manager.disconnect();
+  blocked.resolve();
+  await Promise.all([connecting, disconnecting]);
+  expect(current).toEqual({
+    token: "",
+    identity: "",
+    enabled: false,
+    excludedOrigins: [],
+  });
+});

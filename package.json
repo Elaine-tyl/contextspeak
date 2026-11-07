@@ -15,8 +15,8 @@
     "db:generate": "prisma generate --schema apps/api/prisma/schema.prisma",
     "build:extension": "pnpm --filter @contextspeak/extension build",
     "build:web": "pnpm --filter @contextspeak/web build",
-    "demo:token": "tsx scripts/token.ts",
-    "format:check": "prettier --check \"apps/**/*.{ts,tsx,css,json,html}\" \"packages/**/*.{ts,json}\" \"tests/**/*.ts\" \"scripts/**/*.ts\" \"*.{ts,json,yaml}\""
+    "format:check": "prettier --check \"apps/**/*.{ts,tsx,css,json,html}\" \"packages/**/*.{ts,json}\" \"tests/**/*.ts\" \"scripts/**/*.ts\" \"*.{ts,json,yaml}\"",
+    "dev:test": "CONTEXTSPEAK_TEST_AUTH=1 tsx scripts/dev.ts"
   },
   "devDependencies": {
     "@nestjs/common": "12.3.3",

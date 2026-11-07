@@ -7,19 +7,18 @@ import type {
   Page,
 } from "@contextspeak/contracts";
 import { toggleCollection } from "../../src/collection";
-import { api } from "../../src/api";
+import { API, api, type WebSession } from "../../src/api";
 import "./library.css";
 export default function Library() {
-  const [draft, setDraft] = useState("");
   const [connected, setConnected] = useState(false);
   const [identity, setIdentity] = useState("");
   const [history, setHistory] = useState<LookupRecord[]>([]);
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [cursor, setCursor] = useState<string | null>(null);
   const [message, setMessage] = useState("");
-  const [busy, setBusy] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [view, setView] = useState<"history" | "candidates">("history");
+  const blockedSession = useRef(false);
   const token = useRef("");
   const generation = useRef(0);
   const browsingMore = useRef(false);
@@ -55,42 +54,42 @@ export default function Library() {
         );
     }
   }
-  async function connect(value = draft) {
-    const current = ++generation.current;
-    browsingMore.current = false;
+  function clearSession() {
+    generation.current++;
     token.current = "";
+    browsingMore.current = false;
     setHistory([]);
     setCandidates([]);
     setCursor(null);
     setConnected(false);
-    setBusy(true);
-    setMessage("");
-    sessionStorage.removeItem("contextspeak-token");
+    setIdentity("");
+    setEnabled(false);
+  }
+  async function connect() {
+    if (blockedSession.current) return;
+    const current = generation.current;
     try {
-      const verified = await api<{ issuer: string; subject: string }>(
-        value,
-        "/v1/identity",
-      );
+      const verified = await api<WebSession>("", "/auth/session");
       if (current !== generation.current) return;
-      token.current = value;
-      sessionStorage.setItem("contextspeak-token", value);
-      setIdentity(verified.subject);
+      if (token.current && token.current !== verified.csrfToken) {
+        blockedSession.current = true;
+        clearSession();
+        setMessage("The signed-in account changed. Reload to continue.");
+        return;
+      }
+      token.current = verified.csrfToken;
+      setIdentity(verified.identity.subject);
       setConnected(true);
-      setDraft("");
-      await refresh(value);
-    } catch (e) {
-      if (current === generation.current)
-        setMessage(e instanceof Error ? e.message : "Connection failed.");
-    } finally {
-      if (current === generation.current) setBusy(false);
+      await refresh();
+    } catch {
+      if (current === generation.current) clearSession();
     }
   }
   useEffect(() => {
-    const saved = sessionStorage.getItem("contextspeak-token");
-    if (saved) void connect(saved);
+    sessionStorage.removeItem("contextspeak-token");
+    void connect();
     const timer = setInterval(() => {
-      if (token.current && document.visibilityState === "visible")
-        void refresh();
+      if (document.visibilityState === "visible") void connect();
     }, 3000);
     return () => clearInterval(timer);
   }, []);
@@ -123,16 +122,26 @@ export default function Library() {
       setMessage(e instanceof Error ? e.message : "Retry failed.");
     }
   }
-  function disconnect() {
-    generation.current++;
-    token.current = "";
-    sessionStorage.removeItem("contextspeak-token");
-    setConnected(false);
-    setIdentity("");
-    setHistory([]);
-    setCandidates([]);
-    setCursor(null);
-    setMessage("Disconnected from this browser tab.");
+  async function disconnect() {
+    blockedSession.current = true;
+    const previous = token.current;
+    clearSession();
+    try {
+      await api(previous, "/auth/logout", "POST");
+      setMessage(
+        "Signed out. Paired extensions remain connected until revoked.",
+      );
+    } catch {
+      setMessage("Could not confirm sign-out. Try signing in again.");
+    }
+  }
+  async function revokeExtensions() {
+    try {
+      await api(token.current, "/auth/extensions/revoke", "POST");
+      setMessage("All paired extensions revoked. Pair again to reconnect.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Revocation failed.");
+    }
   }
   return (
     <div className="shell">
@@ -173,7 +182,7 @@ export default function Library() {
             <span>{connected ? "Connected" : "Not connected"}</span>
             {connected && (
               <button className="link-button" onClick={disconnect}>
-                Disconnect
+                Sign out
               </button>
             )}
           </div>
@@ -190,37 +199,26 @@ export default function Library() {
             Keep the context. Build your vocabulary, one encounter at a time.
           </p>
         </section>
-        <details className="connect-panel" open={!connected}>
-          <summary>
-            {connected
-              ? `Developer connection · ${identity}`
-              : "Connect your local developer identity"}
-          </summary>
-          <p>
-            Copy tokenA from <code>.local/demo.json</code> into both this page
-            and the extension. It expires after one hour.
-          </p>
-          <div className="connect-form">
-            <label>
-              Developer token
-              <textarea
-                aria-label="Developer token"
-                value={draft}
-                onChange={(e) => setDraft(e.target.value)}
-                spellCheck={false}
-                autoComplete="off"
-                placeholder="Paste your short-lived token"
-              />
-            </label>
-            <button
-              className="primary"
-              disabled={busy || !draft.trim()}
-              onClick={() => connect()}
-            >
-              {busy ? "Connecting…" : "Connect"}
-            </button>
-          </div>
-        </details>
+        <section className="connect-panel">
+          {connected ? (
+            <>
+              <p>Signed in · {identity}</p>
+              <a href="/pair">Pair an extension</a>{" "}
+              <button className="link-button" onClick={revokeExtensions}>
+                Revoke all extensions
+              </button>
+            </>
+          ) : (
+            <>
+              <p>
+                Sign in to keep your library private and connect your extension.
+              </p>
+              <a className="primary" href={API + "/auth/login"}>
+                Sign in with Google
+              </a>
+            </>
+          )}
+        </section>
         {message && (
           <p className="notice" role="status">
             {message}

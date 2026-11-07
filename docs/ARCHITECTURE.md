@@ -77,6 +77,10 @@ Attempts are evidence; skill states are rebuildable projections. Require ownersh
 
 Proposed workspace: `apps/{extension,web,api,worker}`, `packages/{contracts,learning-core,ai-adapters,ui}`. Scaffold only the pieces needed for the first slice, with pinned compatible versions.
 
+## Implemented authentication
+
+Google OIDC login uses authorization code + PKCE through openid-client. Website sessions use hashed server records and HttpOnly cookies; extension pairing issues separate revocable credentials after explicit approval. Cookie writes require Origin + CSRF verification. A per-account extension version makes revocation effective across concurrent exchanges. See [login setup and boundaries](LOGIN.md); Google credentials and live-provider verification are still required.
+
 ## References
 
 - [WXT](https://wxt.dev/), [Chrome service workers](https://developer.chrome.com/docs/extensions/develop/concepts/service-workers)

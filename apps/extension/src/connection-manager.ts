@@ -27,6 +27,17 @@ export class ConnectionManager {
       await this.deps.write(value);
     });
   }
+  disconnect() {
+    ++this.revision;
+    return this.serialize(() =>
+      this.deps.write({
+        token: "",
+        identity: "",
+        enabled: false,
+        excludedOrigins: [],
+      }),
+    );
+  }
   saveSettings(value: CollectionSettings) {
     const revision = this.revision;
     return this.serialize(async () => {

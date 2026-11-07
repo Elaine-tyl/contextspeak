@@ -1,18 +1,26 @@
-import {
-  mkdir,
-  readFile,
-  writeFile,
-  mkdtemp,
-  rm,
-  access,
-} from "node:fs/promises";
+import { mkdir, mkdtemp, rm, access } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
 import { spawn, execFileSync, type ChildProcess } from "node:child_process";
 import EmbeddedPostgres from "embedded-postgres";
 import { PrismaClient } from "@prisma/client";
-import { startIssuer } from "../tests/helpers/issuer";
+import { startOidcIssuer } from "../tests/helpers/oidc-issuer";
 import { createApp } from "../apps/api/src/app";
+try {
+  process.loadEnvFile(".env.local");
+} catch (error) {
+  if ((error as NodeJS.ErrnoException).code !== "ENOENT") throw error;
+}
+const testAuth = process.env.CONTEXTSPEAK_TEST_AUTH === "1";
+if (testAuth && process.env.NODE_ENV === "production")
+  throw new Error("Simulated sign-in is forbidden in production");
+if (
+  !testAuth &&
+  (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET)
+)
+  throw new Error(
+    "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.local. See docs/LOGIN.md. For local simulated sign-in only: pnpm dev:test.",
+  );
 const ephemeral = process.env.CONTEXTSPEAK_EPHEMERAL === "1";
 await mkdir(".local", { recursive: true });
 const directory = ephemeral
@@ -30,7 +38,7 @@ const database = new EmbeddedPostgres({
   onLog: () => {},
   onError: () => {},
 });
-let issuer: Awaited<ReturnType<typeof startIssuer>> | undefined;
+let issuer: Awaited<ReturnType<typeof startOidcIssuer>> | undefined;
 let prisma: PrismaClient | undefined;
 let app: Awaited<ReturnType<typeof createApp>> | undefined;
 let web: ChildProcess | undefined;
@@ -81,25 +89,26 @@ try {
   );
   prisma = new PrismaClient({ datasourceUrl: url });
   await prisma.$connect();
-  issuer = await startIssuer(4319);
-  const tokenA = await issuer.token("learner-a");
-  const tokenB = await issuer.token("learner-b");
-  await writeFile(".local/demo.json", JSON.stringify({ tokenA, tokenB }), {
-    mode: 0o600,
-  });
+  if (testAuth) issuer = await startOidcIssuer(4319);
   app = await createApp({
     prisma,
-    issuer: issuer.issuer,
-    audience: issuer.audience,
-    jwksUrl: issuer.jwksUrl,
+    oidc: {
+      issuer: issuer?.issuer ?? "https://accounts.google.com",
+      clientId: issuer?.clientId ?? process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: issuer?.clientSecret ?? process.env.GOOGLE_CLIENT_SECRET!,
+      apiOrigin: process.env.API_ORIGIN ?? "http://127.0.0.1:4318",
+      webOrigin: process.env.WEB_ORIGIN ?? "http://127.0.0.1:3000",
+      allowLoopbackHttp: true,
+    },
   });
   await app.listen(4318, "127.0.0.1");
   console.log(
     "Local fixture API: http://127.0.0.1:4318; website: http://127.0.0.1:3000/library",
   );
-  console.log(
-    "Short-lived developer tokens are in .local/demo.json. Copy tokenA into both extension and website. Do not commit this file.",
-  );
+  if (testAuth)
+    console.log(
+      "WARNING: simulated OIDC sign-in enabled on loopback for local tests only.",
+    );
   web = spawn(
     process.execPath,
     [
