@@ -1,3 +1,4 @@
+import { LookupFlow } from "../src/lookup-flow";
 import { ConnectionManager } from "../src/connection-manager";
 import { defineBackground } from "wxt/utils/define-background";
 import { browser } from "wxt/browser";
@@ -6,7 +7,7 @@ import {
   translationSchema,
   settingsSchema,
   type LookupReceipt,
-  type LookupInput,
+  type LookupTranslationResult,
 } from "@contextspeak/contracts";
 import { Outbox, type OutboxState } from "../src/outbox";
 import {
@@ -28,7 +29,7 @@ export default defineBackground(() => {
     },
     settings: connection,
     remoteSettings: serverSettings,
-    send: async (value, expectedIdentity) => {
+    send: async (value, expectedIdentity, signal) => {
       const current = await connection();
       if (current.identity !== expectedIdentity)
         throw Object.assign(new Error("Identity changed"), { status: 401 });
@@ -38,8 +39,27 @@ export default defineBackground(() => {
           current.excludedOrigins.includes(new URL(value.sourceUrl).origin))
       )
         throw Object.assign(new Error("Collection changed"), { status: 403 });
-      return api<LookupReceipt>("/v1/lookups", "POST", value, current.token);
+      if (signal?.aborted) throw signal.reason;
+      return api<LookupReceipt>(
+        "/v1/lookups",
+        "POST",
+        value,
+        current.token,
+        signal,
+      );
     },
+  });
+  const lookupFlow = new LookupFlow({
+    outbox,
+    session: connection,
+    translate: (value, token) => api("/v1/translations", "POST", value, token),
+    result: (id, token) =>
+      api<LookupTranslationResult>(
+        `/v1/lookups/${id}/translation`,
+        "GET",
+        undefined,
+        token,
+      ),
   });
   const manager = new ConnectionManager({
     read: connection,
@@ -67,6 +87,7 @@ export default defineBackground(() => {
     // Webpage content scripts may translate only; credentials/settings stay in extension pages.
     if (
       message?.type !== "translate" &&
+      message?.type !== "lookup-result" &&
       !sender.url?.startsWith(`chrome-extension://${browser.runtime.id}/`)
     )
       return Promise.resolve({ ok: false, error: "Not permitted" });
@@ -109,32 +130,22 @@ export default defineBackground(() => {
               })),
           };
         }
-        if (message.type === "translate") {
+        if (message.type === "translate" || message.type === "lookup-result") {
           if (!sender.tab?.url || !/^https?:/.test(sender.tab.url))
             throw new Error("Select text on a supported webpage.");
+          if (message.type === "lookup-result") {
+            if (
+              typeof message.eventId !== "string" ||
+              message.eventId.length > 64
+            )
+              throw new Error("Invalid event ID");
+            return lookupFlow.result(message.eventId);
+          }
           const value = lookupSchema.parse({
             ...message.input,
             sourceUrl: sender.tab.url,
           });
-          await outbox.enqueueLookup(value);
-          void outbox.flushOutbox();
-          const { eventId, ...input } = value;
-          try {
-            return {
-              ok: true,
-              ...(await api<{ meaning: string; provider: string }>(
-                "/v1/translations",
-                "POST",
-                translationSchema.parse(input),
-              )),
-            };
-          } catch {
-            return {
-              ok: false,
-              error:
-                "Fixture unavailable or offline. Eligible lookup intent remains queued.",
-            };
-          }
+          return lookupFlow.start(value);
         }
         return { ok: false, error: "Unknown request" };
       } catch {

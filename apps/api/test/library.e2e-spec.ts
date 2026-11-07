@@ -1,3 +1,4 @@
+import { FixtureTranslationProvider } from "../src/library/translation.provider";
 import { beforeAll, afterAll, describe, expect, it } from "vitest";
 import request from "supertest";
 import { randomUUID } from "node:crypto";
@@ -6,6 +7,8 @@ import { startIssuer } from "../../../tests/helpers/issuer";
 import { startDatabase } from "../../../tests/helpers/database";
 let issuer: Awaited<ReturnType<typeof startIssuer>>;
 let db: Awaited<ReturnType<typeof startDatabase>>;
+const fixtureProvider = new FixtureTranslationProvider();
+const providerCalls = new Map<string, number>();
 let app: Awaited<ReturnType<typeof createApp>>;
 const base = {
   text: "available",
@@ -59,6 +62,13 @@ beforeAll(async () => {
     audience: issuer.audience,
     jwksUrl: issuer.jwksUrl,
     prisma: db.prisma,
+    provider: {
+      async translate(input: any) {
+        const key = input.context ?? "";
+        providerCalls.set(key, (providerCalls.get(key) ?? 0) + 1);
+        return fixtureProvider.translate(input);
+      },
+    },
   } as any);
 });
 afterAll(async () => {
@@ -185,4 +195,27 @@ describe("durable owned library", () => {
       400,
     );
   });
+});
+
+it("shared_translation_reads_and_replays_do_not_call_provider_again", async () => {
+  const context = "Shared result regression";
+  await enable("shared");
+  const eventId = randomUUID();
+  const captured = await capture("shared", { eventId, context });
+  const id = captured.body.lookupId;
+  await result("shared", id);
+  for (let i = 0; i < 3; i++) {
+    const shared = await call("get", `/v1/lookups/${id}/translation`, "shared");
+    expect(shared.status).toBe(200);
+    expect(shared.body.meaning).toBe("Free to take part or ready to be used.");
+    expect(shared.body.translationStatus).toBe("succeeded");
+  }
+  const replay = await capture("shared", { eventId, context });
+  expect(replay.body.lookupId).toBe(id);
+  expect(providerCalls.get(context)).toBe(1);
+  expect(
+    (await call("get", `/v1/lookups/${id}/translation`, "not-owner")).status,
+  ).toBe(404);
+  const history = (await call("get", "/v1/lookups", "shared")).body.items[0];
+  expect(history.meaning).toBe("Free to take part or ready to be used.");
 });

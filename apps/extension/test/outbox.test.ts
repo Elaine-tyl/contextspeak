@@ -180,3 +180,112 @@ it("discard_cancels_an_unsent_snapshot_without_resurrection", async () => {
   expect(h.accepted.size).toBe(0);
   expect(h.queue()).toHaveLength(0);
 });
+
+function deferred() {
+  let resolve!: () => void;
+  return {
+    promise: new Promise<void>((r) => {
+      resolve = r;
+    }),
+    resolve: () => resolve(),
+  };
+}
+
+for (const boundary of ["settings", "send"] as const) {
+  it(`persists_new_lookups_while_${boundary}_is_waiting_and_preserves_them_on_ack`, async () => {
+    const h = harness();
+    const gate = deferred();
+    const entered = deferred();
+    if (boundary === "settings") {
+      const original = h.deps.remoteSettings;
+      h.deps.remoteSettings = async () => {
+        entered.resolve();
+        await gate.promise;
+        return original();
+      };
+    } else {
+      const original = h.deps.send;
+      h.deps.send = async (value) => {
+        entered.resolve();
+        await gate.promise;
+        return original(value);
+      };
+    }
+    const outbox = new Outbox(h.deps);
+    const first = input();
+    const second = input();
+    await outbox.enqueueLookup(first);
+    const flushing = outbox.flushOutbox();
+    await entered.promise;
+    const saving = outbox.enqueueLookup(second);
+    const immediate = await Promise.race([
+      saving.then(() => true),
+      new Promise<boolean>((r) => setTimeout(() => r(false), 75)),
+    ]);
+    const savedBeforeNetwork = h
+      .queue()
+      .some((x: any) => x.input.eventId === second.eventId);
+    gate.resolve();
+    await Promise.all([saving, flushing]);
+    expect(immediate).toBe(true);
+    expect(savedBeforeNetwork).toBe(true);
+    expect(new Set(h.queue().map((x: any) => x.input.eventId))).toEqual(
+      new Set([first.eventId, second.eventId]),
+    );
+    expect(
+      h.queue().find((x: any) => x.input.eventId === first.eventId).status,
+    ).toBe("synchronized");
+  });
+}
+
+it("discard_finishes_without_waiting_for_network_and_cannot_be_undone_by_ack", async () => {
+  const h = harness();
+  const gate = deferred();
+  const entered = deferred();
+  const original = h.deps.send;
+  h.deps.send = async (value) => {
+    entered.resolve();
+    await gate.promise;
+    return original(value);
+  };
+  const outbox = new Outbox(h.deps);
+  await outbox.enqueueLookup(input());
+  const flushing = outbox.flushOutbox();
+  await entered.promise;
+  const discarding = outbox.discard();
+  const immediate = await Promise.race([
+    discarding.then(() => true),
+    new Promise<boolean>((r) => setTimeout(() => r(false), 75)),
+  ]);
+  gate.resolve();
+  await Promise.all([flushing, discarding]);
+  expect(immediate).toBe(true);
+  expect(h.queue()).toHaveLength(0);
+});
+
+for (const policy of ["disabled", "excluded"] as const) {
+  it(`purges_all_disallowed_queries_beyond_the_network_batch_before_${policy}_is_reversed`, async () => {
+    const h = harness();
+    const outbox = new Outbox(h.deps);
+    for (let i = 0; i < 25; i++) await outbox.enqueueLookup(input());
+    h.setSettings(
+      policy === "disabled"
+        ? { enabled: false }
+        : { excludedOrigins: ["https://example.com"] },
+    );
+    await outbox.flushOutbox();
+    expect(h.queue()).toHaveLength(0);
+    h.setSettings({ enabled: true, excludedOrigins: [] });
+    await outbox.flushOutbox();
+    expect(h.accepted.size).toBe(0);
+  });
+}
+it("remote_consent_revocation_purges_the_entire_pending_batch", async () => {
+  const h = harness();
+  const outbox = new Outbox(h.deps);
+  for (let i = 0; i < 25; i++) await outbox.enqueueLookup(input());
+  h.deps.remoteSettings = async () => ({ enabled: false, excludedOrigins: [] });
+  await outbox.flushOutbox();
+  expect(h.queue()).toHaveLength(0);
+  expect(h.accepted.size).toBe(0);
+});

@@ -52,6 +52,14 @@ test.afterAll(async () => {
   if (directory) await rm(directory, { recursive: true, force: true });
 });
 test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () => {
+  let transientTranslations = 0;
+  browser.on("request", (request) => {
+    if (
+      request.method() === "POST" &&
+      new URL(request.url()).pathname === "/v1/translations"
+    )
+      transientTranslations++;
+  });
   const popup = await browser.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await pair(popup, tokenA);
@@ -67,6 +75,7 @@ test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () =>
   await expect(sample.getByRole("status")).toHaveText(
     "Free to take part or ready to be used.",
   );
+  expect(transientTranslations).toBe(0);
   await library.getByRole("button", { name: "Refresh", exact: true }).click();
   await expect(library.getByTestId("lookup-card")).toHaveCount(1);
   await expect(library.getByTestId("candidate-card")).toHaveCount(1);
@@ -142,7 +151,7 @@ test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () =>
   // A queued query survives a worker/browser restart. Offline translation still records intent.
   await browser.setOffline(true);
   await select(sample, "reschedule");
-  await expect(sample.getByRole("status")).toContainText("offline");
+  await expect(sample.getByRole("status")).toContainText(/offline/i);
   await browser.close();
   browser = await chromium.launchPersistentContext(directory, {
     channel: "chromium",
@@ -249,4 +258,46 @@ test("loaded_history_remains_visible_across_the_polling_interval", async () => {
   // Observe the actual three-second polling boundary, not only the immediate append.
   await page.waitForTimeout(3500);
   await expect(page.getByTestId("lookup-card")).toHaveCount(21);
+});
+
+test("collection_off_uses_one_transient_translation_without_history", async () => {
+  const popup = await browser.newPage();
+  await popup.goto(`chrome-extension://${extensionId}/popup.html`);
+  await pair(popup, tokenA);
+  await popup.getByRole("checkbox").uncheck();
+  await popup.getByRole("button", { name: "Save collection settings" }).click();
+  await expect(popup.getByRole("status")).toHaveText("Updated.");
+  const headers = { Authorization: `Bearer ${tokenA}` };
+  const before = (
+    await (
+      await browser.request.get("http://127.0.0.1:4318/v1/lookups?limit=100", {
+        headers,
+      })
+    ).json()
+  ).items.length;
+  let transient = 0;
+  const observe = (request: any) => {
+    if (
+      request.method() === "POST" &&
+      new URL(request.url()).pathname === "/v1/translations"
+    )
+      transient++;
+  };
+  browser.on("request", observe);
+  const sample = await browser.newPage();
+  await sample.goto("http://127.0.0.1:3000/sample.html");
+  await select(sample, "available");
+  await expect(sample.getByRole("status")).toHaveText(
+    "Free to take part or ready to be used.",
+  );
+  const after = (
+    await (
+      await browser.request.get("http://127.0.0.1:4318/v1/lookups?limit=100", {
+        headers,
+      })
+    ).json()
+  ).items.length;
+  expect(after).toBe(before);
+  expect(transient).toBe(1);
+  browser.off("request", observe);
 });

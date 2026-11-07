@@ -151,6 +151,27 @@ export class LibraryService {
       nextCursor: null,
     };
   }
+  async translationResult(identity: Identity, id: string) {
+    const user = await this.actor(identity);
+    const record = await this.prisma.lookupEvent.findFirst({
+      where: { id, userId: user.id },
+      select: {
+        id: true,
+        translationStatus: true,
+        meaning: true,
+        provider: true,
+        errorCode: true,
+      },
+    });
+    if (!record) throw new NotFoundException();
+    return {
+      lookupId: record.id,
+      translationStatus: record.translationStatus,
+      meaning: record.meaning,
+      provider: record.provider,
+      errorCode: record.errorCode,
+    };
+  }
   async retry(identity: Identity, id: string) {
     const u = await this.actor(identity);
     const changed = await this.prisma.lookupEvent.updateMany({

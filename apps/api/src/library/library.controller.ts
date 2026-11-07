@@ -58,6 +58,12 @@ export class LibraryController {
   @Get("learning-items") items(@Req() req: AuthenticatedRequest) {
     return this.library.items(req.identity);
   }
+  @Get("lookups/:id/translation") translationResult(
+    @Req() req: AuthenticatedRequest,
+    @Param("id") id: string,
+  ) {
+    return this.library.translationResult(req.identity, id);
+  }
   @Post("lookups/:id/retry") retry(
     @Req() req: AuthenticatedRequest,
     @Param("id") id: string,

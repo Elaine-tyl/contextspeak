@@ -79,3 +79,11 @@ export interface Page<T> {
   items: T[];
   nextCursor: string | null;
 }
+
+export interface LookupTranslationResult {
+  lookupId: string;
+  translationStatus: "pending" | "succeeded" | "failed";
+  meaning: string | null;
+  provider: string | null;
+  errorCode: string | null;
+}

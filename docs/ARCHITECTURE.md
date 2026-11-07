@@ -44,6 +44,8 @@ One modular backend plus workers. The website supports PC/mobile browsers; mobil
 
 **Lookup:** detect explicit selection-translation request → check collection settings/site eligibility → persist eligible event in durable local outbox → translate via backend → acknowledge committed history/candidate. Capture intent does not depend on translation success. Collection-off requests can translate without persisting learner content. Expansion has independent loading/failure states.
 
+**Shared translation result:** collected queries use the lookup's persisted translation status/meaning for both the selection panel and library. `GET /v1/lookups/:id/translation` is owner-scoped and does not invoke the provider. Collection-off/excluded queries retain a transient translation-only path. The extension's local-storage lock never spans HTTP; a single-flight sync reconciles each acknowledgement against current records, preserving concurrent captures and cancellation.
+
 **Sync:** scope client event ID by authenticated owner; commit encounter, candidate upsert, and job outbox atomically. Same event replay has no additional side effects; a later genuine lookup of the same expression is a new encounter. Preserve unresolved meanings. Local state survives extension-worker suspension.
 
 **Personalization:** eligible history batch → scenario suggestions with source IDs/confidence → learner confirmation → versioned priorities and daily tasks. Activation is separate from collection; review submission updates FSRS once. Assessment-based reading/listening/speaking updates use separate evidence rules.

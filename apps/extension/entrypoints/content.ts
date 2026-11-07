@@ -1,3 +1,4 @@
+import { observeLookup } from "../src/observe-lookup";
 import { selectionExcerpt } from "../src/selection";
 import { defineContentScript } from "wxt/utils/define-content-script";
 import { browser } from "wxt/browser";
@@ -22,11 +23,12 @@ export default defineContentScript({
       const paragraphs = shadow.querySelectorAll("p");
       paragraphs[0].textContent = text;
       const button = shadow.querySelector("button")!;
+      const panel = host;
       button.addEventListener("click", async () => {
         button.disabled = true;
         paragraphs[1].textContent = "Looking up…";
         try {
-          const result = await browser.runtime.sendMessage({
+          let result = await browser.runtime.sendMessage({
             type: "translate",
             input: {
               eventId: crypto.randomUUID(),
@@ -36,7 +38,18 @@ export default defineContentScript({
               targetLanguage: "en",
             },
           });
-          paragraphs[1].textContent = result.ok ? result.meaning : result.error;
+          await observeLookup(result, {
+            active: () => panel.isConnected,
+            render: (reply) => {
+              paragraphs[1].textContent =
+                reply.ok && reply.status === "succeeded"
+                  ? (reply.meaning ?? "")
+                  : (reply.error ?? "Saved locally. Waiting for sync…");
+            },
+            wait: () => new Promise((resolve) => setTimeout(resolve, 300)),
+            read: (eventId) =>
+              browser.runtime.sendMessage({ type: "lookup-result", eventId }),
+          });
         } catch {
           paragraphs[1].textContent =
             "Extension disconnected. Reload the page.";

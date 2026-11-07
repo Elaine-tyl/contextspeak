@@ -24,6 +24,7 @@ export async function api<T>(
   method = "GET",
   body?: unknown,
   token?: string,
+  signal?: AbortSignal,
 ): Promise<T> {
   const auth = token ?? (await connection()).token;
   const response = await fetch(API + path, {
@@ -33,7 +34,9 @@ export async function api<T>(
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),
     },
     body: body === undefined ? undefined : JSON.stringify(body),
-    signal: AbortSignal.timeout(5000),
+    signal: signal
+      ? AbortSignal.any([signal, AbortSignal.timeout(5000)])
+      : AbortSignal.timeout(5000),
   });
   if (!response.ok)
     throw Object.assign(new Error(`Request failed (${response.status})`), {
@@ -50,6 +53,12 @@ export async function verifiedIdentity(token: string) {
   );
   return JSON.stringify([result.issuer, result.subject]);
 }
-export async function serverSettings() {
-  return api<CollectionSettings>("/v1/settings");
+export async function serverSettings(signal?: AbortSignal) {
+  return api<CollectionSettings>(
+    "/v1/settings",
+    "GET",
+    undefined,
+    undefined,
+    signal,
+  );
 }
