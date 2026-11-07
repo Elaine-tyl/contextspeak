@@ -74,7 +74,7 @@ Done means a real extension query is durable, private to its learner, replay-saf
 
 ## Verification record
 
-Implemented in `codex/capture-to-library`. Fixture/PostgreSQL integration, account and consent race regressions, extension/browser restart, safe context extraction, and mobile layout checks are automated. A manual smoke check with the extension installed in the user's regular Chrome profile was not performed; it remains a pre-pilot check. Hosted login, real translation, and subsequent learning features remain outside this slice.
+Implemented in `capture-to-library`. Fixture/PostgreSQL integration, account and consent race regressions, extension/browser restart, safe context extraction, and mobile layout checks are automated. A manual smoke check with the extension installed in the user's regular Chrome profile was not performed; it remains a pre-pilot check. Hosted login, real translation, and subsequent learning features remain outside this slice.
 
 ## Follow-up correctness improvements
 
