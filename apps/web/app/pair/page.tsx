@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { API, api, type WebSession } from "../../src/api";
 export default function Pair() {
   const [code, setCode] = useState("");
+  const [sessionChecked, setSessionChecked] = useState(false);
   const [session, setSession] = useState<WebSession | null>(null);
   const [message, setMessage] = useState("");
   const [done, setDone] = useState(false);
@@ -11,7 +12,8 @@ export default function Pair() {
     setCode(new URL(location.href).searchParams.get("code") ?? "");
     void api<WebSession>("", "/auth/session")
       .then(setSession)
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setSessionChecked(true));
   }, []);
   async function approve() {
     if (!session) return;
@@ -74,7 +76,7 @@ export default function Pair() {
             Approve extension
           </button>
         </>
-      ) : (
+      ) : sessionChecked ? (
         <p>
           <a
             href={
@@ -86,6 +88,8 @@ export default function Pair() {
             Sign in with Google
           </a>
         </p>
+      ) : (
+        <p>Checking sign-in…</p>
       )}
       <p role="status">{message}</p>
       <a href="/library">Back to library</a>

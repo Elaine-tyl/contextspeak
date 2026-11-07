@@ -1,9 +1,14 @@
+import { EXTENSION_PROTOCOL, localLanguages } from "../src/translation-ui";
 import { completePairing } from "../src/pairing";
 import { LookupFlow } from "../src/lookup-flow";
 import { ConnectionManager } from "../src/connection-manager";
 import { defineBackground } from "wxt/utils/define-background";
 import { browser } from "wxt/browser";
 import {
+  defaultTranslationPreferences,
+  translationPreferencesSchema,
+  type TranslationPreferences,
+  type TranslationOptions,
   lookupSchema,
   translationSchema,
   settingsSchema,
@@ -77,8 +82,16 @@ export default defineBackground(() => {
         undefined,
         token,
       );
-      return { token, identity, ...remote };
+      const translationPreferences = await api<TranslationPreferences>(
+        "/v1/translation-preferences",
+        "GET",
+        undefined,
+        token,
+      );
+      return { token, identity, ...remote, translationPreferences };
     },
+    putTranslationPreferences: (value, token) =>
+      api("/v1/translation-preferences", "PUT", value, token),
     putSettings: (value, token) => api("/v1/settings", "PUT", value, token),
   });
   type Pairing = {
@@ -144,6 +157,7 @@ export default defineBackground(() => {
     if (
       message?.type !== "translate" &&
       message?.type !== "lookup-result" &&
+      message?.type !== "translation-options" &&
       !sender.url?.startsWith(`chrome-extension://${browser.runtime.id}/`)
     )
       return Promise.resolve({ ok: false, error: "Not permitted" });
@@ -196,6 +210,56 @@ export default defineBackground(() => {
           }
           return { ok: true };
         }
+        if (message.type === "translation-options") {
+          const current = await connection();
+          let options: TranslationOptions;
+          try {
+            options = await api<TranslationOptions>(
+              "/v1/translation-options",
+              "GET",
+              undefined,
+              current.token,
+            );
+            await browser.storage.local.set({ translationOptions: options });
+          } catch {
+            // Language discovery must never block saving a lookup while offline.
+            options = ((await browser.storage.local.get("translationOptions"))
+              .translationOptions as TranslationOptions) ?? {
+              provider: "libretranslate-local",
+              languages: localLanguages,
+            };
+          }
+          const preferences =
+            current.translationPreferences ??
+            (await api<TranslationPreferences>(
+              "/v1/translation-preferences",
+              "GET",
+              undefined,
+              current.token,
+            ).catch(() => defaultTranslationPreferences));
+          const latest = await connection();
+          if (
+            latest.identity !== current.identity ||
+            latest.token !== current.token
+          )
+            return {
+              ok: false,
+              protocolVersion: EXTENSION_PROTOCOL,
+              code: "ACCOUNT_CHANGED",
+            };
+          return {
+            ok: true,
+            protocolVersion: EXTENSION_PROTOCOL,
+            ...options,
+            preferences,
+          };
+        }
+        if (message.type === "translation-preferences") {
+          await manager.saveTranslationPreferences(
+            translationPreferencesSchema.parse(message.value),
+          );
+          return { ok: true };
+        }
         if (message.type === "settings") {
           const settings = settingsSchema.parse(message.value);
           await manager.saveSettings(settings);
@@ -217,8 +281,13 @@ export default defineBackground(() => {
           }) as OutboxState;
           return {
             ok: true,
+            protocolVersion: EXTENSION_PROTOCOL,
             pairing: (await pendingPairing())?.userCode,
-            connection: safe,
+            connection: {
+              ...safe,
+              translationPreferences:
+                safe.translationPreferences ?? defaultTranslationPreferences,
+            },
             records: state.records
               .filter((x) => x.identity === safe.identity)
               .map((x) => ({

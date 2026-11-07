@@ -23,12 +23,44 @@ const sourceUrl = z
     u.hash = "";
     return u.href;
   });
+export const MAX_SELECTION_CHARACTERS = 2000;
+export const languageCodeSchema = z
+  .string()
+  .regex(/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})?$/);
+export const sourceLanguageSchema = z.union([
+  z.literal("auto"),
+  languageCodeSchema,
+]);
+export const translationPreferencesSchema = z
+  .object({
+    sourceLanguage: sourceLanguageSchema,
+    targetLanguage: languageCodeSchema,
+    autoTranslate: z.boolean(),
+  })
+  .strict();
+export type TranslationPreferences = z.infer<
+  typeof translationPreferencesSchema
+>;
+export const defaultTranslationPreferences: TranslationPreferences = {
+  sourceLanguage: "auto",
+  targetLanguage: "zh-Hans",
+  autoTranslate: false,
+};
+export interface TranslationLanguage {
+  code: string;
+  name: string;
+  targets: string[];
+}
+export interface TranslationOptions {
+  provider: string;
+  languages: TranslationLanguage[];
+}
 const fields = {
-  text: boundedText(200),
+  text: boundedText(MAX_SELECTION_CHARACTERS),
   context: boundedText(1000).optional(),
   sourceUrl: sourceUrl.optional(),
-  sourceLanguage: z.enum(["en"]),
-  targetLanguage: z.enum(["en"]),
+  sourceLanguage: sourceLanguageSchema,
+  targetLanguage: languageCodeSchema,
 };
 export const translationSchema = z.object(fields).strict();
 export const lookupSchema = z.object({ eventId: z.uuid(), ...fields }).strict();
@@ -85,5 +117,6 @@ export interface LookupTranslationResult {
   translationStatus: "pending" | "succeeded" | "failed";
   meaning: string | null;
   provider: string | null;
+  detectedSourceLanguage?: string | null;
   errorCode: string | null;
 }

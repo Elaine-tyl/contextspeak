@@ -7,7 +7,12 @@ import {
 } from "@nestjs/common";
 import { Prisma, type PrismaClient } from "@prisma/client";
 import { createHash } from "node:crypto";
+import {
+  defaultTranslationPreferences,
+  translationPreferencesSchema,
+} from "@contextspeak/contracts";
 import type {
+  TranslationPreferences,
   Identity,
   LookupInput,
   CollectionSettings,
@@ -40,6 +45,58 @@ export class LibraryService {
         return this.prisma.user.findUniqueOrThrow({ where });
       throw e;
     }
+  }
+  async translationPreferences(
+    identity: Identity,
+  ): Promise<TranslationPreferences> {
+    const user = await this.actor(identity);
+    const parsed = translationPreferencesSchema.safeParse(
+      user.translationPreferences,
+    );
+    return parsed.success
+      ? parsed.data
+      : this.provider.name === "fixture"
+        ? { sourceLanguage: "en", targetLanguage: "en", autoTranslate: false }
+        : { ...defaultTranslationPreferences };
+  }
+  async translationOptions() {
+    try {
+      return {
+        provider: this.provider.name ?? "custom",
+        languages: (await this.provider.languages?.()) ?? [
+          { code: "en", name: "English", targets: ["en"] },
+        ],
+      };
+    } catch (error) {
+      throw new ServiceUnavailableException(
+        error instanceof FixtureTranslationError
+          ? error.code
+          : "PROVIDER_UNAVAILABLE",
+      );
+    }
+  }
+  async setTranslationPreferences(
+    identity: Identity,
+    value: TranslationPreferences,
+  ) {
+    const { languages } = await this.translationOptions();
+    const source = languages.find(
+      (language) => language.code === value.sourceLanguage,
+    );
+    if (
+      !languages.some((language) => language.code === value.targetLanguage) ||
+      (value.sourceLanguage !== "auto" &&
+        (!source ||
+          (value.sourceLanguage !== value.targetLanguage &&
+            !source.targets.includes(value.targetLanguage))))
+    )
+      throw new BadRequestException("UNSUPPORTED_LANGUAGE");
+    const user = await this.actor(identity);
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { translationPreferences: value },
+    });
+    return value;
   }
   async settings(identity: Identity) {
     const u = await this.actor(identity);
@@ -160,6 +217,7 @@ export class LibraryService {
         translationStatus: true,
         meaning: true,
         provider: true,
+        detectedSourceLanguage: true,
         errorCode: true,
       },
     });
@@ -169,6 +227,7 @@ export class LibraryService {
       translationStatus: record.translationStatus,
       meaning: record.meaning,
       provider: record.provider,
+      detectedSourceLanguage: record.detectedSourceLanguage,
       errorCode: record.errorCode,
     };
   }
@@ -191,8 +250,17 @@ export class LibraryService {
     try {
       return await this.provider.translate(input);
     } catch (e) {
-      if (e instanceof FixtureTranslationError)
-        throw new BadRequestException(e.code);
+      if (e instanceof FixtureTranslationError) {
+        if (
+          [
+            "FIXTURE_NOT_FOUND",
+            "UNSUPPORTED_PAIR",
+            "UNSUPPORTED_LANGUAGE",
+          ].includes(e.code)
+        )
+          throw new BadRequestException(e.code);
+        throw new ServiceUnavailableException(e.code);
+      }
       throw new ServiceUnavailableException("Translation unavailable");
     }
   }
@@ -224,8 +292,8 @@ export class LibraryService {
             text: row.text,
             context: row.context ?? undefined,
             sourceUrl: row.sourceUrl ?? undefined,
-            sourceLanguage: "en",
-            targetLanguage: "en",
+            sourceLanguage: row.sourceLanguage,
+            targetLanguage: row.targetLanguage,
           });
           await this.prisma.lookupEvent.updateMany({
             where: { id: row.id, translationStatus: "pending" },

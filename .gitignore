@@ -31,3 +31,7 @@ test-results/
 next-env.d.ts
 
 .local-*.log
+
+# Isolated Python translation runtime
+.venv/
+__pycache__/

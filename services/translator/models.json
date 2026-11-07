@@ -1,0 +1,28 @@
+[
+  {
+    "url": "https://argos-net.com/v1/translate-en_zh-1_9.argosmodel",
+    "sha256": "433e7c4f034d87fbe2353161e05f18646d7999452f801a4e1f0378522b9850ab",
+    "from": "en",
+    "to": "zh",
+    "version": "1.9"
+  },
+  {
+    "url": "https://argos-net.com/v1/translate-zh_en-1_9.argosmodel",
+    "sha256": "62e7af5a3a48b530e47b7b3e5c78c2de79073ecd815750d2bf3ab35b4a67da2d",
+    "from": "zh",
+    "to": "en",
+    "version": "1.9"
+  },
+  {
+    "url": "https://github.com/LibreTranslate/MiniSBD/releases/download/v0.0.1/en.onnx",
+    "sha256": "6fa9f3a3b201687bd43e329b2b0736789efc97b37883b5b759b31988dca9f353",
+    "kind": "sentence",
+    "filename": "en.onnx"
+  },
+  {
+    "url": "https://github.com/LibreTranslate/MiniSBD/releases/download/v0.0.1/zh-hans.onnx",
+    "sha256": "b2a6e45ebb43df44ac3c8e4100ea1cb30ec8319c5698b678ed3f203e5edc5d0e",
+    "kind": "sentence",
+    "filename": "zh-hans.onnx"
+  }
+]

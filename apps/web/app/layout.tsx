@@ -1,12 +1,13 @@
 import type { ReactNode } from "react";
 export const metadata = {
   title: "ContextSpeak — vocabulary library",
-  description: "A local fixture-backed capture-to-library development slice.",
+  description: "Free local translation and a personal vocabulary library.",
 };
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      {/* Extensions such as Grammarly can add body attributes before hydration. */}
+      <body suppressHydrationWarning>{children}</body>
     </html>
   );
 }

@@ -97,7 +97,7 @@ it("shared_failure_does_not_fall_back_to_another_translation", async () => {
   expect(await h.flow.result(input.eventId)).toMatchObject({
     ok: false,
     status: "failed",
-    error: "Fixture unavailable (FIXTURE_NOT_FOUND). Your lookup is saved.",
+    error: "Translation is unavailable in fixture mode. Your lookup is saved.",
   });
   expect(h.counts().translations).toBe(0);
 });

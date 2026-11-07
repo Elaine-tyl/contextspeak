@@ -1,3 +1,4 @@
+import { translationErrorMessage } from "./translation-errors";
 import type {
   LookupInput,
   LookupTranslationResult,
@@ -43,12 +44,13 @@ export class LookupFlow {
       if ((await this.deps.session()).identity !== session.identity)
         return this.cancelled();
       return { ok: true, status: "succeeded", meaning: translated.meaning };
-    } catch {
+    } catch (error) {
       return {
         ok: false,
         status: "failed",
         error:
-          "Fixture unavailable or offline. Collection is off for this query; nothing was saved.",
+          translationErrorMessage((error as { code?: string }).code) +
+          " Collection is off for this query; nothing was saved.",
       };
     }
   }
@@ -60,7 +62,7 @@ export class LookupFlow {
       return {
         ok: false,
         status: "paused",
-        error: "Saved locally. Reconnect with a fresh developer token to sync.",
+        error: "Saved locally. Pair the extension again to sync.",
       };
     if (record.status === "failed")
       return {
@@ -94,7 +96,9 @@ export class LookupFlow {
         return {
           ok: false,
           status: "failed",
-          error: `Fixture unavailable (${result.errorCode ?? "UNKNOWN"}). Your lookup is saved.`,
+          error:
+            translationErrorMessage(result.errorCode) +
+            " Your lookup is saved.",
         };
       return {
         ok: true,

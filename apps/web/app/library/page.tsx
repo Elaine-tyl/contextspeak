@@ -165,13 +165,13 @@ export default function Library() {
           </button>
         </nav>
         <div className="aside-note">
-          <span className="status-dot" /> FIXTURE DEVELOPMENT
+          <span className="status-dot" /> DEVELOPMENT
           <p>
             Capture today.
             <br />
             Practice comes next.
           </p>
-          <small>No paid translation services.</small>
+          <small>Your everyday language learning.</small>
         </div>
       </aside>
       <main>
@@ -291,7 +291,7 @@ export default function Library() {
                   <h3>{item.text}</h3>
                   <span className={"badge " + item.translationStatus}>
                     {item.translationStatus === "succeeded"
-                      ? "Fixture explained"
+                      ? "Translated"
                       : item.translationStatus}
                   </span>
                 </div>
@@ -300,8 +300,8 @@ export default function Library() {
                 {item.errorCode && (
                   <div className="failure">
                     <p>
-                      {item.errorCode} — this query is saved. The fixture has no
-                      explanation or is unavailable.
+                      Translation unavailable ({item.errorCode}). This query is
+                      saved. Check the local translator and retry.
                     </p>
                     <button
                       className="link-button"
@@ -322,7 +322,10 @@ export default function Library() {
                       ? new URL(item.sourceUrl).hostname
                       : "Manual query"}
                   </span>
-                  <span>Candidate · sense unresolved</span>
+                  <span>
+                    {item.sourceLanguage} → {item.targetLanguage} · Candidate ·
+                    sense unresolved
+                  </span>
                 </footer>
               </article>
             ))}
@@ -378,8 +381,7 @@ export default function Library() {
           )}
         </section>
         <footer className="page-footer">
-          CONTEXTSPEAK{" "}
-          <span>Original English fixtures · local development slice</span>
+          CONTEXTSPEAK <span>Local translation · development</span>
         </footer>
       </main>
     </div>

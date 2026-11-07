@@ -1,5 +1,8 @@
 import { browser } from "wxt/browser";
-import type { CollectionSettings } from "@contextspeak/contracts";
+import type {
+  CollectionSettings,
+  TranslationPreferences,
+} from "@contextspeak/contracts";
 export const API =
   (import.meta.env as unknown as Record<string, string | undefined>)
     .WXT_API_ORIGIN ?? "http://127.0.0.1:4318";
@@ -7,6 +10,7 @@ export const WEB =
   (import.meta.env as unknown as Record<string, string | undefined>)
     .WXT_WEB_ORIGIN ?? "http://127.0.0.1:3000";
 export interface Connection {
+  translationPreferences?: TranslationPreferences;
   token: string;
   identity: string;
   enabled: boolean;
@@ -41,13 +45,22 @@ export async function api<T>(
     },
     body: body === undefined ? undefined : JSON.stringify(body),
     signal: signal
-      ? AbortSignal.any([signal, AbortSignal.timeout(5000)])
-      : AbortSignal.timeout(5000),
+      ? AbortSignal.any([
+          signal,
+          AbortSignal.timeout(path === "/v1/translations" ? 25000 : 5000),
+        ])
+      : AbortSignal.timeout(path === "/v1/translations" ? 25000 : 5000),
   });
-  if (!response.ok)
+  if (!response.ok) {
+    const details = await response.json().catch(() => ({}));
     throw Object.assign(new Error(`Request failed (${response.status})`), {
       status: response.status,
+      code:
+        typeof details.message === "string"
+          ? details.message
+          : "PROVIDER_UNAVAILABLE",
     });
+  }
   return response.json();
 }
 export async function verifiedIdentity(token: string) {

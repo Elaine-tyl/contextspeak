@@ -11,6 +11,7 @@ import {
   BadRequestException,
 } from "@nestjs/common";
 import {
+  translationPreferencesSchema,
   lookupSchema,
   translationSchema,
   settingsSchema,
@@ -28,6 +29,23 @@ export class LibraryController {
   constructor(@Inject(LibraryService) private library: LibraryService) {}
   @Get("identity") identity(@Req() req: AuthenticatedRequest) {
     return req.identity;
+  }
+  @Get("translation-options") translationOptions() {
+    return this.library.translationOptions();
+  }
+  @Get("translation-preferences") translationPreferences(
+    @Req() req: AuthenticatedRequest,
+  ) {
+    return this.library.translationPreferences(req.identity);
+  }
+  @Put("translation-preferences") setTranslationPreferences(
+    @Req() req: AuthenticatedRequest,
+    @Body() body: unknown,
+  ) {
+    return this.library.setTranslationPreferences(
+      req.identity,
+      parse(translationPreferencesSchema, body),
+    );
   }
   @Get("settings") settings(@Req() req: AuthenticatedRequest) {
     return this.library.settings(req.identity);

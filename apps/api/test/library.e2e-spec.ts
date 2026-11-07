@@ -156,7 +156,7 @@ describe("durable owned library", () => {
     await enable("validation");
     for (const input of [
       { text: " " },
-      { text: "x".repeat(201) },
+      { text: "x".repeat(2001) },
       { context: "x".repeat(1001) },
       { sourceUrl: "javascript:alert(1)" },
       { userId: "forged" },
@@ -218,4 +218,46 @@ it("shared_translation_reads_and_replays_do_not_call_provider_again", async () =
   ).toBe(404);
   const history = (await call("get", "/v1/lookups", "shared")).body.items[0];
   expect(history.meaning).toBe("Free to take part or ready to be used.");
+});
+
+it("worker_translates_with_the_saved_language_pair_instead_of_hardcoded_English", async () => {
+  await enable("language-snapshot");
+  const receipt = await capture("language-snapshot", {
+    sourceLanguage: "auto",
+    targetLanguage: "zh",
+  });
+  expect(receipt.status).toBe(201);
+  const translated = await result("language-snapshot", receipt.body.lookupId);
+  expect(translated).toMatchObject({
+    sourceLanguage: "auto",
+    targetLanguage: "zh",
+    translationStatus: "failed",
+    errorCode: "UNSUPPORTED_PAIR",
+  });
+});
+it("stores_translation_preferences_per_account_and_rejects_invalid_languages", async () => {
+  const value = {
+    sourceLanguage: "auto",
+    targetLanguage: "en",
+    autoTranslate: true,
+  };
+  expect(
+    (await call("put", "/v1/translation-preferences", "preferences-a", value))
+      .status,
+  ).toBe(200);
+  expect(
+    (await call("get", "/v1/translation-preferences", "preferences-a")).body,
+  ).toEqual(value);
+  expect(
+    (await call("get", "/v1/translation-preferences", "preferences-b")).body
+      .autoTranslate,
+  ).toBe(false);
+  expect(
+    (
+      await call("put", "/v1/translation-preferences", "preferences-a", {
+        ...value,
+        targetLanguage: "auto",
+      })
+    ).status,
+  ).toBe(400);
 });

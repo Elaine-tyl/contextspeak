@@ -5,6 +5,9 @@ import { spawn, execFileSync, type ChildProcess } from "node:child_process";
 import EmbeddedPostgres from "embedded-postgres";
 import { PrismaClient } from "@prisma/client";
 import { startOidcIssuer } from "../tests/helpers/oidc-issuer";
+import { startLocalTranslator } from "./translator";
+import { LibreTranslateProvider } from "../apps/api/src/library/libretranslate.provider";
+import { FixtureTranslationProvider } from "../apps/api/src/library/translation.provider";
 import { createApp } from "../apps/api/src/app";
 try {
   process.loadEnvFile(".env.local");
@@ -42,11 +45,13 @@ let issuer: Awaited<ReturnType<typeof startOidcIssuer>> | undefined;
 let prisma: PrismaClient | undefined;
 let app: Awaited<ReturnType<typeof createApp>> | undefined;
 let web: ChildProcess | undefined;
+let translator: ChildProcess | undefined;
 let stopping = false;
 async function stop() {
   if (stopping) return;
   stopping = true;
   web?.kill("SIGTERM");
+  translator?.kill("SIGTERM");
   await app?.close();
   await prisma?.$disconnect();
   await issuer?.close();
@@ -90,8 +95,21 @@ try {
   prisma = new PrismaClient({ datasourceUrl: url });
   await prisma.$connect();
   if (testAuth) issuer = await startOidcIssuer(4319);
+  const fixtureTranslation = process.env.TRANSLATION_PROVIDER === "fixture";
+  if (!fixtureTranslation && !process.env.TRANSLATOR_URL)
+    translator = await startLocalTranslator({
+      onSpawn: (child) => {
+        translator = child;
+      },
+    });
+  const provider = fixtureTranslation
+    ? new FixtureTranslationProvider()
+    : new LibreTranslateProvider({
+        url: process.env.TRANSLATOR_URL ?? "http://127.0.0.1:5001",
+      });
   app = await createApp({
     prisma,
+    provider,
     oidc: {
       issuer: issuer?.issuer ?? "https://accounts.google.com",
       clientId: issuer?.clientId ?? process.env.GOOGLE_CLIENT_ID!,
@@ -103,7 +121,7 @@ try {
   });
   await app.listen(4318, "127.0.0.1");
   console.log(
-    "Local fixture API: http://127.0.0.1:4318; website: http://127.0.0.1:3000/library",
+    "ContextSpeak API: http://127.0.0.1:4318; website: http://127.0.0.1:3000/library",
   );
   if (testAuth)
     console.log(

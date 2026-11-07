@@ -96,3 +96,34 @@ it("disconnect_invalidates_an_in_flight_pairing_connection", async () => {
     excludedOrigins: [],
   });
 });
+
+it("a_new_account_wins_over_a_pending_language_preference_save", async () => {
+  let current: LocalConnection = structuredClone(A);
+  const started = deferred(),
+    blocked = deferred();
+  const manager = new ConnectionManager({
+    read: async () => structuredClone(current),
+    write: async (value) => {
+      current = structuredClone(value);
+    },
+    authenticate: async () => structuredClone(B),
+    putSettings: async () => {},
+    putTranslationPreferences: async (value) => {
+      started.resolve();
+      await blocked.promise;
+      return value;
+    },
+  });
+  const saving = manager
+    .saveTranslationPreferences({
+      sourceLanguage: "auto",
+      targetLanguage: "zh",
+      autoTranslate: true,
+    })
+    .catch(() => {});
+  await started.promise;
+  const connecting = manager.connect("token-b");
+  blocked.resolve();
+  await Promise.all([saving, connecting]);
+  expect(current).toEqual(B);
+});

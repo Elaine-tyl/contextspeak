@@ -24,8 +24,8 @@
   <body>
     <h1>Selection playground</h1>
     <p>
-      Select a highlighted expression, release the mouse, and click Translate
-      selection.
+      Select a word or sentence. Click Translate selection, or enable automatic
+      translation in the extension.
     </p>
     <p>Are you <span id="available">available</span> for a quick call?</p>
     <p>We can <span id="reschedule">reschedule</span> the meeting.</p>
@@ -33,15 +33,21 @@
       Trying <span id="unknown">unknown-fixture</span> preserves the lookup even
       when the fixture is missing.
     </p>
+    <p id="sentence">Could you tell me where the nearest train station is?</p>
+    <p id="chinese">请问最近的火车站在哪里？</p>
     <label
       >Private input must not be captured:
       <input value="Do not capture this input"
     /></label>
     <p>
-      Supported original fixtures: available, reschedule, confident, follow up.
-      English explanations only.
+      Normal mode translates arbitrary text with installed local language
+      models. Fixture test mode supports available, reschedule, confident, and
+      follow up.
     </p>
     <a href="/library">Open your library</a>
+    <section contenteditable="false">
+      <p>Read-only newsletter: <span id="readonly">available</span></p>
+    </section>
     <div id="privacy">
       available <span contenteditable="true">private editable note</span
       ><span hidden>hidden private note</span>

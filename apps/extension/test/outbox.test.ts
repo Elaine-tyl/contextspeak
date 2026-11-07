@@ -289,3 +289,32 @@ it("remote_consent_revocation_purges_the_entire_pending_batch", async () => {
   expect(h.queue()).toHaveLength(0);
   expect(h.accepted.size).toBe(0);
 });
+
+it("queued_language_choices_survive_preference_changes_and_restarts", async () => {
+  const h = harness();
+  const value = {
+    ...input(),
+    sourceLanguage: "auto",
+    targetLanguage: "zh-Hans",
+  };
+  const outbox = new Outbox(h.deps);
+  await outbox.enqueueLookup(value);
+  value.targetLanguage = "en";
+  let sent: unknown;
+  const restarted = new Outbox({
+    ...h.deps,
+    send: async (input) => {
+      sent = input;
+      return {
+        lookupId: "stored",
+        candidateId: "candidate",
+        translationStatus: "pending",
+      };
+    },
+  });
+  await restarted.flushOutbox();
+  expect(sent).toMatchObject({
+    sourceLanguage: "auto",
+    targetLanguage: "zh-Hans",
+  });
+});

@@ -5,7 +5,7 @@
 1. In Google Cloud, configure an OAuth consent screen, audience and test users, then create an OAuth **Web application** client. Only the `openid` scope is requested; email addresses are not used as account identifiers.
 2. Register this exact development redirect URI: `http://127.0.0.1:4318/auth/callback`. It is the API callback, not the website URL or an extension URL. Register the corresponding HTTPS API callback separately before a hosted pilot.
 3. Copy `.env.example` to `.env.local` and set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. The secret stays in the API process. Never put it in a `NEXT_PUBLIC_` or `WXT_` variable.
-4. Run `pnpm dev`, open the library, and select **Sign in with Google**. New Google identities start with collection disabled. Development fixtures remain English-to-English translations.
+4. Run `pnpm dev`, open the library, and select **Sign in with Google**. New Google identities start with collection disabled. Normal development now uses free local English/Chinese translation; see [translation setup](TRANSLATION.md).
 
 Source: [Google OpenID Connect documentation](https://developers.google.com/identity/openid-connect/openid-connect).
 
@@ -29,7 +29,7 @@ Source: [Google OpenID Connect documentation](https://developers.google.com/iden
 
 Before a hosted pilot, deploy API and website on HTTPS origins on the **same site** (prefer the same origin via reverse proxy), configure the registered callback and exact CORS origin, provide managed PostgreSQL and server-side secrets, and build the browser clients with matching public origins. Cross-site cookie deployments are not supported by SameSite=Lax. The current launcher is for local development, not production hosting. WXT public origin variables must also match the extension host permission. Website public API origin is set at Next build time.
 
-Per-process bounded rate limits protect login/pairing/approval/poll endpoints. Multi-instance production needs shared edge rate limits, lifecycle monitoring, a scheduled cleanup job for expired auth rows, and HTTPS smoke tests. Account deletion/export and provider-wide logout are separate later milestones. No live Google OAuth client has been registered or tested by this change; test with your configured client before pilot.
+Per-process bounded rate limits protect login/pairing/approval/poll endpoints. Multi-instance production needs shared edge rate limits, lifecycle monitoring, a scheduled cleanup job for expired auth rows, and HTTPS smoke tests. Account deletion/export and provider-wide logout are separate later milestones. A localhost development OAuth client is configured in Google Cloud, and real Google sign-in was verified on 2026-11-07. Credentials remain outside Git. Installed-Chrome extension pairing and fixture capture also passed the live smoke test below. The automated suite uses a simulated provider; hosted HTTPS deployment remains unverified.
 
 Set public origins explicitly in the build environment (the root `.env.local` is loaded by the development launcher, not automatically by every workspace build):
 
@@ -37,3 +37,16 @@ Set public origins explicitly in the build environment (the root `.env.local` is
 NEXT_PUBLIC_API_ORIGIN=https://api.example.com pnpm build:web
 WXT_API_ORIGIN=https://api.example.com WXT_WEB_ORIGIN=https://learn.example.com pnpm build:extension
 ```
+
+
+## Live development smoke test — 2026-11-07
+
+Verified in the user's installed Chrome profile against real Google sign-in:
+
+- The Google OAuth Web client remains in Testing with one approved test account and the exact localhost API callback.
+- Google authorization returns to the library and creates an active website session for the verified Google identity.
+- Explicit website approval is redeemed by the installed extension into a separate active extension credential. Collection consent is enabled and saved.
+- Selecting **available** on `/sample.html` and clicking **Translate selection** saves one owned encounter and one vocabulary candidate. The selection panel and library both show **Free to take part or ready to be used.** The stored result is `succeeded`, provided by `original-fixtures-v1`.
+- Grammarly remains active. A narrow root-body hydration compatibility fix is covered by browser regressions for `/library` and `/pair`; page interactions still work.
+
+This verifies the local Google login → extension pairing → fixture capture → library journey. It does not verify a paid translation provider or hosted production deployment. The app is left running and connected for continued development. OAuth secrets remain in the ignored, owner-readable `.env.local`; they are not part of this documentation.

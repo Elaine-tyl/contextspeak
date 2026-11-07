@@ -1,5 +1,9 @@
-import type { CollectionSettings } from "@contextspeak/contracts";
+import type {
+  CollectionSettings,
+  TranslationPreferences,
+} from "@contextspeak/contracts";
 export interface LocalConnection extends CollectionSettings {
+  translationPreferences?: TranslationPreferences;
   token: string;
   identity: string;
 }
@@ -7,6 +11,10 @@ export interface ConnectionDependencies {
   read(): Promise<LocalConnection>;
   write(value: LocalConnection): Promise<void>;
   authenticate(token: string): Promise<LocalConnection>;
+  putTranslationPreferences?(
+    value: TranslationPreferences,
+    token: string,
+  ): Promise<TranslationPreferences>;
   putSettings(value: CollectionSettings, token?: string): Promise<unknown>;
 }
 // All account/settings transitions share one queue; a new connect invalidates stale work immediately.
@@ -37,6 +45,20 @@ export class ConnectionManager {
         excludedOrigins: [],
       }),
     );
+  }
+  saveTranslationPreferences(value: TranslationPreferences) {
+    const revision = this.revision;
+    return this.serialize(async () => {
+      const current = await this.deps.read();
+      if (revision !== this.revision || !this.deps.putTranslationPreferences)
+        throw new Error("Connection changed");
+      const saved = await this.deps.putTranslationPreferences(
+        value,
+        current.token,
+      );
+      if (revision !== this.revision) throw new Error("Connection changed");
+      await this.deps.write({ ...current, translationPreferences: saved });
+    });
   }
   saveSettings(value: CollectionSettings) {
     const revision = this.revision;

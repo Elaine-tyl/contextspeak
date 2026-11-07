@@ -3,9 +3,9 @@ export default defineConfig({
   modules: ["@wxt-dev/module-react"],
   manifest: {
     version: "0.1.0",
-    name: "ContextSpeak — local fixtures",
+    name: "ContextSpeak",
     description:
-      "Consent-aware English lookups and vocabulary candidates. Local developer slice.",
+      "Consent-aware English lookups and vocabulary candidates. Free local word and sentence translation.",
     permissions: ["storage", "alarms"],
     host_permissions: [
       (process.env.WXT_API_ORIGIN ?? "http://127.0.0.1:4318") + "/*",

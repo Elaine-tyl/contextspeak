@@ -150,7 +150,11 @@ test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () =>
   const popup = await browser.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await pair(popup, tokenA);
-  await popup.getByRole("checkbox").check();
+  await popup
+    .getByLabel("Automatically collect selection-translation queries", {
+      exact: true,
+    })
+    .check();
   await popup.getByRole("button", { name: "Save collection settings" }).click();
   await expect(popup.getByRole("status")).toHaveText("Updated.");
   const library = await browser.newPage();
@@ -198,7 +202,9 @@ test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () =>
   await expect(library.getByTestId("lookup-card")).toHaveCount(2);
   await expect(library.getByTestId("candidate-card")).toHaveCount(1);
   await select(sample, "unknown");
-  await expect(sample.getByRole("status")).toContainText("Fixture unavailable");
+  await expect(sample.getByRole("status")).toContainText(
+    "Translation is unavailable in fixture mode",
+  );
   await expect
     .poll(
       async () =>
@@ -266,7 +272,11 @@ test("editable_descendants_are_excluded_from_context_and_crossing_selections", a
   const popup = await browser.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await pair(popup, tokenA);
-  await popup.getByRole("checkbox").check();
+  await popup
+    .getByLabel("Automatically collect selection-translation queries", {
+      exact: true,
+    })
+    .check();
   await popup.getByRole("button", { name: "Save collection settings" }).click();
   await expect(popup.getByRole("status")).toHaveText("Updated.");
   const sample = await browser.newPage();
@@ -351,8 +361,17 @@ test("collection_off_uses_one_transient_translation_without_history", async () =
   const popup = await browser.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await pair(popup, tokenA);
-  await popup.getByRole("checkbox").uncheck();
+  await popup
+    .getByLabel("Automatically collect selection-translation queries", {
+      exact: true,
+    })
+    .uncheck();
   await popup.getByRole("button", { name: "Save collection settings" }).click();
+  await expect(popup.getByRole("status")).toHaveText("Updated.");
+  await popup
+    .getByLabel("Translate automatically after selecting text", { exact: true })
+    .check();
+  await popup.getByRole("button", { name: "Save language settings" }).click();
   await expect(popup.getByRole("status")).toHaveText("Updated.");
   const headers = { Authorization: `Bearer ${tokenA}` };
   const before = (
@@ -385,6 +404,8 @@ test("collection_off_uses_one_transient_translation_without_history", async () =
     ).json()
   ).items.length;
   expect(after).toBe(before);
+  // Cross the auto-selection debounce boundary after the fast manual result.
+  await sample.waitForTimeout(400);
   expect(transient).toBe(1);
   browser.off("request", observe);
 });
@@ -435,11 +456,214 @@ test("pairing_poll_does_not_overwrite_unsaved_popup_settings", async () => {
   const popup = await browser.newPage();
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await expect(popup.getByText("Not connected", { exact: true })).toBeVisible();
-  await popup.getByRole("checkbox").check();
+  await popup
+    .getByLabel("Automatically collect selection-translation queries", {
+      exact: true,
+    })
+    .check();
   await popup.getByLabel("Excluded origins").fill("https://private.example");
   await popup.waitForTimeout(6000);
-  await expect(popup.getByRole("checkbox")).toBeChecked();
+  await expect(
+    popup.getByLabel("Automatically collect selection-translation queries", {
+      exact: true,
+    }),
+  ).toBeChecked();
   await expect(popup.getByLabel("Excluded origins")).toHaveValue(
     "https://private.example",
   );
+});
+
+test("updated_popup_explains_a_stale_background_instead_of_showing_empty_language_controls", async () => {
+  const popup = await browser.newPage();
+  await popup.addInitScript(() => {
+    // Emulate Chrome retaining the previous worker after popup files were rebuilt.
+    (globalThis as any).chrome.runtime.sendMessage = (
+      message: any,
+      ...args: any[]
+    ) => {
+      const result =
+        message.type === "status"
+          ? {
+              ok: true,
+              connection: {
+                identity: "previous-worker",
+                enabled: false,
+                excludedOrigins: [],
+              },
+              records: [],
+            }
+          : message.type === "translation-options"
+            ? { ok: false, error: "Unknown request" }
+            : { ok: true };
+      const callback = args.find((value) => typeof value === "function");
+      if (callback) {
+        queueMicrotask(() => callback(result));
+        return;
+      }
+      return Promise.resolve(result);
+    };
+  });
+  await popup.goto(`chrome-extension://${extensionId}/popup.html`);
+  await expect(
+    popup.getByLabel("Target language", { exact: true }).locator("option"),
+  ).toHaveCount(2);
+  await expect(popup.getByRole("alert")).toContainText(/reload.*extension/i);
+  await expect(
+    popup.getByRole("button", { name: "Save language settings" }),
+  ).toBeDisabled();
+  await popup.close();
+});
+
+test("read_only_page_containers_allow_selection_while_editable_content_stays_excluded", async () => {
+  const page = await browser.newPage();
+  await page.goto("http://127.0.0.1:3000/sample.html");
+  await page.locator("#readonly").evaluate((element) => {
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    const selection = window.getSelection()!;
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+  await page.locator("#readonly").dispatchEvent("mouseup");
+  await expect(
+    page.getByRole("button", { name: "Translate selection", exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Translate selection", exact: true })
+    .click();
+  await expect(page.getByRole("status")).not.toHaveText(
+    "Loading translation settings…",
+  );
+  // A read-only island inside an editor remains private.
+  await page.locator('#privacy [contenteditable="true"]').evaluate((editor) => {
+    const island = document.createElement("span");
+    island.contentEditable = "false";
+    island.textContent = "private editor text";
+    editor.append(island);
+    const range = document.createRange();
+    range.selectNodeContents(island);
+    const selection = window.getSelection()!;
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+  await page.locator("#privacy").dispatchEvent("mouseup");
+  await expect(
+    page.getByRole("button", { name: "Translate selection", exact: true }),
+  ).toHaveCount(0);
+  await page.close();
+});
+
+test("selection_panel_works_when_a_page_stops_mouseup_bubbling", async () => {
+  const page = await browser.newPage();
+  await page.goto("http://127.0.0.1:3000/sample.html");
+  await page.locator("#available").evaluate((element) => {
+    element.parentElement!.addEventListener("mouseup", (event) =>
+      event.stopPropagation(),
+    );
+    const range = document.createRange();
+    range.selectNodeContents(element);
+    const selection = window.getSelection()!;
+    selection.removeAllRanges();
+    selection.addRange(range);
+  });
+  await page.locator("#available").dispatchEvent("mouseup");
+  await expect(
+    page.getByRole("button", { name: "Translate selection", exact: true }),
+  ).toBeVisible();
+  await page.close();
+});
+
+test("late_language_options_cannot_overwrite_the_newly_connected_accounts_settings", async () => {
+  const popup = await browser.newPage();
+  await popup.addInitScript(() => {
+    let account = "A",
+      calls = 0;
+    let releaseA: ((value: unknown) => void) | undefined;
+    const listeners: ((changes: unknown, area: string) => void)[] = [];
+    const options = (target: string) => ({
+      ok: true,
+      protocolVersion: 2,
+      provider: "libretranslate-local",
+      languages: [
+        { code: "en", name: "English", targets: ["en", "zh-Hans"] },
+        { code: "zh-Hans", name: "Chinese", targets: ["en", "zh-Hans"] },
+      ],
+      preferences: {
+        sourceLanguage: "auto",
+        targetLanguage: target,
+        autoTranslate: target === "en",
+      },
+    });
+    (globalThis as any).chrome.storage.onChanged.addListener = (
+      listener: any,
+    ) => listeners.push(listener);
+    (globalThis as any).chrome.runtime.sendMessage = (
+      message: any,
+      ...args: any[]
+    ) => {
+      let result: unknown = { ok: true };
+      if (message.type === "status")
+        result = {
+          ok: true,
+          protocolVersion: 2,
+          connection: {
+            identity: account,
+            enabled: false,
+            excludedOrigins: [],
+          },
+          records: [],
+        };
+      if (message.type === "translation-options")
+        result =
+          ++calls === 1
+            ? new Promise((resolve) => {
+                releaseA = resolve;
+              })
+            : options("zh-Hans");
+      const callback = args.find((value) => typeof value === "function");
+      if (callback) {
+        Promise.resolve(result).then(callback);
+        return;
+      }
+      return Promise.resolve(result);
+    };
+    (globalThis as any).languageOptionsCalls = () => calls;
+    (globalThis as any).switchTranslationAccount = () => {
+      account = "B";
+      for (const listener of listeners)
+        listener(
+          {
+            connection: { oldValue: { token: "A" }, newValue: { token: "B" } },
+          },
+          "local",
+        );
+    };
+    (globalThis as any).releaseOldLanguageOptions = () =>
+      releaseA?.(options("en"));
+  });
+  await popup.goto(`chrome-extension://${extensionId}/popup.html`);
+  await expect
+    .poll(() =>
+      popup.evaluate(() => (globalThis as any).languageOptionsCalls()),
+    )
+    .toBe(1);
+  await popup.evaluate(() => (globalThis as any).switchTranslationAccount());
+  await expect(
+    popup.getByRole("button", { name: "Save language settings" }),
+  ).toBeEnabled();
+  await expect(
+    popup.getByLabel("Target language", { exact: true }),
+  ).toHaveValue("zh-Hans");
+  await popup.evaluate(() => (globalThis as any).releaseOldLanguageOptions());
+  // Let the deliberately late response cross React's render boundary.
+  await popup.waitForTimeout(100);
+  await expect(
+    popup.getByLabel("Target language", { exact: true }),
+  ).toHaveValue("zh-Hans");
+  await expect(
+    popup.getByLabel("Translate automatically after selecting text", {
+      exact: true,
+    }),
+  ).not.toBeChecked();
+  await popup.close();
 });
