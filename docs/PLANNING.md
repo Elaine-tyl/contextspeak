@@ -50,3 +50,7 @@ Use [held-out learning evaluation](METHODOLOGY.md#evaluation), plus session retu
 Before external pilot: confirm release geography, first scenarios, team/budget/timeline, identity provider, dictionary/frequency permissions, translation/model/speech providers, retention/deletion/backup periods, commercial license/brand clearance, and quotas. Framework-only local development and synthetic provider tests can begin before these purchasing decisions.
 
 **Start coding:** implement the [capture-to-library slice](superpowers/plans/2026-11-07-capture-to-library.md) first; add recall review second, then voice and inferred scenarios.
+
+## Implementation status
+
+The capture-to-library developer slice is implemented on `codex/capture-to-library`: fixture explanations, signed test identities, durable owned history/candidates, extension replay, and website display. It is part of M1, not a completed MVP; real login, external providers, expansion, review activation, and subsequent milestones remain planned. See the root README for setup and verified commands.

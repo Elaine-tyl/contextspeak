@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>ContextSpeak selection playground</title>
+    <style>
+      body {
+        max-width: 800px;
+        margin: 80px auto;
+        padding: 24px;
+        font: 20px/1.8 system-ui;
+        color: #183a35;
+        background: #f6faf7;
+      }
+      span {
+        background: #dfede4;
+        padding: 2px 4px;
+      }
+      input {
+        font: inherit;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Selection playground</h1>
+    <p>
+      Select a highlighted expression, release the mouse, and click Translate
+      selection.
+    </p>
+    <p>Are you <span id="available">available</span> for a quick call?</p>
+    <p>We can <span id="reschedule">reschedule</span> the meeting.</p>
+    <p>
+      Trying <span id="unknown">unknown-fixture</span> preserves the lookup even
+      when the fixture is missing.
+    </p>
+    <label
+      >Private input must not be captured:
+      <input value="Do not capture this input"
+    /></label>
+    <p>
+      Supported original fixtures: available, reschedule, confident, follow up.
+      English explanations only.
+    </p>
+    <a href="/library">Open your library</a>
+  </body>
+</html>

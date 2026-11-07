@@ -3,8 +3,14 @@ packages:
   - packages/*
 
 allowBuilds:
-  '@embedded-postgres/darwin-arm64': true
-  '@prisma/client': true
-  '@prisma/engines': true
+  "@embedded-postgres/darwin-arm64": true
+  "@prisma/client": true
+  "@prisma/engines": true
   esbuild: true
   prisma: true
+
+  # Native database packages on other contributor platforms.
+  "@embedded-postgres/darwin-x64": true
+  "@embedded-postgres/linux-x64": true
+  "@embedded-postgres/linux-arm64": true
+  "@embedded-postgres/win32-x64": true

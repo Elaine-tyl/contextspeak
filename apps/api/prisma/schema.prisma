@@ -1,54 +1,61 @@
 generator client {
   provider = "prisma-client-js"
 }
+
 datasource db {
   provider = "postgresql"
-  url = env("DATABASE_URL")
+  url      = env("DATABASE_URL")
 }
+
 model User {
-  id String @id @default(uuid())
-  issuer String
-  subject String
-  collectionEnabled Boolean @default(false)
-  excludedOrigins String[] @default([])
-  consentVersion Int @default(0)
-  items LearningItem[]
-  lookups LookupEvent[]
+  id                String         @id @default(uuid())
+  issuer            String
+  subject           String
+  collectionEnabled Boolean        @default(false)
+  excludedOrigins   String[]       @default([])
+  consentVersion    Int            @default(0)
+  items             LearningItem[]
+  lookups           LookupEvent[]
+
   @@unique([issuer, subject])
 }
+
 model LearningItem {
-  id String @id @default(uuid())
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  text String
-  normalized String
+  id             String        @id @default(uuid())
+  userId         String
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  text           String
+  normalized     String
   sourceLanguage String
   targetLanguage String
-  senseStatus String @default("unresolved")
-  status String @default("candidate")
-  createdAt DateTime @default(now())
-  lookups LookupEvent[]
+  senseStatus    String        @default("unresolved")
+  status         String        @default("candidate")
+  createdAt      DateTime      @default(now())
+  lookups        LookupEvent[]
+
   @@unique([userId, normalized, sourceLanguage, targetLanguage])
   @@unique([id, userId])
 }
+
 model LookupEvent {
-  id String @id @default(uuid())
-  userId String
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  eventId String
-  payloadHash String
-  candidateId String
-  candidate LearningItem @relation(fields: [candidateId, userId], references: [id, userId], onDelete: Cascade)
-  text String
-  context String?
-  sourceUrl String?
-  sourceLanguage String
-  targetLanguage String
-  translationStatus String @default("pending")
-  meaning String?
-  provider String?
-  errorCode String?
-  createdAt DateTime @default(now())
+  id                String       @id @default(uuid())
+  userId            String
+  user              User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventId           String
+  payloadHash       String
+  candidateId       String
+  candidate         LearningItem @relation(fields: [candidateId, userId], references: [id, userId], onDelete: Cascade)
+  text              String
+  context           String?
+  sourceUrl         String?
+  sourceLanguage    String
+  targetLanguage    String
+  translationStatus String       @default("pending")
+  meaning           String?
+  provider          String?
+  errorCode         String?
+  createdAt         DateTime     @default(now())
+
   @@unique([userId, eventId])
   @@index([userId, createdAt, id])
   @@index([translationStatus])
