@@ -1,31 +1,30 @@
 # ContextSpeak
 
-**Turn everyday English encounters into confident conversations.**
+**Build your vocabulary. Understand conversations. Speak with confidence.**
 
-A browser extension and learning website for adults who know some English and want to understand real conversations and speak more fluently.
+A browser extension and learning website that turns everyday English lookups into a personal vocabulary memory library, scheduled review, and contextual listening/speaking practice. The first release serves adults with basic English; broader language and school support follow later.
 
-将日常遇到的英语表达，转化为个性化听说练习。
-
-> Planning stage. No application has been implemented yet.
+> Planning stage. No application has been implemented yet. Scope and provider choices below are implementation proposals.
 
 ## System overview
 
-![ContextSpeak conceptual diagram: capture, learner model, planning, practice, progress, and evaluation](docs/assets/conceptual-diagram.png)
+![ContextSpeak: automatic lookup history, vocabulary memory, inferred scenarios, review, and listening/speaking practice](docs/assets/conceptual-diagram.png)
 
-[View editable SVG](docs/assets/conceptual-diagram.svg)
+[Editable SVG](docs/assets/conceptual-diagram.svg)
 
 ## Documentation
 
 | Document | Purpose |
 | --- | --- |
-| [Planning](docs/PLANNING.md) | MVP scope, milestones, acceptance criteria, and open decisions |
-| [Methodology](docs/METHODOLOGY.md) | Learning cycle, mastery evidence, and evaluation |
-| [Architecture](docs/ARCHITECTURE.md) | Technology, components, data flow, and operational rules |
+| [Planning](docs/PLANNING.md) | Requirements mapping, MVP, roadmap, costs, and decisions |
+| [Methodology](docs/METHODOLOGY.md) | Collection, scenario inference, word priorities, and mastery evidence |
+| [Architecture](docs/ARCHITECTURE.md) | Stack, translation/dictionary services, data flow, and safeguards |
+| [First coding plan](docs/superpowers/plans/2026-11-07-capture-to-library.md) | A bounded capture-to-library implementation with checks |
 
-## Project principles
+## Working principles
 
-- Personalize from goals, selected browsing context, and practice evidence.
-- Track reading, listening, and independent speaking separately.
-- Build independently; [FluentRead](https://github.com/FluentRead/FluentRead) is a reference only. No code, assets, or branding are copied.
+- After collection consent, automatically record each selection-translation query and derive vocabulary candidates; activation for scheduled review requires confirmation.
+- Combine learner goals, inferred scenarios, and separate reading/listening/speaking evidence.
+- Build independently. [FluentRead](https://github.com/FluentRead/FluentRead) is a functional reference, not a source of copied code or assets. This is not a legal clearance statement.
 
-A distribution license has not yet been selected.
+A distribution license is undecided. The diagram adapts a user-supplied layout reference; its ownership/permission and the ContextSpeak brand still need clearance before public release.

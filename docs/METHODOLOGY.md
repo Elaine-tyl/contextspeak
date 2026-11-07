@@ -1,44 +1,53 @@
 # Learning methodology
 
-## Approach
+## Collection and vocabulary memory
 
-Combine a structured scenario path with personal expressions. Goals set the direction, saved context supplies relevant material, and practice provides evidence. The daily plan continues even without new browsing activity.
+After explicit onboarding consent, automatically log selection-translation queries with bounded context; users can pause, exclude sites, or delete records. Translation still works when collection is off. Repeated words remain separate encounters, while normalized sense/expression candidates share a library item. Ambiguous senses remain unresolved rather than silently merged.
 
-## Learning cycle
+Keep three states: query history → vocabulary candidate → confirmed active review item. Automatic collection does not mean every lookup becomes a mandatory review. Learners can archive, activate, or defer items; reviewed starter content supports an empty library.
 
-1. Set goals and complete an optional listening/speaking baseline.
-2. Save a specific word sense, phrase, or useful expression with its original context.
-3. Select tasks by goal relevance, usefulness, due reviews, and reliable recent errors; cap the daily workload.
-4. Listen and answer a comprehension question, then respond aloud to a new situation.
-5. Receive a few actionable corrections and retry with less support.
-6. Revisit the expression later with different wording, speakers, or context.
+## Scenario inference and priorities
 
-Example: `Are you available for a quick call?` becomes a task to negotiate a new meeting time, then a later task to change a restaurant reservation.
+Analyze only authorized lookup excerpts and practice, not complete browsing history. Batch inference after 10 new eligible encounters, or on learner request; sparse evidence displays an insufficient-data state. This initial threshold is a tunable proposal. Return scenario label, confidence, and supporting encounter IDs. Suggestions require confirmation and cannot override declared goals; users can reject/reset them.
+
+Normalize each score to [0,1] and start with this explainable ranking:
+
+`priority = 0.30 goal relevance + 0.25 personal encounter frequency + 0.20 general frequency + 0.15 reliable skill gap + 0.10 review urgency`
+
+Use capped log-scaled eligible encounter counts for personal frequency; unknown skill is neutral (0.5). Review urgency comes from the scheduler, and zero is used for unscheduled items. Exclude ignored/archived items before ranking. Missing general frequency is marked unavailable and remaining weights are renormalized; do not invent a model-based frequency value. These starting weights require pilot calibration.
+
+General frequency needs a versioned source and redistribution permissions. Candidate sources include SUBTLEX-US or wordfreq; neither is approved for bundling yet. Development uses explicitly synthetic fixture scores. Separate corpus/phrase frequency from personal recurrence; infrequent but goal-critical expressions may still rank highly.
+
+## Lookup-time expansion
+
+For each lookup, request up to two context-relevant near-synonyms and two spelling lookalikes in the same panel, without delaying the base translation. Show a short usage contrast and example. Phrase/nonword lookups may have no sensible spelling alternatives; show fewer rather than inventing them. Frequency badges require source evidence. Suggestions enter scheduled review only after confirmation.
+
+## Review and listening/speaking cycle
+
+1. Set goals and complete an optional baseline; skipped assessment uses conservative defaults.
+2. Activate useful vocabulary; apply FSRS to explicit recall ratings (Again, Hard, Good, Easy), with default parameters until sufficient history exists.
+3. Combine due items and goal-relevant expressions into a bounded daily scenario task.
+4. Listen and demonstrate comprehension, then record an independent response.
+5. Receive focused feedback, retry with less assistance, and later test a different scenario or speaker.
+
+Example: `Are you available for a quick call?` becomes a meeting-time negotiation, then a later restaurant-reservation task. The plan continues without fresh browsing activity. Speaking-transfer selection is separate from FSRS recall ratings.
 
 ## Mastery evidence
 
-| Dimension | Evidence |
+| Skill | Evidence |
 | --- | --- |
-| Reading | Understand the specific meaning in a new sentence. |
-| Listening | Understand speech while recording subtitles, replay, and hint use. |
-| Speaking | Independently communicate the intended meaning in a new situation. |
+| Reading | Understand a specific sense in an unseen sentence. |
+| Listening | Understand speech while tracking subtitle, hint, and replay use. |
+| Speaking | Communicate the intended meaning independently in a new situation. |
 
-A lookup is only a signal. Shadowing and answer-assisted retries are practice, not independent speaking evidence. Noisy recordings or unreliable transcription trigger confirmation/re-recording rather than an automatic penalty. Learners can correct transcripts.
-
-Track task difficulty, assistance, confidence, and assessment version. Judge communication and intelligibility; do not equate accent imitation with proficiency.
-
-## Review and expansion
-
-Separate saved material from the active review queue. Evaluate FSRS for clearly scored recall tasks; schedule listening/speaking transfer separately. Do not directly convert every AI conversation score into a memory rating.
-
-Offer a small number of useful synonyms or confusing lookalikes with usage differences. Validate frequency against a suitable lexical resource; do not automatically schedule every suggestion.
+A lookup is only a signal; shadowing or answer-assisted retries are not independent speaking tests. Track task version/difficulty, confidence, assistance, and retry relationships. Unreliable transcription prompts confirmation/re-recording rather than a penalty; corrected transcripts create a new assessment. Communication and intelligibility matter more than accent imitation. Do not map open-ended AI scores directly to FSRS ratings.
 
 ## Evaluation
 
-Compare baseline with delayed, unseen, level-matched tasks. Measure comprehension, independent task completion, assistance needed, and retained expressions. Human-review a sample of AI assessments across accents and recording conditions; keep evaluation tasks out of generated practice. Use a comparison design before attributing improvement to the product.
+Compare baseline with delayed, unseen, level-matched tasks. Measure comprehension, independent completion, assistance, and retention. Human-review AI assessments across accents/noise; keep held-out content out of generation. Evaluate scenario-suggestion acceptance/corrections and priority relevance. Use a comparison design before claiming causal improvement.
 
 ## References
 
 - [Task-based language teaching](https://www.cambridge.org/core/elements/taskbased-language-teaching/395B3D3B0F7078DF325579CC8314E38B)
-- [Spacing and retrieval practice](https://doi.org/10.1038/s44159-022-00089-1)
-- [FSRS](https://github.com/open-spaced-repetition/fsrs4anki/wiki/ABC-of-FSRS)
+- [Spacing and retrieval](https://doi.org/10.1038/s44159-022-00089-1)
+- [TypeScript FSRS implementation](https://github.com/open-spaced-repetition/ts-fsrs)

@@ -1,39 +1,52 @@
 # Product plan
 
-## MVP scope
+## Requirements mapping
 
-| Surface | Included |
+| Client requirement | MVP response |
 | --- | --- |
-| Chrome extension | Contextual selection translation, saved expressions, minimal source context, retryable sync |
-| Learning website | Goals, baseline assessment, personal library, daily tasks, listening, recorded conversation, progress |
-| Account controls | Shared login, collection preferences, export, and deletion |
+| Automatic personal vocabulary memory | After consent, every selection-translation query enters history and produces a vocabulary candidate; confirmed items enter scheduled review. |
+| Infer language-use scenarios | Suggest scenarios from authorized lookup context, with evidence and learner correction; no full browsing-history collection. |
+| Prioritize high-frequency words | Rank useful learning items using a sourced frequency signal, personal context, goals, and reliable skill gaps. |
+| Know what the learner has mastered | Separate reading, listening, and independent speaking estimates with traceable practice evidence. |
+| Expand vocabulary during lookup | Show up to two useful near-synonyms and two spelling lookalikes asynchronously, with differences and examples where appropriate. |
+| Generate listening/speaking practice | Use confirmed vocabulary and learner scenarios for level-matched tasks and delayed transfer. |
+| Extension, PC, and mobile | Chrome desktop extension plus responsive website on PC/mobile; native apps follow usage validation. |
+| Multiple languages and school roles | Adult English is the first segment; multilingual and teacher/student support are later phases. |
 
-Initial proposal: adult learners, a small set of everyday/work scenarios, optional 10–15 minute sessions, explicit saving by default, and turn-based voice. Reviewed starter tasks support users with no saved expressions.
+Automatic history/candidates versus confirmed review enrollment is a proposed compromise to validate before pilot. Do not silently treat the narrower first segment as the complete client deliverable.
 
-Deferred: native apps, school roles, broad crawling, background recording, full-duplex voice, and custom model training.
+## Delivery roadmap
 
-## Delivery milestones
+| Stage | Deliverable and acceptance |
+| --- | --- |
+| M0 — Validate | Confirm first three scenarios, collection consent, speech quality, provider costs, and pilot gates. Prototype the journey. |
+| M1 — Capture and remember | Login, selection translation/expansion, automatic history/candidates, library, and durable sync; verify no duplicate events or lost acknowledged queries. |
+| M2 — Review and practice | Confirm active items; FSRS-based explicit recall review; listening and recorded responses; recover from microphone, upload, and provider failures. |
+| M3 — Personalize | History-based scenario suggestions, sourced word priorities, and skill updates; learner can inspect/correct suggestions; low-confidence/assisted attempts do not inflate mastery. |
+| M4 — Pilot | Export/deletion, usage limits, monitoring, restore rehearsal, responsive-device checks, and held-out learning evaluation. |
+| P2 — Expand access | Evaluate installable PWA/offline support and native mobile apps; desktop-native capture only if demand justifies it. |
+| P3 — Education and languages | Teacher/student permissions, class goals, approved curriculum content, minors safeguards, and additional languages. |
 
-| Milestone | Deliverable | Acceptance criteria |
-| --- | --- | --- |
-| M0 — Validate | First scenarios, clickable journey, speech feasibility | Learners understand the flow; measure speech quality, latency, and session cost; agree pilot thresholds. |
-| M1 — Capture | Login, translation, library, sync | Saved expressions appear on the website; offline/repeated submission does not lose or duplicate acknowledged saves. |
-| M2 — Practice | Listening, recorded responses, feedback, retry | Complete a session; recover from denied microphone access, upload failure, and provider errors. |
-| M3 — Adapt | Skill estimates and scheduled reviews | Each update links to eligible evidence; hints, retries, and uncertainty affect eligibility correctly. |
-| M4 — Pilot | Monitoring, privacy controls, release package | Verify user isolation, deletion, restore, usage limits, and end-to-end flow; review learning outcomes. |
+M0–M4 are ordered milestones, not promised dates. P2/P3 require separate scoping and budget. Broad crawling, background recording, full-duplex voice, and custom model training remain outside MVP.
 
-M0 → M1 → M2 → M3 → M4. Assign owners and estimate effort after feasibility work; no delivery dates or budget are committed.
+## Illustrative monthly costs
 
-## Pilot measures
+**Assumptions, not vendor quotes:** 30 active days; each DAU consumes 10,000 input and 4,400 output text tokens daily. Economy rates are assumed at $0.10/$0.40 per million input/output tokens; premium at $2.50/$7.50. No caching or batching savings assumed.
 
-Use the [learning evaluation](METHODOLOGY.md#evaluation) for outcomes. Also track session completion/return, capture and upload success, p50/p95 latency, and cost per completed session. Set numerical thresholds before recruiting the pilot.
+| Daily active users | All economy text | All premium text | Illustrative speech addition |
+| --- | --- | --- | --- |
+| 100 | $8.28 | $174 | $315 |
+| 10,000 | $828 | $17,400 | $31,500 |
+| 1,000,000 | $82,800 | $1,740,000 | $3,150,000 |
 
-Cost estimate: active learners × sessions per learner × variable session cost, plus hosting, operations, and support. Five million users is a long-term ambition; capacity planning needs measured activity and concurrency.
+Speech assumption: 5 recognized minutes at $0.006/minute plus 5 generated minutes at an equivalent $0.015/minute per DAU/day; actual billing units vary. Text cost = DAU × 30 × (0.01 × input rate + 0.0044 × output rate). Speech cost = DAU × 30 × $0.105.
 
-## Decisions before implementation
+Excluded: translation API charges, dictionary/content licenses, hosting, storage/egress, operations/support, taxes, retries, and separate onboarding/batch analysis. Five million registered users does not imply one million DAU. Replace assumptions with dated provider quotes and measured usage before budgeting. Route routine work to lower-cost services and reserve stronger models for difficult assessments.
 
-- First three scenarios, release geography, and supported devices.
-- Team capacity, budget, timeline, pricing, and usage caps.
-- Authentication, model, speech, and hosting providers.
-- Audio retention, deletion turnaround, backup expiry, and consent wording.
-- Pilot sample, success thresholds, human review capacity, and distribution license.
+## Pilot and open decisions
+
+Use [held-out learning evaluation](METHODOLOGY.md#evaluation), plus session return/completion, sync/upload reliability, p50/p95 latency, and completed-session cost. Set numerical gates and sample size before recruitment.
+
+Before external pilot: confirm release geography, first scenarios, team/budget/timeline, identity provider, dictionary/frequency permissions, translation/model/speech providers, retention/deletion/backup periods, commercial license/brand clearance, and quotas. Framework-only local development and synthetic provider tests can begin before these purchasing decisions.
+
+**Start coding:** implement the [capture-to-library slice](superpowers/plans/2026-11-07-capture-to-library.md) first; add recall review second, then voice and inferred scenarios.

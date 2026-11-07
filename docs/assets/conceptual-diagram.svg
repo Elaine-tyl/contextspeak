@@ -5,23 +5,23 @@
 <rect x="0" y="0" width="1800" height="10" rx="0" fill="#357DCE" stroke="none" stroke-width="1.5"/>
 <text x="70" y="40" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#357DCE" dominant-baseline="text-before-edge" text-anchor="start">CONTEXTSPEAK</text>
 <text x="70" y="75" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Overall conceptual diagram</text>
-<text x="70" y="136" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Everyday English → personal learning tasks → confident listening and speaking</text>
+<text x="70" y="136" font-family="Arial, Helvetica, sans-serif" font-size="23" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Everyday lookups → vocabulary memory and review → confident listening and speaking</text>
 <rect x="1390" y="47" width="340" height="43" rx="22" fill="#E8F2FF" stroke="none" stroke-width="1.5"/>
 <text x="1560" y="58" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#357DCE" dominant-baseline="text-before-edge" text-anchor="middle">Proposed learning system</text>
 <rect x="70" y="192" width="316" height="100" rx="14" fill="#EAF3FF" stroke="#357DCE" stroke-width="1.8"/>
 <text x="228.0" y="210" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#357DCE" dominant-baseline="text-before-edge" text-anchor="middle">1 CAPTURE</text>
-<text x="228.0" y="246" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">Save useful English</text>
-<text x="228.0" y="269" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">with its original context</text>
+<text x="228.0" y="246" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">Auto-log translation queries</text>
+<text x="228.0" y="269" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">after collection consent</text>
 <rect x="70" y="312" width="316" height="382" rx="14" fill="#FFFFFF" stroke="#357DCE" stroke-width="1.5" stroke-dasharray="8 7"/>
 <rect x="406" y="192" width="316" height="100" rx="14" fill="#EFF8F0" stroke="#409A59" stroke-width="1.8"/>
 <text x="564.0" y="210" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#409A59" dominant-baseline="text-before-edge" text-anchor="middle">2 LEARNER MODEL</text>
-<text x="564.0" y="246" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">Combine goals, context</text>
+<text x="564.0" y="246" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">Combine goals, inferred scenarios</text>
 <text x="564.0" y="269" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">and demonstrated skills</text>
 <rect x="406" y="312" width="316" height="382" rx="14" fill="#FFFFFF" stroke="#409A59" stroke-width="1.5" stroke-dasharray="8 7"/>
 <rect x="742" y="192" width="316" height="100" rx="14" fill="#FFF6E9" stroke="#DD8909" stroke-width="1.8"/>
 <text x="900.0" y="210" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#DD8909" dominant-baseline="text-before-edge" text-anchor="middle">3 TASK PLANNING</text>
-<text x="900.0" y="246" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">Choose relevant expressions</text>
-<text x="900.0" y="269" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">and the next review</text>
+<text x="900.0" y="246" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">Rank useful vocabulary</text>
+<text x="900.0" y="269" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">and schedule recall / transfer</text>
 <rect x="742" y="312" width="316" height="382" rx="14" fill="#FFFFFF" stroke="#DD8909" stroke-width="1.5" stroke-dasharray="8 7"/>
 <rect x="1078" y="192" width="316" height="100" rx="14" fill="#F4EFFB" stroke="#8055C6" stroke-width="1.8"/>
 <text x="1236.0" y="210" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" fill="#8055C6" dominant-baseline="text-before-edge" text-anchor="middle">4 PRACTICE</text>
@@ -34,36 +34,36 @@
 <text x="1572.0" y="269" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#193749" dominant-baseline="text-before-edge" text-anchor="middle">and schedule transfer</text>
 <rect x="1414" y="312" width="316" height="382" rx="14" fill="#FFFFFF" stroke="#DF5058" stroke-width="1.5" stroke-dasharray="8 7"/>
 <rect x="86" y="334" width="284" height="155" rx="14" fill="#EAF3FF" stroke="#B4D2F6" stroke-width="1.5"/>
-<text x="104" y="352" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Browser extension</text>
-<text x="104" y="388" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Selected word or expression</text>
-<text x="104" y="415" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Specific meaning + excerpt</text>
-<text x="104" y="442" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Explicit save / opt-in capture</text>
+<text x="104" y="352" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Selection translation</text>
+<text x="104" y="388" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Automatic query history</text>
+<text x="104" y="415" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Meaning + bounded context</text>
+<text x="104" y="442" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Near-synonyms / lookalikes</text>
 <rect x="86" y="507" width="284" height="165" rx="14" fill="#FFFFFF" stroke="#B4D2F6" stroke-width="1.5"/>
-<text x="104" y="525" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Personal learning library</text>
-<text x="104" y="561" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Words, phrases, collocations</text>
-<text x="104" y="588" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Reviewed starter content</text>
-<text x="104" y="615" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Useful material, not a backlog</text>
+<text x="104" y="525" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Vocabulary memory</text>
+<text x="104" y="561" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Auto-collected candidates</text>
+<text x="104" y="588" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Confirm active review items</text>
+<text x="104" y="615" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Words, phrases, collocations</text>
 <rect x="422" y="334" width="284" height="155" rx="14" fill="#EFF8F0" stroke="#B4DBBE" stroke-width="1.5"/>
-<text x="440" y="352" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Goals and baseline</text>
-<text x="440" y="388" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Chosen speaking scenarios</text>
-<text x="440" y="415" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Listening + speaking sample</text>
-<text x="440" y="442" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Learner time budget</text>
+<text x="440" y="352" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Goals and scenario inference</text>
+<text x="440" y="388" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Learner goals + baseline</text>
+<text x="440" y="415" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Infer from lookup excerpts</text>
+<text x="440" y="442" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Evidence IDs; learner confirms</text>
 <rect x="422" y="507" width="284" height="165" rx="14" fill="#FFFFFF" stroke="#B4DBBE" stroke-width="1.5"/>
 <text x="440" y="525" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Evidence-based profile</text>
 <text x="440" y="561" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Reading • listening • speaking</text>
 <text x="440" y="588" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Hints, retries, uncertainty</text>
 <text x="440" y="615" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Each estimate links to evidence</text>
 <rect x="758" y="334" width="284" height="92" rx="14" fill="#FFF6E9" stroke="#F3CCA1" stroke-width="1.5"/>
-<text x="776" y="352" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Learning priorities</text>
-<text x="776" y="388" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Goal relevance + skill gaps</text>
+<text x="776" y="352" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Vocabulary priorities</text>
+<text x="776" y="388" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Sourced frequency + relevance</text>
 <path d="M900 435 L900 450 M892 440 L900 450 L908 440" fill="none" stroke="#DD8909" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="758" y="461" width="284" height="92" rx="14" fill="#FFF6E9" stroke="#F3CCA1" stroke-width="1.5"/>
-<text x="776" y="479" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Daily task selection</text>
-<text x="776" y="515" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Due reviews + useful expressions</text>
+<text x="776" y="479" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">FSRS recall review</text>
+<text x="776" y="515" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Confirmed items + due reviews</text>
 <path d="M900 562 L900 577 M892 567 L900 577 L908 567" fill="none" stroke="#DD8909" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="758" y="588" width="284" height="84" rx="14" fill="#FFFFFF" stroke="#F3CCA1" stroke-width="1.5"/>
-<text x="776" y="606" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Scenario task</text>
-<text x="776" y="642" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Level-matched • limited workload</text>
+<text x="776" y="606" font-family="Arial, Helvetica, sans-serif" font-size="19" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Listening / speaking tasks</text>
+<text x="776" y="642" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Goals + inferred scenarios</text>
 <rect x="1094" y="334" width="284" height="155" rx="14" fill="#F4EFFB" stroke="#CCB9E9" stroke-width="1.5"/>
 <text x="1112" y="352" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Listen and speak</text>
 <text x="1112" y="388" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Understand a short exchange</text>
@@ -77,7 +77,7 @@
 <rect x="1430" y="334" width="284" height="155" rx="14" fill="#FFF1F1" stroke="#F0B6BA" stroke-width="1.5"/>
 <text x="1448" y="352" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Progress and next review</text>
 <text x="1448" y="388" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Separate estimates by skill</text>
-<text x="1448" y="415" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Spaced recall + new scenarios</text>
+<text x="1448" y="415" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Recall schedule + transfer</text>
 <text x="1448" y="442" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="400" fill="#637D92" dominant-baseline="text-before-edge" text-anchor="start">Fewer prompts over time</text>
 <rect x="1430" y="507" width="284" height="165" rx="14" fill="#FFFFFF" stroke="#F0B6BA" stroke-width="1.5"/>
 <text x="1448" y="525" font-family="Arial, Helvetica, sans-serif" font-size="21" font-weight="700" fill="#193749" dominant-baseline="text-before-edge" text-anchor="start">Learner control</text>
