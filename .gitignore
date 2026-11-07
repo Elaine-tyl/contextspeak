@@ -1,0 +1,23 @@
+# Local secrets and configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Dependencies and generated output
+node_modules/
+.next/
+.output/
+.wxt/
+dist/
+coverage/
+*.log
+
+# Local system and editor state
+.DS_Store
+.idea/
+
+# Private learner material and local recordings
+local-data/
+recordings/
