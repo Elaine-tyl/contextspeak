@@ -7,6 +7,7 @@ function parse<T>(schema:z.ZodType<T>,value:unknown):T{const result=schema.safeP
 @Controller('v1')
 export class LibraryController {
  constructor(@Inject(LibraryService) private library:LibraryService){}
+ @Get('identity') identity(@Req()req:AuthenticatedRequest){return req.identity;}
  @Get('settings') settings(@Req()req:AuthenticatedRequest){return this.library.settings(req.identity);}
  @Put('settings') setSettings(@Req()req:AuthenticatedRequest,@Body()body:unknown){return this.library.setSettings(req.identity,parse(settingsSchema,body));}
  @Post('lookups') capture(@Req()req:AuthenticatedRequest,@Body()body:unknown){return this.library.capture(req.identity,parse(lookupSchema,body));}

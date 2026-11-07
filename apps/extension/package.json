@@ -14,5 +14,6 @@
   "devDependencies": {
     "wxt": "0.21.5",
     "@wxt-dev/module-react": "1.2.2"
-  }
+  },
+  "version": "0.1.0"
 }
