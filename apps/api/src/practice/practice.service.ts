@@ -9,7 +9,9 @@ import {
   learningDetailsSchema,
   type Identity,
   type PracticeSubmission,
+  type ScenarioId,
 } from "@contextspeak/contracts";
+import { conversationTask } from "./scenarios";
 import type { LibraryFilters } from "../library/library-filters";
 import { LibraryService } from "../library/library.service";
 function taskFor(
@@ -23,24 +25,27 @@ function taskFor(
     | "detectedSourceLanguage"
     | "learningDetails"
   >,
+  scenario?: ScenarioId,
 ) {
   if (lookup.translationStatus !== "succeeded" || !lookup.meaning?.trim())
     throw new ConflictException("A successful saved translation is required.");
   const details = learningDetailsSchema.safeParse(lookup.learningDetails);
   const example = details.success ? details.data.examples[0] : undefined;
   const sourceText = example?.source ?? lookup.text;
-  if ([...sourceText].length > 600)
+  if (!scenario && [...sourceText].length > 600)
     throw new ConflictException(
       "Choose an expression shorter than 600 characters for practice.",
     );
   const detected = lookup.detectedSourceLanguage ?? lookup.sourceLanguage;
+  const language = detected === "auto" ? null : detected;
   return {
     version: 1 as const,
     lookupId: lookup.id,
     expression: lookup.text,
     sourceText,
     translation: example?.translation ?? lookup.meaning,
-    language: detected === "auto" ? null : detected,
+    language,
+    ...(scenario ? conversationTask(scenario, language) : {}),
   };
 }
 function receipt(row: PracticeAttempt) {
@@ -48,6 +53,7 @@ function receipt(row: PracticeAttempt) {
   return {
     id: row.id,
     mode: payload.mode,
+    ...(payload.scenario ? { scenario: payload.scenario } : {}),
     selfCheck: payload.selfCheck,
     plays: payload.plays,
     revealed: payload.revealed,
@@ -100,11 +106,16 @@ export class PracticeService {
       })),
     };
   }
-  async task(identity: Identity, itemId: string, lookupId?: string) {
+  async task(
+    identity: Identity,
+    itemId: string,
+    lookupId?: string,
+    scenario?: ScenarioId,
+  ) {
     const detail = await this.library.itemDetail(identity, itemId, lookupId);
     if (!detail.lookup)
       throw new ConflictException("Translate and save this vocabulary first.");
-    const task = taskFor(detail.lookup);
+    const task = taskFor(detail.lookup, scenario);
     const user = await this.library.actor(identity);
     const recent = await this.prisma.practiceAttempt.findMany({
       where: { userId: user.id, lookupId: task.lookupId },
@@ -135,7 +146,7 @@ export class PracticeService {
           );
         return receipt(previous);
       }
-      const task = taskFor(lookup);
+      const task = taskFor(lookup, input.scenario);
       return receipt(
         await tx.practiceAttempt.create({
           data: {

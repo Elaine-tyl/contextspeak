@@ -22,7 +22,7 @@ Audio stays in browser memory. It is never uploaded, transcribed, stored in the 
 
 ## Next milestone: everyday conversations
 
-Prioritize everyday conversations for the first novel scenarios: introductions, making plans, asking for help and everyday requests. Reuse saved vocabulary, hide the model response until after the learner answers, and keep assisted attempts separate from independent evidence. Scenario generation and assessment are not implemented in the current guided practice flow.
+Prioritize everyday conversations for the first novel scenarios: introductions, making plans, asking for help and everyday requests. Reuse saved vocabulary, hide the model response until after the learner answers, and keep assisted attempts separate from independent evidence. The first curated role-plays are available below; dynamic scenario generation and assessment remain future work.
 
 ## What this establishes
 
@@ -35,3 +35,11 @@ The existing session is checked every three seconds and at its known expiry. Ser
 `pnpm dev` deploys the additive `202611080002_practice_attempts` migration. Production deployment must run `pnpm db:migrate` before serving the new API. Attempts cascade when the lookup/vocabulary/account is deleted.
 
 API integration tests cover owned encounters, detected language, bounds, strict no-audio submissions, concurrent idempotent saves, changed-event conflicts, cascade deletion and no FSRS updates. Browser regressions cover listening/reveal/save/retry, local-only voice selection, microphone denial, late grants, navigation/session cleanup and duration limits. A native Chromium test uses a generated audio stream to verify decodable recordings and the real local save API. These deterministic tests do not establish audible quality on a learner's device; try a local voice and a microphone recording there before a pilot.
+
+## Everyday conversation role-plays
+
+Choose **Introductions**, **Making plans** or **Asking for help** from the practice hub or the conversation selector on a practice page. Select saved English vocabulary; known non-English or unresolved source languages cannot start these English scenarios. Your translation-language setting is unchanged.
+
+Each scenario has an original fixed partner turn and a response goal. Listen and write its meaning before revealing the transcript and an English meaning guide. Switch to speaking, listen to the partner, then record an original reply using your saved expression. The partner's turn is not a model learner answer. If an expression is unnatural in that situation, choose another vocabulary item. These are repeatable curated role-plays, not generated conversations, level-adaptive tasks or independently assessed transfer tests.
+
+Scenario switches discard the current local answer and recording and restart listening. An unconfirmed save locks the selector until retry succeeds or the attempt is explicitly abandoned. Saved results include the scenario identifier and a server-built task snapshot; event IDs remain idempotent across retries and cannot be reused for another scenario. Self-checks do not affect FSRS, and no microphone audio is uploaded. Scenarios need no new model calls, credentials or quota.

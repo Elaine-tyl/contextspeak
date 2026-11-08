@@ -147,6 +147,22 @@ async function setup(page: Page) {
       }
       data = { id: "attempt-1", ...body, createdAt: new Date().toISOString() };
     }
+    const scenario = new URL(route.request().url()).searchParams.get(
+      "scenario",
+    );
+    if (path === `/v1/practice/${itemId}` && scenario) {
+      data = {
+        ...data,
+        sourceText: "Would you like to meet for coffee this weekend?",
+        translation: "A friend suggests meeting for coffee.",
+        scenario: {
+          id: scenario,
+          title:
+            scenario === "making-plans" ? "Making plans" : "Asking for help",
+          goal: "Reply naturally using your saved expression.",
+        },
+      };
+    }
     await route.fulfill({ json: data });
   });
   await page.goto(
@@ -516,6 +532,35 @@ test("practice_saves_through_the_real_API_and_native_recording_produces_decodabl
     "speaking",
     "listening",
   ]);
+  await page.getByLabel("Conversation scenario").selectOption("making-plans");
+  await expect(
+    page.getByRole("heading", { name: "Making plans", exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Play audio", exact: true }).click();
+  await expect(
+    page.getByText("Playback complete.", { exact: true }),
+  ).toBeVisible();
+  await page
+    .getByLabel("What did it mean?")
+    .fill("My friend suggests coffee on Saturday.");
+  await page
+    .getByRole("button", { name: "Reveal transcript and meaning", exact: true })
+    .click();
+  await page.getByRole("button", { name: "Comfortable", exact: true }).click();
+  await expect(
+    page.getByText("Practice saved.", { exact: true }),
+  ).toBeVisible();
+  const scenarioTask = await (
+    await page.request.get(
+      `http://127.0.0.1:4318/v1/practice/${receipt.candidateId}?lookup=${receipt.lookupId}&scenario=making-plans`,
+    )
+  ).json();
+  expect(scenarioTask.recent[0]).toMatchObject({
+    scenario: "making-plans",
+    mode: "listening",
+    selfCheck: "comfortable",
+  });
+  await page.screenshot({ path: testInfo.outputPath("everyday-scenario.png") });
 });
 
 test("speaking_requires_replay_and_replay_is_stopped_when_changing_modes", async ({
@@ -575,4 +620,71 @@ test("an_unconfirmed_save_can_be_explicitly_abandoned_for_a_new_attempt", async 
   await expect(
     page.getByRole("button", { name: "Speaking", exact: true }),
   ).toBeEnabled();
+});
+
+test("scenarios_hide_the_partner_turn_lock_retries_and_clear_recordings_on_switch", async ({
+  page,
+}) => {
+  const saved = await setup(page);
+  await page.getByLabel("Conversation scenario").selectOption("making-plans");
+  await expect(
+    page.getByRole("heading", { name: "Making plans", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Would you like to meet for coffee this weekend?", {
+      exact: true,
+    }),
+  ).toHaveCount(0);
+  await expect(page.getByText("available", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Play audio", exact: true }).click();
+  await expect(
+    page.getByText("Playback complete.", { exact: true }),
+  ).toBeVisible();
+  await page.getByLabel("What did it mean?").fill("Meet a friend for coffee");
+  await page
+    .getByRole("button", { name: "Reveal transcript and meaning", exact: true })
+    .click();
+  await expect(
+    page.getByText("Would you like to meet for coffee this weekend?", {
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Comfortable", exact: true }).click();
+  await expect(page.locator("main").getByRole("alert")).toContainText(
+    "not confirmed",
+  );
+  await expect(page.getByLabel("Conversation scenario")).toBeDisabled();
+  await page.getByRole("button", { name: "Comfortable", exact: true }).click();
+  await expect(
+    page.getByText("Practice saved.", { exact: true }),
+  ).toBeVisible();
+  expect(saved[0]).toEqual(saved[1]);
+  expect(saved[1].scenario).toBe("making-plans");
+  await page.getByRole("button", { name: "Speaking", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "Show partner's turn", exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Start recording", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Stop recording", exact: true }),
+  ).toBeVisible();
+  const stops = await page.evaluate(() => (window as any).audioFixture.stops);
+  await page
+    .getByLabel("Conversation scenario")
+    .selectOption("asking-for-help");
+  await expect(
+    page.getByRole("heading", { name: "Asking for help", exact: true }),
+  ).toBeVisible();
+  await expect
+    .poll(() => page.evaluate(() => (window as any).audioFixture.stops))
+    .toBeGreaterThan(stops);
+  await expect(page.getByLabel("Your recording")).toHaveCount(0);
+  await expect(page.getByLabel("What did it mean?")).toHaveValue("");
+  await expect(
+    page.getByText("Would you like to meet for coffee this weekend?", {
+      exact: true,
+    }),
+  ).toHaveCount(0);
 });

@@ -50,3 +50,19 @@
 .practice-page li {
   margin: 10px 0;
 }
+.scenario-picker {
+  display: block;
+  margin: 24px 0;
+}
+.scenario-picker select {
+  display: block;
+  margin-top: 8px;
+  max-width: 100%;
+  padding: 10px;
+  font: inherit;
+  color: inherit;
+}
+.scenario-brief {
+  border-left: 3px solid #b5c7b3;
+  padding-left: 16px;
+}

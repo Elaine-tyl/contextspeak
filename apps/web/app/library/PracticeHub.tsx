@@ -1,10 +1,16 @@
 "use client";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { aiLanguages, type PracticeItem } from "@contextspeak/contracts";
+import {
+  aiLanguages,
+  conversationScenarios,
+  type ScenarioId,
+  type PracticeItem,
+} from "@contextspeak/contracts";
 import { api } from "../../src/api";
 
 export function PracticeHub({ token }: { token: string }) {
+  const [scenario, setScenario] = useState<ScenarioId | "">("");
   const [query, setQuery] = useState("");
   const [language, setLanguage] = useState("");
   const [items, setItems] = useState<PracticeItem[]>([]);
@@ -70,6 +76,22 @@ export function PracticeHub({ token }: { token: string }) {
           />
         </label>
         <label>
+          Conversation scenario
+          <select
+            value={scenario}
+            onChange={(event) =>
+              setScenario(event.target.value as ScenarioId | "")
+            }
+          >
+            <option value="">Saved example</option>
+            {conversationScenarios.map((value) => (
+              <option key={value.id} value={value.id}>
+                {value.title}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label>
           Translation language
           <select
             value={language}
@@ -90,6 +112,12 @@ export function PracticeHub({ token }: { token: string }) {
           Refresh practice
         </button>
       </div>
+      {scenario && (
+        <p className="section-copy">
+          English role-play: choose saved English vocabulary to use in your
+          reply.
+        </p>
+      )}
       {message ? (
         <p role="alert">{message}</p>
       ) : loading ? (
@@ -108,7 +136,9 @@ export function PracticeHub({ token }: { token: string }) {
             {items.map((item) => (
               <article className="lookup-card" key={item.id}>
                 <h3>
-                  <Link href={`/practice/${item.id}?lookup=${item.lookupId}`}>
+                  <Link
+                    href={`/practice/${item.id}?lookup=${item.lookupId}${scenario ? `&scenario=${scenario}` : ""}`}
+                  >
                     {item.text}
                   </Link>
                 </h3>

@@ -64,7 +64,7 @@ pnpm build:web
 
 ## Current boundary
 
-Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension pairing and revocation, account ownership checks, collection settings/site exclusions, canonical URL stripping, automatic lookup history, unresolved vocabulary candidates, bounded durable replay, real free word/sentence translation, language preferences, optional automatic selection translation, success/failure/retry, and a responsive library. Candidate listing currently shows the latest 100; review activation, FSRS, lexical expansion, scenario inference, voice, export/deletion, and production operations are subsequent milestones. The simulated identity provider and local launcher must stay on loopback. Live Google sign-in needs configured credentials and a manual provider smoke check.
+Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension pairing and revocation, account ownership checks, collection settings/site exclusions, canonical URL stripping, automatic lookup history, unresolved vocabulary candidates, bounded durable replay, real free word/sentence translation, language preferences, optional automatic selection translation, success/failure/retry, and a responsive library. Candidate listing currently shows the latest 100. FSRS review, cached AI pronunciation, local listening/speaking and curated everyday role-plays are also implemented. Lexical expansion, scenario inference, independent speech assessment, export/deletion UI and production operations remain planned. The simulated identity provider and local launcher must stay on loopback. Live Google sign-in needs configured credentials and a manual provider smoke check.
 
 ## System overview
 
@@ -106,4 +106,4 @@ Click a vocabulary card or its title to open its private full-detail page. Long 
 
 ## Listening and speaking practice
 
-Open a vocabulary detail page and choose **Practice listening and speaking**. Listen before revealing the transcript, or record and replay your own sentence. Matching on-device voices are required for listening; audio is never uploaded. Self-check results stay separate from FSRS and mastery estimates. See [practice setup and limits](docs/PRACTICE.md).
+Open **Listening & speaking** in the library sidebar, or choose **Practice listening and speaking** on a vocabulary detail page. Choose a saved example or an everyday English role-play: **Introductions**, **Making plans**, or **Asking for help**. Listen before revealing the partner's turn, then record a reply using your saved expression and replay it. Matching on-device voices are required for listening; audio is never uploaded. Self-check results stay separate from FSRS and mastery estimates. See [practice setup and limits](docs/PRACTICE.md).

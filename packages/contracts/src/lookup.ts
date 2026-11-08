@@ -152,6 +152,9 @@ export {
 
 export {
   practiceSubmissionSchema,
+  practiceQuerySchema,
+  conversationScenarios,
+  type ScenarioId,
   type PracticeSubmission,
   type PracticeTask,
   type PracticeReceipt,

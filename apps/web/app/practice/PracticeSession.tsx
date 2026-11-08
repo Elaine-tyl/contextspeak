@@ -60,6 +60,7 @@ export function PracticeSession({
       eventId: crypto.randomUUID(),
       lookupId: task.lookupId,
       mode,
+      ...(task.scenario ? { scenario: task.scenario.id } : {}),
       selfCheck,
       plays: speech.plays,
       completedPlays: speech.completedPlays,
@@ -101,14 +102,16 @@ export function PracticeSession({
       <p className="section-copy">
         {listening
           ? "Listen, write the meaning, then reveal the text to compare."
-          : "Record a sentence using the expression. Replay it and self-check before starting another attempt."}
+          : task.scenario
+            ? "Listen to your partner, then record your own reply using the saved expression. Replay and self-check it."
+            : "Record a sentence using the expression. Replay it and self-check before starting another attempt."}
       </p>
-      {!listening && (
+      {(!listening || task.scenario) && (
         <p>
           Use this expression: <strong>{task.expression}</strong>
         </p>
       )}
-      {(listening || revealed) && (
+      {(listening || revealed || task.scenario) && (
         <>
           <button
             className="primary"
@@ -202,15 +205,22 @@ export function PracticeSession({
           }
           onClick={() => setRevealed(true)}
         >
-          {listening ? "Reveal transcript and meaning" : "Show example"}
+          {listening
+            ? "Reveal transcript and meaning"
+            : task.scenario
+              ? "Show partner's turn"
+              : "Show example"}
         </button>
       )}
       {revealed && (
         <div className="practice-answer">
           <p>{task.sourceText}</p>
+          {task.scenario && <small>English meaning guide</small>}
           <p className="meaning">{task.translation}</p>
           <small>
-            Saved learning material · text shown during this attempt
+            {task.scenario
+              ? "Partner's turn · text shown during this attempt"
+              : "Saved learning material · text shown during this attempt"}
           </small>
         </div>
       )}

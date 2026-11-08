@@ -1,8 +1,23 @@
 import { z } from "zod";
+export const scenarioSchema = z.enum([
+  "introductions",
+  "making-plans",
+  "asking-for-help",
+]);
+export type ScenarioId = z.infer<typeof scenarioSchema>;
+export const conversationScenarios: { id: ScenarioId; title: string }[] = [
+  { id: "introductions", title: "Introductions" },
+  { id: "making-plans", title: "Making plans" },
+  { id: "asking-for-help", title: "Asking for help" },
+];
+export const practiceQuerySchema = z
+  .object({ lookup: z.uuid().optional(), scenario: scenarioSchema.optional() })
+  .strict();
 export const practiceSubmissionSchema = z
   .object({
     eventId: z.uuid(),
     lookupId: z.uuid(),
+    scenario: scenarioSchema.optional(),
     mode: z.enum(["listening", "speaking"]),
     selfCheck: z.enum(["needs-practice", "comfortable"]),
     plays: z.number().int().min(0).max(20),
@@ -28,6 +43,7 @@ export const practiceSubmissionSchema = z
   });
 export type PracticeSubmission = z.infer<typeof practiceSubmissionSchema>;
 export interface PracticeReceipt {
+  scenario?: ScenarioId;
   id: string;
   mode: PracticeSubmission["mode"];
   selfCheck: PracticeSubmission["selfCheck"];
@@ -44,6 +60,7 @@ export interface PracticeTask {
   sourceText: string;
   translation: string;
   language: string | null;
+  scenario?: { id: ScenarioId; title: string; goal: string };
   recent: PracticeReceipt[];
 }
 

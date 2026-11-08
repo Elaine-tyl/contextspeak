@@ -38,6 +38,18 @@ test("library_practice_navigation_search_filter_and_selected_encounter", async (
     "href",
     "/practice/item-1?lookup=successful-lookup",
   );
+  await page.getByLabel("Conversation scenario").selectOption("introductions");
+  await expect(link).toHaveAttribute(
+    "href",
+    "/practice/item-1?lookup=successful-lookup&scenario=introductions",
+  );
+  await page
+    .getByLabel("Conversation scenario")
+    .selectOption("asking-for-help");
+  await expect(link).toHaveAttribute(
+    "href",
+    "/practice/item-1?lookup=successful-lookup&scenario=asking-for-help",
+  );
   await page.getByLabel("Search practice").fill("missing");
   await expect(
     page.getByText("No matching practice yet.", { exact: false }),

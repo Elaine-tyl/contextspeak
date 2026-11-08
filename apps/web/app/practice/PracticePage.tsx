@@ -1,6 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import {
+  conversationScenarios,
+  type ScenarioId,
+} from "@contextspeak/contracts";
 import type {
   PracticeTask,
   PracticeSubmission,
@@ -13,10 +17,13 @@ import "./practice.css";
 export function PracticePage({
   id,
   lookupId,
+  scenarioId,
 }: {
   id: string;
   lookupId?: string;
+  scenarioId?: ScenarioId;
 }) {
+  const [scenario, setScenario] = useState<ScenarioId | "">(scenarioId ?? "");
   const [task, setTask] = useState<PracticeTask | null>(null);
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
@@ -71,12 +78,12 @@ export function PracticePage({
           );
         setToken(sessionToken);
         if (!loaded) {
-          const query = lookupId
-            ? `?lookup=${encodeURIComponent(lookupId)}`
-            : "";
+          const query = new URLSearchParams();
+          if (lookupId) query.set("lookup", lookupId);
+          if (scenario) query.set("scenario", scenario);
           const value = await api<PracticeTask>(
             sessionToken,
-            `/v1/practice/${encodeURIComponent(id)}${query}`,
+            `/v1/practice/${encodeURIComponent(id)}?${query}`,
           );
           if (!active || stopped) return;
           setTask(value);
@@ -90,7 +97,9 @@ export function PracticePage({
           expire();
         } else if (!loaded)
           setError(
-            "Practice unavailable. Choose a successful saved translation, or check your connection and retry.",
+            scenario
+              ? "Scenario unavailable. Choose a successful saved English translation with a known English source language, or check your connection and retry."
+              : "Practice unavailable. Choose a successful saved translation, or check your connection and retry.",
           );
       } finally {
         inFlight = false;
@@ -104,7 +113,7 @@ export function PracticePage({
       clearInterval(timer);
       clearTimeout(expiry);
     };
-  }, [id, lookupId, retry]);
+  }, [id, lookupId, scenario, retry]);
   function saved(receipt: PracticeReceipt) {
     setTask((previous) =>
       previous
@@ -128,6 +137,29 @@ export function PracticePage({
         recording. Written answers and self-checks are saved separately from
         vocabulary recall; no audio is uploaded.
       </p>
+      {token && (
+        <label className="scenario-picker">
+          Conversation scenario
+          <select
+            value={scenario}
+            disabled={locked}
+            onChange={(event) => {
+              setTask(null);
+              setLoading(true);
+              setMode("listening");
+              setRound(0);
+              setScenario(event.target.value as ScenarioId | "");
+            }}
+          >
+            <option value="">Saved example</option>
+            {conversationScenarios.map((value) => (
+              <option key={value.id} value={value.id}>
+                {value.title}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       {error && <p role="alert">{error}</p>}
       {loading && !task && <p role="status">Loading practice…</p>}
       {!task && !loading && (
@@ -143,6 +175,16 @@ export function PracticePage({
       )}
       {task && (
         <>
+          {task.scenario && (
+            <section className="scenario-brief" aria-label="Conversation goal">
+              <h2>{task.scenario.title}</h2>
+              <p>{task.scenario.goal}</p>
+              <p className="section-copy">
+                Curated English role-play · reply in your own words. The meaning
+                guide is in English.
+              </p>
+            </section>
+          )}
           <div className="practice-tabs" aria-label="Practice mode">
             {(["listening", "speaking"] as const).map((value) => (
               <button
@@ -164,7 +206,7 @@ export function PracticePage({
             </button>
           </div>
           <PracticeSession
-            key={`${task.lookupId}:${mode}:${round}`}
+            key={`${task.lookupId}:${task.scenario?.id ?? "example"}:${mode}:${round}`}
             task={task}
             token={token}
             mode={mode}
@@ -182,6 +224,9 @@ export function PracticePage({
               <ul>
                 {task.recent.map((value) => (
                   <li key={value.id}>
+                    {value.scenario
+                      ? `${conversationScenarios.find((scenario) => scenario.id === value.scenario)?.title} · `
+                      : ""}
                     {value.mode === "listening" ? "Listening" : "Speaking"} ·{" "}
                     {value.selfCheck === "comfortable"
                       ? "Comfortable"

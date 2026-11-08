@@ -144,6 +144,114 @@ it("lists_successful_owned_vocabulary_even_after_a_failed_retry", async () => {
     (await client("get", "/v1/practice?targetLanguage=invalid")).status,
   ).toBe(400);
 });
+it("builds_and_saves_owned_English_scenarios_with_server_snapshots", async () => {
+  for (const scenario of ["introductions", "making-plans", "asking-for-help"]) {
+    const task = await client(
+      "get",
+      `/v1/practice/${itemId}?lookup=${lookupId}&scenario=${scenario}`,
+    );
+    expect(task.status).toBe(200);
+    expect(task.body).toMatchObject({
+      lookupId,
+      language: "en",
+      expression: "available",
+      scenario: { id: scenario },
+    });
+    expect(task.body.scenario.goal).toBeTruthy();
+    expect(task.body.sourceText).not.toBe("available");
+    const input = { ...attempt(), scenario };
+    const path = `/v1/practice/${itemId}/attempts`;
+    const saved = await client("post", path, input);
+    expect(saved.status).toBe(201);
+    expect(saved.body.scenario).toBe(scenario);
+    expect((await client("post", path, input)).body.id).toBe(saved.body.id);
+    expect(
+      (await client("post", path, { ...input, scenario: undefined })).status,
+    ).toBe(409);
+    const row = await db.prisma.practiceAttempt.findUniqueOrThrow({
+      where: { id: saved.body.id },
+    });
+    expect(row.task).toMatchObject({
+      scenario: task.body.scenario,
+      sourceText: task.body.sourceText,
+    });
+    expect(
+      (
+        await client(
+          "get",
+          `/v1/practice/${itemId}?lookup=${lookupId}&scenario=${scenario}`,
+          undefined,
+          "practice-b",
+        )
+      ).status,
+    ).toBe(404);
+  }
+  expect(await db.prisma.reviewCard.count()).toBe(0);
+  expect(
+    (
+      await client(
+        "get",
+        `/v1/practice/${itemId}?lookup=${failedId}&scenario=introductions`,
+      )
+    ).status,
+  ).toBe(409);
+  expect(
+    (await client("get", `/v1/practice/${itemId}?scenario=unknown`)).status,
+  ).toBe(400);
+  expect(
+    (
+      await client("post", `/v1/practice/${itemId}/attempts`, {
+        ...attempt(),
+        scenario: "unknown",
+      })
+    ).status,
+  ).toBe(400);
+  await db.prisma.lookupEvent.update({
+    where: { id: lookupId },
+    data: { detectedSourceLanguage: "vi" },
+  });
+  expect(
+    (
+      await client(
+        "get",
+        `/v1/practice/${itemId}?lookup=${lookupId}&scenario=introductions`,
+      )
+    ).status,
+  ).toBe(409);
+  expect(
+    (
+      await client("post", `/v1/practice/${itemId}/attempts`, {
+        ...attempt(),
+        scenario: "introductions",
+      })
+    ).status,
+  ).toBe(409);
+  await db.prisma.lookupEvent.update({
+    where: { id: lookupId },
+    data: { detectedSourceLanguage: null },
+  });
+  expect(
+    (
+      await client(
+        "get",
+        `/v1/practice/${itemId}?lookup=${lookupId}&scenario=introductions`,
+      )
+    ).status,
+  ).toBe(409);
+  await db.prisma.lookupEvent.update({
+    where: { id: lookupId },
+    data: { detectedSourceLanguage: "en" },
+  });
+  expect(
+    (
+      await client("post", `/v1/practice/${itemId}/attempts`, {
+        ...attempt(),
+        scenario: "introductions",
+        task: { sourceText: "untrusted" },
+      })
+    ).status,
+  ).toBe(400);
+});
 it("saves_once_under_concurrent_retries_and_rejects_changed_event_payloads", async () => {
   const body = attempt();
   const path = `/v1/practice/${itemId}/attempts`;
@@ -157,7 +265,9 @@ it("saves_once_under_concurrent_retries_and_rejects_changed_event_payloads", asy
     (await client("post", path, { ...body, selfCheck: "comfortable" })).status,
   ).toBe(409);
   const task = await client("get", `/v1/practice/${itemId}?lookup=${lookupId}`);
-  expect(task.body.recent).toHaveLength(1);
+  expect(
+    task.body.recent.filter((row: { scenario?: string }) => !row.scenario),
+  ).toHaveLength(1);
   expect(task.body.recent[0]).toMatchObject({
     mode: "listening",
     selfCheck: "needs-practice",

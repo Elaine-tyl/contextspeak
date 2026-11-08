@@ -9,7 +9,10 @@ import {
   Query,
   Req,
 } from "@nestjs/common";
-import { practiceSubmissionSchema } from "@contextspeak/contracts";
+import {
+  practiceSubmissionSchema,
+  practiceQuerySchema,
+} from "@contextspeak/contracts";
 import type { AuthenticatedRequest } from "../auth/jwt.guard";
 import { libraryFiltersSchema } from "../library/library-filters";
 import { PracticeService } from "./practice.service";
@@ -25,11 +28,17 @@ export class PracticeController {
   @Get(":id") task(
     @Req() req: AuthenticatedRequest,
     @Param("id") id: string,
-    @Query("lookup") lookup?: string,
+    @Query() query: unknown,
   ) {
-    if (lookup !== undefined && typeof lookup !== "string")
-      throw new BadRequestException();
-    return this.practice.task(req.identity, id, lookup);
+    const parsed = practiceQuerySchema.safeParse(query);
+    if (!parsed.success)
+      throw new BadRequestException("Invalid practice scenario or encounter.");
+    return this.practice.task(
+      req.identity,
+      id,
+      parsed.data.lookup,
+      parsed.data.scenario,
+    );
   }
   @Post(":id/attempts") save(
     @Req() req: AuthenticatedRequest,
