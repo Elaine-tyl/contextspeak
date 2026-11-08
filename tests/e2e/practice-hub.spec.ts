@@ -36,19 +36,19 @@ test("library_practice_navigation_search_filter_and_selected_encounter", async (
   const link = page.getByRole("link", { name: "available", exact: true });
   await expect(link).toHaveAttribute(
     "href",
-    "/practice/item-1?lookup=successful-lookup",
+    "/practice/item-1?lookup=successful-lookup&returnTo=%2Flibrary%3Fview%3Dpractice",
   );
   await page.getByLabel("Conversation scenario").selectOption("introductions");
   await expect(link).toHaveAttribute(
     "href",
-    "/practice/item-1?lookup=successful-lookup&scenario=introductions",
+    "/practice/item-1?lookup=successful-lookup&scenario=introductions&returnTo=%2Flibrary%3Fview%3Dpractice%26practiceScenario%3Dintroductions",
   );
   await page
     .getByLabel("Conversation scenario")
     .selectOption("asking-for-help");
   await expect(link).toHaveAttribute(
     "href",
-    "/practice/item-1?lookup=successful-lookup&scenario=asking-for-help",
+    "/practice/item-1?lookup=successful-lookup&scenario=asking-for-help&returnTo=%2Flibrary%3Fview%3Dpractice%26practiceScenario%3Dasking-for-help",
   );
   await page.getByLabel("Search practice").fill("missing");
   await expect(
@@ -61,6 +61,11 @@ test("library_practice_navigation_search_filter_and_selected_encounter", async (
   await expect(
     page.getByText("No matching practice yet.", { exact: false }),
   ).toBeVisible();
+  await page.reload();
+  await expect(page.getByLabel("Translation language")).toHaveValue("vi");
+  await expect(page.getByLabel("Conversation scenario")).toHaveValue(
+    "asking-for-help",
+  );
   await page.goto("http://127.0.0.1:3000/library?view=practice");
   await expect(
     page.getByRole("heading", { name: "Listening & speaking" }),

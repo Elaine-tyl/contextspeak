@@ -11,7 +11,7 @@ SPEECH_PROVIDER=gemini
 GEMINI_API_KEY=your_existing_server_side_key
 ```
 
-Restart `pnpm dev`, reload extension **0.7.1** and refresh open webpages. The existing extension folder/pairing can be retained. Chrome 116+ is required. Its `offscreen` permission enables audio inside an extension document, avoiding webpage media-policy restrictions; it does not enable microphone recording.
+Restart `pnpm dev`, reload extension **0.7.2** and refresh open webpages. The existing extension folder/pairing can be retained. Chrome 116+ is required. Its `offscreen` permission enables audio inside an extension document, avoiding webpage media-policy restrictions; it does not enable microphone recording.
 
 The fixed model is `gemini-3.8-flash-lite-tts`, voice **Kore**. The Developer API currently lists a [free tier](https://ai.google.dev/gemini-api/docs/pricing#gemini-3.8-flash-lite-tts), subject to project eligibility and quotas. This code does not enable billing or switch to paid models. Configure/check project billing separately if deployment policy changes. See the [official speech API](https://ai.google.dev/gemini-api/docs/generate-content/speech-generation) for the transcript/style format and WAV output.
 

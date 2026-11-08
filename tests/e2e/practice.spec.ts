@@ -778,3 +778,62 @@ test("unfinished_AI_audio_does_not_unlock_submission_or_survive_scenario_switch"
     page.getByRole("button", { name: "Submit answer", exact: true }),
   ).toBeEnabled();
 });
+
+test("scenario_refresh_AI_loading_and_nearby_result_actions", async ({
+  page,
+}) => {
+  await setup(page);
+  const returnTo =
+    "/library?view=practice&practiceQ=available&practiceLanguage=zh-Hans";
+  await page.goto(
+    `http://127.0.0.1:3000/practice/${itemId}?lookup=${lookupId}&returnTo=${encodeURIComponent(returnTo)}`,
+  );
+
+  await page.getByLabel("Conversation scenario").selectOption("making-plans");
+  await expect(page).toHaveURL(/scenario=making-plans/);
+  await page.reload();
+  await expect(page.getByLabel("Conversation scenario")).toHaveValue(
+    "making-plans",
+  );
+  const wave = await new FixtureSpeechProvider().generate();
+  let release: (() => void) | undefined;
+  await page.route("http://127.0.0.1:4318/v1/speech", async (route) => {
+    await new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    await route.fulfill({ json: wave });
+  });
+  await page.getByRole("button", { name: "Play audio", exact: true }).click();
+  await expect(
+    page.getByText("Preparing AI audio…", { exact: true }),
+  ).toBeVisible();
+  await expect.poll(() => typeof release).toBe("function");
+  release!();
+  await expect(
+    page.getByText("Playback complete.", { exact: true }),
+  ).toBeVisible();
+  await page.getByLabel("Type what you hear").fill("Would you like coffee?");
+  await page
+    .getByRole("button", { name: "Submit answer", exact: true })
+    .click();
+  await expect(page.locator("main").getByRole("alert")).toContainText(
+    "not confirmed",
+  );
+  await page
+    .getByRole("button", { name: "Submit answer", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Your result: 67/100", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Replay audio", exact: true }),
+  ).toBeEnabled();
+  await expect(
+    page.getByRole("link", { name: "Choose next expression", exact: true }),
+  ).toHaveAttribute("href", returnTo);
+  await page.getByRole("button", { name: "Try again", exact: true }).click();
+  await expect(page.getByLabel("Type what you hear")).toHaveValue("");
+  await expect(
+    page.getByRole("heading", { name: "Your result: 67/100", exact: true }),
+  ).toHaveCount(0);
+});

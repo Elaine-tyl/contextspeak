@@ -754,3 +754,26 @@ code {
   font-size: 12px;
   font-weight: normal;
 }
+.compact-intro {
+  padding: 18px 0 8px;
+  gap: 20px;
+}
+.compact-intro h1 {
+  font-size: 32px;
+  letter-spacing: -0.6px;
+}
+.compact-intro p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.account-settings {
+  margin: 12px 0 18px;
+  padding: 12px 16px;
+}
+.account-settings summary:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #d5a863;
+  outline-offset: 3px;
+}

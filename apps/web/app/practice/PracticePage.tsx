@@ -11,6 +11,12 @@ import type {
   PracticeReceipt,
 } from "@contextspeak/contracts";
 import { api, ApiError, API, type WebSession } from "../../src/api";
+import {
+  libraryReturn,
+  withLibraryReturn,
+  practiceReturn,
+} from "../../src/navigation";
+import { updateQuery } from "../../src/page-query";
 import { PracticeSession } from "./PracticeSession";
 import "../library/library.css";
 import "./practice.css";
@@ -18,12 +24,26 @@ export function PracticePage({
   id,
   lookupId,
   scenarioId,
+  returnTo = "/library",
 }: {
   id: string;
   lookupId?: string;
   scenarioId?: ScenarioId;
+  returnTo?: string;
 }) {
   const [scenario, setScenario] = useState<ScenarioId | "">(scenarioId ?? "");
+  useEffect(() => {
+    const restore = () =>
+      setScenario(
+        conversationScenarios.find(
+          (value) =>
+            value.id ===
+            new URLSearchParams(window.location.search).get("scenario"),
+        )?.id ?? "",
+      );
+    window.addEventListener("popstate", restore);
+    return () => window.removeEventListener("popstate", restore);
+  }, []);
   const [task, setTask] = useState<PracticeTask | null>(null);
   const [token, setToken] = useState("");
   const [error, setError] = useState("");
@@ -127,7 +147,10 @@ export function PracticePage({
         : null,
     );
   }
-  const back = `/library/item/${encodeURIComponent(id)}${lookupId ? `?lookup=${encodeURIComponent(lookupId)}` : ""}`;
+  const back = withLibraryReturn(
+    `/library/item/${encodeURIComponent(id)}${lookupId ? `?lookup=${encodeURIComponent(lookupId)}` : ""}`,
+    libraryReturn(returnTo),
+  );
   return (
     <main className="vocabulary-detail practice-page">
       <Link href={back}>Back to vocabulary</Link>
@@ -150,6 +173,7 @@ export function PracticePage({
               setMode("listening");
               setRound(0);
               setScenario(event.target.value as ScenarioId | "");
+              updateQuery({ scenario: event.target.value }, true);
             }}
           >
             <option value="">Saved example</option>
@@ -209,6 +233,7 @@ export function PracticePage({
           <PracticeSession
             key={`${task.lookupId}:${task.scenario?.id ?? "example"}:${mode}:${round}`}
             task={task}
+            nextLibrary={practiceReturn(returnTo)}
             token={token}
             mode={mode}
             onSaved={saved}

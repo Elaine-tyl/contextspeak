@@ -4,19 +4,31 @@ import Link from "next/link";
 import {
   aiLanguages,
   conversationScenarios,
-  type ScenarioId,
   type PracticeItem,
 } from "@contextspeak/contracts";
 import { api } from "../../src/api";
+import { withLibraryReturn } from "../../src/navigation";
+import {
+  rememberLibraryScroll,
+  updateQuery,
+  usePageQuery,
+  useRestoreLibraryScroll,
+} from "../../src/page-query";
 
 export function PracticeHub({ token }: { token: string }) {
-  const [scenario, setScenario] = useState<ScenarioId | "">("");
-  const [query, setQuery] = useState("");
-  const [language, setLanguage] = useState("");
+  const { search, params } = usePageQuery();
+  const scenario =
+    conversationScenarios.find(
+      (value) => value.id === params.get("practiceScenario"),
+    )?.id ?? "";
+  const query = (params.get("practiceQ") ?? "").slice(0, 200);
+  const language = params.get("practiceLanguage") ?? "";
+  const returnTo = "/library" + search;
   const [items, setItems] = useState<PracticeItem[]>([]);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const [retry, setRetry] = useState(0);
+  useRestoreLibraryScroll(returnTo, !loading && items.length > 0);
   useEffect(() => {
     const controller = new AbortController();
     setItems([]);
@@ -72,7 +84,7 @@ export function PracticeHub({ token }: { token: string }) {
             aria-label="Search practice"
             maxLength={200}
             value={query}
-            onChange={(event) => setQuery(event.target.value)}
+            onChange={(event) => updateQuery({ practiceQ: event.target.value })}
           />
         </label>
         <label>
@@ -80,7 +92,7 @@ export function PracticeHub({ token }: { token: string }) {
           <select
             value={scenario}
             onChange={(event) =>
-              setScenario(event.target.value as ScenarioId | "")
+              updateQuery({ practiceScenario: event.target.value })
             }
           >
             <option value="">Saved example</option>
@@ -95,7 +107,9 @@ export function PracticeHub({ token }: { token: string }) {
           Translation language
           <select
             value={language}
-            onChange={(event) => setLanguage(event.target.value)}
+            onChange={(event) =>
+              updateQuery({ practiceLanguage: event.target.value })
+            }
           >
             <option value="">All languages</option>
             {aiLanguages.map((item) => (
@@ -137,13 +151,23 @@ export function PracticeHub({ token }: { token: string }) {
               <article className="lookup-card" key={item.id}>
                 <h3>
                   <Link
-                    href={`/practice/${item.id}?lookup=${item.lookupId}${scenario ? `&scenario=${scenario}` : ""}`}
+                    href={withLibraryReturn(
+                      `/practice/${item.id}?lookup=${item.lookupId}${scenario ? `&scenario=${scenario}` : ""}`,
+                      returnTo,
+                    )}
+                    onClick={() => rememberLibraryScroll()}
                   >
                     {item.text}
                   </Link>
                 </h3>
                 <p>
-                  {item.sourceLanguage} → {item.targetLanguage}
+                  {aiLanguages.find(
+                    (value) => value.code === item.sourceLanguage,
+                  )?.name ?? "Auto-detected"}{" "}
+                  →{" "}
+                  {aiLanguages.find(
+                    (value) => value.code === item.targetLanguage,
+                  )?.name ?? item.targetLanguage}
                 </p>
               </article>
             ))}

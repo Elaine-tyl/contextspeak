@@ -10,7 +10,7 @@ export function useAiSpeech(
   text: string,
   language: string | null,
 ) {
-  const [busy, setBusy] = useState(false);
+  const [phase, setPhase] = useState<"idle" | "preparing" | "playing">("idle");
   const [error, setError] = useState("");
   const active = useRef(true);
   const current = useRef<{
@@ -23,7 +23,7 @@ export function useAiSpeech(
   }
   useEffect(() => {
     active.current = true;
-    setBusy(false);
+    setPhase("idle");
     setError("");
     const hide = () => {
       if (document.visibilityState === "hidden") stop();
@@ -49,12 +49,12 @@ export function useAiSpeech(
         player.stop(id);
         if (current.current === attempt) current.current = null;
         if (cancelPrevious === attempt.cancel) cancelPrevious = undefined;
-        if (active.current) setBusy(false);
+        if (active.current) setPhase("idle");
       },
     };
     current.current = attempt;
     cancelPrevious = attempt.cancel;
-    setBusy(true);
+    setPhase("preparing");
     setError("");
     try {
       const response = await api<unknown>(
@@ -76,6 +76,7 @@ export function useAiSpeech(
         throw new ApiError(403, "Session changed");
       if (controller.signal.aborted || current.current !== attempt)
         return false;
+      setPhase("playing");
       const result = await player.play(id, audio);
       return !result.cancelled && active.current && current.current === attempt;
     } catch (error) {
@@ -94,9 +95,15 @@ export function useAiSpeech(
       if (current.current === attempt) {
         current.current = null;
         if (cancelPrevious === attempt.cancel) cancelPrevious = undefined;
-        if (active.current) setBusy(false);
+        if (active.current) setPhase("idle");
       }
     }
   }
-  return { busy, error, available: !!token && input.success, play };
+  return {
+    busy: phase !== "idle",
+    phase,
+    error,
+    available: !!token && input.success,
+    play,
+  };
 }

@@ -4,6 +4,14 @@ import Link from "next/link";
 import { PracticeHub } from "./PracticeHub";
 import { ReviewQueue } from "./ReviewQueue";
 import { LearningNotes } from "./LearningNotes";
+import {
+  rememberLibraryScroll,
+  libraryPosition,
+  updateQuery,
+  usePageQuery,
+  useRestoreLibraryScroll,
+} from "../../src/page-query";
+import { withLibraryReturn } from "../../src/navigation";
 import { useEffect, useRef, useState } from "react";
 import type {
   Candidate,
@@ -23,24 +31,69 @@ export default function Library() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [enabled, setEnabled] = useState(false);
-  const [view, setView] = useState<
-    "history" | "candidates" | "reviews" | "practice"
-  >("history");
-  const [filters, setFilters] = useState({
-    q: "",
-    sourceLanguage: "",
-    targetLanguage: "",
-  });
+  const { search, params } = usePageQuery();
+  const requestedView = params.get("view");
+  const view =
+    requestedView === "candidates" ||
+    requestedView === "reviews" ||
+    requestedView === "practice"
+      ? requestedView
+      : "history";
+  const filters = {
+    q: (params.get("q") ?? "").slice(0, 200),
+    sourceLanguage: params.get("sourceLanguage") ?? "",
+    targetLanguage: params.get("targetLanguage") ?? "",
+  };
   const activeFilters = useRef(filters);
+  activeFilters.current = filters;
+  const returnTo = "/library" + search;
+  const [loadedPages, setLoadedPages] = useState(1);
+  const [restorePages, setRestorePages] = useState(1);
+  const [restoreFailed, setRestoreFailed] = useState(false);
+  const listLoading = useRef(false);
+  useEffect(() => {
+    setRestorePages(libraryPosition(returnTo)?.pages ?? 1);
+  }, [returnTo]);
   function applyFilters(next: typeof filters) {
-    activeFilters.current = next;
-    setFilters(next);
+    updateQuery(next);
+  }
+  function changeView(value: string) {
+    updateQuery({ view: value === "history" ? "" : value }, true);
+  }
+  useRestoreLibraryScroll(
+    returnTo,
+    !loading &&
+      (view === "history" || view === "candidates") &&
+      (history.length > 0 || candidates.length > 0) &&
+      (view !== "history" || !cursor || loadedPages >= restorePages),
+  );
+  useEffect(() => {
     historyRequest.current++;
     setHistory([]);
     setCandidates([]);
     setCursor(null);
     void refresh(token.current, false, true);
-  }
+  }, [filters.q, filters.sourceLanguage, filters.targetLanguage]);
+  useEffect(() => {
+    if (
+      connected &&
+      view === "history" &&
+      !loading &&
+      !listLoading.current &&
+      !restoreFailed &&
+      cursor &&
+      loadedPages < restorePages
+    )
+      void refresh(token.current, true);
+  }, [
+    connected,
+    view,
+    loading,
+    cursor,
+    loadedPages,
+    restorePages,
+    restoreFailed,
+  ]);
   const filtered = !!(
     filters.q ||
     filters.sourceLanguage ||
@@ -57,6 +110,8 @@ export default function Library() {
     if (append) browsingMore.current = true;
     if (reset) browsingMore.current = false;
     const request = ++historyRequest.current;
+    listLoading.current = true;
+    setRestoreFailed(false);
     const current = generation.current;
     setLoading(true);
     try {
@@ -82,16 +137,27 @@ export default function Library() {
         append ? [...previous, ...lookups.items] : lookups.items,
       );
       setCursor(lookups.nextCursor);
+      setLoadedPages((previous) => (append ? previous + 1 : 1));
       setCandidates(items.items);
       setEnabled(settings.enabled);
     } catch (e) {
-      if (current === generation.current && request === historyRequest.current)
+      if (
+        current === generation.current &&
+        request === historyRequest.current
+      ) {
+        setRestoreFailed(append);
         setMessage(
           e instanceof Error ? e.message : "Could not load your library.",
         );
+      }
     } finally {
-      if (current === generation.current && request === historyRequest.current)
+      if (
+        current === generation.current &&
+        request === historyRequest.current
+      ) {
+        listLoading.current = false;
         setLoading(false);
+      }
     }
   }
   function clearSession() {
@@ -106,6 +172,8 @@ export default function Library() {
     setEnabled(false);
     setLoading(false);
     setReviewBusy(null);
+    setRestoreFailed(false);
+    listLoading.current = false;
   }
   async function connect() {
     if (blockedSession.current) return;
@@ -129,15 +197,6 @@ export default function Library() {
   }
   useEffect(() => {
     sessionStorage.removeItem("contextspeak-token");
-    const requestedView = new URLSearchParams(window.location.search).get(
-      "view",
-    );
-    if (
-      requestedView === "reviews" ||
-      requestedView === "candidates" ||
-      requestedView === "practice"
-    )
-      setView(requestedView);
     void connect();
     const timer = setInterval(() => {
       if (document.visibilityState === "visible") void connect();
@@ -197,7 +256,7 @@ export default function Library() {
           ? "Vocabulary added to your review queue."
           : "Reviews paused.",
       );
-      if (action === "enroll") setView("reviews");
+      if (action === "enroll") changeView("reviews");
       void refresh(token.current, false, true);
     } catch {
       if (current === generation.current)
@@ -226,25 +285,25 @@ export default function Library() {
         <nav>
           <button
             className={view === "history" ? "nav active" : "nav"}
-            onClick={() => setView("history")}
+            onClick={() => changeView("history")}
           >
             ◷ Query history
           </button>
           <button
             className={view === "candidates" ? "nav active" : "nav"}
-            onClick={() => setView("candidates")}
+            onClick={() => changeView("candidates")}
           >
             ▤ Vocabulary candidates
           </button>
           <button
             className={view === "reviews" ? "nav active" : "nav"}
-            onClick={() => setView("reviews")}
+            onClick={() => changeView("reviews")}
           >
             Review queue
           </button>
           <button
             className={view === "practice" ? "nav active" : "nav"}
-            onClick={() => setView("practice")}
+            onClick={() => changeView("practice")}
           >
             Listening &amp; speaking
           </button>
@@ -272,11 +331,9 @@ export default function Library() {
             )}
           </div>
         </header>
-        <section className="intro">
+        <section className="intro compact-intro">
           <h1>
-            Your English,
-            <br />
-            <em>in context.</em>
+            Your English, <em>in context.</em>
           </h1>
           <p>
             Every useful expression has a story.
@@ -284,60 +341,61 @@ export default function Library() {
             Keep the context. Build your vocabulary, one encounter at a time.
           </p>
         </section>
-        <section className="connect-panel">
-          {connected ? (
-            <>
-              <p>Signed in · {identity}</p>
-              <a href="/pair">Pair an extension</a>{" "}
-              <button className="link-button" onClick={revokeExtensions}>
-                Revoke all extensions
-              </button>
-            </>
-          ) : (
-            <>
-              <p>
-                Sign in to keep your library private and connect your extension.
-              </p>
-              <a className="primary" href={API + "/auth/login"}>
-                Sign in with Google
-              </a>
-            </>
-          )}
-        </section>
+        {connected ? (
+          <details className="connect-panel account-settings">
+            <summary>Account &amp; extension settings</summary>
+            <p>Signed in. Manage your extension connection below.</p>
+            <a href="/pair">Pair an extension</a>{" "}
+            <button className="link-button" onClick={revokeExtensions}>
+              Revoke all extensions
+            </button>
+          </details>
+        ) : (
+          <section className="connect-panel">
+            <p>
+              Sign in to keep your library private and connect your extension.
+            </p>
+            <a className="primary" href={API + "/auth/login"}>
+              Sign in with Google
+            </a>
+          </section>
+        )}
         {message && (
           <p className="notice" role="status">
             {message}
           </p>
         )}
-        <section className="stats">
-          <article>
-            <span>RECENT ENCOUNTERS</span>
-            <strong>
-              {history.length}
-              {cursor ? "+" : ""}
-            </strong>
-            <p>Selected expressions and their original context</p>
-          </article>
-          <article>
-            <span>VOCABULARY CANDIDATES</span>
-            <strong>{candidates.length}</strong>
-            <p>Choose vocabulary for recall practice</p>
-          </article>
-          <article className="collection">
-            <span>AUTOMATIC COLLECTION</span>
-            <strong>{enabled ? "On" : "Off"}</strong>
-            <p>
-              {connected
-                ? "You control what becomes part of your history."
-                : "Connect before enabling collection."}
-            </p>
-            {connected && (
-              <button className="link-button" onClick={toggle}>
-                {enabled ? "Pause collection" : "Enable collection"}
-              </button>
-            )}
-          </article>
-        </section>
+        {view !== "practice" && view !== "reviews" && (
+          <section className="stats">
+            <article>
+              <span>RECENT ENCOUNTERS</span>
+              <strong>
+                {history.length}
+                {cursor ? "+" : ""}
+              </strong>
+              <p>Selected expressions and their original context</p>
+            </article>
+            <article>
+              <span>VOCABULARY CANDIDATES</span>
+              <strong>{candidates.length}</strong>
+              <p>Choose vocabulary for recall practice</p>
+            </article>
+            <article className="collection">
+              <span>AUTOMATIC COLLECTION</span>
+              <strong>{enabled ? "On" : "Off"}</strong>
+              <p>
+                {connected
+                  ? "You control what becomes part of your history."
+                  : "Connect before enabling collection."}
+              </p>
+              {connected && (
+                <button className="link-button" onClick={toggle}>
+                  {enabled ? "Pause collection" : "Enable collection"}
+                </button>
+              )}
+            </article>
+          </section>
+        )}
         {view === "practice" ? (
           connected ? (
             <PracticeHub key={identity} token={token.current} />
@@ -477,7 +535,15 @@ export default function Library() {
                       <h3 title={item.text}>
                         <Link
                           className="card-link"
-                          href={`/library/item/${item.candidateId}?lookup=${item.id}`}
+                          href={withLibraryReturn(
+                            `/library/item/${item.candidateId}?lookup=${item.id}`,
+                            returnTo,
+                          )}
+                          onClick={() =>
+                            rememberLibraryScroll(
+                              view === "history" ? loadedPages : 1,
+                            )
+                          }
                         >
                           {item.text}
                         </Link>
@@ -556,7 +622,15 @@ export default function Library() {
                       <h3 title={item.text}>
                         <Link
                           className="card-link"
-                          href={`/library/item/${item.id}`}
+                          href={withLibraryReturn(
+                            `/library/item/${item.id}`,
+                            returnTo,
+                          )}
+                          onClick={() =>
+                            rememberLibraryScroll(
+                              view === "history" ? loadedPages : 1,
+                            )
+                          }
                         >
                           {item.text}
                         </Link>
@@ -576,7 +650,7 @@ export default function Library() {
                         <>
                           <button
                             className="secondary"
-                            onClick={() => setView("reviews")}
+                            onClick={() => changeView("reviews")}
                           >
                             Open review queue
                           </button>

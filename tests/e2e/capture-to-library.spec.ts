@@ -462,6 +462,9 @@ test("website_signout_and_extension_revocation_are_independent", async () => {
     ).status(),
   ).toBe(200);
   await signIn(library, tokenA);
+  await library
+    .getByText("Account & extension settings", { exact: true })
+    .click();
   await library.getByRole("button", { name: "Revoke all extensions" }).click();
   await expect(library.getByRole("status")).toContainText(
     "All paired extensions revoked",

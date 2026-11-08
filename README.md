@@ -107,3 +107,9 @@ Click a vocabulary card or its title to open its private full-detail page. Long 
 ## Listening and speaking practice
 
 Open **Listening & speaking** in the library sidebar, or choose **Practice listening and speaking** on a vocabulary detail page. Choose a saved example or an everyday English role-play: **Introductions**, **Making plans**, or **Asking for help**. Play AI audio, type exactly what you hear, and submit for a mark and word corrections before seeing the transcript. Switch to speaking to record and replay your own reply. Generated audio uses cached Gemini speech; microphone recordings stay local. Dictation marks and speaking self-checks stay separate from FSRS and mastery estimates. See [practice setup and limits](docs/PRACTICE.md).
+
+## Learner usability updates
+
+The library keeps search, filters and selected view in its URL. Detail/practice return links restore that view and saved scroll; deeper history reloads its saved pages first. Practice scenarios survive refresh and Back/Forward. AI preparation/playback statuses and nearby Replay / Try again / Choose next expression actions make the next step visible. Account/extension settings are collapsed, and the learning header is smaller.
+
+New AI translations prioritize the meaning in the selected sentence; saved translations are retained. Reload extension **0.7.2** and refresh existing webpages to accept the updated prompt metadata. Prompt revisions are distinct from the version of the learning-card structure.

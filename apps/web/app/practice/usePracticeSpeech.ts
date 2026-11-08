@@ -30,6 +30,13 @@ export function usePracticeSpeech(
     completedPlays,
     play,
     playing: speech.busy,
-    status: completedPlays ? "Playback complete." : "",
+    status:
+      speech.phase === "preparing"
+        ? "Preparing AI audio…"
+        : speech.phase === "playing"
+          ? "AI audio in progress."
+          : completedPlays
+            ? "Playback complete."
+            : "",
   };
 }

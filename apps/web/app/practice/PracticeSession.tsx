@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import type {
   PracticeReceipt,
@@ -13,6 +14,7 @@ import { RecordingPlayback } from "./RecordingPlayback";
 import { useLocalRecording } from "./useLocalRecording";
 export function PracticeSession({
   task,
+  nextLibrary = "/library?view=practice",
   token,
   mode,
   onSaved,
@@ -21,6 +23,7 @@ export function PracticeSession({
   onDiscard,
 }: {
   task: PracticeTask;
+  nextLibrary?: string;
   token: string;
   mode: PracticeSubmission["mode"];
   onSaved(receipt: PracticeReceipt): void;
@@ -236,7 +239,27 @@ export function PracticeSession({
           >
             {busy ? "Checking answer…" : "Submit answer"}
           </button>
-          {feedback && <DictationResult feedback={feedback} />}
+          {feedback && (
+            <DictationResult feedback={feedback}>
+              <div className="review-actions" aria-label="Continue practice">
+                <button
+                  className="secondary"
+                  disabled={
+                    !speech.available || speech.playing || speech.plays >= 20
+                  }
+                  onClick={() => void speech.play()}
+                >
+                  Replay audio
+                </button>
+                <button className="primary" onClick={onDiscard}>
+                  Try again
+                </button>
+                <Link className="secondary" href={nextLibrary}>
+                  Choose next expression
+                </Link>
+              </div>
+            </DictationResult>
+          )}
         </>
       ) : (
         <div className="review-actions" aria-label="Self-check practice">

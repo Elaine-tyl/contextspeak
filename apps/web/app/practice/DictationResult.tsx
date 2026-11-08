@@ -1,5 +1,12 @@
+import type { ReactNode } from "react";
 import type { DictationFeedback } from "@contextspeak/contracts";
-export function DictationResult({ feedback }: { feedback: DictationFeedback }) {
+export function DictationResult({
+  feedback,
+  children,
+}: {
+  feedback: DictationFeedback;
+  children?: ReactNode;
+}) {
   return (
     <section className="practice-answer" aria-label="Dictation feedback">
       <h3>Your result: {feedback.score}/100</h3>
@@ -33,6 +40,7 @@ export function DictationResult({ feedback }: { feedback: DictationFeedback }) {
           <p>Listen again, compare the transcript, then start a new attempt.</p>
         </>
       )}
+      {children}
       <small>
         Word accuracy: case and punctuation are ignored. Missing, extra and
         replaced words reduce the mark. This is practice feedback, not a mastery

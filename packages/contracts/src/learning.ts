@@ -52,6 +52,7 @@ export const learningDetailsSchema = aiResponseSchema
     version: z.literal(1),
     model: z.string(),
     modelDigest: z.string().nullable(),
-    promptVersion: z.literal(1),
+    // Prompt revisions do not change the learning-card data structure.
+    promptVersion: z.number().int().positive(),
   });
 export type LearningDetails = z.infer<typeof learningDetailsSchema>;

@@ -1,4 +1,5 @@
 import { conversationScenarios } from "@contextspeak/contracts";
+import { libraryReturn } from "../../../src/navigation";
 import { PracticePage } from "../PracticePage";
 export default async function Page({
   params,
@@ -8,6 +9,7 @@ export default async function Page({
   searchParams: Promise<{
     lookup?: string | string[];
     scenario?: string | string[];
+    returnTo?: string | string[];
   }>;
 }) {
   const [{ id }, query] = await Promise.all([params, searchParams]);
@@ -19,6 +21,7 @@ export default async function Page({
     <PracticePage
       key={`${id}:${lookupId ?? "latest"}:${scenarioId ?? "example"}`}
       id={id}
+      returnTo={libraryReturn(query.returnTo)}
       scenarioId={scenarioId}
       lookupId={lookupId}
     />

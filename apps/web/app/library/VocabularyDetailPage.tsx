@@ -2,15 +2,18 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReviewReceipt, VocabularyDetail } from "@contextspeak/contracts";
 import { API, api, ApiError, type WebSession } from "../../src/api";
+import { libraryReturn, withLibraryReturn } from "../../src/navigation";
 import { SpeakerButton } from "./SpeakerButton";
 import { LearningNotes } from "./LearningNotes";
 import "./library.css";
 export function VocabularyDetailPage({
   id,
   lookupId,
+  returnTo,
 }: {
   id: string;
   lookupId?: string;
+  returnTo?: string;
 }) {
   const [detail, setDetail] = useState<VocabularyDetail | null>(null);
   const [token, setToken] = useState("");
@@ -130,7 +133,12 @@ export function VocabularyDetailPage({
   const lookup = detail?.lookup;
   return (
     <main className="vocabulary-detail">
-      <a href={lookupId ? "/library" : "/library?view=candidates"}>
+      <a
+        href={libraryReturn(
+          returnTo,
+          lookupId ? "/library" : "/library?view=candidates",
+        )}
+      >
         Back to library
       </a>
       {message && <p role="alert">{message}</p>}
@@ -172,7 +180,13 @@ export function VocabularyDetailPage({
             <span
               className={"badge " + (lookup?.translationStatus ?? "pending")}
             >
-              {lookup?.translationStatus ?? "No translation yet"}
+              {lookup?.translationStatus === "succeeded"
+                ? "Translated"
+                : lookup?.translationStatus === "failed"
+                  ? "Translation unavailable"
+                  : lookup?.translationStatus === "pending"
+                    ? "Translating…"
+                    : "No translation yet"}
             </span>
             {lookup?.meaning && <p className="meaning">{lookup.meaning}</p>}
             {lookup?.context && <blockquote>{lookup.context}</blockquote>}
@@ -204,7 +218,10 @@ export function VocabularyDetailPage({
             {lookup?.translationStatus === "succeeded" && lookup.meaning && (
               <a
                 className="secondary"
-                href={`/practice/${encodeURIComponent(id)}?lookup=${encodeURIComponent(lookup.id)}`}
+                href={withLibraryReturn(
+                  `/practice/${encodeURIComponent(id)}?lookup=${encodeURIComponent(lookup.id)}`,
+                  libraryReturn(returnTo),
+                )}
               >
                 Practice listening and speaking
               </a>
