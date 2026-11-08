@@ -19,6 +19,8 @@ Default `TRANSLATION_PROVIDER=ollama`; optional `OLLAMA_URL` must be HTTP loopba
 
 ## Selection behavior
 
+The card header shows **ContextSpeak**, independent of the configured translation provider. It opens beside the selected text, using the pointer when selection bounds are unavailable. Drag the header to move it, or focus the header and use arrow keys. Positioning stays within the viewport as the window or card changes size. Reload extension version 0.6.0 and refresh open webpages to activate this behavior; the configured backend is unchanged.
+
 Automatic translation defaults on. Existing explicit automatic-off preferences remain respected; re-enable the setting in the extension if needed. Refresh existing webpages after reloading the extension. After selection, a 300 ms debounce starts translation without pressing a button. The AI card has only a Retry action after failure. Changing source/target on an active card automatically translates with the new pair.
 
 AI selections are limited to **600 Unicode characters** and the card explains when a shorter passage is needed. The plain translator retains its 2,000-character limit. Local AI output is bounded to 4,096 tokens and inference is serialized with a maximum of four queued/running requests. Queue time counts toward the 90-second request deadline. The selection card waits up to two minutes for a saved result; the lookup remains available in the library if the panel is closed.

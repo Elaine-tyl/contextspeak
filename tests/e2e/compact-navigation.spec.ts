@@ -95,6 +95,47 @@ test("automatic_card_is_compact_expandable_dismissible_and_reports_saved_state",
     exact: true,
   });
   expect((await region.boundingBox())!.height).toBeLessThan(360);
+  await expect(page.getByText("CONTEXTSPEAK", { exact: true })).toBeVisible();
+  await expect(
+    page.getByText("CONTEXTSPEAK · GEMINI AI", { exact: true }),
+  ).toHaveCount(0);
+  const selected = (await page.locator("#available").boundingBox())!;
+  const initial = (await region.boundingBox())!;
+  expect(Math.abs(initial.y - selected.y)).toBeLessThan(40);
+  expect(initial.x - selected.x - selected.width).toBeGreaterThanOrEqual(8);
+  expect(initial.x - selected.x - selected.width).toBeLessThanOrEqual(24);
+  await page.screenshot({
+    path: testInfo.outputPath("contextspeak-positioned-card.png"),
+  });
+  await region.evaluate((element) =>
+    element.setAttribute("data-drag-test", "same-card"),
+  );
+  const handle = page.getByRole("group", {
+    name: "Move translation card (arrow keys)",
+    exact: true,
+  });
+  const handleBox = (await handle.boundingBox())!;
+  await page.mouse.move(handleBox.x + 30, handleBox.y + 10);
+  await page.mouse.down();
+  await page.mouse.move(handleBox.x + 100, handleBox.y + 40, { steps: 5 });
+  await page.mouse.up();
+  await expect(region).toHaveAttribute("data-drag-test", "same-card");
+  const moved = (await region.boundingBox())!;
+  expect(moved.x - initial.x).toBeGreaterThan(50);
+  await handle.focus();
+  await page.keyboard.press("ArrowLeft");
+  expect((await region.boundingBox())!.x).toBe(moved.x - 16);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await expect
+    .poll(async () => {
+      const box = (await region.boundingBox())!;
+      return box.x + box.width;
+    })
+    .toBeLessThanOrEqual(382);
+  const resized = (await region.boundingBox())!;
+  expect(resized.x).toBeGreaterThanOrEqual(8);
+  expect(resized.x + resized.width).toBeLessThanOrEqual(382);
+  await page.setViewportSize({ width: 1280, height: 720 });
   await page.screenshot({
     path: testInfo.outputPath("contextspeak-compact-card.png"),
   });
