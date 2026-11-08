@@ -1,6 +1,6 @@
 # Vocabulary reviews
 
-Open **Vocabulary candidates**, choose **Start reviewing**, then use **Review queue**. Recall the meaning before choosing **Show answer**, and rate honestly: Again (forgot), Hard (difficult), Good (recalled), or Easy (effortless). Only due cards appear. When the queue is empty, it shows the next due time; refresh when it is due. Pause reviews from a candidate or a due card. Starting again resumes the existing schedule.
+Open **Vocabulary candidates**, choose **Start reviewing**, then use **Review queue**. Recall the meaning before choosing **Show answer**, and rate honestly: Again (forgot), Hard (difficult), Good (recalled), or Easy (effortless). Only due cards appear. When the queue is empty, it shows the next due time and checks automatically when that time arrives or you return to the tab. Active recall cards are never automatically replaced. A failed load stops automatic checks; use **Refresh queue** to retry. Pause reviews from a candidate or a due card. Starting again resumes the existing schedule.
 
 Enrollment is explicit and requires a successful saved translation. From a detail page, enrollment uses that selected encounter; candidate enrollment uses the latest successful translation. The prompt, answer and context are frozen from that lookup, so later translations do not silently change a review. Reviews do not consume Gemini quota. Saving ratings requires a connection; if a request times out, retry the same rating or refresh the queue. An unconfirmed request keeps its event ID so retries cannot count twice.
 

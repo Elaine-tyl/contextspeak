@@ -44,6 +44,35 @@ export function ReviewQueue({ token, onChanged }: Props) {
       request.current++;
     };
   }, [token]);
+  useEffect(() => {
+    // Never interrupt recall or discard an unconfirmed rating's retry event.
+    if (!queue || queue.items.length || loading || error) return;
+    let timer: ReturnType<typeof setTimeout>;
+    let checking = false;
+    function check() {
+      if (document.hidden || checking) return;
+      checking = true;
+      void refresh();
+    }
+    const dueAt = Date.parse(queue.nextDueAt ?? "");
+    function schedule() {
+      // Bound long waits to tolerate clock changes and avoid timer overflow.
+      timer = setTimeout(
+        () => {
+          if (document.hidden) return;
+          if (Date.now() < dueAt) schedule();
+          else check();
+        },
+        Math.min(60000, Math.max(1000, dueAt - Date.now())),
+      );
+    }
+    if (Number.isFinite(dueAt)) schedule();
+    document.addEventListener("visibilitychange", check);
+    return () => {
+      clearTimeout(timer);
+      document.removeEventListener("visibilitychange", check);
+    };
+  }, [queue, loading, error, token]);
   async function completed(receipt?: ReviewReceipt) {
     setMessage(receipt ? "Review saved." : "Reviews paused for this item.");
     await refresh();
@@ -89,7 +118,7 @@ export function ReviewQueue({ token, onChanged }: Props) {
           <h3>{queue.totalCount ? "You’re up to date." : "No reviews yet."}</h3>
           <p>
             {queue.nextDueAt
-              ? `Next review: ${dateLabel(queue.nextDueAt)}. Refresh when it is due.`
+              ? `Next review: ${dateLabel(queue.nextDueAt)}. This queue updates automatically.`
               : "Choose Start reviewing on a vocabulary candidate."}
           </p>
         </div>
