@@ -104,6 +104,7 @@ export interface LookupRecord {
   createdAt: string;
 }
 export interface Candidate {
+  reviewDueAt?: string | null;
   sourceLanguage: string;
   targetLanguage: string;
   id: string;
@@ -134,3 +135,11 @@ export {
   learningDetailsSchema,
   type LearningDetails,
 } from "./learning";
+
+export {
+  reviewSubmissionSchema,
+  type ReviewSubmission,
+  type ReviewPrompt,
+  type ReviewQueue,
+  type ReviewReceipt,
+} from "./review";

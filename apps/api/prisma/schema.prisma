@@ -36,6 +36,7 @@ model LearningItem {
   status         String        @default("candidate")
   createdAt      DateTime      @default(now())
   lookups        LookupEvent[]
+  reviewCard     ReviewCard?
 
   @@unique([userId, normalized, sourceLanguage, targetLanguage])
   @@unique([id, userId])
@@ -100,4 +101,37 @@ model ExtensionPairing {
   lastPolledAt DateTime?
 
   @@index([expiresAt])
+}
+
+model ReviewCard {
+  itemId    String       @id
+  userId    String
+  item      LearningItem @relation(fields: [itemId, userId], references: [id, userId], onDelete: Cascade)
+  prompt    String
+  answer    String
+  context   String?
+  active    Boolean      @default(true)
+  dueAt     DateTime
+  schedule  Json
+  version   Int          @default(0)
+  createdAt DateTime     @default(now())
+  events    ReviewEvent[]
+
+  @@unique([itemId, userId])
+  @@index([userId, active, dueAt])
+}
+
+model ReviewEvent {
+  id        String     @id @default(uuid())
+  userId    String
+  eventId   String
+  itemId    String
+  card      ReviewCard @relation(fields: [itemId, userId], references: [itemId, userId], onDelete: Cascade)
+  rating    String
+  version   Int
+  dueAt     DateTime
+  log       Json
+  createdAt DateTime   @default(now())
+
+  @@unique([userId, eventId])
 }

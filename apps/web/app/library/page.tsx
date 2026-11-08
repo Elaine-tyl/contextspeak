@@ -1,5 +1,6 @@
 "use client";
 import { aiLanguages } from "@contextspeak/contracts";
+import { ReviewQueue } from "./ReviewQueue";
 import { LearningNotes } from "./LearningNotes";
 import { useEffect, useRef, useState } from "react";
 import type {
@@ -20,7 +21,9 @@ export default function Library() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [enabled, setEnabled] = useState(false);
-  const [view, setView] = useState<"history" | "candidates">("history");
+  const [view, setView] = useState<"history" | "candidates" | "reviews">(
+    "history",
+  );
   const [filters, setFilters] = useState({
     q: "",
     sourceLanguage: "",
@@ -41,6 +44,7 @@ export default function Library() {
     filters.sourceLanguage ||
     filters.targetLanguage
   );
+  const [reviewBusy, setReviewBusy] = useState<string | null>(null);
   const blockedSession = useRef(false);
   const token = useRef("");
   const generation = useRef(0);
@@ -99,6 +103,7 @@ export default function Library() {
     setIdentity("");
     setEnabled(false);
     setLoading(false);
+    setReviewBusy(null);
   }
   async function connect() {
     if (blockedSession.current) return;
@@ -170,6 +175,28 @@ export default function Library() {
       setMessage("Could not confirm sign-out. Try signing in again.");
     }
   }
+  async function updateReview(id: string, action: "enroll" | "pause") {
+    const current = generation.current;
+    setReviewBusy(id);
+    try {
+      await api(token.current, `/v1/reviews/${id}/${action}`, "POST");
+      if (current !== generation.current) return;
+      setMessage(
+        action === "enroll"
+          ? "Vocabulary added to your review queue."
+          : "Reviews paused.",
+      );
+      if (action === "enroll") setView("reviews");
+      void refresh(token.current, false, true);
+    } catch {
+      if (current === generation.current)
+        setMessage(
+          "Could not update reviews. Check your connection and make sure the item has a saved translation.",
+        );
+    } finally {
+      if (current === generation.current) setReviewBusy(null);
+    }
+  }
   async function revokeExtensions() {
     try {
       await api(token.current, "/auth/extensions/revoke", "POST");
@@ -198,13 +225,19 @@ export default function Library() {
           >
             ▤ Vocabulary candidates
           </button>
+          <button
+            className={view === "reviews" ? "nav active" : "nav"}
+            onClick={() => setView("reviews")}
+          >
+            Review queue
+          </button>
         </nav>
         <div className="aside-note">
           <span className="status-dot" /> DEVELOPMENT
           <p>
             Capture today.
             <br />
-            Practice comes next.
+            Review when due.
           </p>
           <small>Your everyday language learning.</small>
         </div>
@@ -271,7 +304,7 @@ export default function Library() {
           <article>
             <span>VOCABULARY CANDIDATES</span>
             <strong>{candidates.length}</strong>
-            <p>Collected for consideration, not yet active reviews</p>
+            <p>Choose vocabulary for recall practice</p>
           </article>
           <article className="collection">
             <span>AUTOMATIC COLLECTION</span>
@@ -288,232 +321,280 @@ export default function Library() {
             )}
           </article>
         </section>
-        <section className="library-section">
-          <div className="section-head">
-            <div>
-              <span className="eyebrow">
-                {view === "history"
-                  ? "FROM YOUR EVERYDAY READING"
-                  : "YOUR VOCABULARY MEMORY"}
-              </span>
-              <h2>
-                {view === "history"
-                  ? "Recent encounters"
-                  : "Vocabulary candidates"}
-              </h2>
-            </div>
-            <button
-              className="secondary"
-              onClick={() => refresh(token.current, false, true)}
-              disabled={!connected}
-            >
-              Refresh
-            </button>
-          </div>
-          <p className="section-copy">
-            {view === "history"
-              ? "A lookup is a starting point, not a test of what you know."
-              : "Repeated encounters share a candidate. Word senses remain unresolved until there is enough evidence."}
-          </p>
-          <div
-            className="library-filters"
-            role="search"
-            aria-label="Filter library"
-          >
-            <label>
-              Search
-              <input
-                type="search"
-                aria-label="Search library"
-                maxLength={200}
-                value={filters.q}
-                placeholder={
-                  view === "history"
-                    ? "Words, context or translations"
-                    : "Words or phrases"
-                }
-                onChange={(event) =>
-                  applyFilters({ ...filters, q: event.target.value })
-                }
-              />
-            </label>
-            <label>
-              Source language
-              <select
-                aria-label="Source language filter"
-                value={filters.sourceLanguage}
-                onChange={(event) =>
-                  applyFilters({
-                    ...filters,
-                    sourceLanguage: event.target.value,
-                  })
-                }
-              >
-                <option value="">All source languages</option>
-                <option value="auto">Auto-detected queries</option>
-                {aiLanguages.map((language) => (
-                  <option key={language.code} value={language.code}>
-                    {language.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label>
-              Target language
-              <select
-                aria-label="Target language filter"
-                value={filters.targetLanguage}
-                onChange={(event) =>
-                  applyFilters({
-                    ...filters,
-                    targetLanguage: event.target.value,
-                  })
-                }
-              >
-                <option value="">All target languages</option>
-                {aiLanguages.map((language) => (
-                  <option key={language.code} value={language.code}>
-                    {language.name}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <button
-              className="secondary"
-              onClick={() =>
-                applyFilters({ q: "", sourceLanguage: "", targetLanguage: "" })
-              }
-              disabled={!filtered}
-            >
-              Clear filters
-            </button>
-          </div>
-          <div className={view === "history" ? "cards" : "cards hidden"}>
-            {history.map((item) => (
-              <article
-                className="lookup-card"
-                data-testid="lookup-card"
-                key={item.id}
-              >
-                <div className="card-head">
-                  <h3>{item.text}</h3>
-                  <span className={"badge " + item.translationStatus}>
-                    {item.translationStatus === "succeeded"
-                      ? "Translated"
-                      : item.translationStatus}
-                  </span>
-                </div>
-                {item.meaning && <p className="meaning">{item.meaning}</p>}
-                {(item.context || item.learningDetails) && (
-                  <details className="lookup-details">
-                    <summary>
-                      <span className="details-show">Show details</span>
-                      <span className="details-hide">Hide details</span>
-                    </summary>
-                    {item.context && <blockquote>“{item.context}”</blockquote>}
-                    <LearningNotes value={item.learningDetails} />
-                  </details>
-                )}
-                {item.errorCode && (
-                  <div className="failure">
-                    <p>
-                      Translation unavailable ({item.errorCode}). This query is
-                      saved. Check the local translator and retry.
-                    </p>
-                    <button
-                      className="link-button"
-                      onClick={() => retry(item.id)}
-                    >
-                      Retry translation
-                    </button>
-                  </div>
-                )}
-                <footer>
-                  <span>
-                    {new Date(item.createdAt).toLocaleDateString("en-GB", {
-                      day: "numeric",
-                      month: "short",
-                    })}{" "}
-                    ·{" "}
-                    {item.sourceUrl
-                      ? new URL(item.sourceUrl).hostname
-                      : "Manual query"}
-                  </span>
-                  <span>
-                    {item.sourceLanguage} → {item.targetLanguage} · Candidate ·
-                    sense unresolved
-                  </span>
-                </footer>
-              </article>
-            ))}
-          </div>
-          <div className={view === "candidates" ? "cards" : "cards hidden"}>
-            {candidates.map((item) => (
-              <article
-                className="lookup-card"
-                data-testid="candidate-card"
-                key={item.id}
-              >
-                <div className="card-head">
-                  <h3>{item.text}</h3>
-                  <span className="badge">{item.status}</span>
-                </div>
-                <p>
-                  {item.encounterCount} encounter
-                  {item.encounterCount === 1 ? "" : "s"} · {item.senseStatus}{" "}
-                  sense
-                </p>
-                <p className="section-copy">
-                  {item.sourceLanguage} → {item.targetLanguage}
-                </p>
-                <p className="section-copy">
-                  Review activation and scheduling will follow in the next
-                  slice.
-                </p>
-              </article>
-            ))}
-          </div>
-          {loading && <p aria-live="polite">Loading library…</p>}
-          {!loading &&
-          filtered &&
-          (view === "history" ? history : candidates).length === 0 ? (
-            <div className="empty" role="status">
-              <h3>No matching vocabulary.</h3>
-              <p>Try another search or clear the language filters.</p>
-            </div>
+        {view === "reviews" ? (
+          connected ? (
+            <ReviewQueue
+              key={identity}
+              token={token.current}
+              onChanged={() => {
+                void refresh(token.current, false, true);
+              }}
+            />
           ) : (
-            !loading &&
-            (view === "history" ? history : candidates).length === 0 && (
-              <div className="empty">
-                <span>↗</span>
-                <h3>
-                  {connected
-                    ? "Your next encounter starts here."
-                    : "A little context goes a long way."}
-                </h3>
-                <p>
-                  {connected
-                    ? "Open the selection playground, select “available”, and use the extension."
-                    : "Connect the same local identity in the extension and this website to see your captured expressions."}
-                </p>
-                <a href="/sample.html" target="_blank" rel="noreferrer">
-                  Open selection playground →
-                </a>
+            <p>Sign in to review saved vocabulary.</p>
+          )
+        ) : (
+          <section className="library-section">
+            <div className="section-head">
+              <div>
+                <span className="eyebrow">
+                  {view === "history"
+                    ? "FROM YOUR EVERYDAY READING"
+                    : "YOUR VOCABULARY MEMORY"}
+                </span>
+                <h2>
+                  {view === "history"
+                    ? "Recent encounters"
+                    : "Vocabulary candidates"}
+                </h2>
               </div>
-            )
-          )}
-          {view === "history" && cursor && (
-            <button
-              className="secondary"
-              onClick={() => refresh(token.current, true)}
-              disabled={loading}
+              <button
+                className="secondary"
+                onClick={() => refresh(token.current, false, true)}
+                disabled={!connected}
+              >
+                Refresh
+              </button>
+            </div>
+            <p className="section-copy">
+              {view === "history"
+                ? "A lookup is a starting point, not a test of what you know."
+                : "Repeated encounters share a candidate. Word senses remain unresolved until there is enough evidence."}
+            </p>
+            <div
+              className="library-filters"
+              role="search"
+              aria-label="Filter library"
             >
-              Load more
-            </button>
-          )}
-        </section>
+              <label>
+                Search
+                <input
+                  type="search"
+                  aria-label="Search library"
+                  maxLength={200}
+                  value={filters.q}
+                  placeholder={
+                    view === "history"
+                      ? "Words, context or translations"
+                      : "Words or phrases"
+                  }
+                  onChange={(event) =>
+                    applyFilters({ ...filters, q: event.target.value })
+                  }
+                />
+              </label>
+              <label>
+                Source language
+                <select
+                  aria-label="Source language filter"
+                  value={filters.sourceLanguage}
+                  onChange={(event) =>
+                    applyFilters({
+                      ...filters,
+                      sourceLanguage: event.target.value,
+                    })
+                  }
+                >
+                  <option value="">All source languages</option>
+                  <option value="auto">Auto-detected queries</option>
+                  {aiLanguages.map((language) => (
+                    <option key={language.code} value={language.code}>
+                      {language.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label>
+                Target language
+                <select
+                  aria-label="Target language filter"
+                  value={filters.targetLanguage}
+                  onChange={(event) =>
+                    applyFilters({
+                      ...filters,
+                      targetLanguage: event.target.value,
+                    })
+                  }
+                >
+                  <option value="">All target languages</option>
+                  {aiLanguages.map((language) => (
+                    <option key={language.code} value={language.code}>
+                      {language.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <button
+                className="secondary"
+                onClick={() =>
+                  applyFilters({
+                    q: "",
+                    sourceLanguage: "",
+                    targetLanguage: "",
+                  })
+                }
+                disabled={!filtered}
+              >
+                Clear filters
+              </button>
+            </div>
+            <div className={view === "history" ? "cards" : "cards hidden"}>
+              {history.map((item) => (
+                <article
+                  className="lookup-card"
+                  data-testid="lookup-card"
+                  key={item.id}
+                >
+                  <div className="card-head">
+                    <h3>{item.text}</h3>
+                    <span className={"badge " + item.translationStatus}>
+                      {item.translationStatus === "succeeded"
+                        ? "Translated"
+                        : item.translationStatus}
+                    </span>
+                  </div>
+                  {item.meaning && <p className="meaning">{item.meaning}</p>}
+                  {(item.context || item.learningDetails) && (
+                    <details className="lookup-details">
+                      <summary>
+                        <span className="details-show">Show details</span>
+                        <span className="details-hide">Hide details</span>
+                      </summary>
+                      {item.context && (
+                        <blockquote>“{item.context}”</blockquote>
+                      )}
+                      <LearningNotes value={item.learningDetails} />
+                    </details>
+                  )}
+                  {item.errorCode && (
+                    <div className="failure">
+                      <p>
+                        Translation unavailable ({item.errorCode}). This query
+                        is saved. Check the local translator and retry.
+                      </p>
+                      <button
+                        className="link-button"
+                        onClick={() => retry(item.id)}
+                      >
+                        Retry translation
+                      </button>
+                    </div>
+                  )}
+                  <footer>
+                    <span>
+                      {new Date(item.createdAt).toLocaleDateString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                      })}{" "}
+                      ·{" "}
+                      {item.sourceUrl
+                        ? new URL(item.sourceUrl).hostname
+                        : "Manual query"}
+                    </span>
+                    <span>
+                      {item.sourceLanguage} → {item.targetLanguage} · Candidate
+                      · sense unresolved
+                    </span>
+                  </footer>
+                </article>
+              ))}
+            </div>
+            <div className={view === "candidates" ? "cards" : "cards hidden"}>
+              {candidates.map((item) => (
+                <article
+                  className="lookup-card"
+                  data-testid="candidate-card"
+                  key={item.id}
+                >
+                  <div className="card-head">
+                    <h3>{item.text}</h3>
+                    <span className="badge">{item.status}</span>
+                  </div>
+                  <p>
+                    {item.encounterCount} encounter
+                    {item.encounterCount === 1 ? "" : "s"} · {item.senseStatus}{" "}
+                    sense
+                  </p>
+                  <p className="section-copy">
+                    {item.sourceLanguage} → {item.targetLanguage}
+                  </p>
+                  <div className="review-actions">
+                    {item.reviewDueAt ? (
+                      <>
+                        <button
+                          className="secondary"
+                          onClick={() => setView("reviews")}
+                        >
+                          Open review queue
+                        </button>
+                        <button
+                          className="link-button"
+                          disabled={!!reviewBusy}
+                          onClick={() => void updateReview(item.id, "pause")}
+                        >
+                          Pause reviews
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        className="secondary"
+                        disabled={!!reviewBusy}
+                        onClick={() => void updateReview(item.id, "enroll")}
+                      >
+                        {reviewBusy === item.id ? "Saving…" : "Start reviewing"}
+                      </button>
+                    )}
+                  </div>
+                  <p className="section-copy">
+                    {item.reviewDueAt
+                      ? `Next review: ${new Date(item.reviewDueAt).toLocaleString("en-GB")}`
+                      : "Choose this item for spaced repetition when you’re ready."}
+                  </p>
+                </article>
+              ))}
+            </div>
+            {loading && <p aria-live="polite">Loading library…</p>}
+            {!loading &&
+            filtered &&
+            (view === "history" ? history : candidates).length === 0 ? (
+              <div className="empty" role="status">
+                <h3>No matching vocabulary.</h3>
+                <p>Try another search or clear the language filters.</p>
+              </div>
+            ) : (
+              !loading &&
+              (view === "history" ? history : candidates).length === 0 && (
+                <div className="empty">
+                  <span>↗</span>
+                  <h3>
+                    {connected
+                      ? "Your next encounter starts here."
+                      : "A little context goes a long way."}
+                  </h3>
+                  <p>
+                    {connected
+                      ? "Open the selection playground, select “available”, and use the extension."
+                      : "Connect the same local identity in the extension and this website to see your captured expressions."}
+                  </p>
+                  <a href="/sample.html" target="_blank" rel="noreferrer">
+                    Open selection playground →
+                  </a>
+                </div>
+              )
+            )}
+            {view === "history" && cursor && (
+              <button
+                className="secondary"
+                onClick={() => refresh(token.current, true)}
+                disabled={loading}
+              >
+                Load more
+              </button>
+            )}
+          </section>
+        )}
         <footer className="page-footer">
-          CONTEXTSPEAK <span>Local translation · development</span>
+          CONTEXTSPEAK <span>Personal vocabulary · development</span>
         </footer>
       </main>
     </div>

@@ -95,3 +95,7 @@ A distribution license is undecided. The diagram adapts a user-supplied layout r
 ## Automated checks
 
 [GitHub Actions](https://github.com/Elaine-tyl/contextspeak/actions) runs CI on pushes to `main` and pull requests: locked dependency install, Prisma client generation, formatting, typecheck, unit/integration tests, extension browser tests, popup tests and both builds. CI uses temporary databases, simulated login and translation fixtures; no Google or Gemini secrets are required. Live provider checks remain opt-in. Failed browser runs retain diagnostics for seven days. Browser screenshots are saved under Playwright’s portable test-output folders.
+
+## Vocabulary review queue
+
+Choose **Start reviewing** on a vocabulary candidate, open **Review queue**, recall its meaning, reveal the saved answer, then rate Again / Hard / Good / Easy. FSRS schedules the next due review without calling Gemini. Pause/resume keeps existing progress. See [review behavior and limitations](docs/REVIEWS.md).

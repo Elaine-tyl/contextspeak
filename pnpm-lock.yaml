@@ -131,6 +131,9 @@ importers:
       rxjs:
         specifier: 7.8.2
         version: 7.8.2
+      ts-fsrs:
+        specifier: 6.0.0
+        version: 6.0.0
     devDependencies:
       prisma:
         specifier: 6.19.3
@@ -967,6 +970,13 @@ packages:
         integrity: sha512-jCs9ldd7NwzpgXDIf6P3+NrHh9/sD6CQdxHyjQI+h/6rDNo88ypBxxz45UDuZHz9r3tNz7N/VInSVoVdtXEI4A==,
       }
     engines: { node: ^14.21.3 || >=16 }
+
+  "@open-spaced-repetition/srs-kit@1.0.0":
+    resolution:
+      {
+        integrity: sha512-f++JAMpRw7Yh1U4JcHzTtVknJ1bYKz/4yejsus6TRl+ueGJpvexNBrOoqaeUWCgH/e1j046oiqjzy4Nf4RW/vw==,
+      }
+    engines: { node: ">=20.0.0" }
 
   "@oxc-project/types@0.156.0":
     resolution:
@@ -3256,6 +3266,13 @@ packages:
       }
     engines: { node: ">=14.16" }
 
+  ts-fsrs@6.0.0:
+    resolution:
+      {
+        integrity: sha512-kX03GIEhXgBtUrgZuv7k7Aax8oYF3GCO0lASqJFw/8cvvI7qjE83J8IzFhHugux7//W0yquG7zidk3e9NRgEwg==,
+      }
+    engines: { node: ">=24.0.0" }
+
   tslib@2.9.1:
     resolution:
       {
@@ -3906,6 +3923,8 @@ snapshots:
     optional: true
 
   "@noble/hashes@1.8.0": {}
+
+  "@open-spaced-repetition/srs-kit@1.0.0": {}
 
   "@oxc-project/types@0.156.0": {}
 
@@ -5238,6 +5257,10 @@ snapshots:
       "@borewit/text-codec": 0.2.3
       "@tokenizer/token": 0.3.0
       ieee754: 1.2.1
+
+  ts-fsrs@6.0.0:
+    dependencies:
+      "@open-spaced-repetition/srs-kit": 1.0.0
 
   tslib@2.9.1: {}
 

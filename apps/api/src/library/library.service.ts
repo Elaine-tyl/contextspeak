@@ -256,12 +256,16 @@ export class LibraryService {
       },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: 100,
-      include: { _count: { select: { lookups: true } } },
+      include: {
+        _count: { select: { lookups: true } },
+        reviewCard: { select: { active: true, dueAt: true } },
+      },
     });
     return {
-      items: items.map(({ userId, _count, ...item }) => ({
+      items: items.map(({ userId, _count, reviewCard, ...item }) => ({
         ...item,
         encounterCount: _count.lookups,
+        reviewDueAt: reviewCard?.active ? reviewCard.dueAt : null,
       })),
       nextCursor: null,
     };

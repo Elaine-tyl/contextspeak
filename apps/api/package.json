@@ -14,7 +14,8 @@
     "jose": "6.2.15",
     "openid-client": "6.8.9",
     "reflect-metadata": "0.2.2",
-    "rxjs": "7.8.2"
+    "rxjs": "7.8.2",
+    "ts-fsrs": "6.0.0"
   },
   "devDependencies": {
     "prisma": "6.19.3"

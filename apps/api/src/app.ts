@@ -1,4 +1,6 @@
 import "reflect-metadata";
+import { ReviewService } from "./reviews/review.service";
+import { ReviewController } from "./reviews/review.controller";
 import { Module } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { PrismaClient } from "@prisma/client";
@@ -28,9 +30,17 @@ export async function createApp(config: AppConfig) {
       : undefined;
   await auth?.init();
   @Module({
-    controllers: [LibraryController, ...(auth ? [SessionController] : [])],
+    controllers: [
+      LibraryController,
+      ReviewController,
+      ...(auth ? [SessionController] : []),
+    ],
     providers: [
       { provide: LibraryService, useValue: library },
+      {
+        provide: ReviewService,
+        useValue: new ReviewService(config.prisma, library),
+      },
       ...(auth ? [{ provide: SessionService, useValue: auth }] : []),
     ],
   })
