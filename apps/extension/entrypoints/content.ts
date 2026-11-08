@@ -1,3 +1,4 @@
+import { renderLearningCard } from "../src/learning-card";
 import {
   localLanguages,
   readTranslationOptions,
@@ -16,6 +17,12 @@ export default defineContentScript({
   matches: ["http://*/*", "https://*/*"],
   main() {
     let host: HTMLDivElement | undefined;
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && host) {
+        host.remove();
+        host = undefined;
+      }
+    });
     // Some web apps stop bubbling mouse events; observe selections before that.
     document.addEventListener(
       "mouseup",
@@ -33,10 +40,24 @@ export default defineContentScript({
           "position:fixed;right:24px;bottom:24px;z-index:2147483647";
         const shadow = panel.attachShadow({ mode: "open" });
         shadow.innerHTML =
-          '<style>:host{font-family:system-ui}section{background:#fff;color:#173449;border:1px solid #a2c7e8;border-radius:16px;box-shadow:0 8px 36px #0002;padding:20px;width:min(320px,80vw);max-height:70vh;overflow:auto}button{background:#176b60;color:white;border:0;border-radius:8px;padding:10px 14px;cursor:pointer}p{font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}small{color:#526879}label{display:block;margin:8px 0}select{max-width:100%;margin-left:8px}</style><section><small>CONTEXTSPEAK</small><p></p><label>Source language<select aria-label="Source language"></select></label><label>Target language<select aria-label="Target language"></select></label><button type="button" disabled>Translate selection</button><p role="status">Loading translation settings…</p></section>';
+          '<style>:host{font-family:system-ui;font-size:14px;color-scheme:dark}section{box-sizing:border-box;background:#292d2e;color:#f5f7f5;border:1px solid #68736e;border-radius:14px;box-shadow:0 8px 36px #0002;padding:14px;width:min(360px,calc(100vw - 32px));max-height:70vh;overflow:auto;scrollbar-width:thin;scrollbar-color:#7aa390 #292d2e}.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.top small{font-size:10px}button{background:#176b60;color:white;border:0;border-radius:8px;padding:8px 10px;cursor:pointer}button.close{background:transparent;color:#d8e6df;font-size:13px;padding:4px 6px}p{margin:8px 0;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}p.selection{font-weight:600;max-height:64px;overflow:auto}small{color:#b6cfc2}h3{font-size:14px;margin:16px 0 6px}.secondary{color:#b3d3c6;margin-top:0}.languages{display:flex;gap:8px;flex-wrap:wrap}label{font-size:11px;color:#b6cfc2;flex:1;min-width:125px}select{box-sizing:border-box;display:block;background:#3b4140;color:#fff;border:1px solid #76827b;border-radius:8px;padding:5px;width:100%;font-size:12px;margin-top:3px}button[hidden],[hidden]{display:none!important}summary{cursor:pointer;color:#b3d3c6;padding:8px 0;font-size:13px}button:focus-visible,select:focus-visible,summary:focus-visible{outline:2px solid #64dfc9;outline-offset:2px}[data-save-state]{display:block;font-size:12px;margin:8px 0}details{border-top:1px solid #53635a;margin-top:8px}</style><section role="region" aria-label="ContextSpeak translation"><div class="top"><small data-provider>CONTEXTSPEAK</small><button class="close" type="button" aria-label="Close translation">Close</button></div><p class="selection"></p><div class="languages"><label>Source language<select aria-label="Source language"></select></label><label>Target language<select aria-label="Target language"></select></label></div><button class="translate" type="button" disabled>Translate selection</button><p role="status">Loading translation settings…</p><small data-save-state aria-live="polite"></small><details data-explanation hidden><summary>Show explanation</summary><div data-learning-card></div></details></section>';
         const paragraphs = shadow.querySelectorAll("p");
         paragraphs[0].textContent = text;
-        const button = shadow.querySelector("button")!;
+        const button = shadow.querySelector<HTMLButtonElement>(".translate")!;
+        shadow.querySelector(".close")!.addEventListener("click", () => {
+          clearTimeout(automaticTimer);
+          panel.remove();
+          if (host === panel) host = undefined;
+        });
+        const explanation =
+          shadow.querySelector<HTMLDetailsElement>("[data-explanation]")!;
+        const saved = shadow.querySelector<HTMLElement>("[data-save-state]")!;
+        let synced = false;
+        explanation.addEventListener("toggle", () => {
+          explanation.querySelector("summary")!.textContent = explanation.open
+            ? "Hide explanation"
+            : "Show explanation";
+        });
         const [source, target] = shadow.querySelectorAll("select");
         function showLanguages(
           languages: TranslationLanguage[],
@@ -55,41 +76,98 @@ export default defineContentScript({
         source.disabled = true;
         target.disabled = true;
         document.documentElement.append(panel);
+        let retryEventId: string | undefined;
+        let automatic = false;
+        let ai = false;
+        const learning = shadow.querySelector<HTMLElement>(
+          "[data-learning-card]",
+        )!;
         let automaticTimer: ReturnType<typeof setTimeout> | undefined;
         async function translate() {
           if (!panel.isConnected || button.disabled) return;
           clearTimeout(automaticTimer); // A manual click replaces the pending automatic request.
           automaticTimer = undefined;
+          const retrying =
+            !!retryEventId && button.textContent === "Retry translation";
+          if (!retrying) {
+            retryEventId = undefined;
+            synced = false;
+          }
           button.disabled = true;
+          if (ai) button.hidden = true;
+          learning.replaceChildren();
+          explanation.hidden = true;
+          explanation.open = false;
+          saved.textContent = retrying
+            ? synced
+              ? "Saved to library"
+              : "Saved locally"
+            : "";
           source.disabled = true;
           target.disabled = true;
           paragraphs[1].textContent = "Translating…";
           try {
             // Snapshot languages now: later preference changes must not rewrite this lookup.
-            const result = await browser.runtime.sendMessage({
-              type: "translate",
-              input: {
-                eventId: crypto.randomUUID(),
-                text,
-                context,
-                sourceLanguage: source.value,
-                targetLanguage: target.value,
-              },
-            });
+            const result = retrying
+              ? await browser.runtime.sendMessage({
+                  type: "lookup-retry",
+                  eventId: retryEventId,
+                })
+              : await browser.runtime.sendMessage({
+                  type: "translate",
+                  input: {
+                    eventId: crypto.randomUUID(),
+                    text,
+                    context,
+                    sourceLanguage: source.value,
+                    targetLanguage: target.value,
+                  },
+                });
+            if (result.ok && result.eventId) retryEventId = result.eventId;
             await observeLookup(result, {
               active: () => panel.isConnected,
               render: (reply) => {
+                if (reply.ok && reply.status === "succeeded") {
+                  renderLearningCard(learning, reply.learningDetails);
+                  explanation.hidden = !learning.childElementCount;
+                }
+                // A queued event is durable locally; a completed captured lookup is synced.
+                if (reply.ok && retryEventId) {
+                  if (reply.status !== "queued") synced = true;
+                  saved.textContent = synced
+                    ? "Saved to library"
+                    : "Saved locally · waiting for sync";
+                } else if (reply.ok && reply.status === "succeeded") {
+                  saved.textContent =
+                    "Not saved · collection off or site excluded";
+                } else if (!reply.ok && reply.saved) {
+                  if (reply.saved === "library") synced = true;
+                  saved.textContent =
+                    reply.saved === "library"
+                      ? "Saved to library"
+                      : "Saved locally";
+                } else if (!reply.ok && reply.status === "cancelled") {
+                  saved.textContent = "Not saved";
+                }
+                if (!reply.ok && ai) {
+                  button.hidden = false;
+                  button.textContent = "Retry translation";
+                }
                 paragraphs[1].textContent =
                   reply.ok && reply.status === "succeeded"
                     ? (reply.meaning ?? "")
                     : (reply.error ?? "Saved locally. Waiting for sync…");
               },
-              wait: () => new Promise((resolve) => setTimeout(resolve, 300)),
+              wait: () => new Promise((resolve) => setTimeout(resolve, 500)),
               read: (eventId) =>
                 browser.runtime.sendMessage({ type: "lookup-result", eventId }),
-              limit: 90,
+              limit: 240,
             });
           } catch {
+            if (ai) {
+              button.hidden = false;
+              button.textContent = "Retry translation";
+            }
             paragraphs[1].textContent =
               "Extension disconnected. Reload the page.";
           } finally {
@@ -98,6 +176,12 @@ export default defineContentScript({
             target.disabled = false;
           }
         }
+        for (const select of [source, target])
+          select.addEventListener("change", () => {
+            retryEventId = undefined;
+            synced = false;
+            if (automatic) void translate();
+          });
         button.addEventListener("click", () => {
           void translate();
         });
@@ -109,17 +193,37 @@ export default defineContentScript({
           showLanguages(options.languages, options.preferences);
           source.disabled = false;
           target.disabled = false;
-          shadow.querySelector("small")!.textContent =
+          ai =
+            options.provider === "ollama-local" ||
+            options.provider === "gemini";
+          automatic = options.preferences.autoTranslate;
+          button.hidden = ai;
+          if (
+            ai &&
+            Array.from(text).length > (options.maxSelectionCharacters ?? 600)
+          ) {
+            paragraphs[1].textContent =
+              "Select a shorter passage: AI learning cards support up to 600 characters per selection.";
+            return;
+          }
+          shadow.querySelector("[data-provider]")!.textContent =
             options.provider === "fixture"
               ? "CONTEXTSPEAK · FIXTURE MODE"
-              : "CONTEXTSPEAK · LOCAL TRANSLATION";
+              : ai
+                ? options.provider === "gemini"
+                  ? "CONTEXTSPEAK · GEMINI AI"
+                  : "CONTEXTSPEAK · LOCAL AI"
+                : "CONTEXTSPEAK · LOCAL TRANSLATION";
           button.disabled = false;
           paragraphs[1].textContent = "";
-          if (options.preferences.autoTranslate) {
+          if (ai && !automatic)
+            paragraphs[1].textContent =
+              "Automatic translation is paused. Enable it in ContextSpeak settings.";
+          if (automatic) {
             // Debounce selection changes; removed panels never start a translation.
             automaticTimer = setTimeout(() => {
               void translate();
-            }, 250);
+            }, 300);
           }
         } catch (error) {
           paragraphs[1].textContent =

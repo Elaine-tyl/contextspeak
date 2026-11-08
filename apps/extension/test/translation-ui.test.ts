@@ -41,3 +41,9 @@ it("normalizes_old_saved_language_codes_to_existing_options", () => {
     autoTranslate: true,
   });
 });
+
+it("rejects_the_previous_plain_translation_worker_protocol", () => {
+  expect(() =>
+    readTranslationOptions({ ...reply, protocolVersion: 2 }),
+  ).toThrow(/reload.*extension/i);
+});

@@ -20,7 +20,11 @@
     "dev:local": "CONTEXTSPEAK_TEST_AUTH=1 tsx scripts/dev.ts",
     "translator:setup": "tsx scripts/translator.ts --setup",
     "translator:start": "tsx scripts/translator.ts",
-    "test:translation:live": "pnpm build:extension && playwright test --config playwright.translation.config.ts"
+    "test:translation:live": "pnpm build:extension && playwright test --config playwright.translation.config.ts",
+    "test:popup": "pnpm build:extension && playwright test --config playwright.popup.config.ts",
+    "ai:setup": "tsx scripts/local-ai.ts --setup",
+    "test:gemini:live": "pnpm build:extension && playwright test --config playwright.gemini.config.ts",
+    "test:ai:live": "pnpm build:extension && playwright test --config playwright.ai.config.ts"
   },
   "devDependencies": {
     "@nestjs/common": "12.3.3",

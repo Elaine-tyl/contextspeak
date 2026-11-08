@@ -1,3 +1,4 @@
+import { learningFixture } from "../../../tests/fixtures/learning";
 import { FixtureTranslationProvider } from "../src/library/translation.provider";
 import { beforeAll, afterAll, describe, expect, it } from "vitest";
 import request from "supertest";
@@ -66,7 +67,10 @@ beforeAll(async () => {
       async translate(input: any) {
         const key = input.context ?? "";
         providerCalls.set(key, (providerCalls.get(key) ?? 0) + 1);
-        return fixtureProvider.translate(input);
+        const result = await fixtureProvider.translate(input);
+        return key === "shared-rich"
+          ? { ...result, learningDetails: learningFixture }
+          : result;
       },
     },
   } as any);
@@ -239,7 +243,7 @@ it("stores_translation_preferences_per_account_and_rejects_invalid_languages", a
   const value = {
     sourceLanguage: "auto",
     targetLanguage: "en",
-    autoTranslate: true,
+    autoTranslate: false,
   };
   expect(
     (await call("put", "/v1/translation-preferences", "preferences-a", value))
@@ -251,7 +255,7 @@ it("stores_translation_preferences_per_account_and_rejects_invalid_languages", a
   expect(
     (await call("get", "/v1/translation-preferences", "preferences-b")).body
       .autoTranslate,
-  ).toBe(false);
+  ).toBe(true);
   expect(
     (
       await call("put", "/v1/translation-preferences", "preferences-a", {
@@ -260,4 +264,120 @@ it("stores_translation_preferences_per_account_and_rejects_invalid_languages", a
       })
     ).status,
   ).toBe(400);
+});
+
+it("persists_one_rich_result_for_history_and_owned_result_without_regeneration", async () => {
+  await enable("rich-owner");
+  const receipt = await capture("rich-owner", { context: "shared-rich" });
+  await result("rich-owner", receipt.body.lookupId);
+  const shared = (
+    await call(
+      "get",
+      `/v1/lookups/${receipt.body.lookupId}/translation`,
+      "rich-owner",
+    )
+  ).body;
+  const history = (await call("get", "/v1/lookups", "rich-owner")).body
+    .items[0];
+  expect(shared.learningDetails).toEqual(learningFixture);
+  expect(history.learningDetails).toEqual(shared.learningDetails);
+  expect(providerCalls.get("shared-rich")).toBe(1);
+  expect(
+    (
+      await call(
+        "get",
+        `/v1/lookups/${receipt.body.lookupId}/translation`,
+        "other-owner",
+      )
+    ).status,
+  ).toBe(404);
+});
+
+it("filters_owned_history_before_pagination_and_searches_saved_meanings", async () => {
+  await enable("filter-owner");
+  await enable("filter-other");
+  const ids: string[] = [];
+  for (let i = 0; i < 3; i++) {
+    const row = await capture("filter-owner", {
+      text: "available",
+      context: "filter needle " + i,
+    });
+    ids.push(row.body.lookupId);
+    await result("filter-owner", row.body.lookupId);
+  }
+  await capture("filter-owner", {
+    text: "reschedule",
+    context: "different context",
+  });
+  await capture("filter-other", { context: "filter needle private" });
+  const first = await call(
+    "get",
+    "/v1/lookups?q=NEEDLE&sourceLanguage=en&targetLanguage=en&limit=1",
+    "filter-owner",
+  );
+  expect(first.body.items).toHaveLength(1);
+  expect(ids).toContain(first.body.items[0].id);
+  expect(first.body.nextCursor).toBeTruthy();
+  const second = await call(
+    "get",
+    `/v1/lookups?q=needle&limit=1&cursor=${first.body.nextCursor}`,
+    "filter-owner",
+  );
+  expect(second.body.items[0].id).not.toBe(first.body.items[0].id);
+  expect(ids).toContain(second.body.items[0].id);
+  expect(
+    (await call("get", "/v1/lookups?q=take%20part", "filter-owner")).body.items,
+  ).toHaveLength(3);
+  expect(
+    (await call("get", "/v1/lookups?targetLanguage=fr", "filter-owner")).body
+      .items,
+  ).toHaveLength(0);
+  expect(
+    (
+      await call(
+        "get",
+        "/v1/learning-items?q=AVAILABLE&targetLanguage=en",
+        "filter-owner",
+      )
+    ).body.items,
+  ).toHaveLength(1);
+  expect(
+    (await call("get", "/v1/learning-items?targetLanguage=fr", "filter-owner"))
+      .body.items,
+  ).toHaveLength(0);
+  expect(
+    (await call("get", "/v1/lookups?sourceLanguage=invalid!!", "filter-owner"))
+      .status,
+  ).toBe(400);
+  expect(
+    (await call("get", "/v1/lookups?q=" + "x".repeat(201), "filter-owner"))
+      .status,
+  ).toBe(400);
+});
+
+it("matches_detected_source_language_in_both_library_views", async () => {
+  await enable("detected-filter");
+  const receipt = await capture("detected-filter", { sourceLanguage: "auto" });
+  await result("detected-filter", receipt.body.lookupId);
+  await db.prisma.lookupEvent.update({
+    where: { id: receipt.body.lookupId },
+    data: { detectedSourceLanguage: "en" },
+  });
+  expect(
+    (await call("get", "/v1/lookups?sourceLanguage=en", "detected-filter")).body
+      .items,
+  ).toHaveLength(1);
+  expect(
+    (
+      await call(
+        "get",
+        "/v1/learning-items?sourceLanguage=en",
+        "detected-filter",
+      )
+    ).body.items,
+  ).toHaveLength(1);
+  expect(
+    (await call("get", "/v1/lookups?sourceLanguage=fr", "detected-filter")).body
+      .items,
+  ).toHaveLength(0);
 });

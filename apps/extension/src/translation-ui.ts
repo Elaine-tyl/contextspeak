@@ -7,7 +7,7 @@ import {
 } from "@contextspeak/contracts";
 
 // Popup files can update before Chrome restarts the background worker.
-export const EXTENSION_PROTOCOL = 2;
+export const EXTENSION_PROTOCOL = 4;
 export const RELOAD_EXTENSION =
   "Reload the ContextSpeak extension in chrome://extensions, then refresh the webpage.";
 export const localLanguages: TranslationLanguage[] = [
@@ -18,6 +18,7 @@ const optionsSchema = z.object({
   ok: z.literal(true),
   protocolVersion: z.literal(EXTENSION_PROTOCOL),
   provider: z.string(),
+  maxSelectionCharacters: z.number().int().min(1).max(2000).optional(),
   languages: z
     .array(
       z.object({

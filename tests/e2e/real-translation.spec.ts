@@ -34,11 +34,15 @@ test("free_translation_supports_sentences_automatic_selection_and_saved_language
     await approval.getByRole("button", { name: "Approve extension" }).click();
     await expect(popup.getByText("Connected", { exact: true })).toBeVisible();
     await popup
-      .getByLabel("Source language", { exact: true })
-      .selectOption("auto");
+      .getByRole("combobox", { name: "Source language", exact: true })
+      .click();
     await popup
-      .getByLabel("Target language", { exact: true })
-      .selectOption("zh-Hans");
+      .getByRole("option", { name: "Detect automatically", exact: true })
+      .click();
+    await popup
+      .getByRole("combobox", { name: "Target language", exact: true })
+      .click();
+    await popup.getByRole("option", { name: "Chinese", exact: true }).click();
     await popup
       .getByLabel("Translate automatically after selecting text", {
         exact: true,
@@ -119,14 +123,15 @@ test("free_translation_supports_sentences_automatic_selection_and_saved_language
       })
       .uncheck();
     await popup
-      .getByLabel("Target language", { exact: true })
-      .selectOption("en");
+      .getByRole("combobox", { name: "Target language", exact: true })
+      .click();
+    await popup.getByRole("option", { name: "English", exact: true }).click();
     await popup.getByRole("button", { name: "Save language settings" }).click();
     await expect(popup.getByRole("status")).toHaveText("Updated.");
     await popup.reload();
     await expect(
       popup.getByLabel("Target language", { exact: true }),
-    ).toHaveValue("en");
+    ).toHaveAttribute("data-value", "en");
     await select("chinese");
     await sample
       .getByRole("button", { name: "Translate selection", exact: true })

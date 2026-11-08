@@ -1,3 +1,6 @@
+import { GeminiTranslationProvider } from "../apps/api/src/library/gemini.provider";
+import { startLocalAi } from "./local-ai";
+import { OllamaTranslationProvider } from "../apps/api/src/library/ollama.provider";
 import { mkdir, mkdtemp, rm, access } from "node:fs/promises";
 import { join, resolve } from "node:path";
 import { tmpdir } from "node:os";
@@ -46,12 +49,14 @@ let prisma: PrismaClient | undefined;
 let app: Awaited<ReturnType<typeof createApp>> | undefined;
 let web: ChildProcess | undefined;
 let translator: ChildProcess | undefined;
+let localAi: ChildProcess | undefined;
 let stopping = false;
 async function stop() {
   if (stopping) return;
   stopping = true;
   web?.kill("SIGTERM");
   translator?.kill("SIGTERM");
+  localAi?.kill("SIGTERM");
   await app?.close();
   await prisma?.$disconnect();
   await issuer?.close();
@@ -96,17 +101,32 @@ try {
   await prisma.$connect();
   if (testAuth) issuer = await startOidcIssuer(4319);
   const fixtureTranslation = process.env.TRANSLATION_PROVIDER === "fixture";
-  if (!fixtureTranslation && !process.env.TRANSLATOR_URL)
+  const useGemini = process.env.TRANSLATION_PROVIDER === "gemini";
+  const useAi = (process.env.TRANSLATION_PROVIDER ?? "ollama") === "ollama";
+  if (
+    !fixtureTranslation &&
+    !useAi &&
+    !useGemini &&
+    !process.env.TRANSLATOR_URL
+  )
     translator = await startLocalTranslator({
       onSpawn: (child) => {
         translator = child;
       },
     });
+  if (useAi && !process.env.OLLAMA_URL)
+    localAi = await startLocalAi((child) => {
+      localAi = child;
+    });
   const provider = fixtureTranslation
     ? new FixtureTranslationProvider()
-    : new LibreTranslateProvider({
-        url: process.env.TRANSLATOR_URL ?? "http://127.0.0.1:5001",
-      });
+    : useGemini
+      ? new GeminiTranslationProvider({ apiKey: process.env.GEMINI_API_KEY })
+      : useAi
+        ? new OllamaTranslationProvider({ url: process.env.OLLAMA_URL })
+        : new LibreTranslateProvider({
+            url: process.env.TRANSLATOR_URL ?? "http://127.0.0.1:5001",
+          });
   app = await createApp({
     prisma,
     provider,

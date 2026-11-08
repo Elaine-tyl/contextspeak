@@ -61,6 +61,8 @@ export default defineBackground(() => {
     outbox,
     session: connection,
     translate: (value, token) => api("/v1/translations", "POST", value, token),
+    retry: (id, token) =>
+      api(`/v1/lookups/${id}/retry`, "POST", undefined, token),
     result: (id, token) =>
       api<LookupTranslationResult>(
         `/v1/lookups/${id}/translation`,
@@ -157,6 +159,7 @@ export default defineBackground(() => {
     if (
       message?.type !== "translate" &&
       message?.type !== "lookup-result" &&
+      message?.type !== "lookup-retry" &&
       message?.type !== "translation-options" &&
       !sender.url?.startsWith(`chrome-extension://${browser.runtime.id}/`)
     )
@@ -297,16 +300,25 @@ export default defineBackground(() => {
               })),
           };
         }
-        if (message.type === "translate" || message.type === "lookup-result") {
+        if (
+          message.type === "translate" ||
+          message.type === "lookup-result" ||
+          message.type === "lookup-retry"
+        ) {
           if (!sender.tab?.url || !/^https?:/.test(sender.tab.url))
             throw new Error("Select text on a supported webpage.");
-          if (message.type === "lookup-result") {
+          if (
+            message.type === "lookup-result" ||
+            message.type === "lookup-retry"
+          ) {
             if (
               typeof message.eventId !== "string" ||
               message.eventId.length > 64
             )
               throw new Error("Invalid event ID");
-            return lookupFlow.result(message.eventId);
+            return message.type === "lookup-retry"
+              ? lookupFlow.retry(message.eventId)
+              : lookupFlow.result(message.eventId);
           }
           const value = lookupSchema.parse({
             ...message.input,

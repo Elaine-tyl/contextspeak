@@ -14,6 +14,9 @@ export default defineConfig({
     // Let the embedded database release its native resources before exiting.
     gracefulShutdown: { signal: "SIGTERM", timeout: 10000 },
     timeout: 300000,
-    env: { CONTEXTSPEAK_EPHEMERAL: "1" },
+    env: {
+      CONTEXTSPEAK_EPHEMERAL: "1",
+      TRANSLATION_PROVIDER: "libretranslate",
+    },
   },
 });

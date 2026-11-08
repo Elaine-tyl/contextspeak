@@ -505,8 +505,8 @@ test("updated_popup_explains_a_stale_background_instead_of_showing_empty_languag
   });
   await popup.goto(`chrome-extension://${extensionId}/popup.html`);
   await expect(
-    popup.getByLabel("Target language", { exact: true }).locator("option"),
-  ).toHaveCount(2);
+    popup.getByRole("combobox", { name: "Target language", exact: true }),
+  ).toHaveText("Chinese");
   await expect(popup.getByRole("alert")).toContainText(/reload.*extension/i);
   await expect(
     popup.getByRole("button", { name: "Save language settings" }),
@@ -582,7 +582,7 @@ test("late_language_options_cannot_overwrite_the_newly_connected_accounts_settin
     const listeners: ((changes: unknown, area: string) => void)[] = [];
     const options = (target: string) => ({
       ok: true,
-      protocolVersion: 2,
+      protocolVersion: 4,
       provider: "libretranslate-local",
       languages: [
         { code: "en", name: "English", targets: ["en", "zh-Hans"] },
@@ -605,7 +605,7 @@ test("late_language_options_cannot_overwrite_the_newly_connected_accounts_settin
       if (message.type === "status")
         result = {
           ok: true,
-          protocolVersion: 2,
+          protocolVersion: 4,
           connection: {
             identity: account,
             enabled: false,
@@ -653,13 +653,13 @@ test("late_language_options_cannot_overwrite_the_newly_connected_accounts_settin
   ).toBeEnabled();
   await expect(
     popup.getByLabel("Target language", { exact: true }),
-  ).toHaveValue("zh-Hans");
+  ).toHaveAttribute("data-value", "zh-Hans");
   await popup.evaluate(() => (globalThis as any).releaseOldLanguageOptions());
   // Let the deliberately late response cross React's render boundary.
   await popup.waitForTimeout(100);
   await expect(
     popup.getByLabel("Target language", { exact: true }),
-  ).toHaveValue("zh-Hans");
+  ).toHaveAttribute("data-value", "zh-Hans");
   await expect(
     popup.getByLabel("Translate automatically after selecting text", {
       exact: true,

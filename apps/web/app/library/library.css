@@ -493,3 +493,63 @@ code {
     flex-wrap: wrap;
   }
 }
+
+.learning-notes {
+  border-top: 1px solid #dce4db;
+  margin-top: 18px;
+  padding-top: 14px;
+  overflow-wrap: anywhere;
+}
+.learning-notes small {
+  color: #627f71;
+}
+.learning-notes h4 {
+  margin: 15px 0 6px;
+}
+.learning-notes p,
+.learning-notes li {
+  line-height: 1.6;
+  margin: 6px 0 12px;
+}
+
+/* Keep search controls grouped, labelled, and usable on narrow screens. */
+.library-filters {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin: 18px 0 24px;
+}
+.library-filters label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 13px;
+  color: #425e50;
+}
+.library-filters label:first-child {
+  flex: 1;
+  min-width: 200px;
+}
+.library-filters input,
+.library-filters select {
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #8b9e90;
+  border-radius: 8px;
+  padding: 10px;
+  background: #fff;
+  color: #203d32;
+  font: inherit;
+  min-height: 40px;
+}
+.library-filters :focus-visible {
+  outline: 2px solid #176b60;
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .library-filters label {
+    flex: 1;
+    min-width: 180px;
+  }
+}

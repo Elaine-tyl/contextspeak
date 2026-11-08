@@ -17,6 +17,7 @@ import {
   settingsSchema,
 } from "@contextspeak/contracts";
 import type { AuthenticatedRequest } from "../auth/jwt.guard";
+import { libraryFiltersSchema } from "./library-filters";
 import { LibraryService } from "./library.service";
 import type { z } from "zod";
 function parse<T>(schema: z.ZodType<T>, value: unknown): T {
@@ -66,15 +67,27 @@ export class LibraryController {
     @Req() req: AuthenticatedRequest,
     @Query("limit") limit?: string,
     @Query("cursor") cursor?: string,
+    @Query("q") q?: string,
+    @Query("sourceLanguage") sourceLanguage?: string,
+    @Query("targetLanguage") targetLanguage?: string,
   ) {
     return this.library.list(
       req.identity,
       limit === undefined ? 20 : Number(limit),
       cursor,
+      parse(libraryFiltersSchema, { q, sourceLanguage, targetLanguage }),
     );
   }
-  @Get("learning-items") items(@Req() req: AuthenticatedRequest) {
-    return this.library.items(req.identity);
+  @Get("learning-items") items(
+    @Req() req: AuthenticatedRequest,
+    @Query("q") q?: string,
+    @Query("sourceLanguage") sourceLanguage?: string,
+    @Query("targetLanguage") targetLanguage?: string,
+  ) {
+    return this.library.items(
+      req.identity,
+      parse(libraryFiltersSchema, { q, sourceLanguage, targetLanguage }),
+    );
   }
   @Get("lookups/:id/translation") translationResult(
     @Req() req: AuthenticatedRequest,
@@ -88,7 +101,10 @@ export class LibraryController {
   ) {
     return this.library.retry(req.identity, id);
   }
-  @Post("translations") translate(@Body() body: unknown) {
-    return this.library.translate(parse(translationSchema, body));
+  @Post("translations") translate(
+    @Req() req: AuthenticatedRequest,
+    @Body() body: unknown,
+  ) {
+    return this.library.translate(req.identity, parse(translationSchema, body));
   }
 }

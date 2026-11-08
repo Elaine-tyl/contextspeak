@@ -1,3 +1,4 @@
+import { learningFixture } from "../../../tests/fixtures/learning";
 import { it, expect } from "vitest";
 import { randomUUID } from "node:crypto";
 import { LookupFlow } from "../src/lookup-flow";
@@ -13,6 +14,8 @@ function harness(enabled = true) {
   let session = { identity: "A", token: "token-a" };
   let translations = 0;
   let reads = 0;
+  let retries = 0;
+  let retryError = false;
   let resultStatus: "pending" | "succeeded" | "failed" = "succeeded";
   const outbox = new Outbox({
     storage: {
@@ -34,7 +37,16 @@ function harness(enabled = true) {
     session: async () => session,
     translate: async () => {
       translations++;
-      return { meaning: "Transient explanation", provider: "fixture" };
+      return {
+        meaning: "Transient explanation",
+        provider: "fixture",
+        learningDetails: learningFixture,
+      };
+    },
+    retry: async () => {
+      retries++;
+      if (retryError) throw new Error("offline");
+      resultStatus = "succeeded";
     },
     result: async () => {
       reads++;
@@ -43,15 +55,20 @@ function harness(enabled = true) {
         translationStatus: resultStatus,
         meaning: resultStatus === "succeeded" ? "Stored explanation" : null,
         provider: "fixture",
+        learningDetails: learningFixture,
         errorCode: resultStatus === "failed" ? "FIXTURE_NOT_FOUND" : null,
       };
     },
   });
   return {
     flow,
+    failRetry: () => {
+      retryError = true;
+    },
     outbox,
     state: () => state,
     counts: () => ({ translations, reads }),
+    retries: () => retries,
     setResult: (status: typeof resultStatus) => {
       resultStatus = status;
     },
@@ -147,6 +164,7 @@ it("account_switch_before_local_save_cancels_instead_of_capturing_for_the_new_ow
       transient++;
       return { meaning: "Unexpected", provider: "fixture" };
     },
+    retry: async () => {},
     result: async () => {
       throw new Error("No lookup should exist");
     },
@@ -191,6 +209,7 @@ it("discard_during_a_shared_result_read_cancels_observation", async () => {
     translate: async () => {
       throw new Error("No transient call");
     },
+    retry: async () => {},
     result: async () => {
       entered();
       await gate;
@@ -199,6 +218,7 @@ it("discard_during_a_shared_result_read_cancels_observation", async () => {
         translationStatus: "succeeded",
         meaning: "Late result",
         provider: "fixture",
+        learningDetails: learningFixture,
         errorCode: null,
       };
     },
@@ -211,4 +231,54 @@ it("discard_during_a_shared_result_read_cancels_observation", async () => {
   await outbox.discard();
   release();
   expect(await reading).toMatchObject({ status: "cancelled" });
+});
+
+it("returns_the_same_learning_details_for_stored_and_transient_results", async () => {
+  const saved = harness();
+  const input = value();
+  await saved.flow.start(input);
+  await saved.outbox.flushOutbox();
+  expect(await saved.flow.result(input.eventId)).toMatchObject({
+    learningDetails: learningFixture,
+  });
+  expect(saved.counts().translations).toBe(0);
+  expect(await harness(false).flow.start(value())).toMatchObject({
+    learningDetails: learningFixture,
+  });
+});
+
+it("retries_the_owned_saved_row_without_creating_a_new_encounter", async () => {
+  const h = harness();
+  const input = value();
+  await h.flow.start(input);
+  await h.outbox.flushOutbox();
+  const before = h.state().records.length;
+  h.setResult("failed");
+  expect(await h.flow.result(input.eventId)).toMatchObject({
+    status: "failed",
+  });
+  expect(await h.flow.retry(input.eventId)).toMatchObject({
+    status: "succeeded",
+    learningDetails: learningFixture,
+  });
+  expect(h.state().records.length).toBe(before);
+  expect(h.retries()).toBe(1);
+  expect(h.counts().translations).toBe(0);
+  h.switchAccount();
+  expect(await h.flow.retry(input.eventId)).toMatchObject({
+    status: "cancelled",
+  });
+});
+
+it("offline_retry_preserves_the_owned_lookup_saved_indicator", async () => {
+  const h = harness();
+  const input = value();
+  await h.flow.start(input);
+  await h.outbox.flushOutbox();
+  h.failRetry();
+  expect(await h.flow.retry(input.eventId)).toMatchObject({
+    ok: false,
+    status: "failed",
+    saved: "library",
+  });
 });

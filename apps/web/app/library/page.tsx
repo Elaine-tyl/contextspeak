@@ -1,4 +1,6 @@
 "use client";
+import { aiLanguages } from "@contextspeak/contracts";
+import { LearningNotes } from "./LearningNotes";
 import { useEffect, useRef, useState } from "react";
 import type {
   Candidate,
@@ -16,8 +18,29 @@ export default function Library() {
   const [candidates, setCandidates] = useState<Candidate[]>([]);
   const [cursor, setCursor] = useState<string | null>(null);
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const [enabled, setEnabled] = useState(false);
   const [view, setView] = useState<"history" | "candidates">("history");
+  const [filters, setFilters] = useState({
+    q: "",
+    sourceLanguage: "",
+    targetLanguage: "",
+  });
+  const activeFilters = useRef(filters);
+  function applyFilters(next: typeof filters) {
+    activeFilters.current = next;
+    setFilters(next);
+    historyRequest.current++;
+    setHistory([]);
+    setCandidates([]);
+    setCursor(null);
+    void refresh(token.current, false, true);
+  }
+  const filtered = !!(
+    filters.q ||
+    filters.sourceLanguage ||
+    filters.targetLanguage
+  );
   const blockedSession = useRef(false);
   const token = useRef("");
   const generation = useRef(0);
@@ -29,14 +52,22 @@ export default function Library() {
     if (reset) browsingMore.current = false;
     const request = ++historyRequest.current;
     const current = generation.current;
+    setLoading(true);
     try {
+      const query = new URLSearchParams();
+      for (const [key, field] of Object.entries(activeFilters.current))
+        if (field.trim()) query.set(key, field.trim());
+      const itemQuery = query.toString();
+      if (append && cursor) query.set("cursor", cursor);
       const [lookups, items, settings] = await Promise.all([
         api<Page<LookupRecord>>(
           value,
-          "/v1/lookups" +
-            (append && cursor ? "?cursor=" + encodeURIComponent(cursor) : ""),
+          "/v1/lookups" + (query.size ? "?" + query.toString() : ""),
         ),
-        api<Page<Candidate>>(value, "/v1/learning-items"),
+        api<Page<Candidate>>(
+          value,
+          "/v1/learning-items" + (itemQuery ? "?" + itemQuery : ""),
+        ),
         api<CollectionSettings>(value, "/v1/settings"),
       ]);
       if (current !== generation.current || request !== historyRequest.current)
@@ -48,10 +79,13 @@ export default function Library() {
       setCandidates(items.items);
       setEnabled(settings.enabled);
     } catch (e) {
-      if (current === generation.current)
+      if (current === generation.current && request === historyRequest.current)
         setMessage(
           e instanceof Error ? e.message : "Could not load your library.",
         );
+    } finally {
+      if (current === generation.current && request === historyRequest.current)
+        setLoading(false);
     }
   }
   function clearSession() {
@@ -64,6 +98,7 @@ export default function Library() {
     setConnected(false);
     setIdentity("");
     setEnabled(false);
+    setLoading(false);
   }
   async function connect() {
     if (blockedSession.current) return;
@@ -280,6 +315,79 @@ export default function Library() {
               ? "A lookup is a starting point, not a test of what you know."
               : "Repeated encounters share a candidate. Word senses remain unresolved until there is enough evidence."}
           </p>
+          <div
+            className="library-filters"
+            role="search"
+            aria-label="Filter library"
+          >
+            <label>
+              Search
+              <input
+                type="search"
+                aria-label="Search library"
+                maxLength={200}
+                value={filters.q}
+                placeholder={
+                  view === "history"
+                    ? "Words, context or translations"
+                    : "Words or phrases"
+                }
+                onChange={(event) =>
+                  applyFilters({ ...filters, q: event.target.value })
+                }
+              />
+            </label>
+            <label>
+              Source language
+              <select
+                aria-label="Source language filter"
+                value={filters.sourceLanguage}
+                onChange={(event) =>
+                  applyFilters({
+                    ...filters,
+                    sourceLanguage: event.target.value,
+                  })
+                }
+              >
+                <option value="">All source languages</option>
+                <option value="auto">Auto-detected queries</option>
+                {aiLanguages.map((language) => (
+                  <option key={language.code} value={language.code}>
+                    {language.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              Target language
+              <select
+                aria-label="Target language filter"
+                value={filters.targetLanguage}
+                onChange={(event) =>
+                  applyFilters({
+                    ...filters,
+                    targetLanguage: event.target.value,
+                  })
+                }
+              >
+                <option value="">All target languages</option>
+                {aiLanguages.map((language) => (
+                  <option key={language.code} value={language.code}>
+                    {language.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <button
+              className="secondary"
+              onClick={() =>
+                applyFilters({ q: "", sourceLanguage: "", targetLanguage: "" })
+              }
+              disabled={!filtered}
+            >
+              Clear filters
+            </button>
+          </div>
           <div className={view === "history" ? "cards" : "cards hidden"}>
             {history.map((item) => (
               <article
@@ -297,6 +405,7 @@ export default function Library() {
                 </div>
                 {item.context && <blockquote>“{item.context}”</blockquote>}
                 {item.meaning && <p className="meaning">{item.meaning}</p>}
+                <LearningNotes value={item.learningDetails} />
                 {item.errorCode && (
                   <div className="failure">
                     <p>
@@ -347,34 +456,49 @@ export default function Library() {
                   sense
                 </p>
                 <p className="section-copy">
+                  {item.sourceLanguage} → {item.targetLanguage}
+                </p>
+                <p className="section-copy">
                   Review activation and scheduling will follow in the next
                   slice.
                 </p>
               </article>
             ))}
           </div>
-          {(view === "history" ? history : candidates).length === 0 && (
-            <div className="empty">
-              <span>↗</span>
-              <h3>
-                {connected
-                  ? "Your next encounter starts here."
-                  : "A little context goes a long way."}
-              </h3>
-              <p>
-                {connected
-                  ? "Open the selection playground, select “available”, and use the extension."
-                  : "Connect the same local identity in the extension and this website to see your captured expressions."}
-              </p>
-              <a href="/sample.html" target="_blank" rel="noreferrer">
-                Open selection playground →
-              </a>
+          {loading && <p aria-live="polite">Loading library…</p>}
+          {!loading &&
+          filtered &&
+          (view === "history" ? history : candidates).length === 0 ? (
+            <div className="empty" role="status">
+              <h3>No matching vocabulary.</h3>
+              <p>Try another search or clear the language filters.</p>
             </div>
+          ) : (
+            !loading &&
+            (view === "history" ? history : candidates).length === 0 && (
+              <div className="empty">
+                <span>↗</span>
+                <h3>
+                  {connected
+                    ? "Your next encounter starts here."
+                    : "A little context goes a long way."}
+                </h3>
+                <p>
+                  {connected
+                    ? "Open the selection playground, select “available”, and use the extension."
+                    : "Connect the same local identity in the extension and this website to see your captured expressions."}
+                </p>
+                <a href="/sample.html" target="_blank" rel="noreferrer">
+                  Open selection playground →
+                </a>
+              </div>
+            )
           )}
           {view === "history" && cursor && (
             <button
               className="secondary"
               onClick={() => refresh(token.current, true)}
+              disabled={loading}
             >
               Load more
             </button>

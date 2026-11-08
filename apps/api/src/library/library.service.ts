@@ -22,7 +22,10 @@ import {
   FixtureTranslationError,
   type TranslationProvider,
 } from "./translation.provider";
+import type { LibraryFilters } from "./library-filters";
+import { TranslationCache } from "./translation-cache";
 export class LibraryService {
+  private translationCache = new TranslationCache();
   private timer?: NodeJS.Timeout;
   private running?: Promise<void>;
   constructor(
@@ -63,6 +66,7 @@ export class LibraryService {
     try {
       return {
         provider: this.provider.name ?? "custom",
+        maxSelectionCharacters: this.provider.maxSelectionCharacters ?? 2000,
         languages: (await this.provider.languages?.()) ?? [
           { code: "en", name: "English", targets: ["en"] },
         ],
@@ -170,7 +174,12 @@ export class LibraryService {
       translationStatus: row.translationStatus,
     };
   }
-  async list(identity: Identity, limit = 20, cursor?: string) {
+  async list(
+    identity: Identity,
+    limit = 20,
+    cursor?: string,
+    filters: LibraryFilters = {},
+  ) {
     const u = await this.actor(identity);
     if (!Number.isInteger(limit) || limit < 1 || limit > 100)
       throw new BadRequestException("Limit must be 1–100");
@@ -182,7 +191,36 @@ export class LibraryService {
     )
       throw new BadRequestException("Invalid cursor");
     const rows = await this.prisma.lookupEvent.findMany({
-      where: { userId: u.id },
+      where: {
+        userId: u.id,
+        ...(filters.targetLanguage
+          ? { targetLanguage: filters.targetLanguage }
+          : {}),
+        AND: [
+          ...(filters.q
+            ? [
+                {
+                  OR: ["text", "context", "meaning"].map((field) => ({
+                    [field]: {
+                      contains: filters.q,
+                      mode: "insensitive" as const,
+                    },
+                  })),
+                },
+              ]
+            : []),
+          ...(filters.sourceLanguage
+            ? [
+                {
+                  OR: [
+                    { sourceLanguage: filters.sourceLanguage },
+                    { detectedSourceLanguage: filters.sourceLanguage },
+                  ],
+                },
+              ]
+            : []),
+        ],
+      },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: limit + 1,
       ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
@@ -192,10 +230,30 @@ export class LibraryService {
       .map(({ payloadHash, userId, ...record }) => record);
     return { items, nextCursor: rows.length > limit ? items.at(-1)!.id : null };
   }
-  async items(identity: Identity) {
+  async items(identity: Identity, filters: LibraryFilters = {}) {
     const u = await this.actor(identity);
     const items = await this.prisma.learningItem.findMany({
-      where: { userId: u.id },
+      where: {
+        userId: u.id,
+        ...(filters.q
+          ? { text: { contains: filters.q, mode: "insensitive" as const } }
+          : {}),
+        ...(filters.targetLanguage
+          ? { targetLanguage: filters.targetLanguage }
+          : {}),
+        ...(filters.sourceLanguage
+          ? {
+              OR: [
+                { sourceLanguage: filters.sourceLanguage },
+                {
+                  lookups: {
+                    some: { detectedSourceLanguage: filters.sourceLanguage },
+                  },
+                },
+              ],
+            }
+          : {}),
+      },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: 100,
       include: { _count: { select: { lookups: true } } },
@@ -216,6 +274,7 @@ export class LibraryService {
         id: true,
         translationStatus: true,
         meaning: true,
+        learningDetails: true,
         provider: true,
         detectedSourceLanguage: true,
         errorCode: true,
@@ -226,6 +285,7 @@ export class LibraryService {
       lookupId: record.id,
       translationStatus: record.translationStatus,
       meaning: record.meaning,
+      learningDetails: record.learningDetails,
       provider: record.provider,
       detectedSourceLanguage: record.detectedSourceLanguage,
       errorCode: record.errorCode,
@@ -246,9 +306,16 @@ export class LibraryService {
       throw new NotFoundException();
     return { status: "pending" };
   }
-  async translate(input: TranslationInput) {
+  private translateForUser(userId: string, input: TranslationInput) {
+    const load = () => this.provider.translate(input);
+    return this.provider.name === "gemini"
+      ? this.translationCache.translate(userId, input, load)
+      : load();
+  }
+  async translate(identity: Identity, input: TranslationInput) {
+    const user = await this.actor(identity);
     try {
-      return await this.provider.translate(input);
+      return await this.translateForUser(user.id, input);
     } catch (e) {
       if (e instanceof FixtureTranslationError) {
         if (
@@ -256,6 +323,7 @@ export class LibraryService {
             "FIXTURE_NOT_FOUND",
             "UNSUPPORTED_PAIR",
             "UNSUPPORTED_LANGUAGE",
+            "AI_SELECTION_TOO_LONG",
           ].includes(e.code)
         )
           throw new BadRequestException(e.code);
@@ -288,7 +356,7 @@ export class LibraryService {
     await Promise.all(
       rows.map(async (row) => {
         try {
-          const result = await this.provider.translate({
+          const result = await this.translateForUser(row.userId, {
             text: row.text,
             context: row.context ?? undefined,
             sourceUrl: row.sourceUrl ?? undefined,

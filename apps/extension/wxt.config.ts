@@ -2,10 +2,10 @@ import { defineConfig } from "wxt";
 export default defineConfig({
   modules: ["@wxt-dev/module-react"],
   manifest: {
-    version: "0.1.0",
+    version: "0.5.0",
     name: "ContextSpeak",
     description:
-      "Consent-aware English lookups and vocabulary candidates. Free local word and sentence translation.",
+      "Automatic word and sentence translation with AI explanations and a personal vocabulary library.",
     permissions: ["storage", "alarms"],
     host_permissions: [
       (process.env.WXT_API_ORIGIN ?? "http://127.0.0.1:4318") + "/*",

@@ -57,6 +57,7 @@ model LookupEvent {
   translationStatus String       @default("pending")
   detectedSourceLanguage String?
   meaning           String?
+  learningDetails   Json?
   provider          String?
   errorCode         String?
   createdAt         DateTime     @default(now())

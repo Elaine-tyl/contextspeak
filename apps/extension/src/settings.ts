@@ -47,9 +47,9 @@ export async function api<T>(
     signal: signal
       ? AbortSignal.any([
           signal,
-          AbortSignal.timeout(path === "/v1/translations" ? 25000 : 5000),
+          AbortSignal.timeout(path === "/v1/translations" ? 100000 : 5000),
         ])
-      : AbortSignal.timeout(path === "/v1/translations" ? 25000 : 5000),
+      : AbortSignal.timeout(path === "/v1/translations" ? 100000 : 5000),
   });
   if (!response.ok) {
     const details = await response.json().catch(() => ({}));

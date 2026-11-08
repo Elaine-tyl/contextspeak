@@ -1,3 +1,5 @@
+import { LanguagePicker } from "./LanguagePicker";
+import "./popup.css";
 import {
   EXTENSION_PROTOCOL,
   RELOAD_EXTENSION,
@@ -105,7 +107,9 @@ function Popup() {
   }
   return (
     <main>
-      <small>CONTEXTSPEAK</small>
+      <small>
+        CONTEXTSPEAK <span className="build-version">v0.5.0</span>
+      </small>
       <h1>Capture settings</h1>
       <p>
         Sign in on the website and approve this extension. Your Google
@@ -134,52 +138,48 @@ function Popup() {
           it to finish pairing.
         </p>
       )}
-      <p>{identity ? "Connected" : "Not connected"}</p>
+      <p className="connection-state" data-connected={Boolean(identity)}>
+        {identity ? "Connected" : "Not connected"}
+      </p>
       <h2>Translation languages</h2>
       <p>
         {provider === "fixture"
           ? "Fixture test mode"
-          : "Free local translation"}{" "}
-        · maximum 2,000 characters per selection.
+          : provider === "gemini"
+            ? "Gemini AI · explanations and examples"
+            : provider === "ollama-local"
+              ? "Free local AI · meanings and examples"
+              : "Free local translation"}{" "}
+        · maximum{" "}
+        {provider === "ollama-local" || provider === "gemini" ? "600" : "2,000"}{" "}
+        characters per selection.
       </p>
       {!languagesReady && !languageError && <p>Loading language settings…</p>}
       {languageError && <p role="alert">{languageError}</p>}
-      <label>
-        Source language
-        <select
-          disabled={!languagesReady}
-          aria-label="Source language"
+      <div className="language-fields">
+        <LanguagePicker
+          label="Source language"
           value={preferences.sourceLanguage}
-          onChange={(e) =>
-            setPreferences({ ...preferences, sourceLanguage: e.target.value })
-          }
-        >
-          <option value="auto">Detect automatically</option>
-          {languages.map((language) => (
-            <option key={language.code} value={language.code}>
-              {language.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Target language
-        <select
+          choices={[
+            { code: "auto", name: "Detect automatically" },
+            ...languages,
+          ]}
           disabled={!languagesReady}
-          aria-label="Target language"
-          value={preferences.targetLanguage}
-          onChange={(e) =>
-            setPreferences({ ...preferences, targetLanguage: e.target.value })
+          onChange={(sourceLanguage) =>
+            setPreferences({ ...preferences, sourceLanguage })
           }
-        >
-          {languages.map((language) => (
-            <option key={language.code} value={language.code}>
-              {language.name}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
+        />
+        <LanguagePicker
+          label="Target language"
+          value={preferences.targetLanguage}
+          choices={languages}
+          disabled={!languagesReady}
+          onChange={(targetLanguage) =>
+            setPreferences({ ...preferences, targetLanguage })
+          }
+        />
+      </div>
+      <label className="toggle-row">
         <input
           type="checkbox"
           checked={preferences.autoTranslate}
@@ -201,7 +201,7 @@ function Popup() {
         <button onClick={() => void refresh()}>Retry loading languages</button>
       )}
       <h2>Collection</h2>
-      <label>
+      <label className="toggle-row">
         <input
           type="checkbox"
           aria-label="Automatically collect selection-translation queries"
@@ -260,8 +260,4 @@ function Popup() {
     </main>
   );
 }
-const style = document.createElement("style");
-style.textContent =
-  "body{margin:0;width:360px;background:#f4f7f6;color:#183a35;font:14px system-ui}main{padding:24px}h1{font-size:25px}small{letter-spacing:1px;color:#53746b;font-size:10px}label{display:block;margin:16px 0 8px}select{display:block;width:100%;padding:8px;margin-top:6px}textarea{box-sizing:border-box;width:100%;height:64px;margin-top:6px;border:1px solid #b6ccc4;border-radius:8px;padding:8px}button{border:0;border-radius:8px;background:#176b60;color:white;padding:10px 12px;cursor:pointer}p{line-height:1.5;color:#536c65}li{padding:6px 0}a{color:#176b60}";
-document.head.append(style);
 createRoot(document.getElementById("root")!).render(<Popup />);

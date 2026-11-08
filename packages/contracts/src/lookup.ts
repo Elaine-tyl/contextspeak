@@ -1,3 +1,4 @@
+import type { LearningDetails } from "./learning";
 import { z } from "zod";
 export type Identity = { issuer: string; subject: string };
 const boundedText = (max: number) =>
@@ -44,7 +45,7 @@ export type TranslationPreferences = z.infer<
 export const defaultTranslationPreferences: TranslationPreferences = {
   sourceLanguage: "auto",
   targetLanguage: "zh-Hans",
-  autoTranslate: false,
+  autoTranslate: true,
 };
 export interface TranslationLanguage {
   code: string;
@@ -53,6 +54,7 @@ export interface TranslationLanguage {
 }
 export interface TranslationOptions {
   provider: string;
+  maxSelectionCharacters?: number;
   languages: TranslationLanguage[];
 }
 const fields = {
@@ -97,10 +99,13 @@ export interface LookupRecord {
   targetLanguage: string;
   translationStatus: "pending" | "succeeded" | "failed";
   meaning: string | null;
+  learningDetails?: LearningDetails | null;
   errorCode: string | null;
   createdAt: string;
 }
 export interface Candidate {
+  sourceLanguage: string;
+  targetLanguage: string;
   id: string;
   text: string;
   status: string;
@@ -116,7 +121,16 @@ export interface LookupTranslationResult {
   lookupId: string;
   translationStatus: "pending" | "succeeded" | "failed";
   meaning: string | null;
+  learningDetails?: LearningDetails | null;
   provider: string | null;
   detectedSourceLanguage?: string | null;
   errorCode: string | null;
 }
+
+export {
+  aiLanguages,
+  aiLanguageCodes,
+  aiResponseSchema,
+  learningDetailsSchema,
+  type LearningDetails,
+} from "./learning";

@@ -1,14 +1,17 @@
 import type {
   TranslationInput,
+  LearningDetails,
   TranslationLanguage,
 } from "@contextspeak/contracts";
 export interface TranslationResult {
   meaning: string;
+  learningDetails?: LearningDetails;
   provider: string;
   detectedSourceLanguage?: string;
 }
 export interface TranslationProvider {
   readonly name?: string;
+  readonly maxSelectionCharacters?: number;
   languages?(): Promise<TranslationLanguage[]>;
   translate(input: TranslationInput): Promise<TranslationResult>;
 }

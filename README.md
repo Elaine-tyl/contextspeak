@@ -2,36 +2,40 @@
 
 **Build your vocabulary. Understand conversations. Speak with confidence.**
 
-A browser extension and learning website that turns everyday English lookups into a personal vocabulary memory library, scheduled review, and contextual listening/speaking practice. The first release serves adults with basic English; broader language and school support follow later.
+A browser extension and learning website that turns everyday English lookups into a personal vocabulary memory library, scheduled review, and contextual listening/speaking practice. The learning focus is adults with basic English; translation cards support six languages, while school workflows follow later.
 
 > Working local flow: Google login → paired Chrome extension → free local word/sentence translation → PostgreSQL history/candidates → website library. Not ready for public deployment.
 
 ## Run locally
 
-Requires **Node.js 24**, **pnpm 11.25.0** and **Python 3** for one-time bootstrap. The launcher starts PostgreSQL and a free local LibreTranslate service on loopback. Runtime dependencies and model checksums are pinned; Docker and translation API keys are unnecessary.
+Requires **Node.js 24**, **pnpm 11.25.0** and [Ollama](https://ollama.com). The launcher starts PostgreSQL and reuses or starts local Ollama on loopback. The Qwen3 4B model and digest are pinned; Docker and translation API keys are unnecessary. Python 3 is needed only for the optional plain LibreTranslate provider.
 
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 pnpm db:generate
 pnpm build:extension
 cp .env.example .env.local
 # Add your Google web OAuth client ID and secret to .env.local.
+# Install/start Ollama once, then download and verify the model:
+pnpm ai:setup
 pnpm dev
 ```
 
-For real translation with simulated sign-in and no Google account, use **`pnpm dev:local`**. `pnpm dev:test` is reserved for deterministic fixture-only tests. See [translation setup](docs/TRANSLATION.md) and [Google login setup](docs/LOGIN.md).
+For real translation with simulated sign-in and no Google account, use **`pnpm dev:local`**. `pnpm dev:test` is reserved for deterministic fixture-only tests. See [AI translation setup](docs/AI_TRANSLATION.md) and [Google login setup](docs/LOGIN.md).
 
 1. Open [the library](http://127.0.0.1:3000/library) and **Sign in with Google** (or choose a test learner with `dev:local`).
 2. In Chrome, open `chrome://extensions`, enable Developer mode, choose **Load unpacked**, and select `apps/extension/.output/chrome-mv3`.
 3. In the extension, click **Pair extension**. Match its code on the website and **Approve extension**. Keep the popup open, or reopen it to finish pairing. Credentials are separate from your website session.
 4. Enable automatic collection and **Save collection settings**. Collection starts off.
-5. Choose source/target languages in the popup and save them. Optionally enable automatic translation after selection. Open [the playground](http://127.0.0.1:3000/sample.html) or another webpage and select a word or sentence. Refresh the library to see a collected encounter and candidate.
+5. Choose source/target languages in the popup and save them. Automatic translation defaults on; existing explicit off settings remain respected. Open [the playground](http://127.0.0.1:3000/sample.html) or another webpage and select a word or sentence. Refresh the library to see a collected encounter and candidate.
 
-Normal mode translates arbitrary selections up to 2,000 characters with installed English/Chinese models. First startup downloads and verifies the models; later translation runs locally. Reload the unpacked extension and refresh existing pages after an update. Google credentials and extension tokens never enter webpage content scripts.
+AI mode translates selections up to 600 characters in English, Chinese, Japanese, Korean, Spanish, and French, with meanings and bilingual examples. No initial Translate button is needed. The optional plain English/Chinese provider retains its 2,000-character limit. Model setup is a one-time verified download; generation runs locally. Reload the unpacked extension and refresh existing pages after an update. Google credentials and extension tokens never enter webpage content scripts.
 
 Stop with Ctrl+C. Data stays in ignored `.local/postgres`; the extension queue survives restarts. Website sessions last seven days and paired extension access lasts thirty days. **Sign out** revokes the current website session; **Revoke all extensions** invalidates device access and unfinished approvals. Old developer-token identities are test data and are not merged into Google accounts.
 
-Local ports: 3000, 4318, 4319 (simulated provider only), 5001 (translator), 55432. `compose.yaml` is an optional database configuration; do not run both databases on the same port.
+Local ports: 3000, 4318, 4319 (simulated provider only), 11434 (AI), 5001 (optional plain translator), 55432. `compose.yaml` is an optional database configuration; do not run both databases on the same port.
+
+Gemini cloud explanations are available with a server-only API key; see [Gemini setup](docs/GEMINI.md). Free-tier availability and quotas depend on the Google project.
 
 ## Verification
 
@@ -40,7 +44,9 @@ pnpm typecheck
 pnpm test
 pnpm exec playwright install chromium
 pnpm test:e2e
+pnpm test:ai:live
 pnpm test:translation:live
+pnpm test:popup
 pnpm build:web
 ```
 
@@ -70,7 +76,8 @@ Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension 
 | --- | --- |
 | [Planning](docs/PLANNING.md) | Requirements mapping, MVP, roadmap, costs, and decisions |
 | [Methodology](docs/METHODOLOGY.md) | Collection, scenario inference, word priorities, and mastery evidence |
-| [Free translation](docs/TRANSLATION.md) | Reproducible local setup, languages, usage and live regression suite |
+| [Local AI translation](docs/AI_TRANSLATION.md) | Six languages, automatic cards, examples, setup and model pin |
+| [Plain free translation](docs/TRANSLATION.md) | Reproducible local setup, languages, usage and live regression suite |
 | [Google login and pairing](docs/LOGIN.md) | Provider setup, sessions, pairing, and revocation |
 | [Architecture](docs/ARCHITECTURE.md) | Stack, translation/dictionary services, data flow, and safeguards |
 | [First coding plan](docs/superpowers/plans/2026-11-07-capture-to-library.md) | A bounded capture-to-library implementation with checks |
