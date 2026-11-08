@@ -44,7 +44,7 @@ export function mountPronunciation(
     utterance.lang = voice.lang;
     current = utterance;
     button.disabled = true;
-    report("Playing selected text…");
+    report("");
     function finish(message: string) {
       if (current !== utterance || disposed) return;
       current = undefined;
