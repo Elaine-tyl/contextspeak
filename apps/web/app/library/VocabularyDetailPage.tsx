@@ -181,6 +181,14 @@ export function VocabularyDetailPage({
             )}
           </article>
           <div className="detail-actions">
+            {lookup?.translationStatus === "succeeded" && lookup.meaning && (
+              <a
+                className="secondary"
+                href={`/practice/${encodeURIComponent(id)}?lookup=${encodeURIComponent(lookup.id)}`}
+              >
+                Practice listening and speaking
+              </a>
+            )}
             {detail.item.reviewDueAt ? (
               <a className="secondary" href="/library?view=reviews">
                 Open review queue

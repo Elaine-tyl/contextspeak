@@ -1,4 +1,6 @@
 import "reflect-metadata";
+import { PracticeService } from "./practice/practice.service";
+import { PracticeController } from "./practice/practice.controller";
 import { ReviewService } from "./reviews/review.service";
 import { ReviewController } from "./reviews/review.controller";
 import { Module } from "@nestjs/common";
@@ -33,10 +35,15 @@ export async function createApp(config: AppConfig) {
     controllers: [
       LibraryController,
       ReviewController,
+      PracticeController,
       ...(auth ? [SessionController] : []),
     ],
     providers: [
       { provide: LibraryService, useValue: library },
+      {
+        provide: PracticeService,
+        useValue: new PracticeService(config.prisma, library),
+      },
       {
         provide: ReviewService,
         useValue: new ReviewService(config.prisma, library),

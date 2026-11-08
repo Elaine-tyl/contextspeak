@@ -80,6 +80,7 @@ Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension 
 | [Methodology](docs/METHODOLOGY.md) | Collection, scenario inference, word priorities, and mastery evidence |
 | [Local AI translation](docs/AI_TRANSLATION.md) | Six languages, automatic cards, examples, setup and model pin |
 | [Plain free translation](docs/TRANSLATION.md) | Reproducible local setup, languages, usage and live regression suite |
+| [Listening and speaking](docs/PRACTICE.md) | Free on-device playback, local recording, separate practice results and limitations |
 | [Google login and pairing](docs/LOGIN.md) | Provider setup, sessions, pairing, and revocation |
 | [Architecture](docs/ARCHITECTURE.md) | Stack, translation/dictionary services, data flow, and safeguards |
 | [First coding plan](docs/superpowers/plans/2026-11-07-capture-to-library.md) | A bounded capture-to-library implementation with checks |
@@ -101,3 +102,7 @@ A distribution license is undecided. The diagram adapts a user-supplied layout r
 Choose **Start reviewing** on a vocabulary candidate, open **Review queue**, recall its meaning, reveal the saved answer, then rate Again / Hard / Good / Easy. FSRS schedules the next due review without calling Gemini. Pause/resume keeps existing progress. See [review behavior and limitations](docs/REVIEWS.md).
 
 Click a vocabulary card or its title to open its private full-detail page. Long card titles use an ellipsis; the page shows the complete selected text, translation, context and learning notes. Review enrollment is available there too.
+
+## Listening and speaking practice
+
+Open a vocabulary detail page and choose **Practice listening and speaking**. Listen before revealing the transcript, or record and replay your own sentence. Matching on-device voices are required for listening; audio is never uploaded. Self-check results stay separate from FSRS and mastery estimates. See [practice setup and limits](docs/PRACTICE.md).

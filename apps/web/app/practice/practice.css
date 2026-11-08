@@ -1,0 +1,52 @@
+.practice-page {
+  max-width: 820px;
+}
+.practice-page h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+.practice-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 24px 0;
+}
+.practice-card {
+  height: auto;
+  padding: 24px;
+}
+.practice-card button {
+  margin: 8px 8px 8px 0;
+}
+.practice-response {
+  display: block;
+  margin: 20px 0;
+}
+.practice-response textarea {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  margin-top: 8px;
+  border: 1px solid #b5c7b3;
+  border-radius: 10px;
+  background: white;
+  color: #213d33;
+  font: inherit;
+}
+.practice-answer {
+  border-left: 3px solid #b5c7b3;
+  padding-left: 16px;
+  margin: 20px 0;
+}
+.practice-recording audio {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+}
+.practice-page [aria-label="Recent practice"] {
+  margin-top: 32px;
+}
+.practice-page li {
+  margin: 10px 0;
+}

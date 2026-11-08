@@ -148,3 +148,10 @@ export {
   type ReviewQueue,
   type ReviewReceipt,
 } from "./review";
+
+export {
+  practiceSubmissionSchema,
+  type PracticeSubmission,
+  type PracticeTask,
+  type PracticeReceipt,
+} from "./practice";

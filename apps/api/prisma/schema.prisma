@@ -63,6 +63,9 @@ model LookupEvent {
   errorCode         String?
   createdAt         DateTime     @default(now())
 
+  practiceAttempts PracticeAttempt[]
+
+  @@unique([id, userId])
   @@unique([userId, eventId])
   @@index([userId, createdAt, id])
   @@index([translationStatus])
@@ -134,4 +137,19 @@ model ReviewEvent {
   createdAt DateTime   @default(now())
 
   @@unique([userId, eventId])
+}
+
+model PracticeAttempt {
+  id          String      @id @default(uuid())
+  userId      String
+  eventId     String
+  lookupId    String
+  lookup      LookupEvent @relation(fields: [lookupId, userId], references: [id, userId], onDelete: Cascade)
+  payloadHash String
+  payload     Json
+  task        Json
+  createdAt   DateTime    @default(now())
+
+  @@unique([userId, eventId])
+  @@index([userId, lookupId, createdAt])
 }
