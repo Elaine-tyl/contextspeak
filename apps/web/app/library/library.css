@@ -719,3 +719,35 @@ code {
   display: inline-block;
   text-decoration: none;
 }
+
+.vocabulary-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.word-speaker {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  padding: 4px;
+  border: 0;
+  border-radius: 8px;
+  color: #176b60;
+  background: transparent;
+  cursor: pointer;
+}
+.word-speaker:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.speaker-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

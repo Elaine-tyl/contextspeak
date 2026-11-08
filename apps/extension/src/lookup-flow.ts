@@ -12,6 +12,7 @@ export type LookupReply =
       status: "queued" | "pending" | "succeeded";
       eventId?: string;
       meaning?: string;
+      detectedSourceLanguage?: string;
       learningDetails?: LearningDetails;
       error?: string;
     }
@@ -30,6 +31,7 @@ interface Dependencies {
   ): Promise<{
     meaning: string;
     provider: string;
+    detectedSourceLanguage?: string;
     learningDetails?: LearningDetails;
   }>;
   result(lookupId: string, token: string): Promise<LookupTranslationResult>;
@@ -59,6 +61,9 @@ export class LookupFlow {
         ok: true,
         status: "succeeded",
         meaning: translated.meaning,
+        ...(translated.detectedSourceLanguage
+          ? { detectedSourceLanguage: translated.detectedSourceLanguage }
+          : {}),
         ...(translated.learningDetails
           ? { learningDetails: translated.learningDetails }
           : {}),
@@ -139,6 +144,9 @@ export class LookupFlow {
           ok: true,
           status: "succeeded",
           meaning: result.meaning ?? "",
+          ...(result.detectedSourceLanguage
+            ? { detectedSourceLanguage: result.detectedSourceLanguage }
+            : {}),
           ...(result.learningDetails
             ? { learningDetails: result.learningDetails }
             : {}),

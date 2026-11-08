@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReviewReceipt, VocabularyDetail } from "@contextspeak/contracts";
 import { API, api, ApiError, type WebSession } from "../../src/api";
+import { SpeakerButton } from "./SpeakerButton";
 import { LearningNotes } from "./LearningNotes";
 import "./library.css";
 export function VocabularyDetailPage({
@@ -142,7 +143,19 @@ export function VocabularyDetailPage({
       {detail && (
         <>
           <div className="section-head">
-            <h1>{lookup?.text ?? detail.item.text}</h1>
+            <div className="vocabulary-title">
+              <h1>{lookup?.text ?? detail.item.text}</h1>
+              <SpeakerButton
+                key={lookup?.id ?? id}
+                text={lookup?.text ?? detail.item.text}
+                language={
+                  lookup?.detectedSourceLanguage ??
+                  (detail.item.sourceLanguage === "auto"
+                    ? null
+                    : detail.item.sourceLanguage)
+                }
+              />
+            </div>
             <button
               className="secondary"
               disabled={loading}

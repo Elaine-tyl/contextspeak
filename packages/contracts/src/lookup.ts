@@ -89,6 +89,7 @@ export interface LookupReceipt {
   translationStatus: string;
 }
 export interface LookupRecord {
+  detectedSourceLanguage?: string | null;
   id: string;
   eventId: string;
   candidateId: string;

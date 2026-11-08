@@ -2,6 +2,10 @@
 
 Open a vocabulary card, then choose **Practice listening and speaking** on its full-detail page. A successful saved translation is required. Practice uses that encounter's first saved bilingual example, or the selected expression and its meaning when no example is available. Passages over 600 characters require a shorter expression.
 
+## Word pronunciation
+
+The speaker icon beside selected text in the extension card and beside the vocabulary detail heading reads that word or sentence using a matching on-device voice. Automatic source selection uses the translator's detected language. Playback stops when the card closes or the detail page/session is left. Pronunciation playback does not save a practice attempt or change FSRS results. Reload extension 0.6.1 and refresh existing webpages to activate the card icon.
+
 ## Listening
 
 Choose **Play audio**, write what it means, then reveal the transcript and meaning. Choose **Comfortable** or **Needs practice** to save your self-check. Playback must finish successfully before saving. Replays and text reveal are tracked; an interrupted or failed playback does not count as completed listening. Each attempt allows up to 20 plays.

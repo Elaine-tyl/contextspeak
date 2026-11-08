@@ -40,6 +40,7 @@ function harness(enabled = true) {
       return {
         meaning: "Transient explanation",
         provider: "fixture",
+        detectedSourceLanguage: "en",
         learningDetails: learningFixture,
       };
     },
@@ -55,6 +56,7 @@ function harness(enabled = true) {
         translationStatus: resultStatus,
         meaning: resultStatus === "succeeded" ? "Stored explanation" : null,
         provider: "fixture",
+        detectedSourceLanguage: "en",
         learningDetails: learningFixture,
         errorCode: resultStatus === "failed" ? "FIXTURE_NOT_FOUND" : null,
       };
@@ -240,10 +242,12 @@ it("returns_the_same_learning_details_for_stored_and_transient_results", async (
   await saved.outbox.flushOutbox();
   expect(await saved.flow.result(input.eventId)).toMatchObject({
     learningDetails: learningFixture,
+    detectedSourceLanguage: "en",
   });
   expect(saved.counts().translations).toBe(0);
   expect(await harness(false).flow.start(value())).toMatchObject({
     learningDetails: learningFixture,
+    detectedSourceLanguage: "en",
   });
 });
 

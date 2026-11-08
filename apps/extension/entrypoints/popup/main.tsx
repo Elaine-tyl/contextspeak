@@ -108,7 +108,7 @@ function Popup() {
   return (
     <main>
       <small>
-        CONTEXTSPEAK <span className="build-version">v0.6.0</span>
+        CONTEXTSPEAK <span className="build-version">v0.6.1</span>
       </small>
       <h1>Capture settings</h1>
       <p>
