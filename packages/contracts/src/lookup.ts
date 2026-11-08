@@ -155,6 +155,7 @@ export {
   type PracticeSubmission,
   type PracticeTask,
   type PracticeReceipt,
+  type PracticeItem,
 } from "./practice";
 
 export {

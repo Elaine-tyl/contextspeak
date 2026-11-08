@@ -1,6 +1,7 @@
 "use client";
 import { aiLanguages } from "@contextspeak/contracts";
 import Link from "next/link";
+import { PracticeHub } from "./PracticeHub";
 import { ReviewQueue } from "./ReviewQueue";
 import { LearningNotes } from "./LearningNotes";
 import { useEffect, useRef, useState } from "react";
@@ -22,9 +23,9 @@ export default function Library() {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const [enabled, setEnabled] = useState(false);
-  const [view, setView] = useState<"history" | "candidates" | "reviews">(
-    "history",
-  );
+  const [view, setView] = useState<
+    "history" | "candidates" | "reviews" | "practice"
+  >("history");
   const [filters, setFilters] = useState({
     q: "",
     sourceLanguage: "",
@@ -131,7 +132,11 @@ export default function Library() {
     const requestedView = new URLSearchParams(window.location.search).get(
       "view",
     );
-    if (requestedView === "reviews" || requestedView === "candidates")
+    if (
+      requestedView === "reviews" ||
+      requestedView === "candidates" ||
+      requestedView === "practice"
+    )
       setView(requestedView);
     void connect();
     const timer = setInterval(() => {
@@ -237,6 +242,12 @@ export default function Library() {
           >
             Review queue
           </button>
+          <button
+            className={view === "practice" ? "nav active" : "nav"}
+            onClick={() => setView("practice")}
+          >
+            Listening &amp; speaking
+          </button>
         </nav>
         <div className="aside-note">
           <span className="status-dot" /> DEVELOPMENT
@@ -327,7 +338,13 @@ export default function Library() {
             )}
           </article>
         </section>
-        {view === "reviews" ? (
+        {view === "practice" ? (
+          connected ? (
+            <PracticeHub key={identity} token={token.current} />
+          ) : (
+            <p>Sign in to practice saved vocabulary.</p>
+          )
+        ) : view === "reviews" ? (
           connected ? (
             <ReviewQueue
               key={identity}

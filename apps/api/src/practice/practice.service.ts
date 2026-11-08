@@ -10,6 +10,7 @@ import {
   type Identity,
   type PracticeSubmission,
 } from "@contextspeak/contracts";
+import type { LibraryFilters } from "../library/library-filters";
 import { LibraryService } from "../library/library.service";
 function taskFor(
   lookup: Pick<
@@ -59,6 +60,46 @@ export class PracticeService {
     private prisma: PrismaClient,
     private library: LibraryService,
   ) {}
+  async list(identity: Identity, filters: LibraryFilters) {
+    const user = await this.library.actor(identity);
+    const successful = { translationStatus: "succeeded", meaning: { not: "" } };
+    const rows = await this.prisma.learningItem.findMany({
+      where: {
+        userId: user.id,
+        ...(filters.q
+          ? { text: { contains: filters.q, mode: "insensitive" as const } }
+          : {}),
+        ...(filters.sourceLanguage
+          ? { sourceLanguage: filters.sourceLanguage }
+          : {}),
+        ...(filters.targetLanguage
+          ? { targetLanguage: filters.targetLanguage }
+          : {}),
+        lookups: { some: successful },
+      },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+      take: 50,
+      select: {
+        id: true,
+        text: true,
+        sourceLanguage: true,
+        targetLanguage: true,
+        // A failed retry must not hide a previously usable encounter.
+        lookups: {
+          where: successful,
+          orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+          take: 1,
+          select: { id: true },
+        },
+      },
+    });
+    return {
+      items: rows.map(({ lookups, ...item }) => ({
+        ...item,
+        lookupId: lookups[0].id,
+      })),
+    };
+  }
   async task(identity: Identity, itemId: string, lookupId?: string) {
     const detail = await this.library.itemDetail(identity, itemId, lookupId);
     if (!detail.lookup)

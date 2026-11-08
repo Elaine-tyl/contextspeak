@@ -1,6 +1,6 @@
 # Listening and speaking practice
 
-Open a vocabulary card, then choose **Practice listening and speaking** on its full-detail page. A successful saved translation is required. Practice uses that encounter's first saved bilingual example, or the selected expression and its meaning when no example is available. Passages over 600 characters require a shorter expression.
+Open **Listening & speaking** in the library sidebar, or choose **Practice listening and speaking** on a vocabulary detail page. The practice list supports text search and translation-language filters, showing up to 50 recent matching vocabulary items. Each link uses the latest successful encounter, so a later failed retry does not hide a usable translation. A successful saved translation is required. Practice uses that encounter's first saved bilingual example, or the selected expression and its meaning when no example is available. Passages over 600 characters require a shorter expression.
 
 ## Word, phrase and example pronunciation
 
@@ -19,6 +19,10 @@ Choose **Speaking**, record a short sentence using the expression, stop, and rep
 Microphone capture starts only after a click and browser permission. It requires HTTPS or loopback development. Capture stops at 60 seconds, on tab hiding/navigation, or on session expiry/account changes. A 10 MB local buffer limit rejects oversized recordings. Denied permission, empty audio and recording errors allow retry. A late permission grant after leaving the page immediately releases its tracks.
 
 Audio stays in browser memory. It is never uploaded, transcribed, stored in the database, or sent to Gemini. Object URLs and microphone tracks are released on cleanup. Saving practice stores the optional written response, mode, self-check, playback/reveal counters, replay completion and recording duration, bound to the owned successful lookup with a server-generated task snapshot. Recent practice shows the last ten results for that encounter. A failed save keeps the same event ID and response so retry cannot count twice. You can explicitly start a new attempt instead; the unconfirmed previous result may already be saved.
+
+## Next milestone: everyday conversations
+
+Prioritize everyday conversations for the first novel scenarios: introductions, making plans, asking for help and everyday requests. Reuse saved vocabulary, hide the model response until after the learner answers, and keep assisted attempts separate from independent evidence. Scenario generation and assessment are not implemented in the current guided practice flow.
 
 ## What this establishes
 

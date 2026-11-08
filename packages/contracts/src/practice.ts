@@ -46,3 +46,11 @@ export interface PracticeTask {
   language: string | null;
   recent: PracticeReceipt[];
 }
+
+export interface PracticeItem {
+  id: string;
+  text: string;
+  sourceLanguage: string;
+  targetLanguage: string;
+  lookupId: string;
+}

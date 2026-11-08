@@ -119,6 +119,31 @@ it("offers_only_owned_successful_encounters_and_resolves_detected_language", asy
     (await client("get", `/v1/practice/${itemId}?lookup=${failedId}`)).status,
   ).toBe(409);
 });
+it("lists_successful_owned_vocabulary_even_after_a_failed_retry", async () => {
+  const result = await client(
+    "get",
+    "/v1/practice?q=avail&targetLanguage=zh-Hans",
+  );
+  expect(result.status).toBe(200);
+  expect(result.body.items).toEqual([
+    {
+      id: itemId,
+      text: "available",
+      sourceLanguage: "auto",
+      targetLanguage: "zh-Hans",
+      lookupId,
+    },
+  ]);
+  expect((await client("get", "/v1/practice?q=missing")).body.items).toEqual(
+    [],
+  );
+  expect(
+    (await client("get", "/v1/practice", undefined, "practice-b")).body.items,
+  ).toEqual([]);
+  expect(
+    (await client("get", "/v1/practice?targetLanguage=invalid")).status,
+  ).toBe(400);
+});
 it("saves_once_under_concurrent_retries_and_rejects_changed_event_payloads", async () => {
   const body = attempt();
   const path = `/v1/practice/${itemId}/attempts`;
