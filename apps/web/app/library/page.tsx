@@ -441,45 +441,51 @@ export default function Library() {
             <div className={view === "history" ? "cards" : "cards hidden"}>
               {history.map((item) => (
                 <article
-                  className="lookup-card"
+                  className="lookup-card history-card"
                   data-testid="lookup-card"
                   key={item.id}
                 >
-                  <div className="card-head">
-                    <h3>{item.text}</h3>
-                    <span className={"badge " + item.translationStatus}>
-                      {item.translationStatus === "succeeded"
-                        ? "Translated"
-                        : item.translationStatus}
-                    </span>
-                  </div>
-                  {item.meaning && <p className="meaning">{item.meaning}</p>}
-                  {(item.context || item.learningDetails) && (
-                    <details className="lookup-details">
-                      <summary>
-                        <span className="details-show">Show details</span>
-                        <span className="details-hide">Hide details</span>
-                      </summary>
-                      {item.context && (
-                        <blockquote>“{item.context}”</blockquote>
-                      )}
-                      <LearningNotes value={item.learningDetails} />
-                    </details>
-                  )}
-                  {item.errorCode && (
-                    <div className="failure">
-                      <p>
-                        Translation unavailable ({item.errorCode}). This query
-                        is saved. Check the local translator and retry.
-                      </p>
-                      <button
-                        className="link-button"
-                        onClick={() => retry(item.id)}
-                      >
-                        Retry translation
-                      </button>
+                  <div
+                    className="card-content"
+                    tabIndex={0}
+                    aria-label="Scrollable vocabulary card"
+                  >
+                    <div className="card-head">
+                      <h3>{item.text}</h3>
+                      <span className={"badge " + item.translationStatus}>
+                        {item.translationStatus === "succeeded"
+                          ? "Translated"
+                          : item.translationStatus}
+                      </span>
                     </div>
-                  )}
+                    {item.meaning && <p className="meaning">{item.meaning}</p>}
+                    {(item.context || item.learningDetails) && (
+                      <details className="lookup-details">
+                        <summary>
+                          <span className="details-show">Show details</span>
+                          <span className="details-hide">Hide details</span>
+                        </summary>
+                        {item.context && (
+                          <blockquote>“{item.context}”</blockquote>
+                        )}
+                        <LearningNotes value={item.learningDetails} />
+                      </details>
+                    )}
+                    {item.errorCode && (
+                      <div className="failure">
+                        <p>
+                          Translation unavailable ({item.errorCode}). This query
+                          is saved. Check the local translator and retry.
+                        </p>
+                        <button
+                          className="link-button"
+                          onClick={() => retry(item.id)}
+                        >
+                          Retry translation
+                        </button>
+                      </div>
+                    )}
+                  </div>
                   <footer>
                     <span>
                       {new Date(item.createdAt).toLocaleDateString("en-GB", {
@@ -492,8 +498,7 @@ export default function Library() {
                         : "Manual query"}
                     </span>
                     <span>
-                      {item.sourceLanguage} → {item.targetLanguage} · Candidate
-                      · sense unresolved
+                      {item.sourceLanguage} → {item.targetLanguage}
                     </span>
                   </footer>
                 </article>
@@ -502,54 +507,62 @@ export default function Library() {
             <div className={view === "candidates" ? "cards" : "cards hidden"}>
               {candidates.map((item) => (
                 <article
-                  className="lookup-card"
+                  className="lookup-card candidate-card"
                   data-testid="candidate-card"
                   key={item.id}
                 >
-                  <div className="card-head">
-                    <h3>{item.text}</h3>
-                    <span className="badge">{item.status}</span>
-                  </div>
-                  <p>
-                    {item.encounterCount} encounter
-                    {item.encounterCount === 1 ? "" : "s"} · {item.senseStatus}{" "}
-                    sense
-                  </p>
-                  <p className="section-copy">
-                    {item.sourceLanguage} → {item.targetLanguage}
-                  </p>
-                  <div className="review-actions">
-                    {item.reviewDueAt ? (
-                      <>
+                  <div
+                    className="card-content"
+                    tabIndex={0}
+                    aria-label="Scrollable vocabulary card"
+                  >
+                    <div className="card-head">
+                      <h3>{item.text}</h3>
+                      <span className="badge">{item.status}</span>
+                    </div>
+                    <p>
+                      {item.encounterCount} encounter
+                      {item.encounterCount === 1 ? "" : "s"} ·{" "}
+                      {item.senseStatus} sense
+                    </p>
+                    <p className="section-copy">
+                      {item.sourceLanguage} → {item.targetLanguage}
+                    </p>
+                    <div className="review-actions">
+                      {item.reviewDueAt ? (
+                        <>
+                          <button
+                            className="secondary"
+                            onClick={() => setView("reviews")}
+                          >
+                            Open review queue
+                          </button>
+                          <button
+                            className="link-button"
+                            disabled={!!reviewBusy}
+                            onClick={() => void updateReview(item.id, "pause")}
+                          >
+                            Pause reviews
+                          </button>
+                        </>
+                      ) : (
                         <button
                           className="secondary"
-                          onClick={() => setView("reviews")}
-                        >
-                          Open review queue
-                        </button>
-                        <button
-                          className="link-button"
                           disabled={!!reviewBusy}
-                          onClick={() => void updateReview(item.id, "pause")}
+                          onClick={() => void updateReview(item.id, "enroll")}
                         >
-                          Pause reviews
+                          {reviewBusy === item.id
+                            ? "Saving…"
+                            : "Start reviewing"}
                         </button>
-                      </>
-                    ) : (
-                      <button
-                        className="secondary"
-                        disabled={!!reviewBusy}
-                        onClick={() => void updateReview(item.id, "enroll")}
-                      >
-                        {reviewBusy === item.id ? "Saving…" : "Start reviewing"}
-                      </button>
-                    )}
+                      )}
+                    </div>
+                    <p className="section-copy">
+                      {item.reviewDueAt
+                        ? `Next review: ${new Date(item.reviewDueAt).toLocaleString("en-GB")}`
+                        : "Choose this item for spaced repetition when you’re ready."}
+                    </p>
                   </div>
-                  <p className="section-copy">
-                    {item.reviewDueAt
-                      ? `Next review: ${new Date(item.reviewDueAt).toLocaleString("en-GB")}`
-                      : "Choose this item for spaced repetition when you’re ready."}
-                  </p>
                 </article>
               ))}
             </div>

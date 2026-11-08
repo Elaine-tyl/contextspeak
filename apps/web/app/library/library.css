@@ -293,9 +293,9 @@ header {
 }
 .cards {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   align-items: start;
-  gap: 18px;
+  gap: 12px;
 }
 .hidden {
   display: none;
@@ -309,13 +309,14 @@ header {
 }
 .card-head {
   display: flex;
-  gap: 12px;
-  align-items: center;
+  gap: 8px;
+  align-items: start;
   justify-content: space-between;
 }
 .card-head h3 {
   font-family: Georgia, serif;
-  font-size: 22px;
+  font-size: 18px;
+  line-height: 20px;
   font-weight: 400;
   overflow-wrap: anywhere;
   margin: 0;
@@ -348,7 +349,8 @@ blockquote {
 }
 .meaning {
   font-size: 13px;
-  line-height: 1.7;
+  line-height: 18px;
+  margin: 6px 0;
   color: #465c4b;
 }
 .failure {
@@ -360,10 +362,11 @@ blockquote {
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
   border-top: 1px solid #edf0e9;
-  padding-top: 10px;
-  margin-top: 12px;
+  padding-top: 8px;
+  margin-top: 6px;
   font-size: 9px;
   color: #899383;
 }
@@ -557,13 +560,14 @@ code {
 
 /* Native disclosure keeps every saved explanation accessible without a tall card. */
 .lookup-details {
-  margin-top: 12px;
+  margin-top: 4px;
 }
 .lookup-details summary {
   cursor: pointer;
   color: #176b60;
   font-size: 13px;
-  padding: 6px 0;
+  padding: 4px 0;
+  line-height: 16px;
 }
 .lookup-details summary:focus-visible {
   outline: 2px solid #176b60;
@@ -614,4 +618,52 @@ code {
   nav {
     flex-wrap: wrap;
   }
+}
+
+/* Fixed grid cards; expanded content scrolls without changing neighbouring cards. */
+.cards > .lookup-card {
+  height: 168px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.card-content {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  scrollbar-width: thin;
+}
+.card-content:focus-visible {
+  outline: 2px solid #176b60;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+.history-card:has(.lookup-details) .card-head h3,
+.history-card:has(.lookup-details) .meaning {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+.history-card:has(.lookup-details[open]) .card-head h3,
+.history-card:has(.lookup-details[open]) .meaning {
+  display: block;
+  overflow: visible;
+}
+.cards .lookup-card footer span {
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.candidate-card .card-content > p {
+  font-size: 12px;
+  line-height: 18px;
+  margin: 6px 0;
+}
+.candidate-card .review-actions {
+  gap: 6px;
+  margin: 8px 0;
 }

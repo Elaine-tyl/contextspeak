@@ -189,7 +189,9 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
           ? [
               {
                 id: url.searchParams.get("cursor") ? "older" : "first",
-                text: "available",
+                text: url.searchParams.get("cursor")
+                  ? "Could you tell me where the nearest train station is and how long it takes to walk there?"
+                  : "available",
                 context: "Are you available for a quick call?",
                 learningDetails: learningFixture,
                 meaning: "Free",
@@ -236,6 +238,26 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
   });
   await page.getByRole("button", { name: "Load more", exact: true }).click();
   await expect(page.getByTestId("lookup-card")).toHaveCount(2);
+  const cards = page.getByTestId("lookup-card");
+  const small = (await cards.nth(0).boundingBox())!;
+  const long = (await cards.nth(1).boundingBox())!;
+  expect(small.height).toBeLessThanOrEqual(180);
+  expect(long.height).toBe(small.height);
+  expect(long.width).toBe(small.width);
+  await cards.nth(1).getByText("Show details", { exact: true }).click();
+  expect((await cards.nth(1).boundingBox())!.height).toBe(small.height);
+  await cards.nth(1).getByText("Hide details", { exact: true }).click();
+  await page
+    .locator(".cards")
+    .first()
+    .screenshot({ path: testInfo.outputPath("uniform-library-cards.png") });
+  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileShort = (await cards.nth(0).boundingBox())!;
+  const mobileLong = (await cards.nth(1).boundingBox())!;
+  expect(mobileShort.height).toBe(small.height);
+  expect(mobileLong.height).toBe(small.height);
+  expect(mobileLong.width).toBe(mobileShort.width);
+  await page.setViewportSize({ width: 1280, height: 720 });
   await page
     .getByRole("searchbox", { name: "Search library", exact: true })
     .fill("obsolete");
