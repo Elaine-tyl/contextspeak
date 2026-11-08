@@ -156,6 +156,7 @@ export {
   conversationScenarios,
   type ScenarioId,
   type PracticeSubmission,
+  type DictationFeedback,
   type PracticeTask,
   type PracticeReceipt,
   type PracticeItem,

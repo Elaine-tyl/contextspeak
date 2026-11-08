@@ -25,14 +25,19 @@ export function useAiSpeech(
     active.current = true;
     setBusy(false);
     setError("");
+    const hide = () => {
+      if (document.visibilityState === "hidden") stop();
+    };
+    document.addEventListener("visibilitychange", hide);
     return () => {
       active.current = false;
       stop();
+      document.removeEventListener("visibilitychange", hide);
     };
   }, [token, text, language]);
   const input = speechInputSchema.safeParse({ text, language });
-  async function play() {
-    if (!input.success || !token || current.current) return;
+  async function play(): Promise<boolean> {
+    if (!input.success || !token || current.current) return false;
     cancelPrevious?.();
     const controller = new AbortController();
     const id = crypto.randomUUID();
@@ -69,8 +74,10 @@ export function useAiSpeech(
       );
       if (session.csrfToken !== token)
         throw new ApiError(403, "Session changed");
-      if (controller.signal.aborted || current.current !== attempt) return;
-      await player.play(id, audio);
+      if (controller.signal.aborted || current.current !== attempt)
+        return false;
+      const result = await player.play(id, audio);
+      return !result.cancelled && active.current && current.current === attempt;
     } catch (error) {
       if (
         !controller.signal.aborted &&
@@ -82,6 +89,7 @@ export function useAiSpeech(
             ? "AI voice quota reached or busy. Try again shortly; cached audio remains available."
             : "AI voice is unavailable. Check your connection and sign-in, then retry.",
         );
+      return false;
     } finally {
       if (current.current === attempt) {
         current.current = null;

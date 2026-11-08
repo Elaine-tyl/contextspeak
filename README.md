@@ -81,7 +81,7 @@ Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension 
 | [Local AI translation](docs/AI_TRANSLATION.md) | Seven languages, automatic cards, examples, setup and model pin |
 | [Plain free translation](docs/TRANSLATION.md) | Reproducible local setup, languages, usage and live regression suite |
 | [AI pronunciation](docs/AI_SPEECH.md) | Natural word/phrase/example audio, private caching, setup and quota limits |
-| [Listening and speaking](docs/PRACTICE.md) | Free on-device playback, local recording, separate practice results and limitations |
+| [Listening and speaking](docs/PRACTICE.md) | Cached AI audio, dictation marks/feedback, local recording and limitations |
 | [Google login and pairing](docs/LOGIN.md) | Provider setup, sessions, pairing, and revocation |
 | [Architecture](docs/ARCHITECTURE.md) | Stack, translation/dictionary services, data flow, and safeguards |
 | [First coding plan](docs/superpowers/plans/2026-11-07-capture-to-library.md) | A bounded capture-to-library implementation with checks |
@@ -106,4 +106,4 @@ Click a vocabulary card or its title to open its private full-detail page. Long 
 
 ## Listening and speaking practice
 
-Open **Listening & speaking** in the library sidebar, or choose **Practice listening and speaking** on a vocabulary detail page. Choose a saved example or an everyday English role-play: **Introductions**, **Making plans**, or **Asking for help**. Listen before revealing the partner's turn, then record a reply using your saved expression and replay it. Matching on-device voices are required for listening; audio is never uploaded. Self-check results stay separate from FSRS and mastery estimates. See [practice setup and limits](docs/PRACTICE.md).
+Open **Listening & speaking** in the library sidebar, or choose **Practice listening and speaking** on a vocabulary detail page. Choose a saved example or an everyday English role-play: **Introductions**, **Making plans**, or **Asking for help**. Play AI audio, type exactly what you hear, and submit for a mark and word corrections before seeing the transcript. Switch to speaking to record and replay your own reply. Generated audio uses cached Gemini speech; microphone recordings stay local. Dictation marks and speaking self-checks stay separate from FSRS and mastery estimates. See [practice setup and limits](docs/PRACTICE.md).

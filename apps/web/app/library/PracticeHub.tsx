@@ -56,9 +56,9 @@ export function PracticeHub({ token }: { token: string }) {
     <section className="library-section">
       <h2>Listening &amp; speaking</h2>
       <p className="section-copy">
-        Practice with your saved vocabulary. Listen before revealing the text,
-        then record and replay your response. Self-checks stay separate from
-        vocabulary recall.
+        Practice with your saved vocabulary and AI audio. Type what you hear and
+        submit for marks and corrections, or record and replay a spoken
+        response. Results stay separate from vocabulary recall.
       </p>
       <div
         className="library-filters"

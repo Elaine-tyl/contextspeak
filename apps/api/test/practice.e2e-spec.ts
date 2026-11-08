@@ -252,6 +252,50 @@ it("builds_and_saves_owned_English_scenarios_with_server_snapshots", async () =>
     ).status,
   ).toBe(400);
 });
+it("grades_dictation_after_submission_and_keeps_retries_and_FSRS_separate", async () => {
+  const body = {
+    ...attempt(),
+    activity: "dictation",
+    selfCheck: undefined,
+    revealed: false,
+    response: "AVAILABLE!",
+  };
+  const path = `/v1/practice/${itemId}/attempts`;
+  const results = await Promise.all([
+    client("post", path, body),
+    client("post", path, body),
+  ]);
+  expect(results.map((result) => result.status)).toEqual([201, 201]);
+  expect(results[0].body).toEqual(results[1].body);
+  expect(results[0].body.feedback).toMatchObject({
+    score: 100,
+    transcript: "available",
+    correctWords: 1,
+    totalWords: 1,
+  });
+  expect(results[0].body.selfCheck).toBeUndefined();
+  expect(
+    (await client("post", path, { ...body, response: "different" })).status,
+  ).toBe(409);
+  expect((await client("post", path, body, "practice-b")).status).toBe(404);
+  for (const patch of [
+    { revealed: true },
+    { completedPlays: 0 },
+    { response: "..." },
+    { mode: "speaking" },
+    { feedback: { score: 100 } },
+  ]) {
+    expect(
+      (await client("post", path, { ...body, ...patch, eventId: randomUUID() }))
+        .status,
+    ).toBe(400);
+  }
+  expect(await db.prisma.reviewEvent.count()).toBe(0);
+  const row = await db.prisma.practiceAttempt.findUniqueOrThrow({
+    where: { id: results[0].body.id },
+  });
+  expect(row.task).toMatchObject({ feedback: results[0].body.feedback });
+});
 it("saves_once_under_concurrent_retries_and_rejects_changed_event_payloads", async () => {
   const body = attempt();
   const path = `/v1/practice/${itemId}/attempts`;
@@ -266,7 +310,10 @@ it("saves_once_under_concurrent_retries_and_rejects_changed_event_payloads", asy
   ).toBe(409);
   const task = await client("get", `/v1/practice/${itemId}?lookup=${lookupId}`);
   expect(
-    task.body.recent.filter((row: { scenario?: string }) => !row.scenario),
+    task.body.recent.filter(
+      (row: { scenario?: string; feedback?: unknown }) =>
+        !row.scenario && !row.feedback,
+    ),
   ).toHaveLength(1);
   expect(task.body.recent[0]).toMatchObject({
     mode: "listening",

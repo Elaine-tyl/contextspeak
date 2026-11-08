@@ -4,9 +4,11 @@ import type {
   PracticeReceipt,
   PracticeSubmission,
   PracticeTask,
+  DictationFeedback,
 } from "@contextspeak/contracts";
 import { api, ApiError } from "../../src/api";
-import { useLocalSpeech } from "./useLocalSpeech";
+import { usePracticeSpeech } from "./usePracticeSpeech";
+import { DictationResult } from "./DictationResult";
 import { RecordingPlayback } from "./RecordingPlayback";
 import { useLocalRecording } from "./useLocalRecording";
 export function PracticeSession({
@@ -26,7 +28,8 @@ export function PracticeSession({
   onExpired(): void;
   onDiscard(): void;
 }) {
-  const speech = useLocalSpeech(task.language);
+  const speech = usePracticeSpeech(token, task.sourceText, task.language);
+  const [feedback, setFeedback] = useState<DictationFeedback | null>(null);
   const recording = useLocalRecording();
   const [response, setResponse] = useState("");
   const [revealed, setRevealed] = useState(false);
@@ -46,9 +49,9 @@ export function PracticeSession({
   const recordingBusy =
     recording.state === "requesting" || recording.state === "recording";
   const ready = listening
-    ? speech.completedPlays > 0 && revealed && !!response.trim()
+    ? speech.completedPlays > 0 && /[\p{L}\p{N}]/u.test(response)
     : !!recording.url && replayed;
-  async function save(selfCheck: PracticeSubmission["selfCheck"]) {
+  async function save(selfCheck?: PracticeSubmission["selfCheck"]) {
     if (
       !ready ||
       busy ||
@@ -61,10 +64,10 @@ export function PracticeSession({
       lookupId: task.lookupId,
       mode,
       ...(task.scenario ? { scenario: task.scenario.id } : {}),
-      selfCheck,
+      ...(listening ? { activity: "dictation" as const } : { selfCheck }),
       plays: speech.plays,
       completedPlays: speech.completedPlays,
-      revealed,
+      revealed: listening ? false : revealed,
       replayed,
       response,
       durationMs: listening ? 0 : recording.durationMs,
@@ -80,6 +83,9 @@ export function PracticeSession({
         attempt.current,
       );
       if (!active.current) return;
+      if (listening && !receipt.feedback)
+        throw new Error("Missing dictation result");
+      setFeedback(receipt.feedback ?? null);
       setSaved(true);
       onLocked(false);
       onSaved(receipt);
@@ -89,7 +95,9 @@ export function PracticeSession({
         onExpired();
       else
         setError(
-          "Practice not confirmed. Retry the same self-check; your response is kept.",
+          listening
+            ? "Answer not confirmed. Retry Submit answer; your text is kept."
+            : "Practice not confirmed. Retry the same self-check; your response is kept.",
         );
     } finally {
       if (active.current) setBusy(false);
@@ -101,7 +109,7 @@ export function PracticeSession({
       <h2>{listening ? "Listen first" : "Speak in your own words"}</h2>
       <p className="section-copy">
         {listening
-          ? "Listen, write the meaning, then reveal the text to compare."
+          ? "Listen to the AI voice and type exactly what you hear. Submit to see your mark and corrections."
           : task.scenario
             ? "Listen to your partner, then record your own reply using the saved expression. Replay and self-check it."
             : "Record a sentence using the expression. Replay it and self-check before starting another attempt."}
@@ -119,21 +127,24 @@ export function PracticeSession({
               !speech.available ||
               speech.playing ||
               recordingBusy ||
-              frozen ||
+              (frozen && !saved) ||
               speech.plays >= 20
             }
-            onClick={() => speech.play(task.sourceText)}
+            onClick={() => void speech.play()}
           >
             Play audio
           </button>
           {!speech.available && (
             <p>
-              No on-device voice is available for{" "}
-              {task.language ?? "this language"}. Install a matching device
-              voice to enable listening. No remote voice is used.
+              AI audio needs a supported, known source language. Choose another
+              saved translation to enable playback.
             </p>
           )}
-          {speech.status && <p role="status">{speech.status}</p>}
+          {speech.error ? (
+            <p role="alert">{speech.error}</p>
+          ) : (
+            speech.status && <p role="status">{speech.status}</p>
+          )}
           <p className="section-copy">
             {speech.plays} plays · {speech.completedPlays} completed
           </p>
@@ -141,11 +152,11 @@ export function PracticeSession({
       )}
       {listening ? (
         <label className="practice-response">
-          What did it mean?
+          Type what you hear
           <textarea
             value={response}
             maxLength={2000}
-            disabled={revealed || frozen}
+            disabled={frozen}
             onChange={(event) => setResponse(event.target.value)}
           />
         </label>
@@ -195,24 +206,16 @@ export function PracticeSession({
           {recording.error && <p role="alert">{recording.error}</p>}
         </div>
       )}
-      {!revealed && (
+      {!listening && !revealed && (
         <button
           className="secondary"
-          disabled={
-            frozen ||
-            recordingBusy ||
-            (listening && (!speech.completedPlays || !response.trim()))
-          }
+          disabled={frozen || recordingBusy}
           onClick={() => setRevealed(true)}
         >
-          {listening
-            ? "Reveal transcript and meaning"
-            : task.scenario
-              ? "Show partner's turn"
-              : "Show example"}
+          {task.scenario ? "Show partner's turn" : "Show example"}
         </button>
       )}
-      {revealed && (
+      {!listening && revealed && (
         <div className="practice-answer">
           <p>{task.sourceText}</p>
           {task.scenario && <small>English meaning guide</small>}
@@ -224,25 +227,38 @@ export function PracticeSession({
           </small>
         </div>
       )}
-      <div className="review-actions" aria-label="Self-check practice">
-        {(["needs-practice", "comfortable"] as const).map((value) => (
+      {listening ? (
+        <>
           <button
-            key={value}
-            className="secondary"
-            disabled={
-              !ready ||
-              recordingBusy ||
-              speech.playing ||
-              busy ||
-              saved ||
-              (!!attempt.current && attempt.current.selfCheck !== value)
-            }
-            onClick={() => void save(value)}
+            className="primary"
+            disabled={!ready || speech.playing || busy || saved}
+            onClick={() => void save()}
           >
-            {value === "comfortable" ? "Comfortable" : "Needs practice"}
+            {busy ? "Checking answer…" : "Submit answer"}
           </button>
-        ))}
-      </div>
+          {feedback && <DictationResult feedback={feedback} />}
+        </>
+      ) : (
+        <div className="review-actions" aria-label="Self-check practice">
+          {(["needs-practice", "comfortable"] as const).map((value) => (
+            <button
+              key={value}
+              className="secondary"
+              disabled={
+                !ready ||
+                recordingBusy ||
+                speech.playing ||
+                busy ||
+                saved ||
+                (!!attempt.current && attempt.current.selfCheck !== value)
+              }
+              onClick={() => void save(value)}
+            >
+              {value === "comfortable" ? "Comfortable" : "Needs practice"}
+            </button>
+          ))}
+        </div>
+      )}
       {error && (
         <>
           <p role="alert">{error}</p>
@@ -257,8 +273,9 @@ export function PracticeSession({
       )}
       {saved && <p role="status">Practice saved.</p>}
       <p className="section-copy">
-        Guided practice and self-reported results. This does not assess
-        pronunciation, prove mastery or change your vocabulary review schedule.
+        Dictation marks measure typed word accuracy. Speaking self-checks do not
+        assess pronunciation or prove mastery. Neither changes your vocabulary
+        review schedule.
       </p>
     </article>
   );

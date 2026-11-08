@@ -19,7 +19,8 @@ export const practiceSubmissionSchema = z
     lookupId: z.uuid(),
     scenario: scenarioSchema.optional(),
     mode: z.enum(["listening", "speaking"]),
-    selfCheck: z.enum(["needs-practice", "comfortable"]),
+    activity: z.literal("dictation").optional(),
+    selfCheck: z.enum(["needs-practice", "comfortable"]).optional(),
     plays: z.number().int().min(0).max(20),
     completedPlays: z.number().int().min(0).max(20),
     revealed: z.boolean(),
@@ -30,6 +31,12 @@ export const practiceSubmissionSchema = z
   .strict()
   .superRefine((value, context) => {
     if (
+      (value.activity === "dictation"
+        ? value.mode !== "listening" ||
+          value.revealed ||
+          value.selfCheck !== undefined ||
+          !/[\p{L}\p{N}]/u.test(value.response)
+        : !value.selfCheck) ||
       value.completedPlays > value.plays ||
       (value.mode === "listening" &&
         (!value.completedPlays || !value.response)) ||
@@ -46,7 +53,8 @@ export interface PracticeReceipt {
   scenario?: ScenarioId;
   id: string;
   mode: PracticeSubmission["mode"];
-  selfCheck: PracticeSubmission["selfCheck"];
+  selfCheck?: PracticeSubmission["selfCheck"];
+  feedback?: DictationFeedback;
   plays: number;
   revealed: boolean;
   durationMs: number;
@@ -71,3 +79,14 @@ export interface PracticeItem {
   targetLanguage: string;
   lookupId: string;
 }
+
+export type DictationFeedback = {
+  method: "word-error-rate-v1";
+  transcript: string;
+  score: number;
+  correctWords: number;
+  totalWords: number;
+  missing: string[];
+  extra: string[];
+  replacements: { expected: string; actual: string }[];
+};

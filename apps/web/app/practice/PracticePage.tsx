@@ -133,9 +133,10 @@ export function PracticePage({
       <Link href={back}>Back to vocabulary</Link>
       <h1>Listening and speaking</h1>
       <p className="section-copy">
-        Practice your saved vocabulary with on-device voices and local
-        recording. Written answers and self-checks are saved separately from
-        vocabulary recall; no audio is uploaded.
+        Practice with cached AI voices and local recording. Submit what you hear
+        for dictation marks and corrections. Text is sent to Google for AI
+        audio; microphone recordings stay in this tab. Results stay separate
+        from vocabulary recall.
       </p>
       {token && (
         <label className="scenario-picker">
@@ -228,11 +229,18 @@ export function PracticePage({
                       ? `${conversationScenarios.find((scenario) => scenario.id === value.scenario)?.title} · `
                       : ""}
                     {value.mode === "listening" ? "Listening" : "Speaking"} ·{" "}
-                    {value.selfCheck === "comfortable"
-                      ? "Comfortable"
-                      : "Needs practice"}{" "}
-                    · {value.revealed ? "Text shown" : "Text hidden"} ·{" "}
-                    {new Date(value.createdAt).toLocaleString()}
+                    {value.feedback
+                      ? `${value.feedback.score}/100`
+                      : value.selfCheck === "comfortable"
+                        ? "Comfortable"
+                        : "Needs practice"}{" "}
+                    ·{" "}
+                    {value.feedback
+                      ? "Transcript checked after submission"
+                      : value.revealed
+                        ? "Text shown"
+                        : "Text hidden"}{" "}
+                    · {new Date(value.createdAt).toLocaleString()}
                   </li>
                 ))}
               </ul>

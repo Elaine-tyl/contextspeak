@@ -1,45 +1,39 @@
 # Listening and speaking practice
 
-Open **Listening & speaking** in the library sidebar, or choose **Practice listening and speaking** on a vocabulary detail page. The practice list supports text search and translation-language filters, showing up to 50 recent matching vocabulary items. Each link uses the latest successful encounter, so a later failed retry does not hide a usable translation. A successful saved translation is required. Practice uses that encounter's first saved bilingual example, or the selected expression and its meaning when no example is available. Passages over 600 characters require a shorter expression.
+Open **Listening & speaking** in the library sidebar or a vocabulary detail page's **Practice listening and speaking** link. Search/filter up to 50 recent matches; the list links to the latest successful encounter, even after a failed retry. Practice uses its first saved bilingual example, or the selected expression when no example exists. Text must be at most 600 characters.
 
-## Word, phrase and example pronunciation
+## AI audio
 
-Speaker icons in vocabulary notes and translation cards now use [Gemini AI pronunciation](AI_SPEECH.md) with private audio caching. They read the clicked original-language text; Google receives that text and its language. This is separate from the on-device practice flow below and never uploads microphone recordings. Reload extension 0.7.0 and refresh existing webpages to activate the example icons.
+All generated practice, word and example audio uses the existing [cached Gemini AI voice](AI_SPEECH.md). Keep `SPEECH_PROVIDER=gemini` and the server-side key in ignored `.env.local`. Google receives the played text and language; microphone recordings are never sent. Playback starts only on a click, and another selection, account change, hidden tab or navigation cancels it. There is no device-voice fallback.
 
-## Listening practice (on-device)
+Audio uses the shared per-user cache and provider quotas. Cached audio can still play when new generation reaches its limit. Failed requests show an error and allow retry; they cannot unlock submission. A known supported source language is required. Up to 20 completed plays are allowed per attempt.
 
-Choose **Play audio**, write what it means, then reveal the transcript and meaning. Choose **Comfortable** or **Needs practice** to save your self-check. Playback must finish successfully before saving. Replays and text reveal are tracked; an interrupted or failed playback does not count as completed listening. Each attempt allows up to 20 plays.
+## Listening: dictation and marks
 
-Only matching on-device speech voices are used, based on the lookup's detected source language. If no suitable local voice exists, install a device voice or use speaking practice. No remote voice or cloud fallback is selected. Voices and quality vary across operating systems; supported translation languages do not guarantee matching installed speech voices. The browser's [`localService` flag](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice/localService) distinguishes local and remote voices.
+1. Choose **Play audio**, then type exactly what you hear.
+2. Choose **Submit answer** after at least one complete playback.
+3. Read your mark out of 100, the transcript, and missing/extra/replaced-word feedback. Start a new attempt to try again.
 
-## Speaking
+The transcript and corrections appear in the card only after the server confirms submission. Failed saves keep the typed answer and event ID locked for a safe retry; **Start a new attempt instead** abandons the pending result, which may already be saved. The server stores its own task snapshot and feedback. A retry returns the original result and cannot change the answer or scenario. Old listening self-check receipts remain readable.
 
-Choose **Speaking**, record a short sentence using the expression, stop, and replay your recording. **Show example** reveals the saved example and marks text exposure. Replay must finish before saving an honest self-check. New attempts, mode changes and navigation discard the previous local recording.
+Scoring is deterministic word error rate: subtract substitutions, insertions and deletions from the expected word count, convert to a percentage, and clamp to 0–100. Only zero word errors receive 100. Unicode compatibility, case, apostrophes and punctuation are normalized; language-aware word segmentation supports languages without spaces. Accents and lexical differences matter; numbers written as digits versus words are not treated as equivalent. The feedback lists normalized words. No grading LLM or additional model quota is used.
 
-Microphone capture starts only after a click and browser permission. It requires HTTPS or loopback development. Capture stops at 60 seconds, on tab hiding/navigation, or on session expiry/account changes. A 10 MB local buffer limit rejects oversized recordings. Denied permission, empty audio and recording errors allow retry. A late permission grant after leaving the page immediately releases its tracks.
+These are guided practice marks, not a proctored test or broad comprehension assessment. Playback counters are client-reported. Task text is already supplied for playback, so UI withholding is not an anti-cheating guarantee. Scores do not update FSRS or inferred mastery.
 
-Audio stays in browser memory. It is never uploaded, transcribed, stored in the database, or sent to Gemini. Object URLs and microphone tracks are released on cleanup. Saving practice stores the optional written response, mode, self-check, playback/reveal counters, replay completion and recording duration, bound to the owned successful lookup with a server-generated task snapshot. Recent practice shows the last ten results for that encounter. A failed save keeps the same event ID and response so retry cannot count twice. You can explicitly start a new attempt instead; the unconfirmed previous result may already be saved.
+## Speaking and recordings
 
-## Next milestone: everyday conversations
+Choose **Speaking**, listen to the example/partner as needed, then record an original response using the expression. Stop and replay the recording to the end before saving **Comfortable** or **Needs practice**. Showing the saved example or partner turn marks text exposure. Speaking remains a self-check with no transcription, pronunciation score or automated intelligibility assessment.
 
-Prioritize everyday conversations for the first novel scenarios: introductions, making plans, asking for help and everyday requests. Reuse saved vocabulary, hide the model response until after the learner answers, and keep assisted attempts separate from independent evidence. The first curated role-plays are available below; dynamic scenario generation and assessment remain future work.
+Recording starts only after a click and microphone permission over HTTPS or loopback. Capture stops at 60 seconds, tab hiding/navigation, expiry or account changes. A 10 MB buffer limit rejects oversized recordings. Permission denial, empty audio and recording errors allow retry; late permission grants after leaving immediately release their tracks. Recordings stay in browser memory and are discarded on mode/scenario changes or navigation. Replay uses the learner's original recording. No recorded audio is uploaded or saved in the database.
 
-## What this establishes
+Saved attempts contain the written answer, mode, optional scenario, mark or self-check, playback/reveal metadata, recording duration and server task snapshot. Recent practice shows the last ten encounter results. Account checks run every three seconds and at known expiry; remote revocation is detected at the next successful check. Lookup/vocabulary/account deletion cascades to attempts.
 
-This is guided, self-reported practice with known vocabulary and saved examples. Results are separate from FSRS recall and do not update vocabulary ratings or inferred mastery. Speaking has no automated intelligibility, pronunciation, transcription or semantic assessment. Recording duration alone is not evidence of speech quality. Novel scenarios and independently assessed listening/speaking are future work.
+## Everyday role-plays
 
-The existing session is checked every three seconds and at its known expiry. Server-side revocation is detected at the next successful authentication check; capture is not claimed to stop instantaneously at remote revocation. The on-device practice flow needs no speech provider credentials. AI pronunciation icons use the separately configured server-side Gemini key.
+Choose **Introductions**, **Making plans** or **Asking for help**, then saved English vocabulary with a known English source language. Translation-language settings remain unchanged. Each original fixed partner turn has a response goal: transcribe what the partner says, then switch to speaking and reply using the chosen expression. If that expression does not naturally fit, choose another word. These are curated role-plays, not dynamically generated or independently assessed transfer tasks.
 
-## Development and verification
+Scenario switches clear local answers/recordings and restart listening. An unconfirmed save locks the selector until a retry succeeds or the attempt is explicitly abandoned. Dynamic scenario generation, speech recognition and independently validated skill assessment remain future work.
 
-`pnpm dev` deploys the additive `202611080002_practice_attempts` migration. Production deployment must run `pnpm db:migrate` before serving the new API. Attempts cascade when the lookup/vocabulary/account is deleted.
+## Verification
 
-API integration tests cover owned encounters, detected language, bounds, strict no-audio submissions, concurrent idempotent saves, changed-event conflicts, cascade deletion and no FSRS updates. Browser regressions cover listening/reveal/save/retry, local-only voice selection, microphone denial, late grants, navigation/session cleanup and duration limits. A native Chromium test uses a generated audio stream to verify decodable recordings and the real local save API. These deterministic tests do not establish audible quality on a learner's device; try a local voice and a microphone recording there before a pilot.
-
-## Everyday conversation role-plays
-
-Choose **Introductions**, **Making plans** or **Asking for help** from the practice hub or the conversation selector on a practice page. Select saved English vocabulary; known non-English or unresolved source languages cannot start these English scenarios. Your translation-language setting is unchanged.
-
-Each scenario has an original fixed partner turn and a response goal. Listen and write its meaning before revealing the transcript and an English meaning guide. Switch to speaking, listen to the partner, then record an original reply using your saved expression. The partner's turn is not a model learner answer. If an expression is unnatural in that situation, choose another vocabulary item. These are repeatable curated role-plays, not generated conversations, level-adaptive tasks or independently assessed transfer tests.
-
-Scenario switches discard the current local answer and recording and restart listening. An unconfirmed save locks the selector until retry succeeds or the attempt is explicitly abandoned. Saved results include the scenario identifier and a server-built task snapshot; event IDs remain idempotent across retries and cannot be reused for another scenario. Self-checks do not affect FSRS, and no microphone audio is uploaded. Scenarios need no new model calls, credentials or quota.
+No new migration is needed for dictation: scores and feedback use the existing `PracticeAttempt.task` JSON snapshot. Deploy the existing practice migration before serving the API. Tests use isolated databases, simulated sign-in and deterministic audio; no Gemini credentials or live quota are needed. Regression coverage includes word alignment/normalization, owned snapshots, idempotency, no FSRS changes, AI-only playback, quota recovery, cancellation, submit-before-reveal and local microphone/recording cleanup. A native Chromium test verifies decodable recordings and actual local API grading. Live voice quality and microphone use still need a learner-device smoke check.

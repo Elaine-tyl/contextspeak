@@ -10,7 +10,9 @@ import {
   type Identity,
   type PracticeSubmission,
   type ScenarioId,
+  type DictationFeedback,
 } from "@contextspeak/contracts";
+import { gradeDictation } from "./dictation";
 import { conversationTask } from "./scenarios";
 import type { LibraryFilters } from "../library/library-filters";
 import { LibraryService } from "../library/library.service";
@@ -50,8 +52,10 @@ function taskFor(
 }
 function receipt(row: PracticeAttempt) {
   const payload = row.payload as unknown as PracticeSubmission;
+  const { feedback } = row.task as unknown as { feedback?: DictationFeedback };
   return {
     id: row.id,
+    ...(feedback ? { feedback } : {}),
     mode: payload.mode,
     ...(payload.scenario ? { scenario: payload.scenario } : {}),
     selfCheck: payload.selfCheck,
@@ -146,7 +150,18 @@ export class PracticeService {
           );
         return receipt(previous);
       }
-      const task = taskFor(lookup, input.scenario);
+      const base = taskFor(lookup, input.scenario);
+      const task =
+        input.activity === "dictation"
+          ? {
+              ...base,
+              feedback: gradeDictation(
+                base.sourceText,
+                input.response,
+                base.language,
+              ),
+            }
+          : base;
       return receipt(
         await tx.practiceAttempt.create({
           data: {
