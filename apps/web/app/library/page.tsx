@@ -481,7 +481,13 @@ export default function Library() {
                         {item.context && (
                           <blockquote>“{item.context}”</blockquote>
                         )}
-                        <LearningNotes value={item.learningDetails} />
+                        <LearningNotes
+                          value={item.learningDetails}
+                          token={token.current}
+                          sourceLanguage={
+                            item.detectedSourceLanguage ?? item.sourceLanguage
+                          }
+                        />
                       </details>
                     )}
                     {item.errorCode && (

@@ -1,3 +1,6 @@
+import { ExtensionSpeech } from "../src/speech-session";
+import { playSpeech, stopSpeech } from "../src/speech-player";
+import { speechInputSchema, speechAudioSchema } from "@contextspeak/contracts";
 import { EXTENSION_PROTOCOL, localLanguages } from "../src/translation-ui";
 import { completePairing } from "../src/pairing";
 import { LookupFlow } from "../src/lookup-flow";
@@ -25,6 +28,27 @@ import {
   serverSettings,
 } from "../src/settings";
 export default defineBackground(() => {
+  const speech = new ExtensionSpeech({
+    session: async () => {
+      const current = await connection();
+      if (
+        !current.token ||
+        (await verifiedIdentity(current.token)) !== current.identity
+      )
+        throw new Error("Extension connection changed");
+      return current;
+    },
+    generate: async (input, token, signal) =>
+      speechAudioSchema.parse(
+        await api("/v1/speech", "POST", input, token, signal),
+      ),
+    play: playSpeech,
+    stop: stopSpeech,
+  });
+  browser.tabs.onRemoved.addListener((tabId) => speech.stopTab(tabId));
+  browser.tabs.onUpdated.addListener((tabId, change) => {
+    if (change.status === "loading" || change.url) speech.stopTab(tabId);
+  });
   const outbox = new Outbox({
     storage: {
       read: async () =>
@@ -154,18 +178,46 @@ export default defineBackground(() => {
     void outbox.flushOutbox();
   });
   browser.runtime.onMessage.addListener((message, sender) => {
-    if (sender.id !== browser.runtime.id) return;
+    if (sender.id !== browser.runtime.id || message?.type === "speech-player")
+      return;
     // Webpage content scripts may translate only; credentials/settings stay in extension pages.
     if (
       message?.type !== "translate" &&
       message?.type !== "lookup-result" &&
       message?.type !== "lookup-retry" &&
       message?.type !== "translation-options" &&
+      message?.type !== "speech-start" &&
+      message?.type !== "speech-stop" &&
       !sender.url?.startsWith(`chrome-extension://${browser.runtime.id}/`)
     )
       return Promise.resolve({ ok: false, error: "Not permitted" });
     return (async () => {
       try {
+        if (message.type === "speech-start" || message.type === "speech-stop") {
+          if (
+            sender.tab?.id === undefined ||
+            !sender.tab.url ||
+            !/^https?:/.test(sender.tab.url) ||
+            typeof message.requestId !== "string" ||
+            !/^[a-f0-9-]{36}$/i.test(message.requestId)
+          )
+            return { ok: false, error: "Not permitted" };
+          const owner = `${sender.tab.id}:${sender.frameId ?? 0}`;
+          if (message.type === "speech-stop") {
+            speech.stop(owner, message.requestId);
+            return { ok: true };
+          }
+          const parsed = speechInputSchema.safeParse({
+            text: message.text,
+            language: message.language,
+          });
+          if (!parsed.success)
+            return {
+              ok: false,
+              error: "Select shorter text in a supported language.",
+            };
+          return speech.start(owner, message.requestId, parsed.data);
+        }
         if (message.type === "pairing-start") {
           const revision = ++pairingRevision;
           const result = await pairingRequest("/auth/pairings", {});
@@ -190,6 +242,7 @@ export default defineBackground(() => {
           return { ok: true, changed: Boolean(changed) };
         }
         if (message.type === "disconnect") {
+          speech.stop();
           ++pairingRevision;
           const previous = await connection();
           const disconnecting = manager.disconnect();

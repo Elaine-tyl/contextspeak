@@ -2,11 +2,11 @@
 
 Open a vocabulary card, then choose **Practice listening and speaking** on its full-detail page. A successful saved translation is required. Practice uses that encounter's first saved bilingual example, or the selected expression and its meaning when no example is available. Passages over 600 characters require a shorter expression.
 
-## Word pronunciation
+## Word, phrase and example pronunciation
 
-The speaker icon beside selected text in the extension card and beside the vocabulary detail heading reads that word or sentence using a matching on-device voice. Automatic source selection uses the translator's detected language. Playback stops when the card closes or the detail page/session is left. Pronunciation playback does not save a practice attempt or change FSRS results. Reload extension 0.6.1 and refresh existing webpages to activate the card icon.
+Speaker icons in vocabulary notes and translation cards now use [Gemini AI pronunciation](AI_SPEECH.md) with private audio caching. They read the clicked original-language text; Google receives that text and its language. This is separate from the on-device practice flow below and never uploads microphone recordings. Reload extension 0.7.0 and refresh existing webpages to activate the example icons.
 
-## Listening
+## Listening practice (on-device)
 
 Choose **Play audio**, write what it means, then reveal the transcript and meaning. Choose **Comfortable** or **Needs practice** to save your self-check. Playback must finish successfully before saving. Replays and text reveal are tracked; an interrupted or failed playback does not count as completed listening. Each attempt allows up to 20 plays.
 
@@ -24,7 +24,7 @@ Audio stays in browser memory. It is never uploaded, transcribed, stored in the 
 
 This is guided, self-reported practice with known vocabulary and saved examples. Results are separate from FSRS recall and do not update vocabulary ratings or inferred mastery. Speaking has no automated intelligibility, pronunciation, transcription or semantic assessment. Recording duration alone is not evidence of speech quality. Novel scenarios and independently assessed listening/speaking are future work.
 
-The existing session is checked every three seconds and at its known expiry. Server-side revocation is detected at the next successful authentication check; capture is not claimed to stop instantaneously at remote revocation. No speech provider credentials or new paid API are needed.
+The existing session is checked every three seconds and at its known expiry. Server-side revocation is detected at the next successful authentication check; capture is not claimed to stop instantaneously at remote revocation. The on-device practice flow needs no speech provider credentials. AI pronunciation icons use the separately configured server-side Gemini key.
 
 ## Development and verification
 

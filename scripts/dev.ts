@@ -1,3 +1,7 @@
+import {
+  GeminiSpeechProvider,
+  FixtureSpeechProvider,
+} from "../apps/api/src/speech/gemini-speech.provider";
 import { GeminiTranslationProvider } from "../apps/api/src/library/gemini.provider";
 import { startLocalAi } from "./local-ai";
 import { OllamaTranslationProvider } from "../apps/api/src/library/ollama.provider";
@@ -130,6 +134,11 @@ try {
   app = await createApp({
     prisma,
     provider,
+    speechProvider: fixtureTranslation
+      ? new FixtureSpeechProvider()
+      : process.env.SPEECH_PROVIDER === "gemini"
+        ? new GeminiSpeechProvider({ apiKey: process.env.GEMINI_API_KEY })
+        : undefined,
     oidc: {
       issuer: issuer?.issuer ?? "https://accounts.google.com",
       clientId: issuer?.clientId ?? process.env.GOOGLE_CLIENT_ID!,

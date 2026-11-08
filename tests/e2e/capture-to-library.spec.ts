@@ -140,7 +140,13 @@ test.afterAll(async () => {
 });
 test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () => {
   let transientTranslations = 0;
+  let speechRequests = 0;
   browser.on("request", (request) => {
+    if (
+      request.method() === "POST" &&
+      new URL(request.url()).pathname === "/v1/speech"
+    )
+      speechRequests++;
     if (
       request.method() === "POST" &&
       new URL(request.url()).pathname === "/v1/translations"
@@ -167,6 +173,25 @@ test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () =>
     "Free to take part or ready to be used.",
   );
   expect(transientTranslations).toBe(0);
+  const speaker = sample.getByRole("button", {
+    name: "Listen to selected text",
+    exact: true,
+  });
+  await expect(speaker).toBeEnabled();
+  await speaker.click();
+  await expect.poll(() => speechRequests).toBe(1);
+  await expect(speaker).toBeEnabled();
+  await expect(
+    sample.locator("[data-contextspeak=panel]").locator("small.speech-status"),
+  ).toHaveText("");
+  const audioContexts = await popup.evaluate(() =>
+    chrome.runtime.getContexts({ contextTypes: ["OFFSCREEN_DOCUMENT"] }),
+  );
+  expect(
+    audioContexts.some((context) =>
+      context.documentUrl?.endsWith("/audio.html"),
+    ),
+  ).toBeTruthy();
   await library.getByRole("button", { name: "Refresh", exact: true }).click();
   await expect(library.getByTestId("lookup-card")).toHaveCount(1);
   await expect(library.getByTestId("candidate-card")).toHaveCount(1);

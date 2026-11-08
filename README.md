@@ -80,6 +80,7 @@ Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension 
 | [Methodology](docs/METHODOLOGY.md) | Collection, scenario inference, word priorities, and mastery evidence |
 | [Local AI translation](docs/AI_TRANSLATION.md) | Six languages, automatic cards, examples, setup and model pin |
 | [Plain free translation](docs/TRANSLATION.md) | Reproducible local setup, languages, usage and live regression suite |
+| [AI pronunciation](docs/AI_SPEECH.md) | Natural word/phrase/example audio, private caching, setup and quota limits |
 | [Listening and speaking](docs/PRACTICE.md) | Free on-device playback, local recording, separate practice results and limitations |
 | [Google login and pairing](docs/LOGIN.md) | Provider setup, sessions, pairing, and revocation |
 | [Architecture](docs/ARCHITECTURE.md) | Stack, translation/dictionary services, data flow, and safeguards |

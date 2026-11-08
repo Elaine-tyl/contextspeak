@@ -1,5 +1,15 @@
+"use client";
+import { SpeakerButton } from "./SpeakerButton";
 import { learningDetailsSchema } from "@contextspeak/contracts";
-export function LearningNotes({ value }: { value: unknown }) {
+export function LearningNotes({
+  value,
+  sourceLanguage,
+  token,
+}: {
+  value: unknown;
+  sourceLanguage: string | null;
+  token: string;
+}) {
   const parsed = learningDetailsSchema.safeParse(value);
   if (!parsed.success) return null;
   const details = parsed.data;
@@ -16,6 +26,12 @@ export function LearningNotes({ value }: { value: unknown }) {
             {details.collocations.map((pair, index) => (
               <li key={index}>
                 {pair.source}
+                <SpeakerButton
+                  token={token}
+                  text={pair.source}
+                  language={sourceLanguage}
+                  label="Listen to phrase"
+                />
                 <br />
                 {pair.translation}
               </li>
@@ -28,6 +44,12 @@ export function LearningNotes({ value }: { value: unknown }) {
         {details.examples.map((pair, index) => (
           <li key={index}>
             {pair.source}
+            <SpeakerButton
+              token={token}
+              text={pair.source}
+              language={sourceLanguage}
+              label="Listen to example"
+            />
             <br />
             {pair.translation}
           </li>

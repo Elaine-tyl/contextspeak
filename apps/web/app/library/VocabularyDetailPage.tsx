@@ -147,6 +147,7 @@ export function VocabularyDetailPage({
               <h1>{lookup?.text ?? detail.item.text}</h1>
               <SpeakerButton
                 key={lookup?.id ?? id}
+                token={token}
                 text={lookup?.text ?? detail.item.text}
                 language={
                   lookup?.detectedSourceLanguage ??
@@ -175,7 +176,13 @@ export function VocabularyDetailPage({
             </span>
             {lookup?.meaning && <p className="meaning">{lookup.meaning}</p>}
             {lookup?.context && <blockquote>{lookup.context}</blockquote>}
-            <LearningNotes value={lookup?.learningDetails} />
+            <LearningNotes
+              value={lookup?.learningDetails}
+              token={token}
+              sourceLanguage={
+                lookup?.detectedSourceLanguage ?? detail.item.sourceLanguage
+              }
+            />
             {lookup?.translationStatus === "pending" && (
               <p role="status">Translation is processing…</p>
             )}

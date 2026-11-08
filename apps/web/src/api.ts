@@ -18,6 +18,7 @@ export async function api<T>(
   path: string,
   method = "GET",
   body?: unknown,
+  options: { signal?: AbortSignal; timeoutMs?: number } = {},
 ): Promise<T> {
   const response = await fetch(API + path, {
     method,
@@ -28,7 +29,12 @@ export async function api<T>(
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),
     },
     body: body === undefined ? undefined : JSON.stringify(body),
-    signal: AbortSignal.timeout(6000),
+    signal: options.signal
+      ? AbortSignal.any([
+          options.signal,
+          AbortSignal.timeout(options.timeoutMs ?? 6000),
+        ])
+      : AbortSignal.timeout(options.timeoutMs ?? 6000),
   });
   if (!response.ok)
     throw new ApiError(

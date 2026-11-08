@@ -1,4 +1,7 @@
 import "reflect-metadata";
+import { SpeechController } from "./speech/speech.controller";
+import { SpeechService } from "./speech/speech.service";
+import type { SpeechProvider } from "./speech/gemini-speech.provider";
 import { PracticeService } from "./practice/practice.service";
 import { PracticeController } from "./practice/practice.controller";
 import { ReviewService } from "./reviews/review.service";
@@ -18,6 +21,7 @@ import {
 } from "./library/translation.provider";
 export type AppConfig = (AuthConfig | { oidc: OidcConfig }) & {
   prisma: PrismaClient;
+  speechProvider?: SpeechProvider;
   provider?: TranslationProvider;
   origins?: string[];
 };
@@ -34,12 +38,17 @@ export async function createApp(config: AppConfig) {
   @Module({
     controllers: [
       LibraryController,
+      SpeechController,
       ReviewController,
       PracticeController,
       ...(auth ? [SessionController] : []),
     ],
     providers: [
       { provide: LibraryService, useValue: library },
+      {
+        provide: SpeechService,
+        useValue: new SpeechService(library, config.speechProvider),
+      },
       {
         provide: PracticeService,
         useValue: new PracticeService(config.prisma, library),

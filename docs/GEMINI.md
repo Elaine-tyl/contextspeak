@@ -44,3 +44,7 @@ Extension v0.5.0 keeps selection translation automatic. The card starts compact;
 Save indicators distinguish **Saved locally · waiting for sync**, **Saved to library**, and **Not saved · collection off or site excluded**. A translation error does not imply the lookup was lost. Retrying an owned persisted lookup retains its saved indicator, including while offline.
 
 The library toolbar searches the full owned history by selected text, context or translated meaning; candidate search matches selected text. Source and target filters run before pagination, and source filters include detected languages. Filtering does not call Gemini or modify saved data. Changing filters resets pagination; Clear filters restores the default list. Queries are limited to 200 characters.
+
+## AI pronunciation
+
+Optional `SPEECH_PROVIDER=gemini` enables natural word, phrase and example audio using the existing server-side key. See [AI speech setup, privacy and cache limits](AI_SPEECH.md). Billing is not enabled by this code; user recordings remain local.

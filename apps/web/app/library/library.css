@@ -743,11 +743,14 @@ code {
   opacity: 0.45;
   cursor: default;
 }
-.speaker-status {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
+
+.learning-notes .word-speaker {
+  vertical-align: middle;
+  margin-left: 4px;
+}
+.speech-error {
+  display: block;
+  color: #9a5038;
+  font-size: 12px;
+  font-weight: normal;
 }

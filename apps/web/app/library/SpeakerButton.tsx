@@ -1,26 +1,32 @@
 "use client";
-import { useLocalSpeech } from "../practice/useLocalSpeech";
+import { useAiSpeech } from "../../src/useAiSpeech";
 export function SpeakerButton({
   text,
   language,
+  token,
+  label = "Listen to selected text",
 }: {
   text: string;
   language: string | null;
+  token: string;
+  label?: string;
 }) {
-  const speech = useLocalSpeech(language, Infinity);
+  const speech = useAiSpeech(token, text, language);
   return (
     <>
       <button
         className="word-speaker"
         type="button"
-        aria-label="Listen to selected text"
+        aria-label={label}
         title={
           speech.available
-            ? speech.status || "Listen to selected text"
-            : "No matching on-device voice. Install a device voice to listen."
+            ? speech.busy
+              ? "Preparing AI voice…"
+              : "Listen with AI voice"
+            : "A detected source language and sign-in are required."
         }
-        disabled={!speech.available || speech.playing}
-        onClick={() => speech.play(text)}
+        disabled={!speech.available || speech.busy}
+        onClick={() => void speech.play()}
       >
         <svg
           width="20"
@@ -34,9 +40,11 @@ export function SpeakerButton({
           <path d="M11 5 6 9H3v6h3l5 4V5Z M15 8a6 6 0 0 1 0 8 M18 5a10 10 0 0 1 0 14" />
         </svg>
       </button>
-      <span className="speaker-status" role="status">
-        {speech.status}
-      </span>
+      {speech.error && (
+        <small className="speech-error" role="alert">
+          {speech.error}
+        </small>
+      )}
     </>
   );
 }

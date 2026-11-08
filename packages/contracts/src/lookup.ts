@@ -156,3 +156,10 @@ export {
   type PracticeTask,
   type PracticeReceipt,
 } from "./practice";
+
+export {
+  speechInputSchema,
+  speechAudioSchema,
+  type SpeechInput,
+  type SpeechAudio,
+} from "./speech";

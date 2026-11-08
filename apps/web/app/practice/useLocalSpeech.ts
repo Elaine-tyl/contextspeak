@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-export function useLocalSpeech(language: string | null, maxPlays = 20) {
+export function useLocalSpeech(language: string | null) {
   const [voice, setVoice] = useState<SpeechSynthesisVoice | null>(null);
   const [status, setStatus] = useState("");
   const [playing, setPlaying] = useState(false);
@@ -36,7 +36,7 @@ export function useLocalSpeech(language: string | null, maxPlays = 20) {
     };
   }, [language]);
   function play(text: string) {
-    if (!voice || current.current || plays >= maxPlays) return;
+    if (!voice || current.current || plays >= 20) return;
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.voice = voice;
     utterance.lang = voice.lang;

@@ -1,20 +1,22 @@
+import { browser } from "wxt/browser";
+import { speechInputSchema } from "@contextspeak/contracts";
+export const speakerIcon =
+  '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z M15 8a6 6 0 0 1 0 8 M18 5a10 10 0 0 1 0 14"/></svg>';
 export function mountPronunciation(
   button: HTMLButtonElement,
   text: string,
   readLanguage: () => string,
   report: (message: string) => void,
 ) {
+  let current: string | undefined;
   let language = "";
-  let voice: SpeechSynthesisVoice | undefined;
-  let current: SpeechSynthesisUtterance | undefined;
-  let deadline: ReturnType<typeof setTimeout>;
   let disposed = false;
-  const synth = window.speechSynthesis;
   function stop() {
-    const owned = current;
+    if (current)
+      void browser.runtime
+        .sendMessage({ type: "speech-stop", requestId: current })
+        .catch(() => {});
     current = undefined;
-    clearTimeout(deadline);
-    if (owned) synth.cancel();
   }
   function update() {
     if (disposed) return;
@@ -24,48 +26,39 @@ export function mountPronunciation(
       report("");
     }
     language = next;
-    voice = synth
-      ?.getVoices()
-      .find(
-        (candidate) =>
-          candidate.localService &&
-          candidate.lang.split("-")[0].toLowerCase() ===
-            language.split("-")[0].toLowerCase(),
-      );
-    button.disabled = !voice || !!current;
-    button.title = voice
-      ? "Listen to selected text"
-      : "No matching on-device voice. Wait for language detection or install a device voice.";
+    button.disabled =
+      !!current || !speechInputSchema.safeParse({ text, language }).success;
+    button.title = button.disabled
+      ? "Wait for a supported source language, or select shorter text."
+      : "Listen with AI voice";
   }
-  function play() {
-    if (!voice || current || disposed) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.voice = voice;
-    utterance.lang = voice.lang;
-    current = utterance;
+  async function play() {
+    const input = speechInputSchema.safeParse({ text, language });
+    if (disposed || current || !input.success) return;
+    const id = crypto.randomUUID();
+    current = id;
     button.disabled = true;
+    button.title = "Preparing AI voice…";
     report("");
-    function finish(message: string) {
-      if (current !== utterance || disposed) return;
-      current = undefined;
-      clearTimeout(deadline);
-      report(message);
-      update();
-    }
-    utterance.onend = () => finish("");
-    utterance.onerror = () => finish("Audio interrupted. Try listening again.");
-    deadline = setTimeout(() => {
-      finish("Audio did not finish. Check your device voice and retry.");
-      synth.cancel();
-    }, 120000);
     try {
-      synth.speak(utterance);
+      const result = await browser.runtime.sendMessage({
+        type: "speech-start",
+        requestId: id,
+        ...input.data,
+      });
+      if (!disposed && current === id && !result?.ok)
+        report(result?.error ?? "AI voice is unavailable. Try again.");
     } catch {
-      finish("Audio could not start. Check your device voice and retry.");
+      if (!disposed && current === id)
+        report("AI voice is unavailable. Reload the extension and retry.");
+    } finally {
+      if (current === id) {
+        current = undefined;
+        update();
+      }
     }
   }
   button.addEventListener("click", play);
-  synth?.addEventListener("voiceschanged", update);
   update();
   return {
     update,
@@ -73,7 +66,6 @@ export function mountPronunciation(
       disposed = true;
       stop();
       button.removeEventListener("click", play);
-      synth?.removeEventListener("voiceschanged", update);
     },
   };
 }
