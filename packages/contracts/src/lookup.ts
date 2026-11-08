@@ -113,6 +113,10 @@ export interface Candidate {
   senseStatus: string;
   encounterCount: number;
 }
+export interface VocabularyDetail {
+  item: Candidate;
+  lookup: LookupRecord | null;
+}
 export interface Page<T> {
   items: T[];
   nextCursor: string | null;
@@ -138,6 +142,7 @@ export {
 
 export {
   reviewSubmissionSchema,
+  reviewEnrollmentSchema,
   type ReviewSubmission,
   type ReviewPrompt,
   type ReviewQueue,

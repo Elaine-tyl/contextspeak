@@ -5,7 +5,7 @@ import {
   NotFoundException,
   ServiceUnavailableException,
 } from "@nestjs/common";
-import { Prisma, type PrismaClient } from "@prisma/client";
+import { Prisma, type PrismaClient, type LookupEvent } from "@prisma/client";
 import { createHash } from "node:crypto";
 import {
   defaultTranslationPreferences,
@@ -24,6 +24,10 @@ import {
 } from "./translation.provider";
 import type { LibraryFilters } from "./library-filters";
 import { TranslationCache } from "./translation-cache";
+// Browser responses omit ownership and idempotency metadata.
+function publicLookup({ userId, payloadHash, ...record }: LookupEvent) {
+  return record;
+}
 export class LibraryService {
   private translationCache = new TranslationCache();
   private timer?: NodeJS.Timeout;
@@ -225,9 +229,7 @@ export class LibraryService {
       take: limit + 1,
       ...(cursor ? { cursor: { id: cursor }, skip: 1 } : {}),
     });
-    const items = rows
-      .slice(0, limit)
-      .map(({ payloadHash, userId, ...record }) => record);
+    const items = rows.slice(0, limit).map(publicLookup);
     return { items, nextCursor: rows.length > limit ? items.at(-1)!.id : null };
   }
   async items(identity: Identity, filters: LibraryFilters = {}) {
@@ -268,6 +270,35 @@ export class LibraryService {
         reviewDueAt: reviewCard?.active ? reviewCard.dueAt : null,
       })),
       nextCursor: null,
+    };
+  }
+  async itemDetail(identity: Identity, id: string, lookupId?: string) {
+    const user = await this.actor(identity);
+    const item = await this.prisma.learningItem.findFirst({
+      where: { id, userId: user.id },
+      include: {
+        _count: { select: { lookups: true } },
+        reviewCard: { select: { active: true, dueAt: true } },
+      },
+    });
+    if (!item) throw new NotFoundException();
+    const lookup = await this.prisma.lookupEvent.findFirst({
+      where: {
+        candidateId: id,
+        userId: user.id,
+        ...(lookupId ? { id: lookupId } : {}),
+      },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    });
+    if (lookupId && !lookup) throw new NotFoundException();
+    const { userId, _count, reviewCard, ...candidate } = item;
+    return {
+      item: {
+        ...candidate,
+        encounterCount: _count.lookups,
+        reviewDueAt: reviewCard?.active ? reviewCard.dueAt : null,
+      },
+      lookup: lookup ? publicLookup(lookup) : null,
     };
   }
   async translationResult(identity: Identity, id: string) {

@@ -168,8 +168,16 @@ test("saved_vocabulary_can_be_reviewed_through_the_real_API", async ({
   const candidate = page.getByTestId("candidate-card").filter({
     has: page.getByRole("heading", { name: "confident", exact: true }),
   });
-  await candidate
+  await candidate.getByRole("link", { name: "confident", exact: true }).click();
+  await expect(page).toHaveURL(/\/library\/item\//);
+  await expect(
+    page.getByRole("heading", { name: "confident", exact: true }),
+  ).toBeVisible();
+  await page
     .getByRole("button", { name: "Start reviewing", exact: true })
+    .click();
+  await page
+    .getByRole("link", { name: "Open review queue", exact: true })
     .click();
   const queue = page.getByRole("region", {
     name: "Vocabulary review",

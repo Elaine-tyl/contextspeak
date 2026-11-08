@@ -5,6 +5,14 @@ export interface WebSession {
   csrfToken: string;
   expiresAt: string;
 }
+export class ApiError extends Error {
+  constructor(
+    readonly status: number,
+    message: string,
+  ) {
+    super(message);
+  }
+}
 export async function api<T>(
   token: string,
   path: string,
@@ -23,7 +31,8 @@ export async function api<T>(
     signal: AbortSignal.timeout(6000),
   });
   if (!response.ok)
-    throw new Error(
+    throw new ApiError(
+      response.status,
       response.status === 401
         ? "Your session has expired or changed. Sign in again."
         : `Request failed (${response.status}). Try again.`,

@@ -189,3 +189,33 @@ it("replaying_the_same_event_concurrently_adds_one_review_log", async () => {
       .version,
   ).toBe(1);
 });
+
+it("enrolls_the_encounter_selected_on_the_detail_page", async () => {
+  const id = await seed("selected");
+  const first = await db.prisma.lookupEvent.findFirstOrThrow({
+    where: { candidateId: id },
+  });
+  await db.prisma.lookupEvent.create({
+    data: {
+      userId: owner,
+      candidateId: id,
+      eventId: randomUUID(),
+      payloadHash: "fixture",
+      text: "selected",
+      sourceLanguage: "en",
+      targetLanguage: "zh-Hans",
+      translationStatus: "succeeded",
+      meaning: "A newer meaning",
+      createdAt: new Date(Date.now() + 1000),
+    },
+  });
+  expect(
+    (
+      await client("post", `/v1/reviews/${id}/enroll`, "review-a", {
+        lookupId: first.id,
+      })
+    ).status,
+  ).toBe(201);
+  const queue = (await client("get", "/v1/reviews")).body;
+  expect(queue.items.find((card: any) => card.id === id).answer).toBe("有空的");
+});

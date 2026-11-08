@@ -381,3 +381,31 @@ it("matches_detected_source_language_in_both_library_views", async () => {
       .items,
   ).toHaveLength(0);
 });
+
+it("opens_only_owned_vocabulary_and_checks_the_selected_encounter", async () => {
+  await enable("detail-owner");
+  await enable("detail-other");
+  const saved = await capture("detail-owner");
+  await result("detail-owner", saved.body.lookupId);
+  const path = `/v1/learning-items/${saved.body.candidateId}`;
+  const detail = await call(
+    "get",
+    path + `?lookup=${saved.body.lookupId}`,
+    "detail-owner",
+  );
+  expect(detail.status).toBe(200);
+  expect(detail.body.item.id).toBe(saved.body.candidateId);
+  expect(detail.body.lookup).toMatchObject({
+    id: saved.body.lookupId,
+    text: "available",
+    translationStatus: "succeeded",
+  });
+  expect(detail.body.lookup.userId).toBeUndefined();
+  expect(detail.body.lookup.payloadHash).toBeUndefined();
+  expect((await call("get", path, "detail-other")).status).toBe(404);
+  const other = await capture("detail-owner", { text: "reschedule" });
+  expect(
+    (await call("get", path + `?lookup=${other.body.lookupId}`, "detail-owner"))
+      .status,
+  ).toBe(404);
+});

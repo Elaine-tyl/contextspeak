@@ -38,7 +38,7 @@ export class ReviewService {
     private prisma: PrismaClient,
     private library: LibraryService,
   ) {}
-  async enroll(identity: Identity, itemId: string) {
+  async enroll(identity: Identity, itemId: string, lookupId?: string) {
     const user = await this.library.actor(identity);
     const scheduler = await this.scheduler;
     return this.prisma.$transaction(async (tx) => {
@@ -47,6 +47,20 @@ export class ReviewService {
         where: { id: itemId, userId: user.id },
       });
       if (!item) throw new NotFoundException();
+      const selected = lookupId
+        ? await tx.lookupEvent.findFirst({
+            where: {
+              id: lookupId,
+              candidateId: itemId,
+              userId: user.id,
+              translationStatus: "succeeded",
+            },
+          })
+        : null;
+      if (lookupId && !selected?.meaning?.trim())
+        throw new ConflictException(
+          "The selected encounter has no saved translation.",
+        );
       const existing = await tx.reviewCard.findUnique({ where: { itemId } });
       // Resume without resetting an existing schedule or counting another review.
       if (existing)
@@ -56,15 +70,17 @@ export class ReviewService {
             data: { active: true },
           }),
         );
-      const answer = await tx.lookupEvent.findFirst({
-        where: {
-          candidateId: itemId,
-          userId: user.id,
-          translationStatus: "succeeded",
-          meaning: { not: null },
-        },
-        orderBy: [{ createdAt: "desc" }, { id: "desc" }],
-      });
+      const answer =
+        selected ??
+        (await tx.lookupEvent.findFirst({
+          where: {
+            candidateId: itemId,
+            userId: user.id,
+            translationStatus: "succeeded",
+            meaning: { not: null },
+          },
+          orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+        }));
       if (!answer?.meaning?.trim())
         throw new ConflictException(
           "Translate this item successfully before starting reviews.",

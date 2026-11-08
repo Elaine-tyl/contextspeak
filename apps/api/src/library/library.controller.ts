@@ -89,6 +89,13 @@ export class LibraryController {
       parse(libraryFiltersSchema, { q, sourceLanguage, targetLanguage }),
     );
   }
+  @Get("learning-items/:id") itemDetail(
+    @Req() req: AuthenticatedRequest,
+    @Param("id") id: string,
+    @Query("lookup") lookup?: string,
+  ) {
+    return this.library.itemDetail(req.identity, id, lookup);
+  }
   @Get("lookups/:id/translation") translationResult(
     @Req() req: AuthenticatedRequest,
     @Param("id") id: string,

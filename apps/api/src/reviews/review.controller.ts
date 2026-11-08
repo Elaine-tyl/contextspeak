@@ -8,7 +8,10 @@ import {
   Req,
   Body,
 } from "@nestjs/common";
-import { reviewSubmissionSchema } from "@contextspeak/contracts";
+import {
+  reviewSubmissionSchema,
+  reviewEnrollmentSchema,
+} from "@contextspeak/contracts";
 import type { AuthenticatedRequest } from "../auth/jwt.guard";
 import { ReviewService } from "./review.service";
 @Controller("v1/reviews")
@@ -20,8 +23,12 @@ export class ReviewController {
   @Post(":id/enroll") enroll(
     @Req() req: AuthenticatedRequest,
     @Param("id") id: string,
+    @Body() body: unknown,
   ) {
-    return this.reviews.enroll(req.identity, id);
+    const parsed = reviewEnrollmentSchema.safeParse(body);
+    if (!parsed.success)
+      throw new BadRequestException("Invalid review enrollment.");
+    return this.reviews.enroll(req.identity, id, parsed.data.lookupId);
   }
   @Post(":id/pause") pause(
     @Req() req: AuthenticatedRequest,

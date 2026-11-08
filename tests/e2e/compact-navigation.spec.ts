@@ -189,6 +189,7 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
           ? [
               {
                 id: url.searchParams.get("cursor") ? "older" : "first",
+                candidateId: "fixture-candidate",
                 text: url.searchParams.get("cursor")
                   ? "Could you tell me where the nearest train station is and how long it takes to walk there?"
                   : "available",

@@ -1,4 +1,8 @@
 import { z } from "zod";
+export const reviewEnrollmentSchema = z
+  .object({ lookupId: z.uuid().optional() })
+  .strict()
+  .default({});
 export const reviewRatingSchema = z.enum(["again", "hard", "good", "easy"]);
 export const reviewSubmissionSchema = z
   .object({

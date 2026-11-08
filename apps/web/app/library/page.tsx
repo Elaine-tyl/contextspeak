@@ -1,5 +1,6 @@
 "use client";
 import { aiLanguages } from "@contextspeak/contracts";
+import Link from "next/link";
 import { ReviewQueue } from "./ReviewQueue";
 import { LearningNotes } from "./LearningNotes";
 import { useEffect, useRef, useState } from "react";
@@ -127,6 +128,11 @@ export default function Library() {
   }
   useEffect(() => {
     sessionStorage.removeItem("contextspeak-token");
+    const requestedView = new URLSearchParams(window.location.search).get(
+      "view",
+    );
+    if (requestedView === "reviews" || requestedView === "candidates")
+      setView(requestedView);
     void connect();
     const timer = setInterval(() => {
       if (document.visibilityState === "visible") void connect();
@@ -451,7 +457,14 @@ export default function Library() {
                     aria-label="Scrollable vocabulary card"
                   >
                     <div className="card-head">
-                      <h3>{item.text}</h3>
+                      <h3 title={item.text}>
+                        <Link
+                          className="card-link"
+                          href={`/library/item/${item.candidateId}?lookup=${item.id}`}
+                        >
+                          {item.text}
+                        </Link>
+                      </h3>
                       <span className={"badge " + item.translationStatus}>
                         {item.translationStatus === "succeeded"
                           ? "Translated"
@@ -517,7 +530,14 @@ export default function Library() {
                     aria-label="Scrollable vocabulary card"
                   >
                     <div className="card-head">
-                      <h3>{item.text}</h3>
+                      <h3 title={item.text}>
+                        <Link
+                          className="card-link"
+                          href={`/library/item/${item.id}`}
+                        >
+                          {item.text}
+                        </Link>
+                      </h3>
                       <span className="badge">{item.status}</span>
                     </div>
                     <p>

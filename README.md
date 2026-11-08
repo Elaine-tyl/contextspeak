@@ -99,3 +99,5 @@ A distribution license is undecided. The diagram adapts a user-supplied layout r
 ## Vocabulary review queue
 
 Choose **Start reviewing** on a vocabulary candidate, open **Review queue**, recall its meaning, reveal the saved answer, then rate Again / Hard / Good / Easy. FSRS schedules the next due review without calling Gemini. Pause/resume keeps existing progress. See [review behavior and limitations](docs/REVIEWS.md).
+
+Click a vocabulary card or its title to open its private full-detail page. Long card titles use an ellipsis; the page shows the complete selected text, translation, context and learning notes. Review enrollment is available there too.
