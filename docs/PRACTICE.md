@@ -10,7 +10,7 @@ Speaker icons in vocabulary notes and translation cards now use [Gemini AI pronu
 
 Choose **Play audio**, write what it means, then reveal the transcript and meaning. Choose **Comfortable** or **Needs practice** to save your self-check. Playback must finish successfully before saving. Replays and text reveal are tracked; an interrupted or failed playback does not count as completed listening. Each attempt allows up to 20 plays.
 
-Only matching on-device speech voices are used, based on the lookup's detected source language. If no suitable local voice exists, install a device voice or use speaking practice. No remote voice or cloud fallback is selected. Voices and quality vary across operating systems; six translation languages do not guarantee six installed speech voices. The browser's [`localService` flag](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice/localService) distinguishes local and remote voices.
+Only matching on-device speech voices are used, based on the lookup's detected source language. If no suitable local voice exists, install a device voice or use speaking practice. No remote voice or cloud fallback is selected. Voices and quality vary across operating systems; supported translation languages do not guarantee matching installed speech voices. The browser's [`localService` flag](https://developer.mozilla.org/en-US/docs/Web/API/SpeechSynthesisVoice/localService) distinguishes local and remote voices.
 
 ## Speaking
 

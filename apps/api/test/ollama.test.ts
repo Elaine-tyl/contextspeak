@@ -46,7 +46,7 @@ function fixture(value: unknown = answer, status = 200) {
     }),
   };
 }
-it("advertises_six_languages_and_generates_one_scoped_structured_result", async () => {
+it("advertises_seven_languages_and_generates_one_scoped_structured_result", async () => {
   const { provider, fetcher } = fixture();
   expect((await provider.languages()).map((x) => x.code)).toEqual([
     "en",
@@ -55,6 +55,7 @@ it("advertises_six_languages_and_generates_one_scoped_structured_result", async 
     "ko",
     "es",
     "fr",
+    "vi",
   ]);
   const result = await provider.translate(input);
   expect(result.meaning).toBe("图书馆");

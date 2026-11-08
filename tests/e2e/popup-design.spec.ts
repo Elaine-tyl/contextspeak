@@ -1,4 +1,5 @@
 import { test, expect, chromium } from "@playwright/test";
+import { aiLanguages } from "../../packages/contracts/src/learning";
 import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
@@ -20,7 +21,7 @@ test("language_picker_search_keyboard_and_saved_preferences", async ({}, testInf
       browser.serviceWorkers()[0] ??
       (await browser.waitForEvent("serviceworker"));
     const page = await browser.newPage();
-    await page.addInitScript(() => {
+    await page.addInitScript((languages) => {
       const chrome = (globalThis as any).chrome;
       chrome.runtime.sendMessage = (message: any, ...args: any[]) => {
         let preferences = JSON.parse(
@@ -48,16 +49,9 @@ test("language_picker_search_keyboard_and_saved_preferences", async ({}, testInf
               ? {
                   ok: true,
                   protocolVersion: 4,
-                  provider: "libretranslate-local",
+                  provider: "gemini",
                   preferences,
-                  languages: [
-                    { code: "en", name: "English", targets: ["en", "zh-Hans"] },
-                    {
-                      code: "zh-Hans",
-                      name: "Chinese",
-                      targets: ["en", "zh-Hans"],
-                    },
-                  ],
+                  languages,
                 }
               : { ok: true };
         const callback = args.find((arg) => typeof arg === "function");
@@ -67,7 +61,7 @@ test("language_picker_search_keyboard_and_saved_preferences", async ({}, testInf
         }
         return Promise.resolve(result);
       };
-    });
+    }, aiLanguages);
     await page.goto(
       `chrome-extension://${new URL(worker.url()).host}/popup.html`,
     );
@@ -80,7 +74,7 @@ test("language_picker_search_keyboard_and_saved_preferences", async ({}, testInf
     const search = page.getByRole("searchbox", {
       name: "Search Target language",
     });
-    await search.fill("Spanish");
+    await search.fill("not-a-language");
     await expect(page.getByText("No matching languages")).toBeVisible();
     await search.fill("eng");
     await expect(page.getByRole("option")).toHaveCount(1);
@@ -110,7 +104,13 @@ test("language_picker_search_keyboard_and_saved_preferences", async ({}, testInf
     await target.click();
     await page.getByRole("searchbox").press("ArrowUp");
     await page.getByRole("searchbox").press("Enter");
-    await expect(target).toHaveText("Chinese");
+    await expect(target).toHaveText("Vietnamese");
+    await page
+      .getByRole("button", { name: "Save language settings", exact: true })
+      .click();
+    await expect(page.getByRole("status")).toHaveText("Updated.");
+    await page.reload();
+    await expect(target).toHaveAttribute("data-value", "vi");
     await target.click();
     await page
       .getByRole("heading", { name: "Translation languages", exact: true })

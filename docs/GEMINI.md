@@ -11,7 +11,7 @@ TRANSLATION_PROVIDER=gemini
 GEMINI_API_KEY=your_key_here
 ```
 
-Restart `pnpm dev`, reload the unpacked extension (v0.5.0), and refresh webpages. Keep automatic translation enabled. Supported languages: English, Chinese, Japanese, Korean, Spanish, French. AI selections accept up to 600 Unicode characters.
+Restart `pnpm dev`, reload the unpacked extension (v0.7.1), and refresh webpages. Keep automatic translation enabled. Supported languages: English, Chinese, Japanese, Korean, Spanish, French, Vietnamese. AI selections accept up to 600 Unicode characters.
 
 The adapter uses the official Gemini Developer API over HTTPS with `gemini-3.1-flash-lite`, a model currently listed with free-tier text input/output in Google's pricing. It sends the key in `x-goog-api-key`, never in a URL or browser bundle. Only selected text and a bounded sanitized excerpt are sent; page URLs are omitted. Cloud processing differs from local Ollama: unpaid-service prompts/responses may be used by Google to improve products under its terms.
 

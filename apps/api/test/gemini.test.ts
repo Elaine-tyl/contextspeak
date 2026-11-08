@@ -124,10 +124,50 @@ it.each([
 });
 it("blocks_excess_requests_locally_and_preserves_supported_languages", async () => {
   const { provider, fetcher } = fixture();
-  expect((await provider.languages()).length).toBe(6);
+  expect((await provider.languages()).length).toBe(7);
   for (let i = 0; i < 5; i++) await provider.translate(input);
   await expect(provider.translate(input)).rejects.toMatchObject({
     code: "GEMINI_QUOTA_EXCEEDED",
   });
   expect(fetcher).toHaveBeenCalledTimes(5);
+});
+
+it("translates_to_Vietnamese_with_bilingual_examples_and_target_language_instructions", async () => {
+  const vietnamese = {
+    ...answer,
+    targetLanguage: "vi",
+    meaning: "thư viện",
+    definition: "Nơi mọi người đọc và mượn sách.",
+    partOfSpeech: "danh từ",
+    notes: "Dùng để chỉ nơi đọc hoặc mượn sách.",
+    collocations: [
+      { source: "public library", translation: "thư viện công cộng" },
+    ],
+    examples: [
+      {
+        source: "I visit the library on weekends.",
+        translation: "Tôi đến thư viện vào cuối tuần.",
+      },
+      {
+        source: "She has a library card.",
+        translation: "Cô ấy có thẻ thư viện.",
+      },
+    ],
+  };
+  const { provider, fetcher } = fixture(200, {
+    candidates: [
+      {
+        finishReason: "STOP",
+        content: { parts: [{ text: JSON.stringify(vietnamese) }] },
+      },
+    ],
+  });
+  const result = await provider.translate({ ...input, targetLanguage: "vi" });
+  expect(result.meaning).toBe("thư viện");
+  expect(result.learningDetails?.examples[0]).toEqual(vietnamese.examples[0]);
+  const [, options] = fetcher.mock.calls[0] as unknown as [string, RequestInit];
+  const body = JSON.parse(options.body as string);
+  expect(body.systemInstruction.parts[0].text).toContain(
+    "TARGET: Vietnamese (vi)",
+  );
 });

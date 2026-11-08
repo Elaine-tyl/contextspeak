@@ -1,6 +1,6 @@
 # Local AI translation and examples
 
-ContextSpeak's default translator is now local Ollama with the pinned `qwen3:4b` model. It supports English, Chinese, Japanese, Korean, Spanish, and French. No paid API or cloud model is used. Ollama and its model files are upstream dependencies; no upstream application code is copied into ContextSpeak.
+ContextSpeak's default translator is now local Ollama with the pinned `qwen3:4b` model. It supports English, Chinese, Japanese, Korean, Spanish, French, and Vietnamese. No paid API or cloud model is used. Ollama and its model files are upstream dependencies; no upstream application code is copied into ContextSpeak.
 
 ## Setup
 

@@ -6,12 +6,19 @@ export const aiLanguageCodes = [
   "ko",
   "es",
   "fr",
+  "vi",
 ] as const;
 export const aiLanguages = aiLanguageCodes.map((code, index) => ({
   code,
-  name: ["English", "Chinese", "Japanese", "Korean", "Spanish", "French"][
-    index
-  ],
+  name: [
+    "English",
+    "Chinese",
+    "Japanese",
+    "Korean",
+    "Spanish",
+    "French",
+    "Vietnamese",
+  ][index],
   targets: [...aiLanguageCodes],
 }));
 const pair = z

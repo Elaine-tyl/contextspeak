@@ -2,7 +2,7 @@ import { defineConfig } from "wxt";
 export default defineConfig({
   modules: ["@wxt-dev/module-react"],
   manifest: {
-    version: "0.7.0",
+    version: "0.7.1",
     minimum_chrome_version: "116",
     name: "ContextSpeak",
     description:

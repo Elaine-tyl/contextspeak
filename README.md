@@ -4,7 +4,7 @@
 
 **Build your vocabulary. Understand conversations. Speak with confidence.**
 
-A browser extension and learning website that turns everyday English lookups into a personal vocabulary memory library, scheduled review, and contextual listening/speaking practice. The learning focus is adults with basic English; translation cards support six languages, while school workflows follow later.
+A browser extension and learning website that turns everyday English lookups into a personal vocabulary memory library, scheduled review, and contextual listening/speaking practice. The learning focus is adults with basic English; translation cards support seven languages, while school workflows follow later.
 
 > Working local flow: Google login → paired Chrome extension → Gemini or local word/sentence translation → PostgreSQL history/candidates → website library. Not ready for public deployment.
 
@@ -31,7 +31,7 @@ For real translation with simulated sign-in and no Google account, use **`pnpm d
 4. Enable automatic collection and **Save collection settings**. Collection starts off.
 5. Choose source/target languages in the popup and save them. Automatic translation defaults on; existing explicit off settings remain respected. Open [the playground](http://127.0.0.1:3000/sample.html) or another webpage and select a word or sentence. Refresh the library to see a collected encounter and candidate.
 
-AI mode translates selections up to 600 characters in English, Chinese, Japanese, Korean, Spanish, and French, with meanings and bilingual examples. No initial Translate button is needed. The optional plain English/Chinese provider retains its 2,000-character limit. Model setup is a one-time verified download; generation runs locally. Reload the unpacked extension and refresh existing pages after an update. Google credentials and extension tokens never enter webpage content scripts.
+AI mode translates selections up to 600 characters in English, Chinese, Japanese, Korean, Spanish, French, and Vietnamese, with meanings and bilingual examples. No initial Translate button is needed. The optional plain English/Chinese provider retains its 2,000-character limit. Model setup is a one-time verified download; generation runs locally. Reload the unpacked extension and refresh existing pages after an update. Google credentials and extension tokens never enter webpage content scripts.
 
 Stop with Ctrl+C. Data stays in ignored `.local/postgres`; the extension queue survives restarts. Website sessions last seven days and paired extension access lasts thirty days. **Sign out** revokes the current website session; **Revoke all extensions** invalidates device access and unfinished approvals. Old developer-token identities are test data and are not merged into Google accounts.
 
@@ -78,7 +78,7 @@ Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension 
 | --- | --- |
 | [Planning](docs/PLANNING.md) | Requirements mapping, MVP, roadmap, costs, and decisions |
 | [Methodology](docs/METHODOLOGY.md) | Collection, scenario inference, word priorities, and mastery evidence |
-| [Local AI translation](docs/AI_TRANSLATION.md) | Six languages, automatic cards, examples, setup and model pin |
+| [Local AI translation](docs/AI_TRANSLATION.md) | Seven languages, automatic cards, examples, setup and model pin |
 | [Plain free translation](docs/TRANSLATION.md) | Reproducible local setup, languages, usage and live regression suite |
 | [AI pronunciation](docs/AI_SPEECH.md) | Natural word/phrase/example audio, private caching, setup and quota limits |
 | [Listening and speaking](docs/PRACTICE.md) | Free on-device playback, local recording, separate practice results and limitations |

@@ -91,4 +91,4 @@ Google OIDC login uses authorization code + PKCE through openid-client. Website 
 
 A loopback LibreTranslate service now provides free word/sentence translation. Python dependencies and English/Chinese model checksums are pinned. The API validates installed languages and sends only selected text; language preferences are owned by each account and snapshotted per lookup. The extension supports manual or opt-in automatic selection translation and shares one persisted result with the library. See [free translation setup](TRANSLATION.md).
 
-The default provider is now a loopback Ollama adapter with schema-constrained six-language learning cards. Versioned learning JSON is stored with the same lookup result consumed by the extension and website. Immediate saving, ownership and consent remain unchanged. See [local AI details](AI_TRANSLATION.md).
+The default provider is now a loopback Ollama adapter with schema-constrained seven-language learning cards. Versioned learning JSON is stored with the same lookup result consumed by the extension and website. Immediate saving, ownership and consent remain unchanged. See [local AI details](AI_TRANSLATION.md).

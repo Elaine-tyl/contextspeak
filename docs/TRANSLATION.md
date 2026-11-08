@@ -1,6 +1,6 @@
 # Free local translation
 
-For the default six-language AI cards and examples, see [AI translation](AI_TRANSLATION.md). This guide covers the optional plain LibreTranslate provider; set `TRANSLATION_PROVIDER=libretranslate` to use it.
+For the default seven-language AI cards and examples, see [AI translation](AI_TRANSLATION.md). This guide covers the optional plain LibreTranslate provider; set `TRANSLATION_PROVIDER=libretranslate` to use it.
 
 ContextSpeak uses **LibreTranslate on your own computer**. No translation API key, subscription, Google Cloud billing, or scraped translation endpoint is involved. Google sign-in is a separate feature.
 

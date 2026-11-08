@@ -1,4 +1,5 @@
 import { expect, it, vi, afterEach } from "vitest";
+import { speechInputSchema } from "@contextspeak/contracts";
 import {
   GeminiSpeechProvider,
   FixtureSpeechProvider,
@@ -105,4 +106,23 @@ it("rejects_a_RIFF_container_without_a_valid_PCM_format", async () => {
   await expect(
     provider.generate({ text: "academic", language: "en" }),
   ).rejects.toMatchObject({ status: 502 });
+});
+
+it("accepts_Vietnamese_speech_without_losing_diacritics", async () => {
+  const input = speechInputSchema.parse({
+    text: "Xin chào, bạn có khỏe không?",
+    language: "vi",
+  });
+  const wave = await new FixtureSpeechProvider().generate();
+  let body: any;
+  const provider = new GeminiSpeechProvider({
+    apiKey: "test-key",
+    fetcher: async (_url, options) => {
+      body = JSON.parse(String(options?.body));
+      return envelope(wave.audio);
+    },
+  });
+  await provider.generate(input);
+  expect(body.contents[0].parts[0].text).toBe("Xin chào, bạn có khỏe không?");
+  expect(body.contents[0].parts[0].speech_metadata.style).toContain("vi");
 });
