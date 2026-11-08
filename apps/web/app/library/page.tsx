@@ -403,9 +403,17 @@ export default function Library() {
                       : item.translationStatus}
                   </span>
                 </div>
-                {item.context && <blockquote>“{item.context}”</blockquote>}
                 {item.meaning && <p className="meaning">{item.meaning}</p>}
-                <LearningNotes value={item.learningDetails} />
+                {(item.context || item.learningDetails) && (
+                  <details className="lookup-details">
+                    <summary>
+                      <span className="details-show">Show details</span>
+                      <span className="details-hide">Hide details</span>
+                    </summary>
+                    {item.context && <blockquote>“{item.context}”</blockquote>}
+                    <LearningNotes value={item.learningDetails} />
+                  </details>
+                )}
                 {item.errorCode && (
                   <div className="failure">
                     <p>

@@ -190,7 +190,8 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
               {
                 id: url.searchParams.get("cursor") ? "older" : "first",
                 text: "available",
-                context: null,
+                context: "Are you available for a quick call?",
+                learningDetails: learningFixture,
                 meaning: "Free",
                 sourceLanguage: "en",
                 targetLanguage: "en",
@@ -208,6 +209,31 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
   });
   await page.goto("http://127.0.0.1:3000/library");
   await expect(page.getByTestId("lookup-card")).toHaveCount(1);
+  const card = page.getByTestId("lookup-card");
+  await expect(card.getByText("Free", { exact: true })).toBeVisible();
+  await expect(
+    card.getByRole("heading", { name: "Examples", exact: true }),
+  ).toBeHidden();
+  expect((await card.boundingBox())!.height).toBeLessThan(300);
+  await card.getByText("Show details", { exact: true }).click();
+  await expect(
+    card.getByRole("heading", { name: "Examples", exact: true }),
+  ).toBeVisible();
+  await expect(
+    card.getByText("“Are you available for a quick call?”", { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "Refresh", exact: true }).click();
+  await expect(
+    card.getByRole("heading", { name: "Examples", exact: true }),
+  ).toBeVisible();
+  await card.locator("summary").focus();
+  await page.keyboard.press("Enter");
+  await expect(
+    card.getByRole("heading", { name: "Examples", exact: true }),
+  ).toBeHidden();
+  await card.screenshot({
+    path: testInfo.outputPath("compact-library-card.png"),
+  });
   await page.getByRole("button", { name: "Load more", exact: true }).click();
   await expect(page.getByTestId("lookup-card")).toHaveCount(2);
   await page

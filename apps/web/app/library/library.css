@@ -294,6 +294,7 @@ header {
 .cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   gap: 18px;
 }
 .hidden {
@@ -303,7 +304,7 @@ header {
   border: 1px solid #dce4d7;
   border-radius: 12px;
   background: white;
-  padding: 23px;
+  padding: 18px;
   min-width: 0;
 }
 .card-head {
@@ -314,7 +315,7 @@ header {
 }
 .card-head h3 {
   font-family: Georgia, serif;
-  font-size: 26px;
+  font-size: 22px;
   font-weight: 400;
   overflow-wrap: anywhere;
   margin: 0;
@@ -361,8 +362,8 @@ blockquote {
   gap: 10px;
   flex-wrap: wrap;
   border-top: 1px solid #edf0e9;
-  padding-top: 15px;
-  margin-top: 22px;
+  padding-top: 10px;
+  margin-top: 12px;
   font-size: 9px;
   color: #899383;
 }
@@ -552,4 +553,30 @@ code {
     flex: 1;
     min-width: 180px;
   }
+}
+
+/* Native disclosure keeps every saved explanation accessible without a tall card. */
+.lookup-details {
+  margin-top: 12px;
+}
+.lookup-details summary {
+  cursor: pointer;
+  color: #176b60;
+  font-size: 13px;
+  padding: 6px 0;
+}
+.lookup-details summary:focus-visible {
+  outline: 2px solid #176b60;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+.lookup-details .details-hide,
+.lookup-details[open] .details-show {
+  display: none;
+}
+.lookup-details[open] .details-hide {
+  display: inline;
+}
+.lookup-details blockquote {
+  margin: 14px 0;
 }
