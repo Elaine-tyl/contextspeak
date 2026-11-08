@@ -4,7 +4,7 @@ import { learningFixture } from "../fixtures/learning";
 
 test("automatic_card_is_compact_expandable_dismissible_and_reports_saved_state", async ({
   page,
-}) => {
+}, testInfo) => {
   await page.goto("http://127.0.0.1:3000/sample.html");
   await page.evaluate((learning) => {
     let mode = "saved";
@@ -95,13 +95,15 @@ test("automatic_card_is_compact_expandable_dismissible_and_reports_saved_state",
     exact: true,
   });
   expect((await region.boundingBox())!.height).toBeLessThan(360);
-  await page.screenshot({ path: "/private/tmp/contextspeak-compact-card.png" });
+  await page.screenshot({
+    path: testInfo.outputPath("contextspeak-compact-card.png"),
+  });
   await page.getByText("Show explanation", { exact: true }).click();
   await expect(
     page.getByRole("heading", { name: "Examples", exact: true }),
   ).toBeVisible();
   await page.screenshot({
-    path: "/private/tmp/contextspeak-expanded-card.png",
+    path: testInfo.outputPath("contextspeak-expanded-card.png"),
   });
   await page
     .getByRole("button", { name: "Close translation", exact: true })
@@ -152,7 +154,7 @@ test("automatic_card_is_compact_expandable_dismissible_and_reports_saved_state",
 
 test("library_filters_reset_pagination_survive_polling_and_show_no_results", async ({
   page,
-}) => {
+}, testInfo) => {
   const paths: string[] = [];
   let releaseOld: (() => void) | undefined;
   await page.route("http://127.0.0.1:4318/**", async (route) => {
@@ -226,9 +228,9 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
   await expect(
     page.getByText("No matching vocabulary.", { exact: true }),
   ).toBeVisible();
-  await page
-    .locator(".library-section")
-    .screenshot({ path: "/private/tmp/contextspeak-library-filters.png" });
+  await page.locator(".library-section").screenshot({
+    path: testInfo.outputPath("contextspeak-library-filters.png"),
+  });
   await page.waitForTimeout(3200);
   expect(paths.at(-1)).toContain("q=available");
   expect(paths.at(-1)).toContain("targetLanguage=fr");

@@ -3,7 +3,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
-test("language_picker_search_keyboard_and_saved_preferences", async () => {
+test("language_picker_search_keyboard_and_saved_preferences", async ({}, testInfo) => {
   const directory = await mkdtemp(join(tmpdir(), "cs-popup-design-"));
   const extension = resolve("apps/extension/.output/chrome-mv3");
   const browser = await chromium.launchPersistentContext(directory, {
@@ -125,12 +125,12 @@ test("language_picker_search_keyboard_and_saved_preferences", async () => {
       }),
     ).toBeFocused();
     await page.screenshot({
-      path: "/private/tmp/contextspeak-popup-redesign.png",
+      path: testInfo.outputPath("contextspeak-popup-redesign.png"),
       fullPage: true,
     });
     await target.click();
     await page.screenshot({
-      path: "/private/tmp/contextspeak-popup-language-menu.png",
+      path: testInfo.outputPath("contextspeak-popup-language-menu.png"),
       fullPage: true,
     });
   } finally {

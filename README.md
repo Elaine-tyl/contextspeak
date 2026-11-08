@@ -1,10 +1,12 @@
 # ContextSpeak
 
+[![CI](https://github.com/Elaine-tyl/contextspeak/actions/workflows/ci.yml/badge.svg)](https://github.com/Elaine-tyl/contextspeak/actions/workflows/ci.yml)
+
 **Build your vocabulary. Understand conversations. Speak with confidence.**
 
 A browser extension and learning website that turns everyday English lookups into a personal vocabulary memory library, scheduled review, and contextual listening/speaking practice. The learning focus is adults with basic English; translation cards support six languages, while school workflows follow later.
 
-> Working local flow: Google login → paired Chrome extension → free local word/sentence translation → PostgreSQL history/candidates → website library. Not ready for public deployment.
+> Working local flow: Google login → paired Chrome extension → Gemini or local word/sentence translation → PostgreSQL history/candidates → website library. Not ready for public deployment.
 
 ## Run locally
 
@@ -89,3 +91,7 @@ Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension 
 - Build independently. [FluentRead](https://github.com/FluentRead/FluentRead) is a functional reference, not a source of copied code or assets. This is not a legal clearance statement.
 
 A distribution license is undecided. The diagram adapts a user-supplied layout reference; its ownership/permission and the ContextSpeak brand still need clearance before public release.
+
+## Automated checks
+
+[GitHub Actions](https://github.com/Elaine-tyl/contextspeak/actions) runs CI on pushes to `main` and pull requests: locked dependency install, Prisma client generation, formatting, typecheck, unit/integration tests, extension browser tests, popup tests and both builds. CI uses temporary databases, simulated login and translation fixtures; no Google or Gemini secrets are required. Live provider checks remain opt-in. Failed browser runs retain diagnostics for seven days. Browser screenshots are saved under Playwright’s portable test-output folders.
