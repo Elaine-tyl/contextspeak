@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
-import { alignWords, type DictationFeedback } from "@contextspeak/contracts";
+import {
+  alignWords,
+  type AlignedWord,
+  type DictationFeedback,
+} from "@contextspeak/contracts";
 export function DictationResult({
   feedback,
   response = "",
@@ -11,6 +15,15 @@ export function DictationResult({
   language?: string | null;
   children?: ReactNode;
 }) {
+  const display: AlignedWord[] = [];
+  // Group consecutive omissions for display; word-level scoring stays unchanged.
+  for (const word of feedback.alignment ??
+    alignWords(feedback.transcript, response, language)) {
+    const previous = display.at(-1);
+    if (word.status === "missing" && previous?.status === "missing") {
+      previous.expected += ` ${word.expected}`;
+    } else display.push({ ...word });
+  }
   return (
     <section className="practice-answer" aria-label="Dictation feedback">
       <h3>Your result: {feedback.score}/100</h3>
@@ -19,10 +32,7 @@ export function DictationResult({
       </p>
       <h4>Checked answer</h4>
       <p aria-label="Highlighted answer">
-        {(
-          feedback.alignment ??
-          alignWords(feedback.transcript, response, language)
-        ).map((word, index) => (
+        {display.map((word, index) => (
           <span key={index}>
             {word.status === "correct" ? (
               word.actual
@@ -38,7 +48,7 @@ export function DictationResult({
                 }
               >
                 {word.status === "missing"
-                  ? `[missing: ${word.expected}]`
+                  ? `Missing: ${word.expected}`
                   : word.status === "extra"
                     ? `${word.actual} [extra]`
                     : `${word.actual} → ${word.expected}`}

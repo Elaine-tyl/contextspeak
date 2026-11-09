@@ -1278,3 +1278,27 @@ test("unclear_audio_mid_conversation_does_not_advance_or_lose_previous_turn", as
   expect(uploads[2].previousTurnId).toBe(uploads[1].previousTurnId);
   expect(uploads[2].eventId).not.toBe(uploads[1].eventId);
 });
+
+test("consecutive_missing_words_share_one_phrase_label", async ({ page }) => {
+  await setup(page);
+  await page.getByRole("button", { name: "Play audio", exact: true }).click();
+  await expect(
+    page.getByText("Playback complete.", { exact: true }),
+  ).toBeVisible();
+  await page.getByLabel("Type what you hear").fill("ss");
+  await page
+    .getByRole("button", { name: "Submit answer", exact: true })
+    .click();
+  await expect(page.locator("main").getByRole("alert")).toBeVisible();
+  await page
+    .getByRole("button", { name: "Submit answer", exact: true })
+    .click();
+  const marks = page.getByLabel("Highlighted answer").locator("mark");
+  await expect(marks).toHaveText([
+    "Missing: Are you available for a",
+    "ss → call",
+  ]);
+  await expect(
+    page.getByRole("heading", { name: "Your result: 67/100", exact: true }),
+  ).toBeVisible();
+});
