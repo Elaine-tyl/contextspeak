@@ -24,7 +24,7 @@ export function GameRoundView({
 }: {
   round: GameRound;
   token: string;
-  onSaved(): void;
+  onSaved(): void | Promise<void>;
   onLocked(value: boolean): void;
   onExpired(): void;
   onLeave(): void;
@@ -98,8 +98,8 @@ export function GameRoundView({
       if (!active.current || request.signal.aborted) return;
       setResult(value);
       attempt.current = null;
-      onLocked(false);
-      onSaved();
+      await onSaved();
+      if (active.current) onLocked(false);
     } catch (error) {
       if (!active.current || request.signal.aborted) return;
       if (!attempt.current) onLocked(false);
@@ -123,6 +123,16 @@ export function GameRoundView({
       </p>
       <h2>{round.title}</h2>
       <p>{round.instruction}</p>
+      {!!round.criteria?.length && (
+        <section aria-label="Answer requirements">
+          <h3>Answer requirements</h3>
+          <ul>
+            {round.criteria.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+      )}
       {round.opponentScore !== undefined && (
         <p className="game-opponent">
           Echo · simulated AI opponent · fixed training target:{" "}
@@ -289,7 +299,7 @@ export function GameRoundView({
               ? "Passed. A different passed challenge counts towards the next level."
               : "Keep practising. This round does not unlock the next level yet."}
           </p>
-          <button className="primary" onClick={onLeave}>
+          <button className="primary" disabled={busy} onClick={onLeave}>
             Back to games
           </button>
         </section>

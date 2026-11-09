@@ -119,3 +119,5 @@ Guided conversation: choose an everyday scenario in practice, then **Conversatio
 **Game practice:** open `/games` or the library sidebar for 27 original listening/speaking challenges, independent level unlocks and a clearly labelled simulated AI PK opponent. See [game setup and rules](docs/GAMES.md).
 
 **Local and saved voices:** `pnpm speech:setup` downloads pinned English Phonon. Use `SPEECH_PROVIDER=ollama`; generated WAVs persist privately in `.local/audio` with Prisma/PostgreSQL metadata and bounded cleanup. See [voice setup and storage](docs/AI_SPEECH.md). Gemini recording assessment and any configured non-English fallback retain their own quotas.
+
+**Adaptive practice:** contextual vocabulary questions, visible answer criteria, evidence-based speaking rubric v2 and transparent difficulty recommendations now use owned SQL history, without RAG. See [rules and scoring limits](docs/ADAPTIVE_PRACTICE.md).

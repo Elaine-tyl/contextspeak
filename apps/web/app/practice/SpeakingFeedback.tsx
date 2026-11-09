@@ -17,6 +17,31 @@ export function SpeakingFeedback({ result }: { result: SpeakingAssessment }) {
         AI-estimated practice feedback. This is not an exam grade or a validated
         pronunciation assessment.
       </p>
+      {result.audioQuality && result.audioQuality !== "clear" && (
+        <p role="status">
+          The audio provides limited evidence. Please record a clearer or fuller
+          answer; this result will not change your recommended difficulty.
+        </p>
+      )}
+      {!!result.evidence?.length && (
+        <details className="score-evidence">
+          <summary>
+            {result.scores ? "Why these scores?" : "Feedback evidence"}
+          </summary>
+          <ul>
+            {result.evidence.map((item) => (
+              <li key={item.dimension}>
+                <strong>
+                  {item.dimension === "taskResponse"
+                    ? "Task response"
+                    : item.dimension}
+                </strong>
+                {item.quote && <>: “{item.quote}”</>} — {item.explanation}
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
       {result.scores && (
         <dl className="speaking-scores">
           {(

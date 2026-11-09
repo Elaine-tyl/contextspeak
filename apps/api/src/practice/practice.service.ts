@@ -1,3 +1,4 @@
+import { practiceExerciseKey } from "./adaptation";
 import { ConflictException, NotFoundException } from "@nestjs/common";
 import { createHash } from "node:crypto";
 import type {
@@ -14,6 +15,8 @@ import {
   type SpeakingAssessment,
   type DialogueTurn,
 } from "@contextspeak/contracts";
+import { AdaptiveService } from "./adaptive.service";
+import { vocabularyQuestion } from "./questions";
 import { gradeDictation } from "./dictation";
 import { conversationTask } from "./scenarios";
 import type { LibraryFilters } from "../library/library-filters";
@@ -30,6 +33,7 @@ function taskFor(
     | "learningDetails"
   >,
   scenario?: ScenarioId,
+  difficulty = 1,
 ) {
   if (lookup.translationStatus !== "succeeded" || !lookup.meaning?.trim())
     throw new ConflictException("A successful saved translation is required.");
@@ -42,15 +46,18 @@ function taskFor(
     );
   const detected = lookup.detectedSourceLanguage ?? lookup.sourceLanguage;
   const language = detected === "auto" ? null : detected;
+  const question = vocabularyQuestion(lookup.text, example?.source, difficulty);
   return {
+    difficulty,
+    criteria: question.criteria,
     version: 1 as const,
     lookupId: lookup.id,
     expression: lookup.text,
-    speakingQuestion: `How could you use “${lookup.text.slice(0, 120)}” to describe something from your own life? Give a specific example.`,
+    speakingQuestion: question.prompt,
     sourceText,
     translation: example?.translation ?? lookup.meaning,
     language,
-    ...(scenario ? conversationTask(scenario, language) : {}),
+    ...(scenario ? conversationTask(scenario, language, difficulty) : {}),
   };
 }
 export function practiceReceipt(row: PracticeAttempt) {
@@ -78,6 +85,7 @@ export class PracticeService {
   constructor(
     private prisma: PrismaClient,
     private library: LibraryService,
+    private adaptive = new AdaptiveService(prisma),
   ) {}
   async list(identity: Identity, filters: LibraryFilters) {
     const user = await this.library.actor(identity);
@@ -124,18 +132,29 @@ export class PracticeService {
     itemId: string,
     lookupId?: string,
     scenario?: ScenarioId,
+    difficulty?: number,
   ) {
     const detail = await this.library.itemDetail(identity, itemId, lookupId);
     if (!detail.lookup)
       throw new ConflictException("Translate and save this vocabulary first.");
-    const task = taskFor(detail.lookup, scenario);
     const user = await this.library.actor(identity);
+    const recommendation = await this.adaptive.recommend(user.id, "speaking");
+    const task = taskFor(
+      detail.lookup,
+      scenario,
+      difficulty ?? recommendation.level,
+    );
     const recent = await this.prisma.practiceAttempt.findMany({
       where: { userId: user.id, lookupId: task.lookupId },
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: 10,
     });
-    return { itemId, ...task, recent: recent.map(practiceReceipt) };
+    return {
+      itemId,
+      ...task,
+      recommendation,
+      recent: recent.map(practiceReceipt),
+    };
   }
   async save(identity: Identity, itemId: string, input: PracticeSubmission) {
     const user = await this.library.actor(identity);
@@ -160,10 +179,29 @@ export class PracticeService {
         return practiceReceipt(previous);
       }
       const base = taskFor(lookup, input.scenario);
+      const exerciseKey = practiceExerciseKey(
+        input.mode,
+        lookup.text,
+        input.scenario,
+        1,
+      );
+      const independent =
+        input.completedPlays <= 2 &&
+        !input.revealed &&
+        !(await tx.practiceAttempt.findFirst({
+          where: {
+            userId: user.id,
+            createdAt: { gte: new Date(Date.now() - 86400000) },
+            task: { path: ["exerciseKey"], equals: exerciseKey },
+            payload: { path: ["mode"], equals: input.mode },
+          },
+        }));
       const task =
         input.activity === "dictation"
           ? {
               ...base,
+              independent,
+              exerciseKey,
               feedback: gradeDictation(
                 base.sourceText,
                 input.response,

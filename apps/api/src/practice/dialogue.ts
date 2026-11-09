@@ -9,7 +9,7 @@ import type {
 export async function dialogueContext(
   prisma: PrismaClient,
   userId: string,
-  task: Pick<PracticeTask, "itemId" | "sourceText" | "scenario">,
+  task: Pick<PracticeTask, "itemId" | "sourceText" | "scenario" | "difficulty">,
   input: SpeakingUpload,
 ) {
   if (!input.conversation) return {};
@@ -29,6 +29,7 @@ export async function dialogueContext(
     !payload.conversation ||
     payload.scenario !== input.scenario ||
     previous.itemId !== task.itemId ||
+    (previous.difficulty ?? 1) !== (task.difficulty ?? 1) ||
     !previous.dialogue ||
     previous.dialogue.turn >= 4 ||
     !assessment?.speechDetected ||

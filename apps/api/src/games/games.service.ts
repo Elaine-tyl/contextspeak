@@ -11,6 +11,7 @@ import type {
   GameSubmission,
   GameReceipt,
 } from "@contextspeak/contracts";
+import { AdaptiveService } from "../practice/adaptive.service";
 import { LibraryService } from "../library/library.service";
 import { recording } from "../practice/recording";
 import { gradeDictation } from "../practice/dictation";
@@ -41,6 +42,7 @@ export class GamesService {
     private prisma: PrismaClient,
     private library: LibraryService,
     private provider?: SpeakingProvider,
+    private adaptive = new AdaptiveService(prisma),
   ) {}
   async progress(userId: string) {
     const passed = await this.prisma.gameAttempt.groupBy({
@@ -51,9 +53,24 @@ export class GamesService {
   }
   async catalog(identity: Identity) {
     const user = await this.library.actor(identity);
+    const progress = await this.progress(user.id);
+    const [listening, speaking] = await Promise.all([
+      this.adaptive.recommend(user.id, "listening"),
+      this.adaptive.recommend(user.id, "speaking"),
+    ]);
     return {
       rounds: challenges.map(publicRound),
-      progress: await this.progress(user.id),
+      progress,
+      recommendations: {
+        listening: {
+          ...listening,
+          level: Math.min(listening.level, progress.listening.level),
+        },
+        speaking: {
+          ...speaking,
+          level: Math.min(speaking.level, progress.speaking.level),
+        },
+      },
     };
   }
   async submit(identity: Identity, input: GameSubmission) {
@@ -127,6 +144,8 @@ export class GamesService {
           mimeType: input.mimeType,
           task: {
             expression: "",
+            difficulty: round.level,
+            criteria: round.criteria,
             language: "en",
             sourceText: round.audioText,
             goal: `English ${round.kind} game. Assess the spoken answer against this task and solution criteria: ${round.answer}. Reward reasoning and relevance; accept equivalent answers. Do not reveal a correct answer in the transcript unless it was spoken.`,
@@ -183,6 +202,16 @@ export class GamesService {
           );
         return receipt(previous);
       }
+      feedback.independent =
+        input.completedPlays <= 2 &&
+        !(await tx.gameAttempt.findFirst({
+          where: {
+            userId,
+            roundId: round.id,
+            score: { not: null },
+            createdAt: { gte: new Date(Date.now() - 86400000) },
+          },
+        }));
       const { audio, ...metadata } = input;
       return receipt(
         await tx.gameAttempt.create({

@@ -71,6 +71,9 @@ export interface PracticeTask {
   expression: string;
   sourceText: string;
   speakingQuestion?: string;
+  difficulty?: number;
+  criteria?: string[];
+  recommendation?: PracticeRecommendation;
   translation: string;
   language: string | null;
   scenario?: { id: ScenarioId; title: string; goal: string };
@@ -100,4 +103,11 @@ export type DictationFeedback = {
 export type DialogueTurn = {
   turn: number;
   history: { partner: string; response: string }[];
+};
+
+export type PracticeRecommendation = {
+  level: number;
+  reason: string;
+  evidenceCount: number;
+  focus?: string;
 };

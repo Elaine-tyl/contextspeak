@@ -65,3 +65,14 @@ it("rejects missing, mismatched, silent and completed chains", async () => {
     ).rejects.toBeDefined();
   }
 });
+
+it("does not silently change difficulty halfway through a dialogue", async () => {
+  await expect(
+    dialogueContext(
+      { practiceAttempt: { findFirst: async () => row() } } as any,
+      "learner",
+      { ...task, difficulty: 2 } as any,
+      input as any,
+    ),
+  ).rejects.toBeDefined();
+});

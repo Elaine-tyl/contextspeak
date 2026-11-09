@@ -100,6 +100,19 @@ test("listening_games_persist_distinct_progress_and_unlock_the_next_level", asyn
   ).toBeEnabled();
   await page.reload();
   await expect(
+    page.getByRole("region", { name: "Practice recommendation" }),
+  ).toContainText("Recommended: Level 2");
+  await page
+    .getByRole("button", { name: "Use recommended level", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Level 2", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Level 1", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "Level 1", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await expect(
     page.getByRole("button", { name: "Level 2", exact: true }),
   ).toBeEnabled();
   await page

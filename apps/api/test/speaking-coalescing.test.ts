@@ -29,6 +29,7 @@ it("reserves_an_event_before_asynchronous_task_lookup", async () => {
     $queryRaw: vi.fn(async () => []),
     lookupEvent: { findFirst: vi.fn(async () => ({ id: "lookup" })) },
     practiceAttempt: {
+      findFirst: vi.fn(async () => null),
       findUnique,
       create: vi.fn(async ({ data }) => {
         stored = { ...data, id: "attempt", createdAt: new Date() };

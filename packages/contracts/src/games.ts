@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { speakingUploadSchema, type SpeakingAssessment } from "./speaking";
-import type { DictationFeedback } from "./practice";
+import type { PracticeRecommendation, DictationFeedback } from "./practice";
 export type GameTrack = "listening" | "speaking";
 export type GameKind =
   "dictation" | "picture" | "comprehension" | "riddle" | "puzzle" | "pk";
@@ -15,13 +15,18 @@ export type GameRound = {
   instruction: string;
   audioText: string;
   choices?: { id: string; label: string; picture?: PictureId }[];
+  criteria?: string[];
   opponentScore?: number;
 };
 export type GameProgress = Record<
   GameTrack,
   { level: number; passed: number[] }
 >;
-export type GameCatalog = { rounds: GameRound[]; progress: GameProgress };
+export type GameCatalog = {
+  rounds: GameRound[];
+  progress: GameProgress;
+  recommendations?: Record<GameTrack, PracticeRecommendation>;
+};
 export const gameSubmissionSchema = z
   .object({
     eventId: z.uuid(),
@@ -41,6 +46,7 @@ export type GameReceipt = {
   score: number | null;
   createdAt: string;
   feedback: {
+    independent?: boolean;
     explanation: string;
     correctAnswer?: string;
     correct?: boolean;

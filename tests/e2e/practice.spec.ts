@@ -1201,3 +1201,55 @@ test("consecutive_missing_words_share_one_phrase_label", async ({ page }) => {
     page.getByRole("heading", { name: "Your result: 67/100", exact: true }),
   ).toBeVisible();
 });
+
+test("limited_audio_shows_feedback_without_a_numeric_score_or_difficulty_penalty", async ({
+  page,
+}) => {
+  await setup(page);
+  await page.route(
+    `http://127.0.0.1:4318/v1/practice/${itemId}/speaking-assessment`,
+    (route) =>
+      route.fulfill({
+        json: {
+          id: "limited-audio",
+          mode: "speaking",
+          plays: 0,
+          revealed: false,
+          durationMs: 1000,
+          createdAt: new Date().toISOString(),
+          speakingAssessment: {
+            speechDetected: true,
+            transcript: "I am available.",
+            audioQuality: "limited",
+            evidence: [],
+            scores: null,
+            overall: null,
+            strengths: [],
+            improvements: ["Record again in a quieter place."],
+            suggestedResponse: "",
+            model: "fixture",
+            rubricVersion: 2,
+          },
+        },
+      }),
+  );
+  await page.getByRole("button", { name: "Speaking", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Start recording", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Stop recording", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", {
+      name: "No reliable speaking score",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("this result will not change your recommended difficulty", {
+      exact: false,
+    }),
+  ).toBeVisible();
+  await expect(page.locator(".speaking-scores")).toHaveCount(0);
+});

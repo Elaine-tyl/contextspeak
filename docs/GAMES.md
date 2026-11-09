@@ -34,3 +34,7 @@ Local English playback uses pinned Phonon; the existing server-side Gemini key r
 ## Verification
 
 Fixtures use isolated PostgreSQL databases, simulated sign-in, deterministic audio/assessment and generated browser recordings. No personal microphone upload or new API credential is needed for tests. Tests cover immutable content, distinct/skill-separated progression, locked-level rejection, forged scores, answer ownership, idempotent/concurrent submissions, input limits, quota failure, silence and no FSRS changes; browser checks exercise real local API progression, picture selection, dictation, comprehension, automatic speaking, fixed PK results, retry and session-expiry cleanup.
+
+## Adaptive recommendations
+
+Earned unlocks remain available. The hub recommends a level using recent distinct outcomes and independent evidence, explains the reason and preserves manual override. Speech scores now use rubric v2 evidence/quality guards; unscorable clips do not lower difficulty. See [adaptive rules](ADAPTIVE_PRACTICE.md).

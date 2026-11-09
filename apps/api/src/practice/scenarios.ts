@@ -32,7 +32,11 @@ const turns: Record<
     goal: "Ask someone for help with an everyday problem. Explain what you need, mention what you have tried, and ask politely for a next step. Use your saved expression where it fits naturally.",
   },
 };
-export function conversationTask(id: ScenarioId, language: string | null) {
+export function conversationTask(
+  id: ScenarioId,
+  language: string | null,
+  difficulty = 1,
+) {
   if (language !== "en")
     throw new ConflictException(
       "Everyday scenarios currently require saved English vocabulary with a known English source language.",
@@ -40,10 +44,27 @@ export function conversationTask(id: ScenarioId, language: string | null) {
   const { goal, ...turn } = turns[id];
   return {
     ...turn,
+    criteria: [
+      "Respond to the scenario goal",
+      "Use the saved expression naturally",
+      ...(difficulty >= 2
+        ? ["Give a reason and ask a relevant follow-up"]
+        : []),
+      ...(difficulty >= 3
+        ? ["Compare alternatives and justify your choice"]
+        : []),
+    ],
     scenario: {
       id,
       title: conversationScenarios.find((value) => value.id === id)!.title,
-      goal,
+      goal:
+        goal +
+        (difficulty >= 2
+          ? " Explain a reason and ask one relevant follow-up."
+          : "") +
+        (difficulty >= 3
+          ? " Compare two alternatives and justify your choice."
+          : ""),
     },
   };
 }

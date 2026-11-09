@@ -119,6 +119,7 @@ export default function GamesPage() {
     }
   }
   const progress = catalog?.progress[track];
+  const recommendation = catalog?.recommendations?.[track];
   return (
     <main className="games-page">
       <Link href="/library">Back to library</Link>
@@ -174,6 +175,35 @@ export default function GamesPage() {
             passed
             {level < 3 ? " · 3 needed for the next level" : " · highest level"}
           </p>
+          {recommendation && (
+            <section
+              className="game-progress"
+              aria-label="Practice recommendation"
+            >
+              <strong>Recommended: Level {recommendation.level}</strong>
+              <p>{recommendation.reason}</p>
+              {recommendation.focus && (
+                <p>
+                  Focus:{" "}
+                  {recommendation.focus.replace(
+                    "taskResponse",
+                    "task response",
+                  )}
+                </p>
+              )}
+              <button
+                className="secondary"
+                disabled={locked}
+                onClick={() => {
+                  setLevel(recommendation.level);
+                  setRound(null);
+                }}
+              >
+                Use recommended level
+              </button>
+              <small>You can still choose any unlocked level.</small>
+            </section>
+          )}
           {!round ? (
             <>
               <button className="secondary" onClick={() => void refresh()}>
@@ -223,12 +253,13 @@ export default function GamesPage() {
                 key={round.id}
                 round={round}
                 token={token}
-                onSaved={() => void refresh()}
+                onSaved={refresh}
                 onLocked={setLocked}
                 onExpired={expire}
                 onLeave={() => {
                   setLocked(false);
                   setRound(null);
+                  if (recommendation) setLevel(recommendation.level);
                 }}
               />
             </>

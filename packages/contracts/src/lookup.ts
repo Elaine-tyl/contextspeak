@@ -160,6 +160,7 @@ export {
   type PracticeTask,
   type PracticeReceipt,
   type PracticeItem,
+  type PracticeRecommendation,
   type DialogueTurn,
 } from "./practice";
 

@@ -132,6 +132,25 @@ export function PracticeSession({
           Use this expression: <strong>{task.expression}</strong>
         </p>
       )}
+      {!listening && task.recommendation && (
+        <p className="section-copy">
+          Recommended speaking difficulty: Level {task.difficulty ?? 1}.{" "}
+          {task.recommendation.reason}
+          {task.recommendation.focus
+            ? ` Focus: ${task.recommendation.focus.replace("taskResponse", "task response")}.`
+            : ""}
+        </p>
+      )}
+      {!listening && !!task.criteria?.length && (
+        <section aria-label="Answer requirements">
+          <h3>What your answer should include</h3>
+          <ul>
+            {task.criteria.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </section>
+      )}
       {!listening && question && (
         <p className="practice-question">
           <strong>Question:</strong> {question}

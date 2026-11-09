@@ -103,6 +103,7 @@ it("checks_ownership_media_and_bounds_before_calling_Gemini", async () => {
     { audio: "not audio" },
     { audio: Buffer.from("plain text").toString("base64") },
     { durationMs: 60001 },
+    { difficulty: 4 },
     { score: 100 },
     { audio: Buffer.alloc(2097153).toString("base64") },
   ])
@@ -117,9 +118,7 @@ it("coalesces_concurrent_retries_stores_feedback_without_audio_and_keeps_FSRS_un
   expect(results[0].body).toEqual(results[1].body);
   expect(results[0].body.speakingAssessment).toEqual(assessment);
   expect(assess).toHaveBeenCalledTimes(1);
-  expect(assess.mock.calls[0][0].task.sourceText).toContain(
-    "How could you use “available”",
-  );
+  expect(assess.mock.calls[0][0].task.sourceText).toContain("available");
   expect((await post({ ...body, revealed: true })).status).toBe(409);
   const row = await db.prisma.practiceAttempt.findUniqueOrThrow({
     where: { id: results[0].body.id },

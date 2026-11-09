@@ -11,6 +11,24 @@ export const speakingScoresSchema = z
   .strict();
 export const speakingModelSchema = z
   .object({
+    audioQuality: z.enum(["clear", "limited", "unusable"]),
+    evidence: z
+      .array(
+        z
+          .object({
+            dimension: z.enum([
+              "clarity",
+              "fluency",
+              "grammar",
+              "vocabulary",
+              "taskResponse",
+            ]),
+            quote: z.string().max(200),
+            explanation: z.string().trim().min(1).max(300),
+          })
+          .strict(),
+      )
+      .max(5),
     speechDetected: z.boolean(),
     transcript: z.string().trim().max(2000),
     scores: speakingScoresSchema.nullable(),
@@ -54,16 +72,22 @@ export const speakingModelSchema = z
     suggestedResponse: z.string().trim().max(1200),
   })
   .strict();
-export type SpeakingAssessment = z.infer<typeof speakingModelSchema> & {
-  overall: number | null;
-  rubricVersion: 1;
-  model: string;
-};
+type SpeakingModel = z.infer<typeof speakingModelSchema>;
+export type SpeakingAssessment = Omit<
+  SpeakingModel,
+  "audioQuality" | "evidence"
+> &
+  Partial<Pick<SpeakingModel, "audioQuality" | "evidence">> & {
+    overall: number | null;
+    rubricVersion: 1 | 2;
+    model: string;
+  };
 export const speakingUploadSchema = z
   .object({
     eventId: z.uuid(),
     lookupId: z.uuid(),
     scenario: scenarioSchema.optional(),
+    difficulty: z.number().int().min(1).max(3).optional(),
     conversation: z.literal(true).optional(),
     previousTurnId: z.uuid().optional(),
     consent: z.literal(true).optional(),

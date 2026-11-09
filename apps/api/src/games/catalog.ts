@@ -145,6 +145,25 @@ export const challenges: Challenge[] = passages.flatMap((texts, index) => {
     },
     ...spoken[index].map(([prompt, answer], kind) => ({
       id: `speak-${level}-${kind}-v1`,
+      criteria:
+        kind === 0
+          ? [
+              "Name a plausible answer",
+              "Explain how a clue supports your answer",
+            ]
+          : kind === 1
+            ? ["Give a workable solution", "Explain your reasoning"]
+            : level === 1
+              ? ["Suggest a time and place", "Ask about availability"]
+              : level === 2
+                ? [
+                    "Respond politely",
+                    "Suggest an alternative and ask a follow-up",
+                  ]
+                : [
+                    "Propose a practical venue",
+                    "Explain a trade-off and persuade the organiser",
+                  ],
       track: "speaking" as const,
       kind: (["riddle", "puzzle", "pk"] as const)[kind],
       level,

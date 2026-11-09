@@ -81,6 +81,7 @@ export function SpeakingAssessmentPanel({
           eventId: crypto.randomUUID(),
           ...(conversation ? { conversation: true, ...conversation } : {}),
           lookupId: task.lookupId,
+          ...(task.difficulty ? { difficulty: task.difficulty } : {}),
           ...(task.scenario ? { scenario: task.scenario.id } : {}),
           replayed,
           revealed,

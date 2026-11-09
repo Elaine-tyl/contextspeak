@@ -1,3 +1,4 @@
+import { practiceExerciseKey } from "./adaptation";
 import { recording } from "./recording";
 import {
   ConflictException,
@@ -83,6 +84,7 @@ export class SpeakingService {
       itemId,
       input.lookupId,
       input.scenario,
+      input.difficulty,
     );
     const task = {
       ...base,
@@ -168,6 +170,25 @@ export class SpeakingService {
           throw new ConflictException("This event already has another answer.");
         return practiceReceipt(previous);
       }
+      const exerciseKey = practiceExerciseKey(
+        "speaking",
+        task.expression,
+        input.scenario,
+        task.difficulty,
+      );
+      const independent =
+        (!!task.scenario || !input.revealed) &&
+        (!task.dialogue || task.dialogue.turn === 1) &&
+        !(await tx.practiceAttempt.findFirst({
+          where: {
+            userId,
+            createdAt: { gte: new Date(Date.now() - 86400000) },
+            task: { path: ["exerciseKey"], equals: exerciseKey },
+            AND: [
+              { task: { path: ["speakingAssessment", "overall"], gte: 0 } },
+            ],
+          },
+        }));
       return practiceReceipt(
         await tx.practiceAttempt.create({
           data: {
@@ -185,7 +206,12 @@ export class SpeakingService {
               completedPlays: 0,
               response: "",
             },
-            task: { ...task, speakingAssessment: assessment },
+            task: {
+              ...task,
+              exerciseKey,
+              independent,
+              speakingAssessment: assessment,
+            },
           },
         }),
       );
