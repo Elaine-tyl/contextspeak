@@ -20,6 +20,7 @@ model User {
   lookups           LookupEvent[]
   sessions          AuthSession[]
   pairings          ExtensionPairing[]
+  games             GameAttempt[]
 
   @@unique([issuer, subject])
 }
@@ -152,4 +153,20 @@ model PracticeAttempt {
 
   @@unique([userId, eventId])
   @@index([userId, lookupId, createdAt])
+}
+
+model GameAttempt {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventId     String
+  roundId     String
+  score       Int?
+  payloadHash String
+  payload     Json
+  feedback    Json
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, eventId])
+  @@index([userId, score, roundId])
 }

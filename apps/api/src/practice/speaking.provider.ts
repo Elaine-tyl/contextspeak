@@ -18,7 +18,7 @@ export type SpeakingInput = Pick<SpeakingUpload, "audio" | "mimeType"> & {
   task: Pick<
     PracticeTask,
     "expression" | "sourceText" | "language" | "scenario"
-  >;
+  > & { goal?: string };
 };
 export interface SpeakingProvider {
   assess(input: SpeakingInput): Promise<SpeakingAssessment>;
@@ -60,6 +60,7 @@ export class GeminiSpeakingProvider implements SpeakingProvider {
                       ...(input.dialogue ? { dialogue: input.dialogue } : {}),
                       partnerOrExample: input.task.sourceText,
                       goal:
+                        input.task.goal ??
                         input.task.scenario?.goal ??
                         "Answer the supplied vocabulary question using your own English sentence and the saved expression.",
                     }),

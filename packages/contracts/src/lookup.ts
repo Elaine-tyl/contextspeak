@@ -184,3 +184,15 @@ export {
   type AlignedWord,
   type SpeakingCorrection,
 } from "./practice-feedback";
+
+export {
+  gameSubmissionSchema,
+  type GameTrack,
+  type GameKind,
+  type PictureId,
+  type GameRound,
+  type GameProgress,
+  type GameCatalog,
+  type GameSubmission,
+  type GameReceipt,
+} from "./games";

@@ -1,0 +1,97 @@
+.games-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  color: #213d33;
+}
+.games-page h1 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  margin-bottom: 16px;
+}
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.game-tile {
+  text-align: left;
+  padding: 22px;
+  min-height: 200px;
+  border: 1px solid #dce4db;
+  border-radius: 16px;
+  background: white;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.game-tile h2 {
+  font-size: 1.3rem;
+  margin: 10px 0;
+}
+.game-tile p {
+  flex: 1;
+}
+.game-tile span {
+  color: #176b5b;
+  font-weight: bold;
+}
+.game-tile:hover,
+.game-choice:hover {
+  border-color: #176b5b;
+}
+.games-page button:focus-visible {
+  outline: 3px solid #176b5b;
+  outline-offset: 3px;
+}
+.game-round {
+  background: white;
+  border: 1px solid #dce4db;
+  border-radius: 16px;
+  padding: 24px;
+  margin-top: 16px;
+}
+.game-round button {
+  margin: 8px 8px 8px 0;
+}
+.game-round audio {
+  display: block;
+  width: 100%;
+  margin: 16px 0;
+}
+.game-prompt,
+.game-opponent,
+.game-progress {
+  border-radius: 10px;
+  background: #edf3e9;
+  padding: 14px;
+}
+.game-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0;
+}
+.game-choice {
+  border: 2px solid #dce4db;
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.game-choice.selected {
+  background: #edf3e9;
+  border-color: #176b5b;
+}
+.game-match-result {
+  font-size: 1.3rem;
+  font-weight: bold;
+}

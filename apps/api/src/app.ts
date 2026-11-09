@@ -1,4 +1,6 @@
 import "reflect-metadata";
+import { GamesController } from "./games/games.controller";
+import { GamesService } from "./games/games.service";
 import { SpeechController } from "./speech/speech.controller";
 import { SpeechService } from "./speech/speech.service";
 import type { SpeechProvider } from "./speech/gemini-speech.provider";
@@ -43,6 +45,7 @@ export async function createApp(config: AppConfig) {
   await auth?.init();
   @Module({
     controllers: [
+      GamesController,
       LibraryController,
       SpeechController,
       ReviewController,
@@ -52,6 +55,14 @@ export async function createApp(config: AppConfig) {
     ],
     providers: [
       { provide: LibraryService, useValue: library },
+      {
+        provide: GamesService,
+        useValue: new GamesService(
+          config.prisma,
+          library,
+          config.speakingProvider,
+        ),
+      },
       {
         provide: SpeechService,
         useValue: new SpeechService(library, config.speechProvider),
@@ -85,7 +96,7 @@ export async function createApp(config: AppConfig) {
   app.useBodyParser("json", {
     limit: "3mb",
     type: (req) =>
-      /^\/v1\/practice\/[^/?]+\/speaking-assessment(?:\?|$)/.test(
+      /^\/v1\/(?:practice\/[^/?]+\/speaking-assessment|games\/attempts)(?:\?|$)/.test(
         req.url ?? "",
       ) && (req.headers["content-type"] ?? "").startsWith("application/json"),
   });

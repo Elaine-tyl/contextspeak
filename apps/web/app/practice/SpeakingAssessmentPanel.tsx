@@ -8,15 +8,8 @@ import type {
 } from "@contextspeak/contracts";
 import { speakingUploadSchema } from "@contextspeak/contracts";
 import { SpeakingFeedback } from "./SpeakingFeedback";
+import { encodeRecording } from "../../src/recording";
 import { api, ApiError } from "../../src/api";
-async function encode(blob: Blob) {
-  const bytes = new Uint8Array(await blob.arrayBuffer());
-  // A full recording can exceed the argument limit; encode in bounded chunks.
-  const chunks: string[] = [];
-  for (let offset = 0; offset < bytes.length; offset += 32768)
-    chunks.push(String.fromCharCode(...bytes.subarray(offset, offset + 32768)));
-  return btoa(chunks.join(""));
-}
 export function SpeakingAssessmentPanel({
   blob,
   conversation,
@@ -82,7 +75,7 @@ export function SpeakingAssessmentPanel({
     controller.current = request;
     try {
       if (!attempt.current) {
-        const audio = await encode(blob);
+        const audio = await encodeRecording(blob);
         if (!active.current || request.signal.aborted) return;
         const parsed = speakingUploadSchema.safeParse({
           eventId: crypto.randomUUID(),

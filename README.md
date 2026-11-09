@@ -115,3 +115,5 @@ The library keeps search, filters and selected view in its URL. Detail/practice 
 New AI translations prioritize the meaning in the selected sentence; saved translations are retained. Reload extension **0.7.2** and refresh existing webpages to accept the updated prompt metadata. Prompt revisions are distinct from the version of the learning-card structure.
 
 Guided conversation: choose an everyday scenario in practice, then **Conversation** for four spoken turns with AI follow-ups and a final estimate. Listening highlights word differences after submission; speaking highlights AI-proposed grammar/vocabulary corrections against the transcript. See [practice workflow and privacy](docs/PRACTICE.md).
+
+**Game practice:** open `/games` or the library sidebar for 27 original listening/speaking challenges, independent level unlocks and a clearly labelled simulated AI PK opponent. See [game setup and rules](docs/GAMES.md).

@@ -131,7 +131,11 @@ export class SessionService {
         browserHash: hash(browser),
         verifier,
         nonce,
-        destination: code ? "/pair?code=" + code : "/library",
+        destination: code
+          ? "/pair?code=" + code
+          : req.query.returnTo === "/games"
+            ? "/games"
+            : "/library",
         expiresAt: later(600),
       },
     });
