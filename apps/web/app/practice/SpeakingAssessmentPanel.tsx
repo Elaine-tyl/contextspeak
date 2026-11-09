@@ -49,6 +49,7 @@ export function SpeakingAssessmentPanel({
   const [result, setResult] = useState<SpeakingAssessment | null>(null);
   const attempt = useRef<SpeakingUpload | null>(null);
   const active = useRef(true);
+  const started = useRef(false);
   const controller = useRef<AbortController | null>(null);
   useEffect(() => {
     active.current = true;
@@ -57,6 +58,15 @@ export function SpeakingAssessmentPanel({
       controller.current?.abort();
     };
   }, []);
+  useEffect(() => {
+    if (disabled || task.language !== "en" || started.current) return;
+    // Defer until React's development cleanup has run; each recording submits once.
+    const timer = setTimeout(() => {
+      started.current = true;
+      void submit();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, [disabled, task.language]);
   async function submit() {
     if (busy || result || disabled) return;
     if (blob.size > 2 * 1024 * 1024) {
@@ -130,17 +140,18 @@ export function SpeakingAssessmentPanel({
     >
       <h3>AI speaking feedback</h3>
       <small>
-        Submit sends this recording and exercise context to Google Gemini.
+        Your completed recording and exercise context are sent automatically to
+        Google Gemini.
         {conversation && " Earlier dialogue text is included."} ContextSpeak
         saves feedback, not the recording.
       </small>
-      {!result && (
+      {!!error && !result && (
         <button
           className="primary"
           disabled={busy || disabled || task.language !== "en"}
           onClick={() => void submit()}
         >
-          Get AI feedback
+          Retry AI feedback
         </button>
       )}
       {task.language !== "en" && (

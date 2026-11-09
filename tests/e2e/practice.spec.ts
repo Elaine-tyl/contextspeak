@@ -124,6 +124,8 @@ async function setup(page: Page) {
         lookupId,
         version: 1,
         expression: "available",
+        speakingQuestion:
+          "How could you use available to describe something from your own life?",
         sourceText: "Are you available for a call?",
         translation: "你有空接电话吗？",
         language: "en",
@@ -173,6 +175,32 @@ async function setup(page: Page) {
         createdAt: new Date().toISOString(),
       };
     }
+    if (path.endsWith("/speaking-assessment"))
+      data = {
+        id: "automatic-assessment",
+        mode: "speaking",
+        plays: 0,
+        revealed: false,
+        durationMs: 1000,
+        createdAt: new Date().toISOString(),
+        speakingAssessment: {
+          speechDetected: true,
+          overall: 80,
+          scores: {
+            clarity: 80,
+            fluency: 80,
+            grammar: 80,
+            vocabulary: 80,
+            taskResponse: 80,
+          },
+          transcript: "I am available.",
+          strengths: [],
+          improvements: ["Keep practising."],
+          suggestedResponse: "I am available tomorrow.",
+          model: "fixture",
+          rubricVersion: 1,
+        },
+      };
     const scenario = new URL(route.request().url()).searchParams.get(
       "scenario",
     );
@@ -576,9 +604,6 @@ test("practice_saves_through_the_real_API_and_native_recording_produces_decodabl
     page.getByText("Practice saved.", { exact: true }),
   ).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath("speaking-practice.png") });
-  await page
-    .getByRole("button", { name: "Get AI feedback", exact: true })
-    .click();
   await expect(
     page.getByRole("heading", {
       name: "AI speaking score: 80/100",
@@ -599,7 +624,10 @@ test("practice_saves_through_the_real_API_and_native_recording_produces_decodabl
     "speaking",
     "listening",
   ]);
-  expect(task.recent[0].speakingAssessment.overall).toBe(80);
+  expect(
+    task.recent.find((value: any) => value.speakingAssessment)
+      ?.speakingAssessment.overall,
+  ).toBe(80);
   await page.getByLabel("Conversation scenario").selectOption("making-plans");
   await expect(
     page.getByRole("heading", { name: "Making plans", exact: true }),
@@ -853,7 +881,7 @@ test("scenario_refresh_AI_loading_and_nearby_result_actions", async ({
   ).toHaveCount(0);
 });
 
-test("AI_speaking_submits_directly_without_agreement_or_replay_and_retries_one_recording", async ({
+test("AI_speaking_assesses_automatically_once_and_only_retries_on_request", async ({
   page,
 }) => {
   await setup(page);
@@ -912,13 +940,10 @@ test("AI_speaking_submits_directly_without_agreement_or_replay_and_retries_one_r
     .getByRole("button", { name: "Stop recording", exact: true })
     .click();
   await expect(page.getByRole("checkbox")).toHaveCount(0);
-  const submit = page.getByRole("button", {
-    name: "Get AI feedback",
-    exact: true,
-  });
-  await expect(submit).toBeEnabled();
-  expect(uploads).toHaveLength(0);
-  await submit.click();
+  await expect(page.locator(".practice-question")).toContainText("available");
+  await expect(
+    page.getByRole("button", { name: "Get AI feedback", exact: true }),
+  ).toHaveCount(0);
   await expect(page.locator("main").getByRole("alert")).toContainText(
     "not confirmed",
   );
@@ -928,7 +953,12 @@ test("AI_speaking_submits_directly_without_agreement_or_replay_and_retries_one_r
   await expect(
     page.getByRole("button", { name: "Listening", exact: true }),
   ).toBeDisabled();
-  await submit.click();
+  expect(uploads).toHaveLength(1);
+  await page.waitForTimeout(100);
+  expect(uploads).toHaveLength(1);
+  await page
+    .getByRole("button", { name: "Retry AI feedback", exact: true })
+    .click();
   await expect(
     page.getByRole("heading", {
       name: "AI speaking score: 80/100",
@@ -997,9 +1027,6 @@ test("unscorable_speaking_shows_no_numeric_mark", async ({ page }) => {
     .evaluate((element) =>
       element.dispatchEvent(new Event("ended", { bubbles: true })),
     );
-  await page
-    .getByRole("button", { name: "Get AI feedback", exact: true })
-    .click();
   await expect(
     page.getByRole("heading", {
       name: "No reliable speaking score",
@@ -1086,21 +1113,7 @@ test("guided_dialogue_advances_four_turns_with_direct_submit_and_red_speaking_su
     await page
       .getByRole("button", { name: "Stop recording", exact: true })
       .click();
-    await page
-      .getByLabel("Your recording")
-      .evaluate((element) =>
-        element.dispatchEvent(new Event("ended", { bubbles: true })),
-      );
     await expect(page.getByRole("checkbox")).toHaveCount(0);
-    await expect(
-      page.getByRole("button", {
-        name: "Get AI feedback",
-        exact: true,
-      }),
-    ).toBeEnabled();
-    await page
-      .getByRole("button", { name: "Get AI feedback", exact: true })
-      .click();
     const completed = page.getByRole("region", {
       name: `Completed turn ${turn}`,
       exact: true,
@@ -1227,15 +1240,7 @@ test("unclear_audio_mid_conversation_does_not_advance_or_lose_previous_turn", as
     await page
       .getByRole("button", { name: "Stop recording", exact: true })
       .click();
-    await page
-      .getByLabel("Your recording")
-      .evaluate((element) =>
-        element.dispatchEvent(new Event("ended", { bubbles: true })),
-      );
     await expect(page.getByRole("checkbox")).toHaveCount(0);
-    await page
-      .getByRole("button", { name: "Get AI feedback", exact: true })
-      .click();
   }
   await recordReply();
   await page

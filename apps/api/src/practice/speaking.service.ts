@@ -109,6 +109,9 @@ export class SpeakingService {
     );
     const task = {
       ...base,
+      ...(!input.scenario && base.speakingQuestion
+        ? { sourceText: base.speakingQuestion }
+        : {}),
       ...(await dialogueContext(this.prisma, userId, base, input)),
     };
     if (task.language !== "en")

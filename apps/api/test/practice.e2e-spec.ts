@@ -101,6 +101,7 @@ it("offers_only_owned_successful_encounters_and_resolves_detected_language", asy
   expect(result.body).toMatchObject({
     lookupId,
     sourceText: "available",
+    speakingQuestion: expect.stringContaining("available"),
     translation: "有空的",
     language: "en",
     recent: [],

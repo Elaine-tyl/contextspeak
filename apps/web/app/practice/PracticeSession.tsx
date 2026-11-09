@@ -34,7 +34,12 @@ export function PracticeSession({
   onExpired(): void;
   onDiscard(): void;
 }) {
-  const speech = usePracticeSpeech(token, task.sourceText, task.language);
+  const question = !task.scenario ? task.speakingQuestion : undefined;
+  const speech = usePracticeSpeech(
+    token,
+    mode === "speaking" ? (question ?? task.sourceText) : task.sourceText,
+    task.language,
+  );
   const [feedback, setFeedback] = useState<DictationFeedback | null>(null);
   const recording = useLocalRecording();
   const [response, setResponse] = useState("");
@@ -119,45 +124,54 @@ export function PracticeSession({
         {listening
           ? "Listen to the AI voice and type exactly what you hear. Submit to see your mark and corrections."
           : task.scenario
-            ? "Listen to your partner, record your reply using the saved expression, then get AI feedback. Replay is optional."
-            : "Record a sentence using the expression, then get AI feedback. Replay is optional; local self-checks remain available after replay."}
+            ? "Listen to your partner, record your reply using the saved expression. Feedback appears automatically when you finish recording. Replay is optional."
+            : "Answer the question using the expression. Feedback appears automatically when recording finishes. Replay is optional; local self-checks remain available after replay."}
       </p>
       {(!listening || task.scenario) && (
         <p>
           Use this expression: <strong>{task.expression}</strong>
         </p>
       )}
-      {(listening || revealed || task.scenario) && (
-        <>
-          <button
-            className="primary"
-            disabled={
-              !speech.available ||
-              speech.playing ||
-              recordingBusy ||
-              (frozen && !saved) ||
-              speech.plays >= 20
-            }
-            onClick={() => void speech.play()}
-          >
-            Play audio
-          </button>
-          {!speech.available && (
-            <p>
-              AI audio needs a supported, known source language. Choose another
-              saved translation to enable playback.
-            </p>
-          )}
-          {speech.error ? (
-            <p role="alert">{speech.error}</p>
-          ) : (
-            speech.status && <p role="status">{speech.status}</p>
-          )}
-          <p className="section-copy">
-            {speech.plays} plays · {speech.completedPlays} completed
-          </p>
-        </>
+      {!listening && question && (
+        <p className="practice-question">
+          <strong>Question:</strong> {question}
+        </p>
       )}
+      {!listening && (
+        <small>
+          Your completed recording is automatically sent to Google Gemini for
+          feedback.
+        </small>
+      )}
+      <>
+        <button
+          className="primary"
+          disabled={
+            !speech.available ||
+            speech.playing ||
+            recordingBusy ||
+            (frozen && !saved) ||
+            speech.plays >= 20
+          }
+          onClick={() => void speech.play()}
+        >
+          Play audio
+        </button>
+        {!speech.available && (
+          <p>
+            AI audio needs a supported, known source language. Choose another
+            saved translation to enable playback.
+          </p>
+        )}
+        {speech.error ? (
+          <p role="alert">{speech.error}</p>
+        ) : (
+          speech.status && <p role="status">{speech.status}</p>
+        )}
+        <p className="section-copy">
+          {speech.plays} plays · {speech.completedPlays} completed
+        </p>
+      </>
       {listening ? (
         <label className="practice-response">
           Type what you hear
@@ -210,9 +224,9 @@ export function PracticeSession({
                 </p>
               )}
               <p className="section-copy">
-                {Math.ceil(recording.durationMs / 1000)} seconds recorded. Audio
-                stays in this tab unless you explicitly submit it for AI
-                assessment.
+                {Math.ceil(recording.durationMs / 1000)} seconds recorded.
+                Completed English recordings are automatically sent for AI
+                feedback. ContextSpeak saves feedback, not the recording.
               </p>
             </>
           )}

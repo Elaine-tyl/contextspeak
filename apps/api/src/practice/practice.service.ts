@@ -46,6 +46,7 @@ function taskFor(
     version: 1 as const,
     lookupId: lookup.id,
     expression: lookup.text,
+    speakingQuestion: `How could you use “${lookup.text.slice(0, 120)}” to describe something from your own life? Give a specific example.`,
     sourceText,
     translation: example?.translation ?? lookup.meaning,
     language,

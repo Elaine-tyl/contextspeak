@@ -61,7 +61,7 @@ export class GeminiSpeakingProvider implements SpeakingProvider {
                       partnerOrExample: input.task.sourceText,
                       goal:
                         input.task.scenario?.goal ??
-                        "Say your own English sentence using the saved expression.",
+                        "Answer the supplied vocabulary question using your own English sentence and the saved expression.",
                     }),
                   },
                   {

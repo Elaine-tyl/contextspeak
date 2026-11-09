@@ -161,7 +161,7 @@ export function PracticePage({
       <p className="section-copy">
         Practice with cached AI voices and local recording. Submit what you hear
         for dictation marks and corrections. Text is sent to Google for AI
-        audio; microphone recordings stay in this tab unless you submit for AI
+        audio; completed English recordings are automatically sent for AI
         feedback. Results stay separate from vocabulary recall.
       </p>
       {token && (

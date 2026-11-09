@@ -70,6 +70,7 @@ export interface PracticeTask {
   version: 1;
   expression: string;
   sourceText: string;
+  speakingQuestion?: string;
   translation: string;
   language: string | null;
   scenario?: { id: ScenarioId; title: string; goal: string };
