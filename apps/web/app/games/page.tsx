@@ -1,12 +1,17 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import type {
-  GameCatalog,
-  GameRound,
-  GameTrack,
+import {
+  gameModes,
+  type GameCatalog,
+  type GameTrack,
+  type GameKind,
+  type GameLevelRun,
+  type GameLevelStart,
 } from "@contextspeak/contracts";
 import { API, api, ApiError, type WebSession } from "../../src/api";
+import { GameSetup } from "./GameSetup";
+import { LevelResult } from "./LevelResult";
 import { GameRoundView } from "./GameRoundView";
 import "../library/library.css";
 import "../practice/practice.css";
@@ -20,13 +25,18 @@ export default function GamesPage() {
   const [track, setTrack] = useState<GameTrack>("listening");
   const [level, setLevel] = useState(1);
   const [source, setSource] = useState("all");
-  const [round, setRound] = useState<GameRound | null>(null);
+  const [kind, setKind] = useState<GameKind | null>(null);
+  const [topic, setTopic] = useState("all");
+  const [run, setRun] = useState<GameLevelRun | null>(null);
+  const [question, setQuestion] = useState(0);
+  const [starting, setStarting] = useState(false);
+  const pendingStart = useRef<GameLevelStart | null>(null);
   const [locked, setLocked] = useState(false);
   function expire() {
     currentToken.current = "";
     setToken("");
     setCatalog(null);
-    setRound(null);
+    setRun(null);
     setLocked(false);
     setError("Your session expired or changed. Sign in again.");
   }
@@ -79,6 +89,29 @@ export default function GamesPage() {
             setCatalog(value);
             loaded = true;
             setError("");
+            const id = new URLSearchParams(window.location.search).get("run");
+            if (id) {
+              const resumed = await api<GameLevelRun>(
+                session.csrfToken,
+                `/v1/games/levels/${id}`,
+                "GET",
+                undefined,
+                { signal: controller.signal },
+              );
+              if (!controller.signal.aborted && !stopped) {
+                setRun(resumed);
+                setKind(resumed.kind);
+                setLevel(resumed.level);
+                setTrack(
+                  gameModes.find((mode) => mode.kind === resumed.kind)!.track,
+                );
+                setTopic(resumed.topic ?? "all");
+                setSource(resumed.source ?? "all");
+                setQuestion(
+                  Math.min(resumed.receipts.length, resumed.rounds.length - 1),
+                );
+              }
+            }
           }
         }
       } catch (error) {
@@ -86,8 +119,12 @@ export default function GamesPage() {
         if (error instanceof ApiError && [401, 403].includes(error.status)) {
           stopped = true;
           expire();
-        } else if (!loaded)
-          setError("Could not load games. Check your connection and refresh.");
+        } else
+          setError(
+            loaded
+              ? "Could not restore this level. Choose a game to start another run."
+              : "Could not load games. Check your connection and refresh.",
+          );
       } finally {
         pending = false;
         if (!controller.signal.aborted) setLoading(false);
@@ -96,6 +133,7 @@ export default function GamesPage() {
     void load();
     const timer = setInterval(() => void load(), 3000);
     return () => {
+      currentToken.current = "";
       controller.abort();
       clearInterval(timer);
       clearTimeout(expiry);
@@ -119,25 +157,114 @@ export default function GamesPage() {
         );
     }
   }
-  const progress = catalog?.progress[track];
+  function leaveRun() {
+    setRun(null);
+    setLocked(false);
+    window.history.replaceState(null, "", "/games");
+  }
+  async function refreshRun() {
+    if (!run) return;
+    const owner = token;
+    try {
+      const saved = await api<GameLevelRun>(
+        owner,
+        `/v1/games/levels/${run.id}`,
+      );
+      if (currentToken.current !== owner) return;
+      setRun(saved);
+      if (saved.completed) setLocked(false);
+      setError("");
+      await refresh();
+      return saved;
+    } catch (error) {
+      if (currentToken.current !== owner) return;
+      if (error instanceof ApiError && [401, 403].includes(error.status))
+        expire();
+      else
+        setError(
+          "Your answer may be saved. Use Refresh level to recover your confirmed result.",
+        );
+    }
+  }
+  async function startRun(target = level, advance = false) {
+    if (!kind || starting) return;
+    let selectedTopic = topic;
+    let selectedSource = source;
+    const matches = () =>
+      catalog!.rounds.filter(
+        (round) =>
+          round.kind === kind &&
+          round.level === target &&
+          (selectedTopic === "all" || round.topic === selectedTopic) &&
+          (selectedSource === "all" ||
+            (round.source?.provider ?? "ContextSpeak") === selectedSource),
+      );
+    if (advance && !matches().length) selectedTopic = "all";
+    if (advance && !matches().length) selectedSource = "all";
+    const settings = {
+      kind,
+      level: target,
+      ...(selectedTopic !== "all" ? { topic: selectedTopic } : {}),
+      ...(selectedSource !== "all"
+        ? { source: selectedSource as GameLevelStart["source"] }
+        : {}),
+    };
+    const previous = pendingStart.current;
+    if (
+      !previous ||
+      previous.kind !== kind ||
+      previous.level !== target ||
+      previous.topic !== settings.topic ||
+      previous.source !== settings.source
+    )
+      pendingStart.current = { ...settings, eventId: crypto.randomUUID() };
+    const owner = token;
+    setStarting(true);
+    setError("");
+    try {
+      const saved = await api<GameLevelRun>(
+        owner,
+        "/v1/games/levels",
+        "POST",
+        pendingStart.current,
+      );
+      if (currentToken.current !== owner) return;
+      pendingStart.current = null;
+      setRun(saved);
+      setQuestion(0);
+      setLevel(saved.level);
+      setLocked(false);
+      setTopic(saved.topic ?? "all");
+      setSource(saved.source ?? "all");
+      window.history.replaceState(null, "", `/games?run=${saved.id}`);
+    } catch (error) {
+      if (currentToken.current !== owner) return;
+      if (error instanceof ApiError && [401, 403].includes(error.status))
+        expire();
+      else
+        setError(
+          "Could not confirm the level start. Retry with the same settings to recover it.",
+        );
+    } finally {
+      if (currentToken.current === owner) setStarting(false);
+    }
+  }
+  const mode = gameModes.find((mode) => mode.kind === kind);
+  const unlocked = kind
+    ? (catalog?.modeProgress?.[kind]?.level ??
+      catalog?.progress[track].level ??
+      1)
+    : 1;
   const recommendation = catalog?.recommendations?.[track];
-  const visibleRounds =
-    catalog?.rounds.filter(
-      (value) =>
-        value.track === track &&
-        value.level === level &&
-        (source === "all" ||
-          (value.source?.provider ?? "ContextSpeak") === source),
-    ) ?? [];
+  const frozen = locked || starting;
   return (
     <main className="games-page">
       <Link href="/library">Back to library</Link>
       <p className="eyebrow">ContextSpeak · play and practise</p>
       <h1>Game practice</h1>
       <p>
-        Ten gradual levels: start with words and short answers, then build up to
-        conversations. Pass three different challenges at 70+ to unlock the next
-        level. Listening and speaking progress independently.
+        Choose a game mode, level and theme. Complete up to three questions for
+        a level score. Reach 70/100 to unlock the next level in that mode.
       </p>
       {error && <p role="alert">{error}</p>}
       {loading && <p role="status">Loading games…</p>}
@@ -146,162 +273,130 @@ export default function GamesPage() {
       )}
       {catalog && (
         <>
-          <div className="practice-tabs" aria-label="Game skill">
-            {(["listening", "speaking"] as const).map((value) => (
-              <button
-                key={value}
-                className={track === value ? "primary" : "secondary"}
-                disabled={locked}
-                aria-pressed={track === value}
-                onClick={() => {
-                  setTrack(value);
-                  setLevel(1);
-                  setRound(null);
-                }}
-              >
-                {value === "listening" ? "Listening games" : "Speaking games"}
-              </button>
-            ))}
-          </div>
-          <div className="practice-tabs" aria-label="Game difficulty">
-            {Array.from({ length: 10 }, (_, index) => index + 1).map(
-              (value) => (
+          {!run && (
+            <div className="practice-tabs" aria-label="Game skill">
+              {(["listening", "speaking"] as const).map((value) => (
                 <button
                   key={value}
-                  className={level === value ? "primary" : "secondary"}
-                  disabled={locked || value > progress!.level}
-                  aria-pressed={level === value}
+                  className={track === value ? "primary" : "secondary"}
+                  disabled={frozen}
+                  aria-pressed={track === value}
                   onClick={() => {
-                    setLevel(value);
-                    setRound(null);
+                    setTrack(value);
+                    setKind(null);
+                    setLevel(1);
+                    setTopic("all");
+                    setSource("all");
                   }}
                 >
-                  Level {value}
-                  {value > progress!.level ? " · Locked" : ""}
+                  {value === "listening" ? "Listening games" : "Speaking games"}
                 </button>
-              ),
-            )}
-          </div>
-          <p className="game-progress" aria-live="polite">
-            Level {level}: {progress!.passed[level - 1]} different challenges
-            passed
-            {level < 10 ? " · 3 needed for the next level" : " · highest level"}
-          </p>
-          {recommendation && (
-            <section
-              className="game-progress"
-              aria-label="Practice recommendation"
-            >
-              <strong>Recommended: Level {recommendation.level}</strong>
-              <p>{recommendation.reason}</p>
-              {recommendation.focus && (
-                <p>
-                  Focus:{" "}
-                  {recommendation.focus.replace(
-                    "taskResponse",
-                    "task response",
-                  )}
-                </p>
-              )}
-              <button
-                className="secondary"
-                disabled={locked}
-                onClick={() => {
-                  setLevel(recommendation.level);
-                  setRound(null);
-                }}
-              >
-                Use recommended level
-              </button>
-              <small>You can still choose any unlocked level.</small>
-            </section>
+              ))}
+            </div>
           )}
-          {!round ? (
-            <>
-              <button className="secondary" onClick={() => void refresh()}>
-                Refresh progress
-              </button>
-              <p className="section-copy">
-                Original and credited open English content · short excerpts · AI
-                speech. PK is a simulated AI training opponent, not a real
-                player.
-              </p>
-              <div className="game-source-filter">
-                <label htmlFor="game-content-source">Content source</label>
-                <select
-                  id="game-content-source"
-                  value={source}
-                  onChange={(event) => setSource(event.target.value)}
-                >
-                  <option value="all">All sources</option>
-                  <option value="ContextSpeak">ContextSpeak originals</option>
-                  {[
-                    ...new Set(
-                      catalog.rounds.flatMap((value) =>
-                        value.source ? [value.source.provider] : [],
-                      ),
-                    ),
-                  ].map((provider) => (
-                    <option key={provider} value={provider}>
-                      {provider}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              {visibleRounds.length === 0 && (
-                <p role="status">
-                  No exercises from this source at this level. Choose All
-                  sources or another unlocked level.
-                </p>
-              )}
-              <div className="game-grid">
-                {visibleRounds.map((value) => (
+          {kind && (
+            <button
+              className="secondary"
+              disabled={frozen}
+              onClick={() => {
+                leaveRun();
+                setKind(null);
+              }}
+            >
+              All games
+            </button>
+          )}
+          {!kind ? (
+            <div className="game-grid" aria-label="Game modes">
+              {gameModes
+                .filter((value) => value.track === track)
+                .map((value) => (
                   <button
                     className="game-tile"
-                    key={value.id}
-                    onClick={() => setRound(value)}
+                    key={value.kind}
+                    aria-label={value.label}
+                    onClick={() => {
+                      setKind(value.kind);
+                      setLevel(1);
+                      setTopic("all");
+                      setSource("all");
+                    }}
                   >
-                    <small>
-                      {value.genre ?? value.kind} ·{" "}
-                      {value.source?.provider ?? "ContextSpeak"}
-                    </small>
-                    <h2>{value.title}</h2>
-                    <p>
-                      {value.kind === "dictation"
-                        ? "Listen and write"
-                        : value.kind === "picture"
-                          ? "Listen and choose a picture"
-                          : value.track === "speaking"
-                            ? "Answer aloud · automatic AI feedback"
-                            : "Listen and answer"}
-                    </p>
-                    <span>Play →</span>
+                    <small>{value.track}</small>
+                    <h2>{value.label}</h2>
+                    <p>{value.description}</p>
+                    <span>
+                      Unlocked to Level{" "}
+                      {catalog.modeProgress?.[value.kind]?.level ??
+                        catalog.progress[value.track].level}
+                    </span>
                   </button>
                 ))}
-              </div>
-            </>
+            </div>
           ) : (
             <>
-              <button
-                className="secondary"
-                disabled={locked}
-                onClick={() => setRound(null)}
-              >
-                Choose another game
-              </button>
-              <GameRoundView
-                key={round.id}
-                round={round}
-                token={token}
-                onSaved={refresh}
-                onLocked={setLocked}
-                onExpired={expire}
-                onLeave={() => {
-                  setLocked(false);
-                  setRound(null);
-                  if (recommendation) setLevel(recommendation.level);
-                }}
-              />
+              <h2>{mode!.label}</h2>
+              {run ? (
+                <>
+                  <button
+                    className="secondary"
+                    disabled={frozen}
+                    onClick={() => void refreshRun()}
+                  >
+                    Refresh level
+                  </button>
+                  {run.completed ? (
+                    <LevelResult
+                      run={run}
+                      busy={starting}
+                      onRetry={() => void startRun(run.level)}
+                      onNext={() => {
+                        if (run.nextLevel) void startRun(run.nextLevel, true);
+                      }}
+                    />
+                  ) : (
+                    <>
+                      <p className="game-progress" role="status">
+                        Level {run.level} · Question {question + 1} of{" "}
+                        {run.rounds.length}
+                      </p>
+                      <GameRoundView
+                        key={`${run.id}:${question}`}
+                        round={run.rounds[question]}
+                        token={token}
+                        levelSessionId={run.id}
+                        onSaved={async () => {
+                          await refreshRun();
+                        }}
+                        onLocked={setLocked}
+                        onExpired={expire}
+                        onLeave={leaveRun}
+                        onContinue={() =>
+                          void refreshRun().then((saved) => {
+                            if (saved && !saved.completed)
+                              setQuestion(saved.receipts.length);
+                          })
+                        }
+                      />
+                    </>
+                  )}
+                </>
+              ) : (
+                <GameSetup
+                  rounds={catalog.rounds.filter((round) => round.kind === kind)}
+                  unlocked={unlocked}
+                  recommendation={recommendation}
+                  busy={frozen}
+                  settings={{ level, topic, source }}
+                  onChange={(value) => {
+                    setLevel(value.level);
+                    setTopic(value.topic);
+                    setSource(value.source);
+                  }}
+                  onStart={() => void startRun()}
+                  onRefresh={() => void refresh()}
+                />
+              )}
             </>
           )}
         </>

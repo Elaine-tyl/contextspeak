@@ -11,6 +11,7 @@ import type {
   GameSubmission,
   GameReceipt,
 } from "@contextspeak/contracts";
+import { GameLevelsService } from "./levels.service";
 import { AdaptiveService } from "../practice/adaptive.service";
 import { LibraryService } from "../library/library.service";
 import { recording } from "../practice/recording";
@@ -43,11 +44,12 @@ export class GamesService {
     private library: LibraryService,
     private provider?: SpeakingProvider,
     private adaptive = new AdaptiveService(prisma),
+    readonly levels = new GameLevelsService(prisma, library),
   ) {}
   async progress(userId: string) {
     const passed = await this.prisma.gameAttempt.groupBy({
       by: ["roundId"],
-      where: { userId, score: { gte: 70 } },
+      where: { userId, levelSessionId: null, score: { gte: 70 } },
     });
     return gameProgress(passed.map((row) => row.roundId));
   }
@@ -61,6 +63,7 @@ export class GamesService {
     return {
       rounds: challenges.map(publicRound),
       progress,
+      modeProgress: await this.levels.progress(user.id, this.prisma, progress),
       recommendations: {
         listening: {
           ...listening,
@@ -119,8 +122,15 @@ export class GamesService {
         );
       return receipt(previous);
     }
-    const progress = await this.progress(userId);
-    if (round.level > progress[round.track].level)
+    if (input.levelSessionId)
+      await this.levels.assertRound(
+        this.prisma,
+        userId,
+        input.levelSessionId,
+        round.id,
+      );
+    const progress = input.levelSessionId ? null : await this.progress(userId);
+    if (progress && round.level > progress[round.track].level)
       throw new ConflictException(
         "Pass three different challenges at 70 or above to unlock this level.",
       );
@@ -203,6 +213,13 @@ export class GamesService {
           );
         return receipt(previous);
       }
+      if (input.levelSessionId)
+        await this.levels.assertRound(
+          tx,
+          userId,
+          input.levelSessionId,
+          round.id,
+        );
       feedback.independent =
         input.completedPlays <= 2 &&
         !(await tx.gameAttempt.findFirst({
@@ -214,10 +231,11 @@ export class GamesService {
           },
         }));
       const { audio, ...metadata } = input;
-      return receipt(
+      const saved = receipt(
         await tx.gameAttempt.create({
           data: {
             userId,
+            levelSessionId: input.levelSessionId,
             eventId: input.eventId,
             roundId: round.id,
             score,
@@ -227,6 +245,9 @@ export class GamesService {
           },
         }),
       );
+      if (input.levelSessionId)
+        await this.levels.finish(tx, userId, input.levelSessionId);
+      return saved;
     });
   }
   private reserve(userId: string) {

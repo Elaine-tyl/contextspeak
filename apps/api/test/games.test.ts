@@ -1,3 +1,4 @@
+import { gameModes } from "@contextspeak/contracts";
 import { expect, it } from "vitest";
 import { challenges, gameProgress, publicRound } from "../src/games/catalog";
 it("unlocks only after three different passing rounds, independently per skill", () => {
@@ -64,4 +65,20 @@ it("offers ten gradual levels and preserves legacy completion access", () => {
   expect(
     gameProgress(challenges.map((round) => round.id)).listening.level,
   ).toBe(10);
+});
+
+it("has reviewed questions at every level in all seven classified modes", () => {
+  expect(gameModes).toHaveLength(7);
+  for (const mode of gameModes)
+    for (let level = 1; level <= 10; level++) {
+      const rounds = challenges.filter(
+        (round) => round.kind === mode.kind && round.level === level,
+      );
+      expect(rounds.length, `${mode.kind} Level ${level}`).toBeGreaterThan(0);
+      expect(
+        rounds.every(
+          (round) => round.track === mode.track && !!publicRound(round).topic,
+        ),
+      ).toBe(true);
+    }
 });

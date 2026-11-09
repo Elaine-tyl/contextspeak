@@ -188,6 +188,10 @@ export {
 
 export {
   gameSubmissionSchema,
+  gameModes,
+  gameLevelStartSchema,
+  type GameLevelStart,
+  type GameLevelRun,
   type GameTrack,
   type GameKind,
   type PictureId,

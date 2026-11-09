@@ -21,6 +21,8 @@ export function GameRoundView({
   onLocked,
   onExpired,
   onLeave,
+  onContinue,
+  levelSessionId,
 }: {
   round: GameRound;
   token: string;
@@ -28,6 +30,8 @@ export function GameRoundView({
   onLocked(value: boolean): void;
   onExpired(): void;
   onLeave(): void;
+  onContinue(): void;
+  levelSessionId: string;
 }) {
   const speech = usePracticeSpeech(token, round.audioText, "en");
   const recording = useLocalRecording();
@@ -75,6 +79,7 @@ export function GameRoundView({
         if (!active.current || request.signal.aborted) return;
         attempt.current = gameSubmissionSchema.parse({
           eventId: crypto.randomUUID(),
+          levelSessionId,
           roundId: round.id,
           completedPlays: speech.completedPlays,
           ...(speaking
@@ -281,8 +286,8 @@ export function GameRoundView({
         <section aria-label="Game result">
           <h3>
             {result.score === null
-              ? "No reliable game score"
-              : `Game score: ${result.score}/100`}
+              ? "More audio evidence needed"
+              : "Answer checked"}
           </h3>
           {result.feedback.opponentScore !== undefined &&
             result.score !== null && (
@@ -312,12 +317,11 @@ export function GameRoundView({
           )}
           <p>{result.feedback.explanation}</p>
           <p>
-            {result.score !== null && result.score >= 70
-              ? "Passed. A different passed challenge counts towards the next level."
-              : "Keep practising. This round does not unlock the next level yet."}
+            Your answer is saved. Your level score is shown when all questions
+            are complete.
           </p>
-          <button className="primary" disabled={busy} onClick={onLeave}>
-            Back to games
+          <button className="primary" disabled={busy} onClick={onContinue}>
+            Next question
           </button>
         </section>
       )}

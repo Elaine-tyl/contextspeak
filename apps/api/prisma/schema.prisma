@@ -21,6 +21,7 @@ model User {
   sessions          AuthSession[]
   pairings          ExtensionPairing[]
   games             GameAttempt[]
+  gameLevels        GameLevelSession[]
   speechAssets      SpeechAsset[]
 
   @@unique([issuer, subject])
@@ -157,6 +158,8 @@ model PracticeAttempt {
 }
 
 model GameAttempt {
+  levelSessionId String?
+  levelSession GameLevelSession? @relation(fields: [levelSessionId], references: [id], onDelete: Cascade)
   id          String   @id @default(uuid())
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -170,6 +173,7 @@ model GameAttempt {
 
   @@unique([userId, eventId])
   @@index([userId, score, roundId])
+  @@unique([levelSessionId, roundId])
 }
 
 model SpeechAsset {
@@ -183,4 +187,23 @@ model SpeechAsset {
 
   @@index([userId, requestHash, lastUsedAt])
   @@index([lastUsedAt])
+}
+
+model GameLevelSession {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  eventId String
+  kind String
+  level Int
+  topic String?
+  source String?
+  roundIds String[]
+  score Int?
+  completedAt DateTime?
+  createdAt DateTime @default(now())
+  attempts GameAttempt[]
+
+  @@unique([userId, eventId])
+  @@index([userId, kind, level, score])
 }

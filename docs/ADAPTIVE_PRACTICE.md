@@ -33,3 +33,5 @@ No new migration is required. Stored independence is decided inside the existing
 Deterministic regressions cover advancement thresholds, different-task identity, assisted repeats, delayed requalification, age/window displacement, many unusable recordings, owner separation, relevance ceilings, audio-quality withholding, evidence grounding and frozen question difficulty. Browser tests cover recommendation/manual-level controls, criteria and automatic feedback. Public synthetic relevant/unrelated speech is used for live integration checks; it is not a validation study of learner voices.
 
 Games have ten gradual levels; ordinary vocabulary practice retains its three difficulty bands. Older game completions retain access after their content moves to Levels 8–10.
+
+Classified game runs unlock each mode independently at a 70+ mean; recommendations still require the stronger independent-evidence rules above and are capped to that mode’s access. See [level runs](GAMES.md).

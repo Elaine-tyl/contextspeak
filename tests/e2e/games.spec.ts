@@ -40,14 +40,95 @@ async function record(page: Page) {
     .getByRole("button", { name: "Stop recording", exact: true })
     .click();
 }
-test("listening_games_persist_distinct_progress_and_unlock_the_next_level", async ({
+async function choose(page: Page, name: string) {
+  await page.getByRole("button", { name, exact: true }).click();
+  await page.getByRole("button", { name: "Start level", exact: true }).click();
+}
+async function currentRun(page: Page) {
+  await expect(page).toHaveURL(/run=[a-f0-9-]+/);
+  const id = new URL(page.url()).searchParams.get("run");
+  return (
+    await page.request.get(`http://127.0.0.1:4318/v1/games/levels/${id}`)
+  ).json();
+}
+async function finishDictation(page: Page, response?: string) {
+  const run = await currentRun(page);
+  for (let index = run.receipts.length; index < run.rounds.length; index++) {
+    await listen(page);
+    await page
+      .getByLabel("Type what you hear")
+      .fill(response ?? run.rounds[index].audioText);
+    await page
+      .getByRole("button", { name: "Check answer", exact: true })
+      .click();
+    if (index < run.rounds.length - 1) {
+      await expect(
+        page.getByRole("heading", { name: "Answer checked", exact: true }),
+      ).toBeVisible();
+      await page
+        .getByRole("button", { name: "Next question", exact: true })
+        .click();
+    }
+  }
+  await expect(
+    page.getByRole("region", { name: "Level result", exact: true }),
+  ).toBeVisible();
+}
+test("modes_have_themes_ten_levels_scored_runs_retry_next_and_separate_unlocks", async ({
   page,
 }) => {
-  await signIn(page, "Test learner A", false);
+  await signIn(page);
+  await page.getByRole("button", { name: "Dictation", exact: true }).click();
+  await expect(page.getByRole("button", { name: /^Level \d/ })).toHaveCount(10);
   await expect(
     page.getByRole("button", { name: "Level 2 · Locked", exact: true }),
   ).toBeDisabled();
-  await page.getByRole("button", { name: /Hear it, find it/ }).click();
+  await expect(page.getByLabel("Theme", { exact: true })).toBeVisible();
+  await page.getByRole("button", { name: "Start level", exact: true }).click();
+  await currentRun(page);
+  const firstId = new URL(page.url()).searchParams.get("run");
+  await finishDictation(page);
+  await expect(
+    page.getByRole("heading", { name: "Level score: 100/100", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "All games", exact: true }),
+  ).toBeEnabled();
+  await page.getByRole("button", { name: "Retry", exact: true }).click();
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get("run"))
+    .not.toBe(firstId);
+  expect(
+    (
+      await (
+        await page.request.get(
+          `http://127.0.0.1:4318/v1/games/levels/${firstId}`,
+        )
+      ).json()
+    ).score,
+  ).toBe(100);
+  await page.reload();
+  await expect(
+    page.getByText("Level 1 · Question 1 of 3", { exact: true }),
+  ).toBeVisible();
+  await finishDictation(page);
+  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await expect(
+    page.getByText("Level 2 · Question 1 of 3", { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "All games", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Picture choice", exact: true })
+    .click();
+  await expect(
+    page.getByRole("button", { name: "Level 2 · Locked", exact: true }),
+  ).toBeDisabled();
+});
+test("picture_and_listening_question_levels_score_after_completion", async ({
+  page,
+}) => {
+  await signIn(page, "Test learner B", false);
+  await choose(page, "Picture choice");
   await expect(
     page.getByRole("button", { name: "Choose umbrella picture", exact: true }),
   ).toBeDisabled();
@@ -57,125 +138,57 @@ test("listening_games_persist_distinct_progress_and_unlock_the_next_level", asyn
     .click();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: "Game score: 100/100", exact: true }),
+    page.getByRole("heading", { name: "Level score: 100/100", exact: true }),
   ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Back to games", exact: true })
-    .click();
-  await expect(
-    page.getByText("Level 1: 1 different challenges passed", { exact: false }),
-  ).toBeVisible();
-  await page.getByRole("button", { name: /Listen and answer/ }).click();
+  await page.getByRole("button", { name: "All games", exact: true }).click();
+  await choose(page, "Listening questions");
   await listen(page);
   await page
     .getByRole("button", { name: "At the station", exact: true })
     .click();
   await page.getByRole("button", { name: "Check answer", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: "Game score: 100/100", exact: true }),
+    page.getByRole("heading", { name: "Level score: 100/100", exact: true }),
   ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Back to games", exact: true })
-    .click();
-  const catalog = await (
-    await page.request.get("http://127.0.0.1:4318/v1/games")
-  ).json();
-  const passage = catalog.rounds.find(
-    (round: any) => round.id === "listen-1-0-v2",
-  );
-  await page.getByRole("button", { name: /Word dictation/ }).click();
-  await listen(page);
-  await page.getByLabel("Type what you hear").fill(passage.audioText);
-  await expect(page.getByLabel("Highlighted answer")).toHaveCount(0);
-  await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(page.getByLabel("Highlighted answer")).toBeVisible();
-  await expect(
-    page.getByRole("heading", { name: "Game score: 100/100", exact: true }),
-  ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Back to games", exact: true })
-    .click();
-  await expect(
-    page.getByRole("button", { name: "Level 2", exact: true }),
-  ).toBeEnabled();
-  await page.reload();
-  await expect(
-    page.getByRole("region", { name: "Practice recommendation" }),
-  ).toContainText("Recommended: Level 2");
-  await page
-    .getByRole("button", { name: "Use recommended level", exact: true })
-    .click();
-  await expect(
-    page.getByRole("button", { name: "Level 2", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
-  await page.getByRole("button", { name: "Level 1", exact: true }).click();
-  await expect(
-    page.getByRole("button", { name: "Level 1", exact: true }),
-  ).toHaveAttribute("aria-pressed", "true");
-  await expect(
-    page.getByRole("button", { name: "Level 2", exact: true }),
-  ).toBeEnabled();
-  await page
-    .getByRole("button", { name: "Speaking games", exact: true })
-    .click();
-  await expect(
-    page.getByRole("button", { name: "Level 2 · Locked", exact: true }),
-  ).toBeDisabled();
 });
-test("speaking_riddle_puzzle_and_simulated_PK_assess_automatically_and_unlock_independently", async ({
+test("speaking_modes_assess_automatically_and_finish_with_retry_and_next", async ({
   page,
 }, testInfo) => {
   await signIn(page, "Test learner B");
   await page
     .getByRole("button", { name: "Speaking games", exact: true })
     .click();
-  for (const title of [
-    "Speak the riddle",
-    "Talk through a puzzle",
-    "AI sparring match",
-  ]) {
-    await page.getByRole("button", { name: new RegExp(title) }).click();
+  for (const name of ["Speaking questions", "Riddles", "Puzzles", "AI PK"]) {
+    await choose(page, name);
+    const run = await currentRun(page);
+    for (let index = 0; index < run.rounds.length; index++) {
+      await record(page);
+      if (index < run.rounds.length - 1)
+        await page
+          .getByRole("button", { name: "Next question", exact: true })
+          .click();
+    }
     await expect(
-      page.getByRole("button", { name: "Start recording", exact: true }),
-    ).toBeDisabled();
-    await record(page);
-    await expect(
-      page.getByRole("heading", { name: "Game score: 80/100", exact: true }),
+      page.getByRole("heading", { name: "Level score: 80/100", exact: true }),
     ).toBeVisible();
     await expect(
-      page.getByRole("button", { name: "Get AI feedback", exact: true }),
-    ).toHaveCount(0);
-    if (title === "AI sparring match") {
-      await expect(
-        page.getByText("Echo · simulated AI opponent", { exact: false }),
-      ).toBeVisible();
-      await expect(
-        page.getByText("You win · You 80 : Echo 43", { exact: true }),
-      ).toBeVisible();
-      await page.screenshot({
-        path: testInfo.outputPath("game-pk.png"),
-        fullPage: true,
-      });
-    }
-    await page
-      .getByRole("button", { name: "Back to games", exact: true })
-      .click();
+      page.getByRole("button", { name: "Retry", exact: true }),
+    ).toBeEnabled();
+    await expect(
+      page.getByRole("button", { name: "Next", exact: true }),
+    ).toBeEnabled();
+    await page.screenshot({
+      path: testInfo.outputPath(`${name.replaceAll(" ", "-")}-level.png`),
+      fullPage: true,
+    });
+    await page.getByRole("button", { name: "All games", exact: true }).click();
   }
-  await expect(
-    page.getByRole("button", { name: "Level 2", exact: true }),
-  ).toBeEnabled();
-  await page
-    .getByRole("button", { name: "Listening games", exact: true })
-    .click();
-  await expect(
-    page.getByRole("button", { name: "Level 2 · Locked", exact: true }),
-  ).toBeDisabled();
 });
-test("game_retry_keeps_one_recording_and_session_expiry_stops_the_microphone", async ({
+test("pending_answers_reuse_the_same_upload_and_expiry_stops_the_microphone", async ({
   page,
 }) => {
   await signIn(page);
-  const uploads: any[] = [];
+  const uploads: object[] = [];
   await page.route("http://127.0.0.1:4318/v1/games/attempts", async (route) => {
     uploads.push(route.request().postDataJSON());
     if (uploads.length === 1) await route.fulfill({ status: 503, json: {} });
@@ -184,24 +197,22 @@ test("game_retry_keeps_one_recording_and_session_expiry_stops_the_microphone", a
   await page
     .getByRole("button", { name: "Speaking games", exact: true })
     .click();
-  await page.getByRole("button", { name: /Speak the riddle/ }).click();
+  await choose(page, "Riddles");
   await record(page);
   await expect(
-    page.getByRole("button", { name: "Listening games", exact: true }),
+    page.getByRole("button", { name: "All games", exact: true }),
   ).toBeDisabled();
   await expect(page.locator("main").getByRole("alert")).toContainText(
     "not confirmed",
   );
   await page.getByRole("button", { name: "Retry answer", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: "Game score: 80/100", exact: true }),
+    page.getByRole("heading", { name: "Level score: 80/100", exact: true }),
   ).toBeVisible();
   expect(uploads).toHaveLength(2);
   expect(uploads[0]).toEqual(uploads[1]);
-  await page
-    .getByRole("button", { name: "Back to games", exact: true })
-    .click();
-  await page.getByRole("button", { name: /Talk through a puzzle/ }).click();
+  await page.getByRole("button", { name: "All games", exact: true }).click();
+  await choose(page, "Puzzles");
   await listen(page);
   await page
     .getByRole("button", { name: "Start recording", exact: true })
@@ -218,8 +229,58 @@ test("game_retry_keeps_one_recording_and_session_expiry_stops_the_microphone", a
     .toBeGreaterThan(stops);
   expect(uploads).toHaveLength(2);
 });
-
-test("brand_is_visible_on_every_route_and_game_has_ten_levels", async ({
+test("credited_sources_and_themes_filter_a_level_and_low_scores_require_retry", async ({
+  page,
+}) => {
+  await signIn(page);
+  await page.getByRole("button", { name: "Dictation", exact: true }).click();
+  await page
+    .getByLabel("Content source", { exact: true })
+    .selectOption("Tatoeba");
+  await page
+    .getByLabel("Theme", { exact: true })
+    .selectOption("Asking for help");
+  await page.getByRole("button", { name: "Start level", exact: true }).click();
+  await expect(
+    page.getByRole("link", { name: /Source: Tatoeba/ }),
+  ).toHaveAttribute("href", "https://tatoeba.org/en/sentences/show/12335770");
+  await expect(
+    page.getByText("Help is available.", { exact: true }),
+  ).toHaveCount(0);
+  await finishDictation(page, "wrong answer");
+  await expect(
+    page.getByRole("heading", { name: "Level score: 0/100", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Next", exact: true }),
+  ).toBeDisabled();
+  const previousRun = new URL(page.url()).searchParams.get("run");
+  await page.getByRole("button", { name: "Retry", exact: true }).click();
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get("run"))
+    .not.toBe(previousRun);
+  await finishDictation(page);
+  await page.getByRole("button", { name: "Next", exact: true }).click();
+  await expect(
+    page.getByText("Level 2 · Question 1 of 2", { exact: true }),
+  ).toBeVisible();
+  await page.getByRole("button", { name: "All games", exact: true }).click();
+  await page.getByRole("button", { name: "Dictation", exact: true }).click();
+  await page
+    .getByLabel("Content source", { exact: true })
+    .selectOption("African Storybook");
+  await page.getByRole("button", { name: "Level 2", exact: true }).click();
+  await expect(page.getByLabel("Content source", { exact: true })).toHaveValue(
+    "African Storybook",
+  );
+  await expect(
+    page.getByText(
+      "No matching questions. Choose another theme or All sources.",
+      { exact: true },
+    ),
+  ).toBeVisible();
+});
+test("brand_is_visible_on_every_route_and_modes_remain_visible", async ({
   page,
 }) => {
   for (const route of [
@@ -235,54 +296,11 @@ test("brand_is_visible_on_every_route_and_game_has_ten_levels", async ({
       page.getByRole("banner").getByRole("link", { name: "ContextSpeak home" }),
     ).toBeVisible();
   }
-  await signIn(page, "Test learner B");
-  const levels = page.getByRole("button", { name: /^Level \d/ });
-  await expect(levels).toHaveCount(10);
-  await expect(
-    page.getByRole("button", { name: "Level 10 · Locked", exact: true }),
-  ).toBeDisabled();
-});
-
-test("open_sources_can_be_filtered_practised_and_saved_with_visible_credit", async ({
-  page,
-}) => {
   await signIn(page);
-  await page
-    .getByLabel("Content source", { exact: true })
-    .selectOption("Tatoeba");
   await expect(
-    page.getByRole("button", { name: /Hear it, find it/ }),
-  ).toHaveCount(0);
-  await page.getByRole("button", { name: /help · listening 1/ }).click();
-  await expect(
-    page.getByRole("link", { name: /Source: Tatoeba/ }),
-  ).toHaveAttribute("href", "https://tatoeba.org/en/sentences/show/12335770");
-  await expect(
-    page.getByRole("link", { name: "CC0-1.0", exact: true }),
+    page.getByRole("button", { name: "Dictation", exact: true }),
   ).toBeVisible();
   await expect(
-    page.getByText("Help is available.", { exact: true }),
-  ).toHaveCount(0);
-  await listen(page);
-  await page.getByLabel("Type what you hear").fill("Help is available.");
-  await page.getByRole("button", { name: "Check answer", exact: true }).click();
-  await expect(
-    page.getByRole("heading", { name: "Game score: 100/100", exact: true }),
-  ).toBeVisible();
-  await page
-    .getByRole("button", { name: "Back to games", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Level 1", exact: true }).click();
-  await page
-    .getByLabel("Content source", { exact: true })
-    .selectOption("African Storybook");
-  await expect(
-    page.getByRole("button", { name: /What are you doing/ }).first(),
-  ).toBeVisible();
-  await page
-    .getByLabel("Content source", { exact: true })
-    .selectOption("ContextSpeak");
-  await expect(
-    page.getByRole("button", { name: /Hear it, find it/ }),
+    page.getByRole("button", { name: "Picture choice", exact: true }),
   ).toBeVisible();
 });

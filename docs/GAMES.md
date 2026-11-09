@@ -1,42 +1,49 @@
-# Game practice
+# Classified game practice
 
-Open **Game practice** in the library sidebar, or `/games`. Sign in with the existing Google account. Games are English-first and do not require a saved vocabulary item.
+Open **Game practice** from the library sidebar or `/games`, using the existing Google sign-in. Games are English-first and do not require a saved vocabulary item. The catalog has 179 immutable tasks: 83 original challenges and 96 tasks built from [reviewed open text](PRACTICE_SOURCES.md).
 
-## Games and difficulty
+## Choose a mode, level and theme
 
-There are 83 original versioned challenges and 96 exercises from reviewed open texts across ten levels (179 total):
+Listening modes are **Dictation**, **Picture choice** and **Listening questions**. Speaking modes are **Speaking questions**, **Riddles**, **Puzzles** and **AI PK**. Open-ended source questions belong to Speaking questions, rather than the puzzle category. Every mode has content at all ten levels. Theme and content-source selectors show available reviewed material; not every theme or source appears at every level. The source selector stays visible when a selected source has no questions at that level, with an explicit empty state.
 
-- Listening: story, drama, literary passage and novel-excerpt dictation; hear a word/clue and choose an original vector picture; listen to a passage and answer a multiple-choice comprehension question.
-- Speaking: explain a riddle, reason through a puzzle, or complete a timed-length speaking task against Echo, a simulated AI training opponent. Every recording is limited to 60 seconds.
+Levels 1–3 begin with words, phrases and short everyday responses; Levels 4–7 add connected sentences, reasons and short narratives; Levels 8–10 use longer passages and more complex tasks. These are editorial game difficulty labels, not CEFR levels or validated mastery evidence. Content is not cloned simply to fill a category.
 
-PK is not a real player or a live generated opponent response. Echo's visible fixed training targets range from 43 at Level 1 to 85 at Level 10. Your assessed game score determines win/draw/loss. A win below 70 still does not count as a progression pass.
+## Scored level runs
 
-Listening and speaking unlock independently. Three **different** challenges passed at 70 or higher unlock the next level. Repeating a passed challenge does not count twice. Each new level requires the preceding level to be unlocked; skipping ahead through API calls is rejected. These are game difficulty labels, not CEFR levels or proof of mastery. No game changes FSRS.
+**Start level** creates a server-owned run of up to three different matching questions in a fixed order. A category with fewer matching questions uses the actual count, which the setup screen displays. Listen and submit each answer. Speaking recordings are assessed automatically after stopping. Between questions, inspect feedback and choose **Next question**.
 
-The original catalog uses short English texts, including fictional novel excerpts. Additional credited sources supply everyday sentences, beginner lessons and stories; see [open practice content](PRACTICE_SOURCES.md). No complete third-party novels or drama scripts are scraped. Content is fixed for reproducible practice; new revisions need new IDs so old scores retain their meaning. Higher listening levels have longer/more nuanced passages and descriptive picture clues. Speaking levels increase reasoning and response complexity.
+After the final confirmed answer, the level result appears automatically. Its score is the rounded mean of the saved question scores. A mean of **70 or above** passes and unlocks the next level **in that mode only**. The result offers two actions:
 
-Levels 1–3 begin with individual words, phrases and simple everyday sentences. Levels 4–7 build up to short exchanges, reasons and brief narratives. Levels 8–10 contain the previous three advanced levels, keeping their immutable v1 IDs and text. Existing completed v1 rounds retain access to their new level; users can always choose easier unlocked work. Short beginner answers are assessed against their stated criteria, without requiring an advanced explanation. These labels are a product progression, not validated proficiency bands.
+- **Retry** starts a fresh run at the same level and filters, preserving the previous result.
+- **Next** starts the following level after a pass. It preserves the theme/source where matching content exists; otherwise it falls back to All themes, then All sources. It is disabled after a failed/unscorable run and at Level 10.
 
-## Flow and feedback
+The result includes expandable per-question corrections, speaking evidence, IPA guidance and source credits. Any unscorable recording leaves the entire level score unavailable: it is not converted to zero or a false pass. AI quota/provider failures retain the same pending answer event/recording for an explicit **Retry answer**; that network retry differs from Retry for a completed level.
 
-Play the saved AI challenge audio (local Phonon for English) and finish playback. Dictation: type what you hear and check your answer. Picture/comprehension: select one answer and check it. Transcript/corrections/solutions appear after the result is confirmed; wrong/missing phrases use the existing red highlights. Picture choices have accessible descriptions.
+The run ID is in the page URL. Refresh restores server-confirmed questions, results and progress. Unsent recordings remain local and require recording again after a reload; the application never persists the raw microphone recording. Use **Refresh level** if a saved result has not yet appeared. Changing pages/account or expiring the session stops microphone tracks and local playback.
 
-Speaking: read/listen to the prompt, record and stop. The completed recording automatically goes to Gemini; there is no agreement or feedback button. Replay is available locally. Feedback includes the existing estimated rubric, transcript, grounded corrections and reference IPA guidance. The game mark averages the overall and task-response estimates so relevance matters. Silence/unscorable recordings receive no mark and do not unlock or win. Quota/provider errors show an explicit retry; retry uses the same event and recording rather than generating another attempt. Leaving an unconfirmed round cannot recall audio already sent; the result may still save.
+Legacy unscoped game results remain readable and retain previously earned access. New runs unlock modes independently. Repeated practice does not erase a pass. Adaptive recommendations use recent distinct, independent evidence and stay within a mode's earned access. No game outcome changes FSRS or vocabulary-recall progress.
 
-The full catalog includes audio text for playback, so this is a learning game, not an anti-cheat examination. Listening scores use server-owned text/choice answers, never a client-supplied score. Successful playback is client-reported.
+## Tasks and feedback
 
-## Storage and operation
+Dictation compares words while ignoring case and punctuation; replaced, missing and extra spans are highlighted red. Picture/comprehension questions are graded against server-owned choices. Speaking uses rubric v2 with quoted evidence, audio-quality guards, reference IPA guidance and a relevance ceiling. The game-question mark averages the speaking overall and task-response estimates. Short beginner responses are assessed against their stated criteria; an advanced explanation is not required.
 
-Run `pnpm db:generate` and deploy the new Prisma migration before serving the API. The local `pnpm dev` launcher deploys migrations automatically. `GameAttempt` stores user/event IDs, immutable round ID, score, bounded submitted text/choice/duration/audio digest, feedback and timestamp. Raw/base64 recordings and Blob URLs are never stored. User deletion cascades to game results; pending AI work rechecks the user before saving. Results are account-specific.
+AI PK uses Echo, a clearly labelled simulated training opponent, not a real player. Fixed targets range from 43 at Level 1 to 85 at Level 10. A match outcome is shown alongside the level score; progression is based on the 70-point level threshold rather than claiming victory as proficiency.
 
-`GET /v1/games` returns the public catalog and owned progress; `POST /v1/games/attempts` validates a bounded answer and returns a durable receipt. Matching in-flight event retries coalesce, completed retries return the saved result, and changed payloads cannot reuse an event. Speaking uploads share the 2 MB decoded/3 MB JSON route limit and signature validation with ordinary practice. Other routes retain the 100 KB JSON limit. Process-local game guards allow two assessment pipelines, six new spoken game requests per user/minute and twelve per process/minute. Existing Gemini project quota is still shared across translation, speech and assessments; no paid fallback is enabled.
+Imported text keeps source, author and license links. Playback is generated AI speech, not the publisher's original recording. The public catalog includes audio text for playback: this is a learning activity, not an anti-cheat exam. Successful playback is client-reported.
 
-Local English playback uses pinned Phonon; the existing server-side Gemini key remains for recorded-answer assessment and configured non-English fallback. Challenge audio uses the existing per-user speech cache; cached audio remains usable when new generation is unavailable. Recorded audio, prompt and solution criteria go to Google for assessment under the project's existing Gemini setup; unpaid-service data may be used for product improvement. The app stores feedback, not raw recordings. Mode/page changes and account expiry cancel local media and stop microphone tracks.
+## Persistence and API
+
+Run `pnpm db:generate` and `pnpm db:migrate` after deployment. The local `pnpm dev` launcher deploys migrations automatically. The additive migration introduces `GameLevelSession`; existing `GameAttempt` rows gain an optional session reference. No historical answers are rewritten.
+
+- `GET /v1/games`: public tasks, legacy skill access, per-mode access and recommendations.
+- `POST /v1/games/levels`: validated kind/level/theme/source and event ID create an owned ordered run; identical start retries return the same run, changed settings cannot reuse its event.
+- `GET /v1/games/levels/:id`: owned run, saved receipts, completion score, pass status and allowed next level.
+- `POST /v1/games/attempts`: existing bounded answer schema plus optional `levelSessionId`. Scoped answers must match the next unanswered run task. Matching event retries coalesce/replay; conflicting or out-of-order answers are rejected. Unscoped requests remain for legacy compatibility and do not bypass their old access checks.
+
+The server chooses questions, enforces ownership/order/access and computes completion under the user's transaction lock. A unique session/round constraint prevents two saved answers for one slot. A browser cannot submit a level score or completion flag. Completed records cascade on account deletion; pending assessments recheck ownership before saving. Stored feedback contains a transcript and score, never raw/base64 audio or Blob URLs.
+
+Speaking retains the decoded 2 MB/60-second limit and 3 MB route JSON limit, recording signature checks, two assessment pipelines, six new spoken game requests per user/minute and twelve per process/minute. Local English audio uses pinned Phonon and the existing persisted cache; recorded-answer assessment uses the configured Gemini key and project quota without paid fallback. Uploaded audio and exercise context are processed under the existing Google setup; unpaid-service data may be used for product improvement.
 
 ## Verification
 
-Fixtures use isolated PostgreSQL databases, simulated sign-in, deterministic audio/assessment and generated browser recordings. No personal microphone upload or new API credential is needed for tests. Tests cover immutable content, distinct/skill-separated progression, locked-level rejection, forged scores, answer ownership, idempotent/concurrent submissions, input limits, quota failure, silence and no FSRS changes; browser checks exercise real local API progression, picture selection, dictation, comprehension, automatic speaking, fixed PK results, retry and session-expiry cleanup.
-
-## Adaptive recommendations
-
-Earned unlocks remain available. The hub recommends a level using recent distinct outcomes and independent evidence, explains the reason and preserves manual override. Speech scores now use rubric v2 evidence/quality guards; unscorable clips do not lower difficulty. See [adaptive rules](ADAPTIVE_PRACTICE.md).
+Regression tests use isolated PostgreSQL databases, simulated sign-in, deterministic AI/audio fixtures and synthetic browser recordings. They cover all modes/levels, themes and source selection, owned/idempotent starts, ordering, concurrent answers, means and unscorable runs, category-specific unlocks, legacy access, top-level completion, deletion, automatic speaking, microphone cleanup, source attribution, Retry/Next and URL recovery. No personal microphone upload or new credential is needed.

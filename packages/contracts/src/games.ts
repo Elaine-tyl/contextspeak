@@ -3,7 +3,13 @@ import { speakingUploadSchema, type SpeakingAssessment } from "./speaking";
 import type { PracticeRecommendation, DictationFeedback } from "./practice";
 export type GameTrack = "listening" | "speaking";
 export type GameKind =
-  "dictation" | "picture" | "comprehension" | "riddle" | "puzzle" | "pk";
+  | "dictation"
+  | "picture"
+  | "comprehension"
+  | "response"
+  | "riddle"
+  | "puzzle"
+  | "pk";
 export type PictureId = "umbrella" | "book" | "bridge" | "bicycle";
 export type GameRound = {
   id: string;
@@ -14,6 +20,7 @@ export type GameRound = {
   genre?: "Story" | "Drama" | "Literature" | "Novel excerpt";
   instruction: string;
   audioText: string;
+  topic?: string;
   source?: {
     id: string;
     provider: "Tatoeba" | "VOA Learning English" | "African Storybook";
@@ -34,11 +41,13 @@ export type GameProgress = Record<
 export type GameCatalog = {
   rounds: GameRound[];
   progress: GameProgress;
+  modeProgress?: Record<GameKind, { level: number }>;
   recommendations?: Record<GameTrack, PracticeRecommendation>;
 };
 export const gameSubmissionSchema = z
   .object({
     eventId: z.uuid(),
+    levelSessionId: z.uuid().optional(),
     roundId: z.string().min(1).max(80),
     response: z.string().trim().max(2000).optional(),
     choice: z.string().min(1).max(80).optional(),
@@ -63,4 +72,87 @@ export type GameReceipt = {
     speaking?: SpeakingAssessment;
     opponentScore?: number;
   };
+};
+
+export const gameModes = [
+  {
+    kind: "dictation",
+    track: "listening",
+    label: "Dictation",
+    description: "Listen and write what you hear.",
+  },
+  {
+    kind: "picture",
+    track: "listening",
+    label: "Picture choice",
+    description: "Hear a word or clue and choose a picture.",
+  },
+  {
+    kind: "comprehension",
+    track: "listening",
+    label: "Listening questions",
+    description: "Listen to a passage and answer a question.",
+  },
+  {
+    kind: "response",
+    track: "speaking",
+    label: "Speaking questions",
+    description: "Hear an everyday question and answer in your own words.",
+  },
+  {
+    kind: "riddle",
+    track: "speaking",
+    label: "Riddles",
+    description: "Listen to a clue and say your answer.",
+  },
+  {
+    kind: "puzzle",
+    track: "speaking",
+    label: "Puzzles",
+    description: "Solve an everyday problem aloud.",
+  },
+  {
+    kind: "pk",
+    track: "speaking",
+    label: "AI PK",
+    description: "Practise a spoken challenge against a simulated AI target.",
+  },
+] as const;
+export const gameLevelStartSchema = z
+  .object({
+    eventId: z.uuid(),
+    kind: z.enum([
+      "dictation",
+      "picture",
+      "comprehension",
+      "response",
+      "riddle",
+      "puzzle",
+      "pk",
+    ]),
+    level: z.number().int().min(1).max(10),
+    topic: z.string().trim().min(1).max(80).optional(),
+    source: z
+      .enum([
+        "ContextSpeak",
+        "Tatoeba",
+        "VOA Learning English",
+        "African Storybook",
+      ])
+      .optional(),
+  })
+  .strict();
+export type GameLevelStart = z.infer<typeof gameLevelStartSchema>;
+export type GameLevelRun = {
+  id: string;
+  kind: GameKind;
+  level: number;
+  topic: string | null;
+  source: string | null;
+  rounds: GameRound[];
+  receipts: GameReceipt[];
+  completed: boolean;
+  score: number | null;
+  passed: boolean;
+  nextLevel: number | null;
 };

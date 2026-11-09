@@ -27,6 +27,7 @@ export const openChallenges: Challenge[] = reviewed.excerpts.flatMap(
         track: "listening",
         kind: "dictation",
         level: excerpt.level,
+        topic: excerpt.topic,
         title: `${excerpt.topic === "story" ? original.title : excerpt.topic} · listening ${index + 1}`,
         instruction: "Listen, then type exactly what you hear.",
         audioText: excerpt.text,
@@ -38,8 +39,9 @@ export const openChallenges: Challenge[] = reviewed.excerpts.flatMap(
       {
         id: `open-${excerpt.id}-speak-v1`,
         track: "speaking",
-        kind: "puzzle",
+        kind: "response",
         level: excerpt.level,
+        topic: excerpt.topic,
         title: `${excerpt.topic === "story" ? original.title : excerpt.topic} · speaking ${index + 1}`,
         instruction:
           "Listen to the excerpt and question, then answer aloud. Feedback is automatic after recording.",

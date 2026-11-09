@@ -218,5 +218,34 @@ export function publicRound({
   explanation,
   ...round
 }: Challenge): GameRound {
-  return round;
+  return { ...round, topic: roundTopic(round) };
+}
+
+export function roundTopic(round: GameRound) {
+  if (round.topic) {
+    const labels: Record<string, string> = {
+      help: "Asking for help",
+      meet: "Meeting people",
+      time: "Time",
+      plan: "Making plans",
+      library: "Reading",
+      story: "Stories",
+      greetings: "Greetings",
+      introductions: "Introductions",
+      home: "Home",
+      friends: "Friends",
+      plans: "Making plans",
+    };
+    return labels[round.topic] ?? round.topic;
+  }
+  if (round.genre) return round.genre === "Story" ? "Stories" : round.genre;
+  if (round.kind === "picture")
+    return /umbrella/.test(round.audioText) ? "Weather" : "Travel";
+  if (round.kind === "comprehension") return "Making plans";
+  if (round.kind === "pk") return "Making plans";
+  if (round.kind === "riddle")
+    return round.level <= 3 ? "Everyday words" : "Wordplay";
+  if (round.kind === "puzzle")
+    return round.level <= 3 ? "Everyday questions" : "Solving problems";
+  return "Everyday English";
 }

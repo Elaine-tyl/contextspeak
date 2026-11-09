@@ -118,3 +118,16 @@
 .game-source-credit small {
   display: block;
 }
+
+.game-answer-review {
+  border-top: 1px solid #dce4db;
+  margin-top: 20px;
+  padding-top: 16px;
+}
+.game-round > details {
+  margin-top: 24px;
+}
+.game-round > details > summary {
+  color: #176b5b;
+  cursor: pointer;
+}

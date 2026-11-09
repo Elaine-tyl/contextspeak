@@ -12,7 +12,7 @@ The first collection covers help, meeting people, time, plans and libraries. VOA
 
 ## Use in the app
 
-Open `/games`, choose Listening or Speaking, then an unlocked level. **Content source** filters the collection. Original games remain available. Imported rounds display a source link, author and license link. Listening text is revealed only after checking the answer. Playback uses generated AI audio, not publisher recordings or an imitation of a publisher's narrator. Learner recordings follow the existing assessment flow.
+Open `/games`, choose Listening or Speaking, a game mode, an unlocked level and theme. **Content source** filters the collection; Start level begins up to three matching questions. The completed level shows its score with Retry and Next. Original games remain available. Imported rounds display a source link, author and license link. Listening text is revealed only after checking the answer. Playback uses generated AI audio, not publisher recordings or an imitation of a publisher's narrator. Learner recordings follow the existing assessment flow.
 
 ## Snapshot and provenance
 
