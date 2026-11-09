@@ -11,6 +11,7 @@ import {
   type PracticeSubmission,
   type ScenarioId,
   type DictationFeedback,
+  type SpeakingAssessment,
 } from "@contextspeak/contracts";
 import { gradeDictation } from "./dictation";
 import { conversationTask } from "./scenarios";
@@ -50,19 +51,23 @@ function taskFor(
     ...(scenario ? conversationTask(scenario, language) : {}),
   };
 }
-function receipt(row: PracticeAttempt) {
+export function practiceReceipt(row: PracticeAttempt) {
   const payload = row.payload as unknown as PracticeSubmission;
-  const { feedback } = row.task as unknown as { feedback?: DictationFeedback };
+  const { feedback, speakingAssessment } = row.task as unknown as {
+    feedback?: DictationFeedback;
+    speakingAssessment?: SpeakingAssessment;
+  };
   return {
     id: row.id,
     ...(feedback ? { feedback } : {}),
+    ...(speakingAssessment ? { speakingAssessment } : {}),
     mode: payload.mode,
     ...(payload.scenario ? { scenario: payload.scenario } : {}),
     selfCheck: payload.selfCheck,
     plays: payload.plays,
     revealed: payload.revealed,
     durationMs: payload.durationMs,
-    createdAt: row.createdAt,
+    createdAt: row.createdAt.toISOString(),
   };
 }
 export class PracticeService {
@@ -126,7 +131,7 @@ export class PracticeService {
       orderBy: [{ createdAt: "desc" }, { id: "desc" }],
       take: 10,
     });
-    return { itemId, ...task, recent: recent.map(receipt) };
+    return { itemId, ...task, recent: recent.map(practiceReceipt) };
   }
   async save(identity: Identity, itemId: string, input: PracticeSubmission) {
     const user = await this.library.actor(identity);
@@ -148,7 +153,7 @@ export class PracticeService {
           throw new ConflictException(
             "This practice event was already used for another answer.",
           );
-        return receipt(previous);
+        return practiceReceipt(previous);
       }
       const base = taskFor(lookup, input.scenario);
       const task =
@@ -162,7 +167,7 @@ export class PracticeService {
               ),
             }
           : base;
-      return receipt(
+      return practiceReceipt(
         await tx.practiceAttempt.create({
           data: {
             userId: user.id,

@@ -168,3 +168,11 @@ export {
   type SpeechInput,
   type SpeechAudio,
 } from "./speech";
+
+export {
+  speakingUploadSchema,
+  speakingModelSchema,
+  speakingScoresSchema,
+  type SpeakingUpload,
+  type SpeakingAssessment,
+} from "./speaking";

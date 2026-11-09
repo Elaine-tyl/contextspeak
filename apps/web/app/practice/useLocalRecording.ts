@@ -11,6 +11,7 @@ export function useLocalRecording() {
   const generation = useRef(0);
   const stream = useRef<MediaStream | null>(null);
   const recorder = useRef<MediaRecorder | null>(null);
+  const recordingBlob = useRef<Blob | null>(null);
   const objectUrl = useRef("");
   const deadline = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const requesting = useRef(false);
@@ -22,6 +23,7 @@ export function useLocalRecording() {
   function dispose() {
     generation.current++;
     requesting.current = false;
+    recordingBlob.current = null;
     const active = recorder.current;
     recorder.current = null;
     if (active) {
@@ -112,6 +114,7 @@ export function useLocalRecording() {
           fail("No audio was recorded. Check your microphone and retry.");
           return;
         }
+        recordingBlob.current = blob;
         objectUrl.current = URL.createObjectURL(blob);
         setUrl(objectUrl.current);
         setDurationMs(
@@ -132,5 +135,14 @@ export function useLocalRecording() {
       );
     }
   }
-  return { state, url, durationMs, error, start, stop, cancel };
+  return {
+    state,
+    url,
+    blob: recordingBlob.current,
+    durationMs,
+    error,
+    start,
+    stop,
+    cancel,
+  };
 }

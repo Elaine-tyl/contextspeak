@@ -15,6 +15,10 @@ import { startOidcIssuer } from "../tests/helpers/oidc-issuer";
 import { startLocalTranslator } from "./translator";
 import { LibreTranslateProvider } from "../apps/api/src/library/libretranslate.provider";
 import { FixtureTranslationProvider } from "../apps/api/src/library/translation.provider";
+import {
+  GeminiSpeakingProvider,
+  FixtureSpeakingProvider,
+} from "../apps/api/src/practice/speaking.provider";
 import { createApp } from "../apps/api/src/app";
 try {
   process.loadEnvFile(".env.local");
@@ -134,6 +138,11 @@ try {
   app = await createApp({
     prisma,
     provider,
+    speakingProvider: fixtureTranslation
+      ? new FixtureSpeakingProvider()
+      : useGemini || process.env.SPEECH_PROVIDER === "gemini"
+        ? new GeminiSpeakingProvider({ apiKey: process.env.GEMINI_API_KEY })
+        : undefined,
     speechProvider: fixtureTranslation
       ? new FixtureSpeechProvider()
       : process.env.SPEECH_PROVIDER === "gemini"

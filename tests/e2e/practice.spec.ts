@@ -576,15 +576,35 @@ test("practice_saves_through_the_real_API_and_native_recording_produces_decodabl
     page.getByText("Practice saved.", { exact: true }),
   ).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath("speaking-practice.png") });
+  await page
+    .getByRole("checkbox", {
+      name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
+    })
+    .check();
+  await page
+    .getByRole("button", { name: "Submit for AI assessment", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", {
+      name: "AI speaking score: 80/100",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.screenshot({
+    path: testInfo.outputPath("ai-speaking-assessment.png"),
+    fullPage: true,
+  });
   const task = await (
     await page.request.get(
       `http://127.0.0.1:4318/v1/practice/${receipt.candidateId}?lookup=${receipt.lookupId}`,
     )
   ).json();
-  expect(task.recent.slice(0, 2).map((value: any) => value.mode)).toEqual([
+  expect(task.recent.slice(0, 3).map((value: any) => value.mode)).toEqual([
+    "speaking",
     "speaking",
     "listening",
   ]);
+  expect(task.recent[0].speakingAssessment.overall).toBe(80);
   await page.getByLabel("Conversation scenario").selectOption("making-plans");
   await expect(
     page.getByRole("heading", { name: "Making plans", exact: true }),
@@ -836,4 +856,164 @@ test("scenario_refresh_AI_loading_and_nearby_result_actions", async ({
   await expect(
     page.getByRole("heading", { name: "Your result: 67/100", exact: true }),
   ).toHaveCount(0);
+});
+
+test("AI_speaking_requires_replay_and_consent_and_retries_one_frozen_recording", async ({
+  page,
+}) => {
+  await setup(page);
+  const uploads: any[] = [];
+  await page.route(
+    `http://127.0.0.1:4318/v1/practice/${itemId}/speaking-assessment`,
+    async (route) => {
+      uploads.push(route.request().postDataJSON());
+      if (uploads.length === 1) {
+        await route.fulfill({ status: 503, json: {} });
+        return;
+      }
+      await route.fulfill({
+        json: {
+          id: "assessed-1",
+          mode: "speaking",
+          plays: 0,
+          revealed: false,
+          durationMs: 1000,
+          createdAt: new Date().toISOString(),
+          speakingAssessment: {
+            speechDetected: true,
+            overall: 80,
+            scores: {
+              clarity: 80,
+              fluency: 70,
+              grammar: 90,
+              vocabulary: 80,
+              taskResponse: 80,
+            },
+            transcript: "I am available on Saturday.",
+            strengths: ["Clear sentence."],
+            improvements: ["Add a closing question."],
+            suggestedResponse:
+              "I am available on Saturday. Does that work for you?",
+            model: "fixture",
+            rubricVersion: 1,
+          },
+        },
+      });
+    },
+  );
+  await page.getByRole("button", { name: "Speaking", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Start recording", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Stop recording", exact: true })
+    .click();
+  const consent = page.getByRole("checkbox", {
+    name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
+  });
+  await expect(consent).not.toBeChecked();
+  const submit = page.getByRole("button", {
+    name: "Submit for AI assessment",
+    exact: true,
+  });
+  await expect(submit).toBeDisabled();
+  expect(uploads).toHaveLength(0);
+  await page
+    .getByLabel("Your recording")
+    .evaluate((element) =>
+      element.dispatchEvent(new Event("ended", { bubbles: true })),
+    );
+  await expect(submit).toBeDisabled();
+  await consent.check();
+  await submit.click();
+  await expect(page.locator("main").getByRole("alert")).toContainText(
+    "not confirmed",
+  );
+  await expect(
+    page.getByRole("button", { name: "Start recording", exact: true }),
+  ).toBeDisabled();
+  await expect(
+    page.getByRole("button", { name: "Listening", exact: true }),
+  ).toBeDisabled();
+  await submit.click();
+  await expect(
+    page.getByRole("heading", {
+      name: "AI speaking score: 80/100",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("I am available on Saturday.", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Add a closing question.", { exact: true }),
+  ).toBeVisible();
+  expect(uploads[0]).toEqual(uploads[1]);
+  expect(uploads[0]).toMatchObject({
+    consent: true,
+    replayed: true,
+    mimeType: "audio/wav",
+  });
+  expect(uploads[0].audio.length).toBeGreaterThan(100);
+});
+
+test("unscorable_speaking_shows_no_numeric_mark", async ({ page }) => {
+  await setup(page);
+  await page.route(
+    `http://127.0.0.1:4318/v1/practice/${itemId}/speaking-assessment`,
+    (route) =>
+      route.fulfill({
+        json: {
+          id: "silent-1",
+          mode: "speaking",
+          revealed: false,
+          plays: 0,
+          durationMs: 1000,
+          createdAt: new Date().toISOString(),
+          speakingAssessment: {
+            speechDetected: false,
+            overall: null,
+            scores: null,
+            transcript: "",
+            strengths: [],
+            improvements: [
+              "No clear speech was detected. Check your microphone and record a spoken sentence.",
+            ],
+            suggestedResponse: "",
+            model: "fixture",
+            rubricVersion: 1,
+          },
+        },
+      }),
+  );
+  await page.getByRole("button", { name: "Speaking", exact: true }).click();
+  await page
+    .getByRole("button", { name: "Start recording", exact: true })
+    .click();
+  await page
+    .getByRole("button", { name: "Stop recording", exact: true })
+    .click();
+  await page
+    .getByLabel("Your recording")
+    .evaluate((element) =>
+      element.dispatchEvent(new Event("ended", { bubbles: true })),
+    );
+  await page
+    .getByRole("checkbox", {
+      name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
+    })
+    .check();
+  await page
+    .getByRole("button", { name: "Submit for AI assessment", exact: true })
+    .click();
+  await expect(
+    page.getByRole("heading", {
+      name: "No reliable speaking score",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("No clear speech was detected.", { exact: false }),
+  ).toBeVisible();
+  await expect(page.locator(".speaking-scores")).toHaveCount(0);
 });

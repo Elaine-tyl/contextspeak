@@ -2,6 +2,10 @@ import "reflect-metadata";
 import { SpeechController } from "./speech/speech.controller";
 import { SpeechService } from "./speech/speech.service";
 import type { SpeechProvider } from "./speech/gemini-speech.provider";
+import type { NestExpressApplication } from "@nestjs/platform-express";
+import { SpeakingController } from "./practice/speaking.controller";
+import { SpeakingService } from "./practice/speaking.service";
+import type { SpeakingProvider } from "./practice/speaking.provider";
 import { PracticeService } from "./practice/practice.service";
 import { PracticeController } from "./practice/practice.controller";
 import { ReviewService } from "./reviews/review.service";
@@ -22,6 +26,7 @@ import {
 export type AppConfig = (AuthConfig | { oidc: OidcConfig }) & {
   prisma: PrismaClient;
   speechProvider?: SpeechProvider;
+  speakingProvider?: SpeakingProvider;
   provider?: TranslationProvider;
   origins?: string[];
 };
@@ -30,6 +35,7 @@ export async function createApp(config: AppConfig) {
     config.prisma,
     config.provider ?? new FixtureTranslationProvider(),
   );
+  const practice = new PracticeService(config.prisma, library);
   const auth =
     "oidc" in config
       ? new SessionService(config.prisma, config.oidc)
@@ -41,6 +47,7 @@ export async function createApp(config: AppConfig) {
       SpeechController,
       ReviewController,
       PracticeController,
+      SpeakingController,
       ...(auth ? [SessionController] : []),
     ],
     providers: [
@@ -51,7 +58,16 @@ export async function createApp(config: AppConfig) {
       },
       {
         provide: PracticeService,
-        useValue: new PracticeService(config.prisma, library),
+        useValue: practice,
+      },
+      {
+        provide: SpeakingService,
+        useValue: new SpeakingService(
+          config.prisma,
+          library,
+          practice,
+          config.speakingProvider,
+        ),
       },
       {
         provide: ReviewService,
@@ -61,10 +77,19 @@ export async function createApp(config: AppConfig) {
     ],
   })
   class ApiModule {}
-  const app = await NestFactory.create(ApiModule, {
+  const app = await NestFactory.create<NestExpressApplication>(ApiModule, {
     logger: false,
-    bodyParser: true,
+    bodyParser: false,
   });
+  // Only the assessment route accepts base64 media; other JSON routes retain the small limit.
+  app.useBodyParser("json", {
+    limit: "3mb",
+    type: (req) =>
+      /^\/v1\/practice\/[^/?]+\/speaking-assessment(?:\?|$)/.test(
+        req.url ?? "",
+      ) && (req.headers["content-type"] ?? "").startsWith("application/json"),
+  });
+  app.useBodyParser("json", { limit: "100kb" });
   app.useGlobalGuards(
     new JwtGuard("oidc" in config ? undefined : config, auth),
   );

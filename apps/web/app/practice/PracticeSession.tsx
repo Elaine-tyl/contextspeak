@@ -10,6 +10,7 @@ import type {
 import { api, ApiError } from "../../src/api";
 import { usePracticeSpeech } from "./usePracticeSpeech";
 import { DictationResult } from "./DictationResult";
+import { SpeakingAssessmentPanel } from "./SpeakingAssessmentPanel";
 import { RecordingPlayback } from "./RecordingPlayback";
 import { useLocalRecording } from "./useLocalRecording";
 export function PracticeSession({
@@ -38,6 +39,7 @@ export function PracticeSession({
   const [revealed, setRevealed] = useState(false);
   const [replayed, setReplayed] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [assessing, setAssessing] = useState(false);
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState("");
   const attempt = useRef<PracticeSubmission | null>(null);
@@ -57,6 +59,7 @@ export function PracticeSession({
   async function save(selfCheck?: PracticeSubmission["selfCheck"]) {
     if (
       !ready ||
+      assessing ||
       busy ||
       saved ||
       (attempt.current && attempt.current.selfCheck !== selfCheck)
@@ -106,7 +109,7 @@ export function PracticeSession({
       if (active.current) setBusy(false);
     }
   }
-  const frozen = !!attempt.current;
+  const frozen = !!attempt.current || assessing;
   return (
     <article className="lookup-card practice-card">
       <h2>{listening ? "Listen first" : "Speak in your own words"}</h2>
@@ -202,12 +205,37 @@ export function PracticeSession({
               )}
               <p className="section-copy">
                 {Math.ceil(recording.durationMs / 1000)} seconds recorded. Audio
-                stays in this tab and is discarded when you leave.
+                stays in this tab unless you explicitly submit it for AI
+                assessment.
               </p>
             </>
           )}
           {recording.error && <p role="alert">{recording.error}</p>}
         </div>
+      )}
+      {!listening && recording.blob && (
+        <SpeakingAssessmentPanel
+          key={recording.url}
+          blob={recording.blob}
+          task={task}
+          token={token}
+          durationMs={recording.durationMs}
+          replayed={replayed}
+          revealed={revealed}
+          disabled={
+            recordingBusy ||
+            speech.playing ||
+            busy ||
+            (!!attempt.current && !saved)
+          }
+          onLocked={(value) => {
+            setAssessing(value);
+            onLocked(value);
+          }}
+          onSaved={onSaved}
+          onExpired={onExpired}
+          onDiscard={onDiscard}
+        />
       )}
       {!listening && !revealed && (
         <button
@@ -269,6 +297,7 @@ export function PracticeSession({
               className="secondary"
               disabled={
                 !ready ||
+                assessing ||
                 recordingBusy ||
                 speech.playing ||
                 busy ||
@@ -296,9 +325,9 @@ export function PracticeSession({
       )}
       {saved && <p role="status">Practice saved.</p>}
       <p className="section-copy">
-        Dictation marks measure typed word accuracy. Speaking self-checks do not
-        assess pronunciation or prove mastery. Neither changes your vocabulary
-        review schedule.
+        Dictation marks measure typed word accuracy. Speaking self-checks and AI
+        estimates do not prove mastery. Neither changes your vocabulary review
+        schedule.
       </p>
     </article>
   );

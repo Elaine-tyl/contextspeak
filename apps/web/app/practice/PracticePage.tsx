@@ -158,8 +158,8 @@ export function PracticePage({
       <p className="section-copy">
         Practice with cached AI voices and local recording. Submit what you hear
         for dictation marks and corrections. Text is sent to Google for AI
-        audio; microphone recordings stay in this tab. Results stay separate
-        from vocabulary recall.
+        audio; microphone recordings stay in this tab unless you consent and
+        submit for AI assessment. Results stay separate from vocabulary recall.
       </p>
       {token && (
         <label className="scenario-picker">
@@ -254,11 +254,15 @@ export function PracticePage({
                       ? `${conversationScenarios.find((scenario) => scenario.id === value.scenario)?.title} · `
                       : ""}
                     {value.mode === "listening" ? "Listening" : "Speaking"} ·{" "}
-                    {value.feedback
-                      ? `${value.feedback.score}/100`
-                      : value.selfCheck === "comfortable"
-                        ? "Comfortable"
-                        : "Needs practice"}{" "}
+                    {value.speakingAssessment
+                      ? value.speakingAssessment.overall === null
+                        ? "AI: no reliable score"
+                        : `AI estimate ${value.speakingAssessment.overall}/100`
+                      : value.feedback
+                        ? `${value.feedback.score}/100`
+                        : value.selfCheck === "comfortable"
+                          ? "Comfortable"
+                          : "Needs practice"}{" "}
                     ·{" "}
                     {value.feedback
                       ? "Transcript checked after submission"

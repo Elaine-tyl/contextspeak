@@ -1,3 +1,4 @@
+import type { SpeakingAssessment } from "./speaking";
 import { z } from "zod";
 export const scenarioSchema = z.enum([
   "introductions",
@@ -55,6 +56,7 @@ export interface PracticeReceipt {
   mode: PracticeSubmission["mode"];
   selfCheck?: PracticeSubmission["selfCheck"];
   feedback?: DictationFeedback;
+  speakingAssessment?: SpeakingAssessment;
   plays: number;
   revealed: boolean;
   durationMs: number;

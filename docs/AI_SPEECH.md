@@ -27,7 +27,7 @@ Keys stay server-side. Website requests use the existing cookie/CSRF session and
 
 ## Practice audio and dictation
 
-The [practice page](PRACTICE.md) uses the same cached AI speech service. Learners transcribe the audio and submit for server-side word-accuracy marks and corrections; grading needs no model call. Speaking recording/replay stays local. Word/example speaker clicks alone do not create practice attempts or change FSRS ratings, and recorded user audio is never uploaded.
+The [practice page](PRACTICE.md) uses the same cached AI speech service. Learners transcribe the audio and submit for server-side word-accuracy marks and corrections; grading needs no model call. Speaking recording/replay stays local unless the learner explicitly consents and submits for the optional [AI speaking assessment](PRACTICE.md#optional-ai-speaking-assessment), which uploads audio and uses a separate model call. Word/example speaker clicks alone do not create practice attempts or change FSRS ratings, and microphone audio is not uploaded by pronunciation buttons.
 
 ## Verification
 
