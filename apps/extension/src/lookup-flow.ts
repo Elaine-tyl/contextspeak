@@ -1,3 +1,7 @@
+import {
+  wordExpansionSchema,
+  type WordExpansion,
+} from "@contextspeak/contracts";
 import { translationErrorMessage } from "./translation-errors";
 import type {
   LookupInput,
@@ -23,6 +27,10 @@ export type LookupReply =
       saved?: "local" | "library";
     };
 interface Dependencies {
+  expand?(
+    request: { input: TranslationInput; meaning: string; lookupId?: string },
+    token: string,
+  ): Promise<{ expansion: WordExpansion }>;
   outbox: Pick<Outbox, "enqueueLookup" | "flushOutbox" | "getRecord">;
   session(): Promise<{ identity: string; token: string }>;
   translate(
@@ -174,6 +182,54 @@ export class LookupFlow {
         error:
           "Saved. Result unavailable while offline; check the library when reconnected.",
       };
+    }
+  }
+  async enrich(input: LookupInput, base: LookupReply): Promise<LookupReply> {
+    if (
+      !this.deps.expand ||
+      !base.ok ||
+      base.status !== "succeeded" ||
+      base.learningDetails?.kind !== "word" ||
+      base.learningDetails.expansion ||
+      base.detectedSourceLanguage !== "en"
+    )
+      return base;
+    const session = await this.deps.session();
+    const record = await this.deps.outbox.getRecord(
+      input.eventId,
+      session.identity,
+    );
+    const { eventId, ...value } = record?.input ?? input;
+    try {
+      const result = await this.deps.expand(
+        {
+          input: { ...value, sourceLanguage: "en" },
+          meaning: base.meaning ?? "",
+          ...(record?.receipt ? { lookupId: record.receipt.lookupId } : {}),
+        },
+        session.token,
+      );
+      if ((await this.deps.session()).identity !== session.identity)
+        return this.cancelled();
+      if (
+        record &&
+        !(await this.deps.outbox.getRecord(input.eventId, session.identity))
+      )
+        return base;
+      const expansion = wordExpansionSchema.safeParse(result.expansion);
+      return expansion.success
+        ? {
+            ...base,
+            learningDetails: {
+              ...base.learningDetails,
+              expansion: expansion.data,
+            },
+          }
+        : base;
+    } catch {
+      return (await this.deps.session()).identity === session.identity
+        ? base
+        : this.cancelled();
     }
   }
   private cancelled(): LookupReply {

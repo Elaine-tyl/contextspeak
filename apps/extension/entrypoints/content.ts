@@ -118,9 +118,11 @@ export default defineContentScript({
         const learning = shadow.querySelector<HTMLElement>(
           "[data-learning-card]",
         )!;
+        let requestVersion = 0;
         let automaticTimer: ReturnType<typeof setTimeout> | undefined;
         async function translate() {
           if (!panel.isConnected || button.disabled) return;
+          const version = ++requestVersion;
           clearTimeout(automaticTimer); // A manual click replaces the pending automatic request.
           automaticTimer = undefined;
           const retrying =
@@ -146,6 +148,13 @@ export default defineContentScript({
           paragraphs[1].textContent = "Translating…";
           try {
             // Snapshot languages now: later preference changes must not rewrite this lookup.
+            const queryInput = {
+              eventId: retryEventId ?? crypto.randomUUID(),
+              text,
+              context,
+              sourceLanguage: source.value,
+              targetLanguage: target.value,
+            };
             const result = retrying
               ? await browser.runtime.sendMessage({
                   type: "lookup-retry",
@@ -153,19 +162,22 @@ export default defineContentScript({
                 })
               : await browser.runtime.sendMessage({
                   type: "translate",
-                  input: {
-                    eventId: crypto.randomUUID(),
-                    text,
-                    context,
-                    sourceLanguage: source.value,
-                    targetLanguage: target.value,
-                  },
+                  input: queryInput,
                 });
             if (result.ok && result.eventId) retryEventId = result.eventId;
             await observeLookup(result, {
-              active: () => panel.isConnected,
+              active: () => panel.isConnected && version === requestVersion,
+              enrich: (reply) =>
+                browser.runtime.sendMessage({
+                  type: "lookup-expand",
+                  input: queryInput,
+                  reply,
+                }),
               render: (reply) => {
                 if (reply.ok && reply.status === "succeeded") {
+                  button.disabled = false;
+                  source.disabled = false;
+                  target.disabled = false;
                   detectedLanguage = reply.detectedSourceLanguage;
                   speech.update();
                   disposeNotes?.();
@@ -195,6 +207,9 @@ export default defineContentScript({
                       ? "Saved to library"
                       : "Saved locally";
                 } else if (!reply.ok && reply.status === "cancelled") {
+                  disposeNotes?.();
+                  learning.replaceChildren();
+                  explanation.hidden = true;
                   saved.textContent = "Not saved";
                 }
                 if (!reply.ok && ai) {
@@ -212,6 +227,7 @@ export default defineContentScript({
               limit: 240,
             });
           } catch {
+            if (version !== requestVersion || !panel.isConnected) return;
             if (ai) {
               button.hidden = false;
               button.textContent = "Retry translation";
@@ -219,9 +235,11 @@ export default defineContentScript({
             paragraphs[1].textContent =
               "Extension disconnected. Reload the page.";
           } finally {
-            button.disabled = false;
-            source.disabled = false;
-            target.disabled = false;
+            if (version === requestVersion) {
+              button.disabled = false;
+              source.disabled = false;
+              target.disabled = false;
+            }
           }
         }
         for (const select of [source, target])

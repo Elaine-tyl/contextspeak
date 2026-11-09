@@ -45,6 +45,24 @@ export function renderLearningCard(
     speaker(line("p", pair.source), pair.source, "Listen to example");
     line("p", pair.translation).className = "secondary example-translation";
   }
+  if (details.expansion)
+    for (const [title, words] of [
+      ["Similar meanings", details.expansion.synonyms],
+      ["Similar spellings", details.expansion.lookalikes],
+    ] as const) {
+      if (!words.length) continue;
+      line("h3", title);
+      for (const word of words) {
+        speaker(line("p", word.term), word.term, "Listen to related word");
+        line("p", word.difference);
+        speaker(
+          line("p", word.example.source),
+          word.example.source,
+          "Listen to related example",
+        );
+        line("p", word.example.translation);
+      }
+    }
   if (details.notes) {
     line("h3", "Usage");
     line("p", details.notes);

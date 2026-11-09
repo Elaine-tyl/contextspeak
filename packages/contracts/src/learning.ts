@@ -1,3 +1,4 @@
+import { wordExpansionSchema } from "./expansion";
 import { z } from "zod";
 export const aiLanguageCodes = [
   "en",
@@ -49,6 +50,7 @@ export const learningDetailsSchema = aiResponseSchema
     meaning: true,
   })
   .extend({
+    expansion: wordExpansionSchema.optional(),
     version: z.literal(1),
     model: z.string(),
     modelDigest: z.string().nullable(),

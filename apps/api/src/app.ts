@@ -1,4 +1,7 @@
 import "reflect-metadata";
+import { ExpansionController } from "./expansion/expansion.controller";
+import { ExpansionService } from "./expansion/expansion.service";
+import type { ExpansionProvider } from "./expansion/expansion.provider";
 import { ProgressController } from "./progress/progress.controller";
 import { ProgressService } from "./progress/progress.service";
 import { GamesController } from "./games/games.controller";
@@ -30,6 +33,7 @@ import {
 } from "./library/translation.provider";
 export type AppConfig = (AuthConfig | { oidc: OidcConfig }) & {
   prisma: PrismaClient;
+  expansionProvider?: ExpansionProvider;
   speechProvider?: SpeechProvider;
   speechFallback?: SpeechProvider;
   speechCacheDir?: string;
@@ -52,6 +56,7 @@ export async function createApp(config: AppConfig) {
     controllers: [
       GamesController,
       ProgressController,
+      ExpansionController,
       LibraryController,
       SpeechController,
       ReviewController,
@@ -61,6 +66,14 @@ export async function createApp(config: AppConfig) {
     ],
     providers: [
       { provide: LibraryService, useValue: library },
+      {
+        provide: ExpansionService,
+        useValue: new ExpansionService(
+          config.prisma,
+          library,
+          config.expansionProvider,
+        ),
+      },
       {
         provide: ProgressService,
         useValue: new ProgressService(config.prisma, library),

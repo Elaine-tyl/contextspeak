@@ -203,3 +203,9 @@ export {
 } from "./games";
 
 export type { LearningProgress, SkillProgress } from "./progress";
+
+export {
+  wordExpansionSchema,
+  expansionOutputSchema,
+  type WordExpansion,
+} from "./expansion";

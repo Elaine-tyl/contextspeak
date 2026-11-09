@@ -1,3 +1,4 @@
+import { GeminiExpansionProvider } from "../apps/api/src/expansion/expansion.provider";
 import { startLocalSpeech } from "./local-speech";
 import { OllamaSpeechProvider } from "../apps/api/src/speech/ollama-speech.provider";
 import {
@@ -148,6 +149,9 @@ try {
   app = await createApp({
     prisma,
     provider,
+    expansionProvider: useGemini
+      ? new GeminiExpansionProvider(process.env.GEMINI_API_KEY ?? "")
+      : undefined,
     speechCacheDir: fixtureTranslation ? undefined : resolve(".local/audio"),
     speechFallback:
       process.env.SPEECH_NON_ENGLISH_PROVIDER === "gemini"

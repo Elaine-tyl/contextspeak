@@ -13,7 +13,7 @@ Scope confirmed by the user: Chrome extension and learning website; school roles
 
 ## Remaining implementation
 
-- [ ] Contextual synonym/spelling expansion without blocking the initial saved translation.
+- [x] Contextual synonym/spelling expansion without blocking the initial saved translation (English words, configured Gemini text provider); unsupported or unavailable cases retain the base translation.
 - [ ] Evidence-linked scenario suggestions and learner-confirmed goals.
 - [ ] Inspectable word priorities with honest frequency provenance; missing global-frequency data must remain explicit.
 - [ ] Owned data export and account deletion with session/media cleanup and late-work regression checks.

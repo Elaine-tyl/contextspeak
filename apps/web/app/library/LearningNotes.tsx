@@ -55,6 +55,45 @@ export function LearningNotes({
           </li>
         ))}
       </ol>
+      {details.expansion &&
+        (
+          [
+            ["Similar meanings", details.expansion.synonyms],
+            ["Similar spellings", details.expansion.lookalikes],
+          ] as const
+        ).map(
+          ([title, words]) =>
+            words.length > 0 && (
+              <section key={title} aria-label={title}>
+                <h4>{title}</h4>
+                <ul>
+                  {words.map((word) => (
+                    <li key={word.term}>
+                      <strong>{word.term}</strong>
+                      <SpeakerButton
+                        token={token}
+                        text={word.term}
+                        language={sourceLanguage}
+                        label="Listen to related word"
+                      />
+                      <p>{word.difference}</p>
+                      <p>
+                        {word.example.source}
+                        <SpeakerButton
+                          token={token}
+                          text={word.example.source}
+                          language={sourceLanguage}
+                          label="Listen to related example"
+                        />
+                        <br />
+                        {word.example.translation}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ),
+        )}
       {details.notes && (
         <>
           <h4>Usage</h4>

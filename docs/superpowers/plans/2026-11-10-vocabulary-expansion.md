@@ -1,0 +1,7 @@
+# Nonblocking vocabulary expansion
+
+M1 follow-on: render/save the existing translation first, then enrich word lookups with up to two near-synonyms and two spelling lookalikes, contrasts and bilingual examples. Expansion is optional, cached/coalesced per owner/context and never calls the base translator again. Captured queries update the same owned lookup's learning details; collection-off queries stay transient. Invalid suggestions are filtered, failed expansion preserves the base translation, and related words never auto-enrol in reviews. Saved old learning-card schemas remain readable. Gemini is explicitly wired only when selected as the text provider; no unexpected cloud fallback for local translation.
+
+Implement validated contracts and an expansion adapter/service/route; extend observer enrichment and background identity checks; render escaped related-word sections in extension/library. Verify base-before-enrichment ordering, late panel/account changes, caching/ownership, no transient writes and safe output. Commit independently after regressions/builds pass.
+
+Verification: 219 unit/API tests and 55 browser tests passed; the extension build passed. A live public-word `form` smoke check with the existing Gemini key returned contextual synonyms and spelling alternatives without a second base translation. No private text or credential was logged. Typecheck, formatting, diff checks and production web build passed.

@@ -84,6 +84,7 @@ export default defineBackground(() => {
   const lookupFlow = new LookupFlow({
     outbox,
     session: connection,
+    expand: (value, token) => api("/v1/expansions", "POST", value, token),
     translate: (value, token) => api("/v1/translations", "POST", value, token),
     retry: (id, token) =>
       api(`/v1/lookups/${id}/retry`, "POST", undefined, token),
@@ -182,6 +183,7 @@ export default defineBackground(() => {
       return;
     // Webpage content scripts may translate only; credentials/settings stay in extension pages.
     if (
+      message?.type !== "lookup-expand" &&
       message?.type !== "translate" &&
       message?.type !== "lookup-result" &&
       message?.type !== "lookup-retry" &&
@@ -354,6 +356,7 @@ export default defineBackground(() => {
           };
         }
         if (
+          message.type === "lookup-expand" ||
           message.type === "translate" ||
           message.type === "lookup-result" ||
           message.type === "lookup-retry"
@@ -377,7 +380,9 @@ export default defineBackground(() => {
             ...message.input,
             sourceUrl: sender.tab.url,
           });
-          return lookupFlow.start(value);
+          return message.type === "lookup-expand"
+            ? lookupFlow.enrich(value, message.reply)
+            : lookupFlow.start(value);
         }
         return { ok: false, error: "Unknown request" };
       } catch {
