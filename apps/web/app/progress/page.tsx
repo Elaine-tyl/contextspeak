@@ -2,6 +2,7 @@
 import Link from "next/link";
 import type { SkillProgress } from "@contextspeak/contracts";
 import { API } from "../../src/api";
+import { PersonalizationPanel } from "./PersonalizationPanel";
 import { useProgress } from "./useProgress";
 import "../library/library.css";
 import "../practice/practice.css";
@@ -27,7 +28,7 @@ function SkillCard({ title, value }: { title: string; value: SkillProgress }) {
   );
 }
 export default function ProgressPage() {
-  const { data, error, loading, signedIn, refresh } = useProgress();
+  const { data, error, loading, signedIn, token, refresh } = useProgress();
   return (
     <main className="progress-page">
       <Link href="/library">Back to library</Link>
@@ -102,6 +103,13 @@ export default function ProgressPage() {
               </p>
             )}
           </section>
+          {data.personalization && (
+            <PersonalizationPanel
+              value={data.personalization}
+              token={token}
+              refresh={refresh}
+            />
+          )}
           <section aria-label="Unlocked game levels">
             <h2>Game levels</h2>
             <div className="progress-grid">

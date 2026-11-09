@@ -64,7 +64,7 @@ pnpm build:web
 
 ## Current boundary
 
-Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension pairing and revocation, account ownership checks, collection settings/site exclusions, canonical URL stripping, automatic lookup history, unresolved vocabulary candidates, bounded durable replay, real free word/sentence translation, language preferences, optional automatic selection translation, success/failure/retry, and a responsive library. Candidate listing currently shows the latest 100. FSRS review, cached AI pronunciation, local listening/speaking and curated everyday role-plays are also implemented. Lexical expansion, scenario inference, independent speech assessment, export/deletion UI and production operations remain planned. The simulated identity provider and local launcher must stay on loopback. Live Google sign-in needs configured credentials and a manual provider smoke check.
+Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension pairing and revocation, account ownership checks, collection settings/site exclusions, canonical URL stripping, automatic lookup history, unresolved vocabulary candidates, bounded durable replay, real free word/sentence translation, language preferences, optional automatic selection translation, success/failure/retry, and a responsive library. Candidate listing currently shows the latest 100. FSRS review, cached AI pronunciation, local listening/speaking and curated everyday role-plays are also implemented. The progress dashboard now includes confirmed goals, optional evidence-linked scenario suggestions and inspectable vocabulary priorities. English word expansion, owned data export/deletion and health/readiness controls are implemented. Human calibration of speech marks, production deployment and an actual recovery rehearsal remain release gates. The simulated identity provider and local launcher must stay on loopback. Live Google sign-in needs configured credentials and a manual provider smoke check.
 
 ## System overview
 
@@ -78,6 +78,9 @@ Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension 
 | --- | --- |
 | [Planning](docs/PLANNING.md) | Requirements mapping, MVP, roadmap, costs, and decisions |
 | [Methodology](docs/METHODOLOGY.md) | Collection, scenario inference, word priorities, and mastery evidence |
+| [Personal learning plan](docs/PERSONALIZATION.md) | Confirmed goals, evidence-linked suggestions and priority provenance |
+| [Account data](docs/ACCOUNT.md) | Full export, deletion, audio cleanup and backup boundaries |
+| [Pilot checks](docs/PILOT.md) | Production guards, health, synthetic recovery and external release gates |
 | [Local AI translation](docs/AI_TRANSLATION.md) | Seven languages, automatic cards, examples, setup and model pin |
 | [Plain free translation](docs/TRANSLATION.md) | Reproducible local setup, languages, usage and live regression suite |
 | [AI pronunciation](docs/AI_SPEECH.md) | Natural word/phrase/example audio, private caching, setup and quota limits |

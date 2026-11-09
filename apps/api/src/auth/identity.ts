@@ -1,5 +1,17 @@
 import { createRemoteJWKSet, jwtVerify } from "jose";
 import type { Identity } from "@contextspeak/contracts";
+// Only server-created identities can carry a pinned session owner; JSON/JWT claims cannot forge it.
+const owners = new WeakMap<Identity, string>();
+export function sessionIdentity(user: {
+  id: string;
+  issuer: string;
+  subject: string;
+}): Identity {
+  const identity = { issuer: user.issuer, subject: user.subject };
+  owners.set(identity, user.id);
+  return identity;
+}
+export const sessionOwner = (identity: Identity) => owners.get(identity);
 export interface AuthConfig {
   issuer: string;
   audience: string;

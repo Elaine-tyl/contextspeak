@@ -80,3 +80,30 @@ it("does_not_cache_errors_or_keep_a_rejected_inflight_request", async () => {
   expect(await cache.translate("a", input, load)).toEqual(result);
   expect(calls).toBe(2);
 });
+it("forgets one deleted owner's cached and pending results without clearing another owner", async () => {
+  const cache = new TranslationCache();
+  let calls = 0;
+  const load = async () => {
+    calls++;
+    return result;
+  };
+  await cache.translate("deleted", input, load);
+  await cache.translate("other", input, load);
+  cache.forget("deleted");
+  await cache.translate("other", input, load);
+  await cache.translate("deleted", input, load);
+  expect(calls).toBe(3);
+  let release!: () => void;
+  const gate = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  const pending = cache.translate("pending", input, async () => {
+    await gate;
+    return result;
+  });
+  cache.forget("pending");
+  release();
+  await pending;
+  await cache.translate("pending", input, load);
+  expect(calls).toBe(4);
+});

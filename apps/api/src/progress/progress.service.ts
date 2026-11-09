@@ -13,11 +13,13 @@ import { LibraryService } from "../library/library.service";
 import { GameLevelsService } from "../games/levels.service";
 import { challenges } from "../games/catalog";
 import { practiceExerciseKey } from "../practice/adaptation";
+import type { PersonalizationService } from "../personalization/personalization.service";
 import { summarize, type ScoredSample } from "./summary";
 export class ProgressService {
   constructor(
     private prisma: PrismaClient,
     private library: LibraryService,
+    private personalization?: PersonalizationService,
   ) {}
   private async skill(userId: string, track: GameTrack, since: Date) {
     const ids = challenges
@@ -198,6 +200,7 @@ export class ProgressService {
         recentRatings[value.rating as keyof typeof recentRatings] =
           value._count._all;
     return {
+      personalization: await this.personalization?.forUser(user),
       updatedAt: now.toISOString(),
       since: since.toISOString(),
       sampleLimit: 100,

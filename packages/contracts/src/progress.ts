@@ -1,3 +1,4 @@
+import type { Personalization } from "./personalization";
 import type { GameKind } from "./games";
 export type SkillProgress = {
   scored: number;
@@ -6,6 +7,7 @@ export type SkillProgress = {
   focus: { dimension: string; evidenceCount: number } | null;
 };
 export type LearningProgress = {
+  personalization?: Personalization;
   updatedAt: string;
   since: string;
   sampleLimit: number;

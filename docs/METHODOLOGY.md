@@ -8,11 +8,13 @@ Keep three states: query history → vocabulary candidate → confirmed active r
 
 ## Scenario inference and priorities
 
-Analyze only authorized lookup excerpts and practice, not complete browsing history. Batch inference after 10 new eligible encounters, or on learner request; sparse evidence displays an insufficient-data state. This initial threshold is a tunable proposal. Return scenario label, confidence, and supporting encounter IDs. Suggestions require confirmation and cannot override declared goals; users can reject/reset them.
+Analyze only authorized lookup excerpts and practice, not complete browsing history. The implemented optional analysis runs only on learner request after ten distinct new English contexts; sparse evidence displays an insufficient-data state. This threshold remains tunable. Return scenario label, confidence, and supporting encounter IDs. Suggestions require confirmation and cannot override declared goals; users can reject/reset them.
 
 Normalize each score to [0,1] and start with this explainable ranking:
 
-`priority = 0.30 goal relevance + 0.25 personal encounter frequency + 0.20 general frequency + 0.15 reliable skill gap + 0.10 review urgency`
+`priority = 0.30 goal keyword relevance + 0.25 personal encounter frequency + 0.20 subtitle-domain frequency + 0.15 reliable practice gap + 0.10 review urgency`
+
+The implemented snapshot, missing-signal normalization, evidence rules and ownership limits are documented in [Personalization](PERSONALIZATION.md). Subtitle counts are not universal frequency; the model never supplies invented frequency data.
 
 Use capped log-scaled eligible encounter counts for personal frequency; unknown skill is neutral (0.5). Review urgency comes from the scheduler, and zero is used for unscheduled items. Exclude ignored/archived items before ranking. Missing general frequency is marked unavailable and remaining weights are renormalized; do not invent a model-based frequency value. These starting weights require pilot calibration.
 

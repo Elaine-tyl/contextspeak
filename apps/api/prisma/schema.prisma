@@ -16,6 +16,7 @@ model User {
   consentVersion    Int            @default(0)
   extensionVersion  Int            @default(0)
   translationPreferences Json?
+  learningProfile Json?
   items             LearningItem[]
   lookups           LookupEvent[]
   sessions          AuthSession[]
@@ -206,4 +207,15 @@ model GameLevelSession {
 
   @@unique([userId, eventId])
   @@index([userId, kind, level, score])
+}
+
+// Minimal deletion ledger survives User cascades so restored data can be removed again.
+model AccountDeletion {
+  id String @id @default(uuid())
+  userId String @unique
+  deletedAt DateTime @default(now())
+  hadSpeechAssets Boolean @default(false)
+  cleanupCompletedAt DateTime?
+  cleanupAttempts Int @default(0)
+  lastCleanupAt DateTime?
 }

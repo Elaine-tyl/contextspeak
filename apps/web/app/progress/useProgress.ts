@@ -6,6 +6,7 @@ export function useProgress() {
   const [data, setData] = useState<LearningProgress | null>(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState("");
   const [signedIn, setSignedIn] = useState(false);
   const refresh = useRef(() => {});
   useEffect(() => {
@@ -13,6 +14,7 @@ export function useProgress() {
     let owner = "",
       blocked = false,
       pending = false,
+      queued = false,
       failed = false,
       last = 0;
     let expiry: ReturnType<typeof setTimeout>;
@@ -21,10 +23,15 @@ export function useProgress() {
       owner = "";
       setData(null);
       setSignedIn(false);
+      setToken("");
       setError("Sign in to see your learning progress.");
     }
     async function load(force = false) {
-      if (blocked || pending) return;
+      if (blocked) return;
+      if (pending) {
+        if (force) queued = true;
+        return;
+      }
       pending = true;
       try {
         const session = await api<WebSession>(
@@ -41,6 +48,7 @@ export function useProgress() {
           return;
         }
         owner = session.csrfToken;
+        setToken(owner);
         setSignedIn(true);
         clearTimeout(expiry);
         expiry = setTimeout(expire, Math.min(remaining, 2147483647));
@@ -70,7 +78,13 @@ export function useProgress() {
         }
       } finally {
         pending = false;
-        if (!controller.signal.aborted) setLoading(false);
+        if (!controller.signal.aborted) {
+          setLoading(false);
+          if (queued) {
+            queued = false;
+            void load(true);
+          }
+        }
       }
     }
     refresh.current = () => void load(true);
@@ -91,5 +105,12 @@ export function useProgress() {
       refresh.current = () => {};
     };
   }, []);
-  return { data, error, loading, signedIn, refresh: () => refresh.current() };
+  return {
+    data,
+    error,
+    loading,
+    signedIn,
+    token,
+    refresh: () => refresh.current(),
+  };
 }

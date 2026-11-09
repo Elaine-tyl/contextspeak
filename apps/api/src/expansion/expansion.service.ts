@@ -20,7 +20,10 @@ export type ExpansionRequest = {
   lookupId?: string;
 };
 export class ExpansionService {
-  private cache = new Map<string, { until: number; value: WordExpansion }>();
+  private cache = new Map<
+    string,
+    { userId: string; until: number; value: WordExpansion }
+  >();
   private pending = new Map<string, Promise<WordExpansion>>();
   private requests = new Map<string, number[]>();
   constructor(
@@ -28,6 +31,11 @@ export class ExpansionService {
     private library: LibraryService,
     private provider?: ExpansionProvider,
   ) {}
+  forgetUser(userId: string) {
+    for (const [key, entry] of this.cache)
+      if (entry.userId === userId) this.cache.delete(key);
+    this.requests.delete(userId);
+  }
   async get(identity: Identity, request: ExpansionRequest) {
     const user = await this.library.actor(identity);
     let { input, meaning } = request;
@@ -107,9 +115,6 @@ export class ExpansionService {
       }
       try {
         value = await work;
-        this.cache.set(key, { until: Date.now() + 86400000, value });
-        if (this.cache.size > 500)
-          this.cache.delete(this.cache.keys().next().value!);
       } catch {
         throw new ServiceUnavailableException(
           "Expansion unavailable. The base translation is unchanged.",
@@ -124,6 +129,13 @@ export class ExpansionService {
       if (!current) throw new NotFoundException();
       if (current.consentVersion !== user.consentVersion)
         throw new ConflictException("Collection settings changed.");
+      this.cache.set(key, {
+        userId: user.id,
+        until: Date.now() + 86400000,
+        value,
+      });
+      if (this.cache.size > 500)
+        this.cache.delete(this.cache.keys().next().value!);
       if (lookup) {
         const row = await tx.lookupEvent.findFirst({
           where: {

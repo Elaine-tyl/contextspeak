@@ -1,3 +1,4 @@
+import { GeminiScenarioProvider } from "../apps/api/src/personalization/scenario.provider";
 import { GeminiExpansionProvider } from "../apps/api/src/expansion/expansion.provider";
 import { startLocalSpeech } from "./local-speech";
 import { OllamaSpeechProvider } from "../apps/api/src/speech/ollama-speech.provider";
@@ -39,6 +40,10 @@ if (
     "Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in .env.local. See docs/LOGIN.md. For local simulated sign-in only: pnpm dev:test.",
   );
 const ephemeral = process.env.CONTEXTSPEAK_EPHEMERAL === "1";
+if (process.env.NODE_ENV === "production")
+  throw new Error(
+    "The embedded development launcher cannot run in production.",
+  );
 await mkdir(".local", { recursive: true });
 const directory = ephemeral
   ? await mkdtemp(join(tmpdir(), "cs-dev-"))
@@ -149,6 +154,9 @@ try {
   app = await createApp({
     prisma,
     provider,
+    scenarioProvider: useGemini
+      ? new GeminiScenarioProvider(process.env.GEMINI_API_KEY ?? "")
+      : undefined,
     expansionProvider: useGemini
       ? new GeminiExpansionProvider(process.env.GEMINI_API_KEY ?? "")
       : undefined,

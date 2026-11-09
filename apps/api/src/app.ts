@@ -1,4 +1,12 @@
 import "reflect-metadata";
+import { PersonalizationService } from "./personalization/personalization.service";
+import { PersonalizationController } from "./personalization/personalization.controller";
+import type { ScenarioProvider } from "./personalization/scenario.provider";
+import { AccountController } from "./account/account.controller";
+import { AccountService } from "./account/account.service";
+import { OperationsController } from "./operations/operations.controller";
+import { OperationsService } from "./operations/operations.service";
+import { assertProductionConfig } from "./operations/production-config";
 import { ExpansionController } from "./expansion/expansion.controller";
 import { ExpansionService } from "./expansion/expansion.service";
 import type { ExpansionProvider } from "./expansion/expansion.provider";
@@ -34,6 +42,7 @@ import {
 export type AppConfig = (AuthConfig | { oidc: OidcConfig }) & {
   prisma: PrismaClient;
   expansionProvider?: ExpansionProvider;
+  scenarioProvider?: ScenarioProvider;
   speechProvider?: SpeechProvider;
   speechFallback?: SpeechProvider;
   speechCacheDir?: string;
@@ -42,11 +51,47 @@ export type AppConfig = (AuthConfig | { oidc: OidcConfig }) & {
   origins?: string[];
 };
 export async function createApp(config: AppConfig) {
+  assertProductionConfig({
+    testAuth: !("oidc" in config),
+    oidc: "oidc" in config ? config.oidc : undefined,
+    origins: config.origins,
+    providers: {
+      translation: config.provider,
+      speech: config.speechProvider,
+      speaking: config.speakingProvider,
+      expansion: config.expansionProvider,
+      scenario: config.scenarioProvider,
+      speechFallback: config.speechFallback,
+    },
+  });
+  const speechStore = config.speechCacheDir
+    ? new SpeechStore(config.prisma, config.speechCacheDir)
+    : undefined;
+  const operations = new OperationsService(
+    () => config.prisma.$queryRaw`SELECT 1`,
+  );
   const library = new LibraryService(
     config.prisma,
     config.provider ?? new FixtureTranslationProvider(),
   );
+  const speech = new SpeechService(
+    library,
+    config.speechProvider,
+    speechStore,
+    config.speechFallback,
+    (id, keep) => library.retainForUser(id, keep),
+  );
+  const expansion = new ExpansionService(
+    config.prisma,
+    library,
+    config.expansionProvider,
+  );
   const practice = new PracticeService(config.prisma, library);
+  const personalization = new PersonalizationService(
+    config.prisma,
+    library,
+    config.scenarioProvider,
+  );
   const auth =
     "oidc" in config
       ? new SessionService(config.prisma, config.oidc)
@@ -54,29 +99,41 @@ export async function createApp(config: AppConfig) {
   await auth?.init();
   @Module({
     controllers: [
+      OperationsController,
       GamesController,
       ProgressController,
+      PersonalizationController,
       ExpansionController,
       LibraryController,
       SpeechController,
       ReviewController,
       PracticeController,
       SpeakingController,
-      ...(auth ? [SessionController] : []),
+      ...(auth ? [SessionController, AccountController] : []),
     ],
     providers: [
       { provide: LibraryService, useValue: library },
+      { provide: PersonalizationService, useValue: personalization },
+      { provide: OperationsService, useValue: operations },
+      ...(auth
+        ? [
+            {
+              provide: AccountService,
+              useValue: new AccountService(config.prisma, speechStore, (id) => {
+                library.forgetUser(id);
+                speech.forgetUser(id);
+                expansion.forgetUser(id);
+              }),
+            },
+          ]
+        : []),
       {
         provide: ExpansionService,
-        useValue: new ExpansionService(
-          config.prisma,
-          library,
-          config.expansionProvider,
-        ),
+        useValue: expansion,
       },
       {
         provide: ProgressService,
-        useValue: new ProgressService(config.prisma, library),
+        useValue: new ProgressService(config.prisma, library, personalization),
       },
       {
         provide: GamesService,
@@ -88,14 +145,7 @@ export async function createApp(config: AppConfig) {
       },
       {
         provide: SpeechService,
-        useValue: new SpeechService(
-          library,
-          config.speechProvider,
-          config.speechCacheDir
-            ? new SpeechStore(config.prisma, config.speechCacheDir)
-            : undefined,
-          config.speechFallback,
-        ),
+        useValue: speech,
       },
       {
         provide: PracticeService,
@@ -154,10 +204,16 @@ export async function createApp(config: AppConfig) {
   });
   app.use(
     (
-      _req: unknown,
-      res: { setHeader: (name: string, value: string) => void },
+      req: { path: string },
+      res: {
+        setHeader: (name: string, value: string) => void;
+        statusCode: number;
+        once: (event: string, callback: () => void) => void;
+      },
       next: () => void,
     ) => {
+      if (!req.path.startsWith("/health/"))
+        res.once("finish", () => operations.recordRequest(res.statusCode));
       res.setHeader("Cache-Control", "no-store");
       res.setHeader("Referrer-Policy", "no-referrer");
       next();

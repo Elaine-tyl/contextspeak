@@ -209,3 +209,14 @@ export {
   expansionOutputSchema,
   type WordExpansion,
 } from "./expansion";
+
+export {
+  goalSettingsSchema,
+  learningProfileSchema,
+  scenarioOutputSchema,
+  type LearningProfile,
+  type GoalSettings,
+  type ScenarioSuggestion,
+  type PriorityItem,
+  type Personalization,
+} from "./personalization";

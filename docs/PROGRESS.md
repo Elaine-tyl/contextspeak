@@ -8,6 +8,8 @@ Listening/speaking averages use at most 100 scored vocabulary attempts and 100 s
 
 Speaking focus needs at least two different independent tasks with reliable scores; listening focus needs three. Repeating one task or receiving hints cannot alone establish a weakness. Game access comes from the same authoritative per-mode progression service as the game hub. Links open the correct mode; review links open the existing queue.
 
-The read-only `GET /v1/progress` endpoint uses bounded owned SQL reads and aggregates, without a model call or schema migration. The page refreshes data every 30 seconds, checks the session every three seconds, refreshes on return, keeps loaded metrics if a refresh fails, and clears account data on expiry/account change. Automatic progress retries pause after errors until Refresh/return; session checks continue.
+The read-only `GET /v1/progress` endpoint uses bounded owned SQL reads and aggregates, without a model call. The page refreshes data every 30 seconds, checks the session every three seconds, refreshes on return, keeps loaded metrics if a refresh fails, and clears account data on expiry/account change. Automatic progress retries pause after errors until Refresh/return; session checks continue.
 
 Regression coverage includes ownership, empty states, due versus paused cards, recent versus old events, unreliable-audio floods, self-check/old-rubric exclusion, repeated/assisted weakness evidence, per-mode levels, login redirects, stale-data display, initial failures and account cleanup. Real learner calibration remains a separate release gate.
+
+The same page includes the [personal learning plan](PERSONALIZATION.md): learner-confirmed goals, optional AI suggestions and inspectable priorities. The associated additive migration stores the profile on User. The progress endpoint itself never invokes AI. Account export/deletion is available from the shared Account link.

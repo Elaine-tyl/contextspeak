@@ -17,6 +17,7 @@ export default function Layout({ children }: { children: ReactNode }) {
           <Link href="/progress" aria-label="Open learning progress">
             Progress
           </Link>
+          <Link href="/account">Account</Link>
         </header>
         {children}
       </body>

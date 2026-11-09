@@ -6,18 +6,38 @@ import type { TranslationResult } from "./translation.provider";
 export class TranslationCache {
   private entries = new Map<
     string,
-    { expiresAt: number; result: TranslationResult }
+    { scope: string; expiresAt: number; result: TranslationResult }
   >();
-  private pending = new Map<string, Promise<TranslationResult>>();
+  private pending = new Map<
+    string,
+    { scope: string; work: Promise<TranslationResult> }
+  >();
+  private retain: (scope: string, keep: () => void) => Promise<void>;
   private ttlMs: number;
   private maxEntries: number;
   private now: () => number;
   constructor(
-    options: { ttlMs?: number; maxEntries?: number; now?: () => number } = {},
+    options: {
+      ttlMs?: number;
+      maxEntries?: number;
+      now?: () => number;
+      retain?: (scope: string, keep: () => void) => Promise<void>;
+    } = {},
   ) {
     this.ttlMs = options.ttlMs ?? 24 * 60 * 60 * 1000;
     this.maxEntries = options.maxEntries ?? 500;
     this.now = options.now ?? Date.now;
+    this.retain =
+      options.retain ??
+      (async (_scope, keep) => {
+        keep();
+      });
+  }
+  forget(scope: string) {
+    for (const [key, entry] of this.entries)
+      if (entry.scope === scope) this.entries.delete(key);
+    for (const [key, entry] of this.pending)
+      if (entry.scope === scope) this.pending.delete(key);
   }
   async translate(
     scope: string,
@@ -45,24 +65,30 @@ export class TranslationCache {
         return structuredClone(cached.result);
       }
     }
-    let work = this.pending.get(key);
-    if (!work) {
-      work = Promise.resolve()
+    let pending = this.pending.get(key);
+    if (!pending) {
+      const work = Promise.resolve()
         .then(load)
-        .then((result) => {
+        .then(async (result) => {
           const stored = structuredClone(result);
-          this.entries.set(key, {
-            expiresAt: this.now() + this.ttlMs,
-            result: stored,
+          await this.retain(scope, () => {
+            if (this.pending.get(key)?.work !== work) return;
+            this.entries.set(key, {
+              scope,
+              expiresAt: this.now() + this.ttlMs,
+              result: stored,
+            });
+            while (this.entries.size > this.maxEntries)
+              this.entries.delete(this.entries.keys().next().value!);
           });
-          while (this.entries.size > this.maxEntries)
-            this.entries.delete(this.entries.keys().next().value!);
           return stored;
         })
-        .finally(() => this.pending.delete(key));
-      this.pending.set(key, work);
+        .finally(() => {
+          if (this.pending.get(key)?.work === work) this.pending.delete(key);
+        });
+      pending = { scope, work };
+      this.pending.set(key, pending);
     }
-    // Neither callers nor persistence code can mutate the cached result.
-    return structuredClone(await work);
+    return structuredClone(await pending.work);
   }
 }

@@ -4,6 +4,7 @@ import {
   ForbiddenException,
   NotFoundException,
   ServiceUnavailableException,
+  UnauthorizedException,
 } from "@nestjs/common";
 import { Prisma, type PrismaClient, type LookupEvent } from "@prisma/client";
 import { createHash } from "node:crypto";
@@ -23,13 +24,16 @@ import {
   type TranslationProvider,
 } from "./translation.provider";
 import type { LibraryFilters } from "./library-filters";
+import { sessionOwner } from "../auth/identity";
 import { TranslationCache } from "./translation-cache";
 // Browser responses omit ownership and idempotency metadata.
 function publicLookup({ userId, payloadHash, ...record }: LookupEvent) {
   return record;
 }
 export class LibraryService {
-  private translationCache = new TranslationCache();
+  private translationCache = new TranslationCache({
+    retain: (userId, keep) => this.retainForUser(userId, keep),
+  });
   private timer?: NodeJS.Timeout;
   private running?: Promise<void>;
   constructor(
@@ -37,6 +41,18 @@ export class LibraryService {
     private provider: TranslationProvider,
   ) {}
   async actor(identity: Identity) {
+    const userId = sessionOwner(identity);
+    if (userId) {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          id: userId,
+          issuer: identity.issuer,
+          subject: identity.subject,
+        },
+      });
+      if (!user) throw new UnauthorizedException();
+      return user;
+    }
     const where = { issuer_subject: identity };
     try {
       return await this.prisma.user.upsert({
@@ -52,6 +68,17 @@ export class LibraryService {
         return this.prisma.user.findUniqueOrThrow({ where });
       throw e;
     }
+  }
+  forgetUser(userId: string) {
+    this.translationCache.forget(userId);
+  }
+  async retainForUser(userId: string, keep: () => void) {
+    await this.prisma.$transaction(async (tx) => {
+      const owners = await tx.$queryRaw<
+        { id: string }[]
+      >`SELECT id FROM "User" WHERE id = ${userId} FOR KEY SHARE`;
+      if (owners.length) keep();
+    });
   }
   async translationPreferences(
     identity: Identity,
