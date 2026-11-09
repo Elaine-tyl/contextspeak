@@ -36,8 +36,8 @@ export function DialogueSession({
           : `Conversation · turn ${turns.length + (waiting ? 0 : 1)} of 4`}
       </h2>
       <p>
-        Listen to your partner, record your reply, replay it and submit for AI
-        feedback. Each follow-up uses what you said. Four scored turns complete
+        Listen to your partner, record your reply and get AI feedback. Replay is
+        optional. Each follow-up uses what you said. Four scored turns complete
         the conversation; unclear audio can be recorded again.
       </p>
       {turns.map(({ partner, receipt }, index) => (

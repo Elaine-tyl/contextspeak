@@ -195,7 +195,7 @@ export class SpeakingService {
             eventId: input.eventId,
             lookupId: input.lookupId,
             payloadHash,
-            // Store consent and a digest, never the base64 recording or Blob URL.
+            // Store submission metadata and a digest, never the base64 recording or Blob URL.
             payload: {
               ...metadata,
               audioHash,

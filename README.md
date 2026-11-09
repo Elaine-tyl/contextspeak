@@ -106,7 +106,7 @@ Click a vocabulary card or its title to open its private full-detail page. Long 
 
 ## Listening and speaking practice
 
-Open **Listening & speaking** in the library sidebar, or choose **Practice listening and speaking** on a vocabulary detail page. Choose a saved example or an everyday English role-play: **Introductions**, **Making plans**, or **Asking for help**. Play AI audio, type exactly what you hear, and submit for a mark and word corrections before seeing the transcript. Switch to speaking to record and replay your own reply. Generated audio uses cached Gemini speech; microphone recordings stay local unless you explicitly consent and submit for AI speaking assessment. AI assessment adds a transcript, overall mark, five rubric estimates and practical feedback. Dictation marks, AI estimates and speaking self-checks stay separate from FSRS and mastery estimates. See [practice setup and limits](docs/PRACTICE.md).
+Open **Listening & speaking** in the library sidebar, or choose **Practice listening and speaking** on a vocabulary detail page. Choose a saved example or an everyday English role-play: **Introductions**, **Making plans**, or **Asking for help**. Play AI audio, type exactly what you hear, and submit for a mark and word corrections before seeing the transcript. Switch to speaking to record and replay your own reply. Generated audio uses cached Gemini speech; microphone recordings stay local unless you explicitly submit for AI speaking assessment. AI assessment adds a transcript, overall mark, five rubric estimates and practical feedback. Dictation marks, AI estimates and speaking self-checks stay separate from FSRS and mastery estimates. See [practice setup and limits](docs/PRACTICE.md).
 
 ## Learner usability updates
 

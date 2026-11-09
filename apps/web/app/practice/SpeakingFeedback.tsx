@@ -81,6 +81,26 @@ export function SpeakingFeedback({ result }: { result: SpeakingAssessment }) {
           </p>
         </>
       )}
+      {!!result.pronunciation?.length && (
+        <section aria-label="Pronunciation guidance">
+          <h4>Pronunciation · IPA</h4>
+          <p>
+            AI reference pronunciation. / / encloses sounds; ˈ marks the
+            stressed syllable. This does not transcribe exactly how you
+            pronounced the word.
+          </p>
+          <ul>
+            {result.pronunciation.map((item, index) => (
+              <li key={index}>
+                <strong>{item.word}</strong>{" "}
+                <span className="ipa">{item.ipa}</span>
+                <p>{item.stress}</p>
+                <p>{item.tip}</p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
       {!!result.strengths.length && (
         <>
           <h4>What went well</h4>

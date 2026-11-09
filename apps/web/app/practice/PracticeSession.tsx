@@ -119,8 +119,8 @@ export function PracticeSession({
         {listening
           ? "Listen to the AI voice and type exactly what you hear. Submit to see your mark and corrections."
           : task.scenario
-            ? "Listen to your partner, then record your own reply using the saved expression. Replay and self-check it."
-            : "Record a sentence using the expression. Replay it and self-check before starting another attempt."}
+            ? "Listen to your partner, record your reply using the saved expression, then get AI feedback. Replay is optional."
+            : "Record a sentence using the expression, then get AI feedback. Replay is optional; local self-checks remain available after replay."}
       </p>
       {(!listening || task.scenario) && (
         <p>

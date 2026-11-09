@@ -21,7 +21,7 @@ export class SpeakingController {
     const parsed = speakingUploadSchema.safeParse(body);
     if (!parsed.success)
       throw new BadRequestException(
-        "Replay a recording of up to 60 seconds and consent to AI assessment. Maximum upload: 2 MB.",
+        "Submit a recording of up to 60 seconds for AI feedback. Maximum upload: 2 MB.",
       );
     return this.speaking.submit(req.identity, id, parsed.data);
   }

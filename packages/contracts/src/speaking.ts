@@ -28,6 +28,28 @@ export const speakingModelSchema = z
       )
       .max(5)
       .optional(),
+    pronunciation: z
+      .array(
+        z
+          .object({
+            word: z
+              .string()
+              .trim()
+              .min(1)
+              .max(80)
+              .regex(/^[\p{L}\p{M}'’-]+$/u),
+            ipa: z
+              .string()
+              .trim()
+              .max(120)
+              .regex(/^\/[^\/\r\n]+\/$/u),
+            stress: z.string().trim().min(1).max(200),
+            tip: z.string().trim().min(1).max(400),
+          })
+          .strict(),
+      )
+      .max(3)
+      .optional(),
     nextTurn: z.string().trim().min(1).max(600).nullable().optional(),
     suggestedResponse: z.string().trim().max(1200),
   })
@@ -44,8 +66,8 @@ export const speakingUploadSchema = z
     scenario: scenarioSchema.optional(),
     conversation: z.literal(true).optional(),
     previousTurnId: z.uuid().optional(),
-    consent: z.literal(true),
-    replayed: z.literal(true),
+    consent: z.literal(true).optional(),
+    replayed: z.boolean(),
     revealed: z.boolean(),
     durationMs: z.number().int().min(1).max(60000),
     mimeType: z.enum(["audio/webm", "audio/mp4", "audio/wav", "audio/ogg"]),

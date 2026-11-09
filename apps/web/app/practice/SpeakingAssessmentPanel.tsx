@@ -44,7 +44,6 @@ export function SpeakingAssessmentPanel({
   onExpired(): void;
   onDiscard(): void;
 }) {
-  const [consent, setConsent] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<SpeakingAssessment | null>(null);
@@ -59,7 +58,7 @@ export function SpeakingAssessmentPanel({
     };
   }, []);
   async function submit() {
-    if (!consent || !replayed || busy || result || disabled) return;
+    if (busy || result || disabled) return;
     if (blob.size > 2 * 1024 * 1024) {
       setError(
         "This recording exceeds 2 MB. Record a shorter response for AI assessment.",
@@ -80,8 +79,7 @@ export function SpeakingAssessmentPanel({
           ...(conversation ? { conversation: true, ...conversation } : {}),
           lookupId: task.lookupId,
           ...(task.scenario ? { scenario: task.scenario.id } : {}),
-          consent: true,
-          replayed: true,
+          replayed,
           revealed,
           durationMs,
           mimeType: blob.type.split(";")[0],
@@ -130,34 +128,19 @@ export function SpeakingAssessmentPanel({
       className="speaking-assessment"
       aria-label="AI speaking assessment"
     >
-      <h3>Optional AI speaking assessment</h3>
-      <p>
-        Submit your recording and exercise prompt to Google Gemini. ContextSpeak
-        saves the transcript and AI feedback, not the recording. Google
-        processes uploads under its service terms and may use unpaid-service
-        data for product improvement.
-        {conversation &&
-          " Earlier dialogue text is included to generate a relevant follow-up."}
-      </p>
-      <label className="assessment-consent">
-        <input
-          type="checkbox"
-          checked={consent}
-          disabled={frozen || disabled || !!result}
-          onChange={(event) => setConsent(event.target.checked)}
-        />{" "}
-        I agree to send this recording and exercise prompt to Google for AI
-        assessment.
-      </label>
+      <h3>AI speaking feedback</h3>
+      <small>
+        Submit sends this recording and exercise context to Google Gemini.
+        {conversation && " Earlier dialogue text is included."} ContextSpeak
+        saves feedback, not the recording.
+      </small>
       {!result && (
         <button
           className="primary"
-          disabled={
-            !consent || !replayed || busy || disabled || task.language !== "en"
-          }
+          disabled={busy || disabled || task.language !== "en"}
           onClick={() => void submit()}
         >
-          Submit for AI assessment
+          Get AI feedback
         </button>
       )}
       {task.language !== "en" && (

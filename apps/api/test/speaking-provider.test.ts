@@ -82,6 +82,7 @@ it("returns_no_mark_for_silence_and_maps_quota_without_fabricated_feedback", asy
     speechDetected: false,
     overall: null,
     scores: null,
+    pronunciation: [],
   });
   const quota = new GeminiSpeakingProvider({
     apiKey: "fake",
@@ -95,6 +96,17 @@ it("rejects_invalid_scores_and_speech_without_a_transcript", async () => {
     { ...result, scores: { ...result.scores, clarity: 101 } },
     { ...result, transcript: "" },
     { ...result, scores: null },
+    {
+      ...result,
+      pronunciation: [
+        {
+          word: "available",
+          ipa: "missing IPA slashes",
+          stress: "VAIL",
+          tip: "Practise.",
+        },
+      ],
+    },
   ]) {
     const provider = new GeminiSpeakingProvider({
       apiKey: "fake",
@@ -200,4 +212,46 @@ it("does not fabricate a missing follow-up when generation is incomplete", async
   await expect(
     provider.assess({ ...input, dialogue: { turn: 1, history: [] } }),
   ).rejects.toMatchObject({ status: 503 });
+});
+
+it("returns bounded IPA guidance only for words grounded in the exercise or transcript", async () => {
+  const provider = new GeminiSpeakingProvider({
+    apiKey: "fake",
+    fetcher: (async () =>
+      new Response(
+        JSON.stringify({
+          candidates: [
+            {
+              finishReason: "STOP",
+              content: {
+                parts: [
+                  {
+                    text: JSON.stringify({
+                      ...result,
+                      pronunciation: [
+                        {
+                          word: "available",
+                          ipa: "/əˈveɪləbəl/",
+                          stress: "Stress the second syllable: VAIL.",
+                          tip: "Touch your lower lip lightly to your upper teeth for /v/.",
+                        },
+                        {
+                          word: "invented",
+                          ipa: "/test/",
+                          stress: "Test",
+                          tip: "Not in the recording.",
+                        },
+                      ],
+                    }),
+                  },
+                ],
+              },
+            },
+          ],
+        }),
+      )) as typeof fetch,
+  });
+  const feedback = await provider.assess(input);
+  expect(feedback.pronunciation).toHaveLength(1);
+  expect(feedback.pronunciation![0].ipa).toBe("/əˈveɪləbəl/");
 });

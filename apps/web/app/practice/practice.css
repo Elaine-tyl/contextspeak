@@ -71,12 +71,6 @@
   margin-top: 24px;
   padding-top: 16px;
 }
-.assessment-consent {
-  display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  margin: 16px 0;
-}
 .speaking-scores {
   display: flex;
   flex-wrap: wrap;
@@ -98,4 +92,9 @@
 [aria-label="Guided conversation"] > section {
   border-bottom: 1px solid #dce4db;
   margin-bottom: 24px;
+}
+
+.ipa {
+  font-family: "Noto Sans", "DejaVu Sans", sans-serif;
+  font-size: 1.1em;
 }

@@ -46,8 +46,7 @@ function input() {
     lookupId,
     audio,
     mimeType: "audio/wav",
-    consent: true,
-    replayed: true,
+    replayed: false,
     revealed: false,
     durationMs: 2000,
   };
@@ -97,11 +96,10 @@ afterAll(async () => {
   await issuer?.close();
   await db?.close();
 });
-it("checks_consent_ownership_media_and_bounds_before_calling_Gemini", async () => {
+it("checks_ownership_media_and_bounds_before_calling_Gemini", async () => {
   expect((await post(input(), "speaker-b")).status).toBe(404);
   for (const patch of [
     { consent: false },
-    { replayed: false },
     { audio: "not audio" },
     { audio: Buffer.from("plain text").toString("base64") },
     { durationMs: 60001 },

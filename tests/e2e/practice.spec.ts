@@ -577,12 +577,7 @@ test("practice_saves_through_the_real_API_and_native_recording_produces_decodabl
   ).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath("speaking-practice.png") });
   await page
-    .getByRole("checkbox", {
-      name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
-    })
-    .check();
-  await page
-    .getByRole("button", { name: "Submit for AI assessment", exact: true })
+    .getByRole("button", { name: "Get AI feedback", exact: true })
     .click();
   await expect(
     page.getByRole("heading", {
@@ -858,7 +853,7 @@ test("scenario_refresh_AI_loading_and_nearby_result_actions", async ({
   ).toHaveCount(0);
 });
 
-test("AI_speaking_requires_replay_and_consent_and_retries_one_frozen_recording", async ({
+test("AI_speaking_submits_directly_without_agreement_or_replay_and_retries_one_recording", async ({
   page,
 }) => {
   await setup(page);
@@ -894,6 +889,14 @@ test("AI_speaking_requires_replay_and_consent_and_retries_one_frozen_recording",
             improvements: ["Add a closing question."],
             suggestedResponse:
               "I am available on Saturday. Does that work for you?",
+            pronunciation: [
+              {
+                word: "available",
+                ipa: "/əˈveɪləbəl/",
+                stress: "Stress the second syllable: VAIL.",
+                tip: "Touch your lower lip lightly to your upper teeth for /v/.",
+              },
+            ],
             model: "fixture",
             rubricVersion: 1,
           },
@@ -908,23 +911,13 @@ test("AI_speaking_requires_replay_and_consent_and_retries_one_frozen_recording",
   await page
     .getByRole("button", { name: "Stop recording", exact: true })
     .click();
-  const consent = page.getByRole("checkbox", {
-    name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
-  });
-  await expect(consent).not.toBeChecked();
+  await expect(page.getByRole("checkbox")).toHaveCount(0);
   const submit = page.getByRole("button", {
-    name: "Submit for AI assessment",
+    name: "Get AI feedback",
     exact: true,
   });
-  await expect(submit).toBeDisabled();
+  await expect(submit).toBeEnabled();
   expect(uploads).toHaveLength(0);
-  await page
-    .getByLabel("Your recording")
-    .evaluate((element) =>
-      element.dispatchEvent(new Event("ended", { bubbles: true })),
-    );
-  await expect(submit).toBeDisabled();
-  await consent.check();
   await submit.click();
   await expect(page.locator("main").getByRole("alert")).toContainText(
     "not confirmed",
@@ -948,10 +941,16 @@ test("AI_speaking_requires_replay_and_consent_and_retries_one_frozen_recording",
   await expect(
     page.getByText("Add a closing question.", { exact: true }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("region", { name: "Pronunciation guidance" }),
+  ).toContainText("/əˈveɪləbəl/");
+  await expect(
+    page.getByRole("region", { name: "Pronunciation guidance" }),
+  ).toContainText("Stress the second syllable");
+  expect(uploads[0].consent).toBeUndefined();
   expect(uploads[0]).toEqual(uploads[1]);
   expect(uploads[0]).toMatchObject({
-    consent: true,
-    replayed: true,
+    replayed: false,
     mimeType: "audio/wav",
   });
   expect(uploads[0].audio.length).toBeGreaterThan(100);
@@ -999,12 +998,7 @@ test("unscorable_speaking_shows_no_numeric_mark", async ({ page }) => {
       element.dispatchEvent(new Event("ended", { bubbles: true })),
     );
   await page
-    .getByRole("checkbox", {
-      name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
-    })
-    .check();
-  await page
-    .getByRole("button", { name: "Submit for AI assessment", exact: true })
+    .getByRole("button", { name: "Get AI feedback", exact: true })
     .click();
   await expect(
     page.getByRole("heading", {
@@ -1018,7 +1012,7 @@ test("unscorable_speaking_shows_no_numeric_mark", async ({ page }) => {
   await expect(page.locator(".speaking-scores")).toHaveCount(0);
 });
 
-test("guided_dialogue_advances_four_turns_with_fresh_consent_and_red_speaking_suggestions", async ({
+test("guided_dialogue_advances_four_turns_with_direct_submit_and_red_speaking_suggestions", async ({
   page,
 }) => {
   await setup(page);
@@ -1097,19 +1091,15 @@ test("guided_dialogue_advances_four_turns_with_fresh_consent_and_red_speaking_su
       .evaluate((element) =>
         element.dispatchEvent(new Event("ended", { bubbles: true })),
       );
-    const consent = page.getByRole("checkbox", {
-      name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
-    });
-    await expect(consent).not.toBeChecked();
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
     await expect(
       page.getByRole("button", {
-        name: "Submit for AI assessment",
+        name: "Get AI feedback",
         exact: true,
       }),
-    ).toBeDisabled();
-    await consent.check();
+    ).toBeEnabled();
     await page
-      .getByRole("button", { name: "Submit for AI assessment", exact: true })
+      .getByRole("button", { name: "Get AI feedback", exact: true })
       .click();
     const completed = page.getByRole("region", {
       name: `Completed turn ${turn}`,
@@ -1242,13 +1232,9 @@ test("unclear_audio_mid_conversation_does_not_advance_or_lose_previous_turn", as
       .evaluate((element) =>
         element.dispatchEvent(new Event("ended", { bubbles: true })),
       );
-    const consent = page.getByRole("checkbox", {
-      name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
-    });
-    await expect(consent).not.toBeChecked();
-    await consent.check();
+    await expect(page.getByRole("checkbox")).toHaveCount(0);
     await page
-      .getByRole("button", { name: "Submit for AI assessment", exact: true })
+      .getByRole("button", { name: "Get AI feedback", exact: true })
       .click();
   }
   await recordReply();
