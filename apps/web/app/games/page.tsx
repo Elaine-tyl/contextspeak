@@ -19,6 +19,7 @@ export default function GamesPage() {
   const [loading, setLoading] = useState(true);
   const [track, setTrack] = useState<GameTrack>("listening");
   const [level, setLevel] = useState(1);
+  const [source, setSource] = useState("all");
   const [round, setRound] = useState<GameRound | null>(null);
   const [locked, setLocked] = useState(false);
   function expire() {
@@ -120,6 +121,14 @@ export default function GamesPage() {
   }
   const progress = catalog?.progress[track];
   const recommendation = catalog?.recommendations?.[track];
+  const visibleRounds =
+    catalog?.rounds.filter(
+      (value) =>
+        value.track === track &&
+        value.level === level &&
+        (source === "all" ||
+          (value.source?.provider ?? "ContextSpeak") === source),
+    ) ?? [];
   return (
     <main className="games-page">
       <Link href="/library">Back to library</Link>
@@ -213,34 +222,62 @@ export default function GamesPage() {
                 Refresh progress
               </button>
               <p className="section-copy">
-                Original English content · short excerpts · AI speech. PK is a
-                simulated AI training opponent, not a real player.
+                Original and credited open English content · short excerpts · AI
+                speech. PK is a simulated AI training opponent, not a real
+                player.
               </p>
-              <div className="game-grid">
-                {catalog.rounds
-                  .filter(
-                    (value) => value.track === track && value.level === level,
-                  )
-                  .map((value) => (
-                    <button
-                      className="game-tile"
-                      key={value.id}
-                      onClick={() => setRound(value)}
-                    >
-                      <small>{value.genre ?? value.kind}</small>
-                      <h2>{value.title}</h2>
-                      <p>
-                        {value.kind === "dictation"
-                          ? "Listen and write"
-                          : value.kind === "picture"
-                            ? "Listen and choose a picture"
-                            : value.track === "speaking"
-                              ? "Answer aloud · automatic AI feedback"
-                              : "Listen and answer"}
-                      </p>
-                      <span>Play →</span>
-                    </button>
+              <div className="game-source-filter">
+                <label htmlFor="game-content-source">Content source</label>
+                <select
+                  id="game-content-source"
+                  value={source}
+                  onChange={(event) => setSource(event.target.value)}
+                >
+                  <option value="all">All sources</option>
+                  <option value="ContextSpeak">ContextSpeak originals</option>
+                  {[
+                    ...new Set(
+                      catalog.rounds.flatMap((value) =>
+                        value.source ? [value.source.provider] : [],
+                      ),
+                    ),
+                  ].map((provider) => (
+                    <option key={provider} value={provider}>
+                      {provider}
+                    </option>
                   ))}
+                </select>
+              </div>
+              {visibleRounds.length === 0 && (
+                <p role="status">
+                  No exercises from this source at this level. Choose All
+                  sources or another unlocked level.
+                </p>
+              )}
+              <div className="game-grid">
+                {visibleRounds.map((value) => (
+                  <button
+                    className="game-tile"
+                    key={value.id}
+                    onClick={() => setRound(value)}
+                  >
+                    <small>
+                      {value.genre ?? value.kind} ·{" "}
+                      {value.source?.provider ?? "ContextSpeak"}
+                    </small>
+                    <h2>{value.title}</h2>
+                    <p>
+                      {value.kind === "dictation"
+                        ? "Listen and write"
+                        : value.kind === "picture"
+                          ? "Listen and choose a picture"
+                          : value.track === "speaking"
+                            ? "Answer aloud · automatic AI feedback"
+                            : "Listen and answer"}
+                    </p>
+                    <span>Play →</span>
+                  </button>
+                ))}
               </div>
             </>
           ) : (

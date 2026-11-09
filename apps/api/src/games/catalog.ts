@@ -1,3 +1,4 @@
+import { openChallenges } from "./open-content";
 import { beginnerChallenges } from "./beginner";
 import type { GameRound, GameProgress } from "@contextspeak/contracts";
 export type Challenge = GameRound & { answer: string; explanation: string };
@@ -181,7 +182,11 @@ const legacyChallenges: Challenge[] = passages.flatMap((texts, index) => {
     })),
   ];
 });
-export const challenges = [...beginnerChallenges, ...legacyChallenges];
+export const challenges = [
+  ...beginnerChallenges,
+  ...legacyChallenges,
+  ...openChallenges,
+];
 export function gameProgress(passedIds: string[]): GameProgress {
   const passed = new Set(passedIds);
   const result = {} as GameProgress;

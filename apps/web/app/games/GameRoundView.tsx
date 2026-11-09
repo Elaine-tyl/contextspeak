@@ -122,6 +122,23 @@ export function GameRoundView({
         Level {round.level} · {round.track} · {round.genre ?? round.kind}
       </p>
       <h2>{round.title}</h2>
+      {round.source && (
+        <p className="game-source-credit">
+          <a href={round.source.url} target="_blank" rel="noreferrer">
+            Source: {round.source.provider} · {round.source.title}
+          </a>
+          {" · "}
+          {round.source.author}
+          {" · "}
+          <a href={round.source.licenseUrl} target="_blank" rel="noreferrer">
+            {round.source.license}
+          </a>
+          <small>
+            Excerpt with whitespace normalised; exercise questions by
+            ContextSpeak. Audio is AI-generated.
+          </small>
+        </p>
+      )}
       <p>{round.instruction}</p>
       {!!round.criteria?.length && (
         <section aria-label="Answer requirements">

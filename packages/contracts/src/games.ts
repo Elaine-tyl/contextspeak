@@ -14,6 +14,15 @@ export type GameRound = {
   genre?: "Story" | "Drama" | "Literature" | "Novel excerpt";
   instruction: string;
   audioText: string;
+  source?: {
+    id: string;
+    provider: "Tatoeba" | "VOA Learning English" | "African Storybook";
+    title: string;
+    url: string;
+    author: string;
+    license: string;
+    licenseUrl: string;
+  };
   choices?: { id: string; label: string; picture?: PictureId }[];
   criteria?: string[];
   opponentScore?: number;

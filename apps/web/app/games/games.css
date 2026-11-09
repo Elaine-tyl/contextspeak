@@ -95,3 +95,26 @@
   font-size: 1.3rem;
   font-weight: bold;
 }
+
+.game-source-filter {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 20px;
+}
+.game-source-filter select {
+  font: inherit;
+  color: inherit;
+  padding: 10px;
+  border: 1px solid #acbdae;
+  border-radius: 8px;
+  background: white;
+}
+.game-source-credit {
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+.game-source-credit small {
+  display: block;
+}

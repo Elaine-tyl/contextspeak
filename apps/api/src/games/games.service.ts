@@ -152,7 +152,8 @@ export class GamesService {
           },
         });
         feedback.speaking = assessment;
-        if (assessment.speechDetected) feedback.correctAnswer = round.answer;
+        if (assessment.speechDetected && !round.source)
+          feedback.correctAnswer = round.answer;
         score =
           assessment.overall === null || !assessment.scores
             ? null

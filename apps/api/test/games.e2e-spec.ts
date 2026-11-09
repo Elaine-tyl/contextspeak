@@ -58,8 +58,17 @@ it("requires authentication, hides solutions and rejects forged marks and locked
   );
   const value = await catalog();
   expect(value.status).toBe(200);
-  expect(value.body.rounds).toHaveLength(83);
+  expect(value.body.rounds).toHaveLength(179);
   expect(value.body.rounds[0]).not.toHaveProperty("answer");
+  const imported = value.body.rounds.find(
+    (round: { id: string }) => round.id === "open-tatoeba-12335770-listen-v1",
+  );
+  expect(imported.source).toMatchObject({
+    provider: "Tatoeba",
+    license: "CC0-1.0",
+    author: "Miktsoanit",
+  });
+  expect(imported).not.toHaveProperty("answer");
   expect(value.body.progress.listening.level).toBe(1);
   expect(
     (await post({ ...answer("listen-1-0-v2", "text"), score: 100 })).status,
@@ -230,4 +239,33 @@ it("does_not_recreate_deleted_accounts_after_AI_finishes_and_cascades_saved_game
     await db.prisma.gameAttempt.count({ where: { userId: other.id } }),
   ).toBe(0);
   expect(await db.prisma.gameAttempt.count()).toBeGreaterThan(0);
+});
+
+it("grades and saves an imported excerpt with the same replay-safe practice flow", async () => {
+  const body = answer("open-tatoeba-12335770-listen-v1", "Help is available.");
+  const first = await post(body, "open-content-a");
+  expect(first.status).toBe(201);
+  expect(first.body.score).toBe(100);
+  expect((await post(body, "open-content-a")).body.id).toBe(first.body.id);
+  const row = await db.prisma.gameAttempt.findUniqueOrThrow({
+    where: { id: first.body.id },
+  });
+  expect(row.roundId).toBe(body.roundId);
+});
+
+it("assesses imported open speaking questions without inventing a single correct answer", async () => {
+  const audio = (await new FixtureSpeechProvider().generate()).audio;
+  const result = await post(
+    {
+      ...answer("open-tatoeba-12335770-speak-v1"),
+      audio,
+      mimeType: "audio/wav",
+      durationMs: 1000,
+    },
+    "open-speaking-a",
+  );
+  expect(result.status).toBe(201);
+  expect(result.body.score).toBe(80);
+  expect(result.body.feedback.speaking.rubricVersion).toBe(2);
+  expect(result.body.feedback).not.toHaveProperty("correctAnswer");
 });

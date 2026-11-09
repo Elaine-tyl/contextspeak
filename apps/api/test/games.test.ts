@@ -19,8 +19,8 @@ it("unlocks only after three different passing rounds, independently per skill",
   expect(gameProgress([...ids, ...second]).listening.level).toBe(3);
 });
 it("has immutable distinct rounds with answer-free public content and enough challenges per level", () => {
-  expect(challenges).toHaveLength(83);
-  expect(new Set(challenges.map((round) => round.id)).size).toBe(83);
+  expect(challenges).toHaveLength(179);
+  expect(new Set(challenges.map((round) => round.id)).size).toBe(179);
   for (const round of challenges) {
     expect(round.audioText.length).toBeLessThanOrEqual(2000);
     expect(publicRound(round)).not.toHaveProperty("answer");

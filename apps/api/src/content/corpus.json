@@ -1,0 +1,740 @@
+{
+  "version": 1,
+  "reviewedAt": "2026-11-09",
+  "sources": [
+    {
+      "id": "tatoeba-12335770",
+      "provider": "Tatoeba",
+      "title": "Sentence 12335770",
+      "url": "https://tatoeba.org/en/sentences/show/12335770",
+      "author": "Miktsoanit",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/12335770"
+    },
+    {
+      "id": "tatoeba-10359359",
+      "provider": "Tatoeba",
+      "title": "Sentence 10359359",
+      "url": "https://tatoeba.org/en/sentences/show/10359359",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10359359"
+    },
+    {
+      "id": "tatoeba-10031067",
+      "provider": "Tatoeba",
+      "title": "Sentence 10031067",
+      "url": "https://tatoeba.org/en/sentences/show/10031067",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10031067"
+    },
+    {
+      "id": "tatoeba-12434371",
+      "provider": "Tatoeba",
+      "title": "Sentence 12434371",
+      "url": "https://tatoeba.org/en/sentences/show/12434371",
+      "author": "Miktsoanit",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/12434371"
+    },
+    {
+      "id": "tatoeba-10393577",
+      "provider": "Tatoeba",
+      "title": "Sentence 10393577",
+      "url": "https://tatoeba.org/en/sentences/show/10393577",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10393577"
+    },
+    {
+      "id": "tatoeba-9825714",
+      "provider": "Tatoeba",
+      "title": "Sentence 9825714",
+      "url": "https://tatoeba.org/en/sentences/show/9825714",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/9825714"
+    },
+    {
+      "id": "tatoeba-12335895",
+      "provider": "Tatoeba",
+      "title": "Sentence 12335895",
+      "url": "https://tatoeba.org/en/sentences/show/12335895",
+      "author": "Miktsoanit",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/12335895"
+    },
+    {
+      "id": "tatoeba-11197067",
+      "provider": "Tatoeba",
+      "title": "Sentence 11197067",
+      "url": "https://tatoeba.org/en/sentences/show/11197067",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/11197067"
+    },
+    {
+      "id": "tatoeba-9414247",
+      "provider": "Tatoeba",
+      "title": "Sentence 9414247",
+      "url": "https://tatoeba.org/en/sentences/show/9414247",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/9414247"
+    },
+    {
+      "id": "tatoeba-12416584",
+      "provider": "Tatoeba",
+      "title": "Sentence 12416584",
+      "url": "https://tatoeba.org/en/sentences/show/12416584",
+      "author": "ddnktr",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/12416584"
+    },
+    {
+      "id": "tatoeba-11923196",
+      "provider": "Tatoeba",
+      "title": "Sentence 11923196",
+      "url": "https://tatoeba.org/en/sentences/show/11923196",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/11923196"
+    },
+    {
+      "id": "tatoeba-11692003",
+      "provider": "Tatoeba",
+      "title": "Sentence 11692003",
+      "url": "https://tatoeba.org/en/sentences/show/11692003",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/11692003"
+    },
+    {
+      "id": "tatoeba-10090233",
+      "provider": "Tatoeba",
+      "title": "Sentence 10090233",
+      "url": "https://tatoeba.org/en/sentences/show/10090233",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10090233"
+    },
+    {
+      "id": "tatoeba-11692004",
+      "provider": "Tatoeba",
+      "title": "Sentence 11692004",
+      "url": "https://tatoeba.org/en/sentences/show/11692004",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/11692004"
+    },
+    {
+      "id": "tatoeba-10164911",
+      "provider": "Tatoeba",
+      "title": "Sentence 10164911",
+      "url": "https://tatoeba.org/en/sentences/show/10164911",
+      "author": "ddnktr",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10164911"
+    },
+    {
+      "id": "tatoeba-10782114",
+      "provider": "Tatoeba",
+      "title": "Sentence 10782114",
+      "url": "https://tatoeba.org/en/sentences/show/10782114",
+      "author": "ddnktr",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10782114"
+    },
+    {
+      "id": "tatoeba-12417932",
+      "provider": "Tatoeba",
+      "title": "Sentence 12417932",
+      "url": "https://tatoeba.org/en/sentences/show/12417932",
+      "author": "ddnktr",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/12417932"
+    },
+    {
+      "id": "tatoeba-11817683",
+      "provider": "Tatoeba",
+      "title": "Sentence 11817683",
+      "url": "https://tatoeba.org/en/sentences/show/11817683",
+      "author": "ddnktr",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/11817683"
+    },
+    {
+      "id": "tatoeba-11885107",
+      "provider": "Tatoeba",
+      "title": "Sentence 11885107",
+      "url": "https://tatoeba.org/en/sentences/show/11885107",
+      "author": "shekitten",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/11885107"
+    },
+    {
+      "id": "tatoeba-10054539",
+      "provider": "Tatoeba",
+      "title": "Sentence 10054539",
+      "url": "https://tatoeba.org/en/sentences/show/10054539",
+      "author": "ddnktr",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10054539"
+    },
+    {
+      "id": "tatoeba-12277697",
+      "provider": "Tatoeba",
+      "title": "Sentence 12277697",
+      "url": "https://tatoeba.org/en/sentences/show/12277697",
+      "author": "Miktsoanit",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/12277697"
+    },
+    {
+      "id": "tatoeba-12486850",
+      "provider": "Tatoeba",
+      "title": "Sentence 12486850",
+      "url": "https://tatoeba.org/en/sentences/show/12486850",
+      "author": "Miktsoanit",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/12486850"
+    },
+    {
+      "id": "tatoeba-10054542",
+      "provider": "Tatoeba",
+      "title": "Sentence 10054542",
+      "url": "https://tatoeba.org/en/sentences/show/10054542",
+      "author": "ddnktr",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10054542"
+    },
+    {
+      "id": "tatoeba-10172923",
+      "provider": "Tatoeba",
+      "title": "Sentence 10172923",
+      "url": "https://tatoeba.org/en/sentences/show/10172923",
+      "author": "ddnktr",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "fetchUrl": "https://api.tatoeba.org/v1/sentences/10172923"
+    },
+    {
+      "id": "voa-lesson1",
+      "provider": "VOA Learning English",
+      "title": "Welcome!",
+      "url": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-one/3111026.html",
+      "author": "Voice of America",
+      "license": "Public-domain-VOA",
+      "licenseUrl": "https://learningenglish.voanews.com/p/6861.html",
+      "fetchUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-one/3111026.html"
+    },
+    {
+      "id": "voa-lesson2",
+      "provider": "VOA Learning English",
+      "title": "Hello, I'm Anna!",
+      "url": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-2-hello/3113733.html",
+      "author": "Voice of America",
+      "license": "Public-domain-VOA",
+      "licenseUrl": "https://learningenglish.voanews.com/p/6861.html",
+      "fetchUrl": "https://learningenglish.voanews.com/a/lets-learn-english-lesson-2-hello/3113733.html"
+    },
+    {
+      "id": "asp-0001",
+      "provider": "African Storybook",
+      "title": "A very tall man",
+      "url": "https://github.com/global-asp/asp-source/blob/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0001_a-very-tall-man.md",
+      "author": "Cornelius Gulere",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "fetchUrl": "https://raw.githubusercontent.com/global-asp/asp-source/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0001_a-very-tall-man.md"
+    },
+    {
+      "id": "asp-0008",
+      "provider": "African Storybook",
+      "title": "What are you doing?",
+      "url": "https://github.com/global-asp/asp-source/blob/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0008_what-are-you-doing.md",
+      "author": "Nina Orange",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "fetchUrl": "https://raw.githubusercontent.com/global-asp/asp-source/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0008_what-are-you-doing.md"
+    },
+    {
+      "id": "asp-0087",
+      "provider": "African Storybook",
+      "title": "I like to read!",
+      "url": "https://github.com/global-asp/asp-source/blob/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0087_i-like-to-read.md",
+      "author": "Letta Machoga",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "fetchUrl": "https://raw.githubusercontent.com/global-asp/asp-source/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0087_i-like-to-read.md"
+    },
+    {
+      "id": "asp-0124",
+      "provider": "African Storybook",
+      "title": "A Fish and a Gift",
+      "url": "https://github.com/global-asp/asp-source/blob/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0124_a-fish-and-a-gift.md",
+      "author": "Liesl Jobson",
+      "license": "CC-BY-3.0",
+      "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+      "fetchUrl": "https://raw.githubusercontent.com/global-asp/asp-source/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0124_a-fish-and-a-gift.md"
+    }
+  ],
+  "excerpts": [
+    {
+      "id": "tatoeba-12335770",
+      "sourceId": "tatoeba-12335770",
+      "text": "Help is available.",
+      "level": 1,
+      "topic": "help",
+      "question": "How would you offer help to a friend? Give a short phrase.",
+      "sha256": "cdb709af218a8aa161f86609303dd98900da11423448faba8fedc7ec4f9d7ff8"
+    },
+    {
+      "id": "tatoeba-10359359",
+      "sourceId": "tatoeba-10359359",
+      "text": "We helped people.",
+      "level": 2,
+      "topic": "help",
+      "question": "Who did you help recently? Give one simple sentence.",
+      "sha256": "06c570f9b84f1632c42ff2adc3b5e6e5b577f651ca99c12facf4cb2c24fb6847"
+    },
+    {
+      "id": "tatoeba-10031067",
+      "sourceId": "tatoeba-10031067",
+      "text": "That isn't helpful.",
+      "level": 2,
+      "topic": "help",
+      "question": "A friend says your idea is not helpful. What could you say politely?",
+      "sha256": "d9a22694cf3ae2f2b9bc206f14f7142cd170593413fadbd16e1f82351b3ce023"
+    },
+    {
+      "id": "tatoeba-12434371",
+      "sourceId": "tatoeba-12434371",
+      "text": "Help me pick a movie.",
+      "level": 3,
+      "topic": "help",
+      "question": "What movie would you suggest to a friend? Give a short answer.",
+      "sha256": "8b0f78f72147de9728da0b3960502954aa8fa2e8e458314b36ff5f753fad6ba5"
+    },
+    {
+      "id": "tatoeba-10393577",
+      "sourceId": "tatoeba-10393577",
+      "text": "Everyone helped each other out.",
+      "level": 4,
+      "topic": "help",
+      "question": "Describe one way a group of friends can help each other.",
+      "sha256": "973f51f1e21778b5f11b5f6e92184d0bb44b0a75958fc9f45c461658a8d63359"
+    },
+    {
+      "id": "tatoeba-9825714",
+      "sourceId": "tatoeba-9825714",
+      "text": "Help yourself to some punch.",
+      "level": 4,
+      "topic": "help",
+      "question": "Invite a guest to have a drink. Use a polite offer.",
+      "sha256": "8d1723b283a6c33528c4627d5c398dd127e726d9bb9dee91810275250c823ec2"
+    },
+    {
+      "id": "tatoeba-12335895",
+      "sourceId": "tatoeba-12335895",
+      "text": "Meet me there at two-thirty.",
+      "level": 3,
+      "topic": "meet",
+      "question": "Tell a friend where and when to meet.",
+      "sha256": "0145054d4dc54ce27a34e187f7f99e6cfff59f1f380ee947120ebeb07833b1a2"
+    },
+    {
+      "id": "tatoeba-11197067",
+      "sourceId": "tatoeba-11197067",
+      "text": "Tom took notes at the meeting.",
+      "level": 4,
+      "topic": "meet",
+      "question": "Why might you take notes at a meeting? Give one reason.",
+      "sha256": "7e146182d470761db34751f57414c2068e80d4eb90276e1886644e4c8bed1d24"
+    },
+    {
+      "id": "tatoeba-9414247",
+      "sourceId": "tatoeba-9414247",
+      "text": "We should try to meet another time.",
+      "level": 5,
+      "topic": "meet",
+      "question": "You cannot meet today. Suggest another time politely.",
+      "sha256": "caf12a93e686e25515f4b19b1e433f4699f5991cdd910ceba96c631c4f7b4831"
+    },
+    {
+      "id": "tatoeba-12416584",
+      "sourceId": "tatoeba-12416584",
+      "text": "Tom wore a business suit to the meeting.",
+      "level": 5,
+      "topic": "meet",
+      "question": "What would you wear to a work meeting, and why?",
+      "sha256": "c7bba78a462a994cff038ddcc700ac73682f0ddeab3fc8655c56d5b9ce6b06c4"
+    },
+    {
+      "id": "tatoeba-11923196",
+      "sourceId": "tatoeba-11923196",
+      "text": "Give people time.",
+      "level": 1,
+      "topic": "time",
+      "question": "Ask a friend to wait. A short phrase is enough.",
+      "sha256": "65fa57b037a0e92f66c40aa9fef214ce8e58e781b653c93c7840e998bfdadfc4"
+    },
+    {
+      "id": "tatoeba-11692003",
+      "sourceId": "tatoeba-11692003",
+      "text": "What time was that?",
+      "level": 2,
+      "topic": "time",
+      "question": "Ask someone what time an event happened.",
+      "sha256": "f7b34e995f33ea5416f6cf4a946e9b468ef67437c7a521d9e25ae8548b96698f"
+    },
+    {
+      "id": "tatoeba-10090233",
+      "sourceId": "tatoeba-10090233",
+      "text": "Language changes over time.",
+      "level": 4,
+      "topic": "time",
+      "question": "Give one example of a word or phrase that has changed over time.",
+      "sha256": "4f23986fbfbb1c9909bc1835980b130a60fac8b2c33c72e5b7faed449f9cd29a"
+    },
+    {
+      "id": "tatoeba-11692004",
+      "sourceId": "tatoeba-11692004",
+      "text": "What time did you say?",
+      "level": 3,
+      "topic": "time",
+      "question": "You did not hear the meeting time. Ask for it again.",
+      "sha256": "00aaeed98cbb5ef3f52616f8c9aa73b7ca32067123d0c9637102e7017569f9dc"
+    },
+    {
+      "id": "tatoeba-10164911",
+      "sourceId": "tatoeba-10164911",
+      "text": "Our plans fell through.",
+      "level": 5,
+      "topic": "plan",
+      "question": "Your weekend plan was cancelled. Explain what happened and suggest an alternative.",
+      "sha256": "e16e4f9fe84e8ef2ee28208e3f31e8a5235a8a8b86a45157f8f8706921839bf5"
+    },
+    {
+      "id": "tatoeba-10782114",
+      "sourceId": "tatoeba-10782114",
+      "text": "Just stick to the plan.",
+      "level": 3,
+      "topic": "plan",
+      "question": "Ask a friend to follow your plan. Give one simple sentence.",
+      "sha256": "f44e52e69c8623bd36fe84a2129dd987efacae5bf8047d52d26bd434cbdf76a0"
+    },
+    {
+      "id": "tatoeba-12417932",
+      "sourceId": "tatoeba-12417932",
+      "text": "We need to devise a plan.",
+      "level": 5,
+      "topic": "plan",
+      "question": "Plan a short outing with a friend. Suggest a first step and give a reason.",
+      "sha256": "c39f9c2c7d4de06eb46871836a71b62251c9cc0055b68b5b39df442643c96a85"
+    },
+    {
+      "id": "tatoeba-11817683",
+      "sourceId": "tatoeba-11817683",
+      "text": "Every detail was planned thoroughly in advance.",
+      "level": 7,
+      "topic": "plan",
+      "question": "Describe how you would prepare an event. Give two details and explain why they matter.",
+      "sha256": "087b5a7687e946b52b68494c83748a86b85189b5c1b40c70acaa3f0ae3e4a6ef"
+    },
+    {
+      "id": "tatoeba-11885107",
+      "sourceId": "tatoeba-11885107",
+      "text": "I work at a library.",
+      "level": 3,
+      "topic": "library",
+      "question": "Say where you work or study. Give one simple sentence.",
+      "sha256": "28054172ce0ba9edbbcafe0b7e49b818571114604fa1e0299b08988dd2f74e87"
+    },
+    {
+      "id": "tatoeba-10054539",
+      "sourceId": "tatoeba-10054539",
+      "text": "Tom checked out a book from the local library.",
+      "level": 5,
+      "topic": "library",
+      "question": "Tell a friend about a book you would like to borrow and why.",
+      "sha256": "784c80b9c56235008aa36b3f9385c03732ded5deba932a47848a488fcac3e31f"
+    },
+    {
+      "id": "tatoeba-12277697",
+      "sourceId": "tatoeba-12277697",
+      "text": "I'm off to the library to use the copier.",
+      "level": 5,
+      "topic": "library",
+      "question": "Ask someone where you can make a copy of a document.",
+      "sha256": "c109714346ca0c3b68628dc4e0c77e868206d6f88af8d513b2797bf406144156"
+    },
+    {
+      "id": "tatoeba-12486850",
+      "sourceId": "tatoeba-12486850",
+      "text": "Tom has a free community library in front of his house.",
+      "level": 6,
+      "topic": "library",
+      "question": "Would you use a community library? Explain one benefit and one practical concern.",
+      "sha256": "7c3f3cefcd5d280f2e6d0faf4e677b027bcbce65f8037979ad8d4559a14ed97c"
+    },
+    {
+      "id": "tatoeba-10054542",
+      "sourceId": "tatoeba-10054542",
+      "text": "Tom didn't return his library book on time and had to pay a late fee.",
+      "level": 7,
+      "topic": "library",
+      "question": "You returned a book late. Explain the problem politely and ask what to do next.",
+      "sha256": "5ca3a51e60bb8744903b39dc38d2748a68170b9f94d37e9b491b4934623177f2"
+    },
+    {
+      "id": "tatoeba-10172923",
+      "sourceId": "tatoeba-10172923",
+      "text": "During finals week, the first and second floors of the library will be open twenty-four seven.",
+      "level": 8,
+      "topic": "library",
+      "question": "Compare two study places during exams. Give advantages and explain which you would choose.",
+      "sha256": "4c4137c8cb1f4f5ff251419c1782e4cb96638e3061a9cebc49534666a1dd74cd"
+    },
+    {
+      "id": "voa-lesson1-1",
+      "sourceId": "voa-lesson1",
+      "text": "Hi! Are you Anna?",
+      "level": 2,
+      "topic": "greetings",
+      "question": "Say hello and ask someone their name.",
+      "sha256": "57e30687cfea94432c024cfa267f8526984d0df144e1e4e661d65c2cd8b78b12"
+    },
+    {
+      "id": "voa-lesson1-2",
+      "sourceId": "voa-lesson1",
+      "text": "I am Pete.",
+      "level": 1,
+      "topic": "introductions",
+      "question": "Introduce yourself. A name in a short phrase is enough.",
+      "sha256": "0fa72545adc6180a52093c9a0acc4ad1825060367b742abd52bcb81c6876ebdc"
+    },
+    {
+      "id": "voa-lesson1-3",
+      "sourceId": "voa-lesson1",
+      "text": "Nice to meet you.",
+      "level": 2,
+      "topic": "greetings",
+      "question": "What would you say after meeting a new person?",
+      "sha256": "39954823f73a76e35ec7280de44b2eb4b26399ecdc00a2b3640db22375d3a4b3"
+    },
+    {
+      "id": "voa-lesson1-4",
+      "sourceId": "voa-lesson1",
+      "text": "Let's try that again. I'm Anna. Nice to meet you.",
+      "level": 4,
+      "topic": "introductions",
+      "question": "Introduce yourself again after someone did not hear your name.",
+      "sha256": "3fcfc70ec29b58c8d7ee7badde2528c65eeb848eece078e177e75665bb68effb"
+    },
+    {
+      "id": "voa-lesson1-5",
+      "sourceId": "voa-lesson1",
+      "text": "Yes! Hi there! Are you Pete?",
+      "level": 3,
+      "topic": "greetings",
+      "question": "You think you recognise a person. Greet them and check their name.",
+      "sha256": "bb96990c5cdeab7e0613d1a79a0e4ed12d7554add53bf1b34203459b8bd073cc"
+    },
+    {
+      "id": "voa-lesson1-6",
+      "sourceId": "voa-lesson1",
+      "text": "My new apartment! Yes!",
+      "level": 3,
+      "topic": "home",
+      "question": "Tell a friend one thing about your home.",
+      "sha256": "7d70c1f94c64573bc0d97d68fe7560c6af6089382f8d95878d93881c87521f5d"
+    },
+    {
+      "id": "voa-lesson2-1",
+      "sourceId": "voa-lesson2",
+      "text": "Where are you from?",
+      "level": 2,
+      "topic": "introductions",
+      "question": "Ask a new friend where they are from.",
+      "sha256": "63265a79774350462d4ce11d5a90687ff8e6f2511bb512e0409be568b6be7046"
+    },
+    {
+      "id": "voa-lesson2-2",
+      "sourceId": "voa-lesson2",
+      "text": "I am from a small town.",
+      "level": 3,
+      "topic": "introductions",
+      "question": "Say where you are from in one sentence.",
+      "sha256": "ba17f32f86dfe32b8c95010aad4177863691726953029aa73c1f1d44a960724b"
+    },
+    {
+      "id": "voa-lesson2-3",
+      "sourceId": "voa-lesson2",
+      "text": "She is Anna. She is new to D.C.",
+      "level": 4,
+      "topic": "introductions",
+      "question": "Introduce a new classmate to a friend.",
+      "sha256": "fefadeea00623688618d809856470a73f219d30251c186a3df7cb01ff1489a78"
+    },
+    {
+      "id": "voa-lesson2-4",
+      "sourceId": "voa-lesson2",
+      "text": "I am Jonathan. I am in apartment B4.",
+      "level": 4,
+      "topic": "home",
+      "question": "Introduce yourself to a new neighbour and say where you live.",
+      "sha256": "89754b363b2f66022fdc9b3ed919da0e75f42d68d9b28db21fb7a382548e7353"
+    },
+    {
+      "id": "voa-lesson2-5",
+      "sourceId": "voa-lesson2",
+      "text": "I know Marsha. She is nice.",
+      "level": 3,
+      "topic": "friends",
+      "question": "Describe a friend in one simple sentence.",
+      "sha256": "408ae112a768bb32a13e0abaadc8dd323d4657e5082847133d2976ccc0deba7a"
+    },
+    {
+      "id": "voa-lesson2-6",
+      "sourceId": "voa-lesson2",
+      "text": "Remember to call Marsha at work. Tell her you’re here.",
+      "level": 5,
+      "topic": "plans",
+      "question": "Remind a friend to call someone. Explain what they should say.",
+      "sha256": "7bee7b709325de3caa45b60197dfcab5572bc1b323d866a54239b80e7409425d"
+    },
+    {
+      "id": "asp-0001-1",
+      "sourceId": "asp-0001",
+      "text": "His hoe was too short.",
+      "level": 3,
+      "topic": "story",
+      "question": "Name something that is too short for you.",
+      "sha256": "8aab5003cdbf83b30083ca4e168f9e324b318990172fe9b5d09573524bf01e85"
+    },
+    {
+      "id": "asp-0001-3",
+      "sourceId": "asp-0001",
+      "text": "His bed was too short.",
+      "level": 3,
+      "topic": "story",
+      "question": "Describe your bed in one sentence.",
+      "sha256": "17786669c9cfb0321a19a1fd866650f2f9f5db49cf6c8df892b900f5a8f3bccb"
+    },
+    {
+      "id": "asp-0001-6",
+      "sourceId": "asp-0001",
+      "text": "He made a very long hoe handle.",
+      "level": 4,
+      "topic": "story",
+      "question": "How could someone make a tool easier to use? Give one idea.",
+      "sha256": "0101442cb1283310f72c10d18209aa032c75f5f70a3d4a4dfbf33ade8b8f2c6a"
+    },
+    {
+      "id": "asp-0001-10",
+      "sourceId": "asp-0001",
+      "text": "He sat on a very high chair. He ate with a very long fork.",
+      "level": 5,
+      "topic": "story",
+      "question": "Describe two objects you use every day.",
+      "sha256": "aea88935b4f926d7639ce8f82a1e191504523f6fa9b5ffdddbd6086b04274008"
+    },
+    {
+      "id": "asp-0001-11",
+      "sourceId": "asp-0001",
+      "text": "He left his house and lived in a big forest. He lived for many years.",
+      "level": 6,
+      "topic": "story",
+      "question": "Would you prefer to live in a forest or a town? Explain your choice.",
+      "sha256": "f83c5dc8065372bdd24d82475c69be7512cbb1f6495a738e2f7332ccd581368d"
+    },
+    {
+      "id": "asp-0008-1",
+      "sourceId": "asp-0008",
+      "text": "I am singing.",
+      "level": 1,
+      "topic": "story",
+      "question": "What are you doing now? Give a short sentence.",
+      "sha256": "7628fa9d89374561a53bda11dd5fe33f1f0b42e3d63a1a9d7c8f0caed676f3e3"
+    },
+    {
+      "id": "asp-0008-2",
+      "sourceId": "asp-0008",
+      "text": "She is waving.",
+      "level": 1,
+      "topic": "story",
+      "question": "What are you doing now? Give a short sentence.",
+      "sha256": "2f5b3b1bd8baab85714d77ff4813b7ab21d980b7bd582c6c8050e754cb5c5109"
+    },
+    {
+      "id": "asp-0008-3",
+      "sourceId": "asp-0008",
+      "text": "I am clapping.",
+      "level": 1,
+      "topic": "story",
+      "question": "What are you doing now? Give a short sentence.",
+      "sha256": "b9e24f03a7f3aaaa4903e0886337be25c21801514fdbf9d02ec00f7e434eca8c"
+    },
+    {
+      "id": "asp-0087-1",
+      "sourceId": "asp-0087",
+      "text": "I like to read. Who can I read to? My sister is asleep. Who can I read to? My mother and grandmother are busy. Who can I read to? My father and grandfather are busy. Who can I read to? I can read to myself!",
+      "level": 7,
+      "topic": "story",
+      "question": "Summarise why the child reads alone. Then describe who you like to read or study with.",
+      "sha256": "ed6ce021f1501a86df2af711e23e4d989364abcdaa205fa62f2328bd74eed0d7"
+    },
+    {
+      "id": "asp-0124-1",
+      "sourceId": "asp-0124",
+      "text": "One special Friday Yusuf's father gets dressed before a flicker of light brightens the sky. He pulls on his heavy weatherproof jacket and the green woolen cap that covers his ears. He waves his boy goodbye. Yusuf's eyes brighten when Papa says, \"Today is the day I will catch a fish and bring a gift home for you.\"",
+      "level": 9,
+      "topic": "story",
+      "question": "Summarise what the father promises Yusuf. Describe what makes a gift meaningful.",
+      "sha256": "12bab8e17622ccecbdc7e0d94c17f0398278fb650bc9234735232672f83fa939"
+    },
+    {
+      "id": "asp-0124-5",
+      "sourceId": "asp-0124",
+      "text": "All day long Yusuf looks at the sky. It is bright and clear and windless. A fish and a gift! What will Papa bring home from the sea? Sometimes he brings a beautiful shell. Sometimes he brings a jewel green bottle rinsed by the waves.",
+      "level": 8,
+      "topic": "story",
+      "question": "Explain what Yusuf is waiting for. Tell a friend about a gift you would like.",
+      "sha256": "fbfa463e796d1e3f6fdf354ea9a8d2a5b662fe4c02434b453e78c939c58a1cef"
+    },
+    {
+      "id": "asp-0124-12",
+      "sourceId": "asp-0124",
+      "text": "The men pull the boat in and coil up the cables. A hard white triangle catches Papa's finger. \"Whaaat? Whaaat? Whaaat?\" cry the gulls. \"What did you bring back for Yusuf?\" As the sun goes down, Papa answers the gulls. \"A lucky shark tooth for my boy.\" At home Yusuf holds his gift up to the stars.",
+      "level": 10,
+      "topic": "story",
+      "question": "Retell how the father finds a gift. Explain why an inexpensive gift can matter more than an expensive one.",
+      "sha256": "17471c174e91bb009446fc35571a5a17badc2bae2404cee1ca2b03a105d2848d"
+    }
+  ]
+}

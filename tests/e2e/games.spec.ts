@@ -242,3 +242,47 @@ test("brand_is_visible_on_every_route_and_game_has_ten_levels", async ({
     page.getByRole("button", { name: "Level 10 · Locked", exact: true }),
   ).toBeDisabled();
 });
+
+test("open_sources_can_be_filtered_practised_and_saved_with_visible_credit", async ({
+  page,
+}) => {
+  await signIn(page);
+  await page
+    .getByLabel("Content source", { exact: true })
+    .selectOption("Tatoeba");
+  await expect(
+    page.getByRole("button", { name: /Hear it, find it/ }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: /help · listening 1/ }).click();
+  await expect(
+    page.getByRole("link", { name: /Source: Tatoeba/ }),
+  ).toHaveAttribute("href", "https://tatoeba.org/en/sentences/show/12335770");
+  await expect(
+    page.getByRole("link", { name: "CC0-1.0", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText("Help is available.", { exact: true }),
+  ).toHaveCount(0);
+  await listen(page);
+  await page.getByLabel("Type what you hear").fill("Help is available.");
+  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  await expect(
+    page.getByRole("heading", { name: "Game score: 100/100", exact: true }),
+  ).toBeVisible();
+  await page
+    .getByRole("button", { name: "Back to games", exact: true })
+    .click();
+  await page.getByRole("button", { name: "Level 1", exact: true }).click();
+  await page
+    .getByLabel("Content source", { exact: true })
+    .selectOption("African Storybook");
+  await expect(
+    page.getByRole("button", { name: /What are you doing/ }).first(),
+  ).toBeVisible();
+  await page
+    .getByLabel("Content source", { exact: true })
+    .selectOption("ContextSpeak");
+  await expect(
+    page.getByRole("button", { name: /Hear it, find it/ }),
+  ).toBeVisible();
+});

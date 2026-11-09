@@ -4,7 +4,7 @@ Open **Game practice** in the library sidebar, or `/games`. Sign in with the exi
 
 ## Games and difficulty
 
-There are 83 original versioned challenges across ten levels:
+There are 83 original versioned challenges and 96 exercises from reviewed open texts across ten levels (179 total):
 
 - Listening: story, drama, literary passage and novel-excerpt dictation; hear a word/clue and choose an original vector picture; listen to a passage and answer a multiple-choice comprehension question.
 - Speaking: explain a riddle, reason through a puzzle, or complete a timed-length speaking task against Echo, a simulated AI training opponent. Every recording is limited to 60 seconds.
@@ -13,7 +13,7 @@ PK is not a real player or a live generated opponent response. Echo's visible fi
 
 Listening and speaking unlock independently. Three **different** challenges passed at 70 or higher unlock the next level. Repeating a passed challenge does not count twice. Each new level requires the preceding level to be unlocked; skipping ahead through API calls is rejected. These are game difficulty labels, not CEFR levels or proof of mastery. No game changes FSRS.
 
-The catalog uses short original English texts, including fictional novel excerpts, rather than complete novels or third-party drama scripts. Content is fixed for reproducible practice; new revisions need new IDs so old scores retain their meaning. Higher listening levels have longer/more nuanced passages and descriptive picture clues. Speaking levels increase reasoning and response complexity.
+The original catalog uses short English texts, including fictional novel excerpts. Additional credited sources supply everyday sentences, beginner lessons and stories; see [open practice content](PRACTICE_SOURCES.md). No complete third-party novels or drama scripts are scraped. Content is fixed for reproducible practice; new revisions need new IDs so old scores retain their meaning. Higher listening levels have longer/more nuanced passages and descriptive picture clues. Speaking levels increase reasoning and response complexity.
 
 Levels 1–3 begin with individual words, phrases and simple everyday sentences. Levels 4–7 build up to short exchanges, reasons and brief narratives. Levels 8–10 contain the previous three advanced levels, keeping their immutable v1 IDs and text. Existing completed v1 rounds retain access to their new level; users can always choose easier unlocked work. Short beginner answers are assessed against their stated criteria, without requiring an advanced explanation. These labels are a product progression, not validated proficiency bands.
 
