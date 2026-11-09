@@ -24,3 +24,7 @@
 .shell > aside {
   top: 48px;
 }
+
+.site-header {
+  justify-content: space-between;
+}

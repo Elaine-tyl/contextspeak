@@ -1,4 +1,6 @@
 import "reflect-metadata";
+import { ProgressController } from "./progress/progress.controller";
+import { ProgressService } from "./progress/progress.service";
 import { GamesController } from "./games/games.controller";
 import { GamesService } from "./games/games.service";
 import { SpeechController } from "./speech/speech.controller";
@@ -49,6 +51,7 @@ export async function createApp(config: AppConfig) {
   @Module({
     controllers: [
       GamesController,
+      ProgressController,
       LibraryController,
       SpeechController,
       ReviewController,
@@ -58,6 +61,10 @@ export async function createApp(config: AppConfig) {
     ],
     providers: [
       { provide: LibraryService, useValue: library },
+      {
+        provide: ProgressService,
+        useValue: new ProgressService(config.prisma, library),
+      },
       {
         provide: GamesService,
         useValue: new GamesService(

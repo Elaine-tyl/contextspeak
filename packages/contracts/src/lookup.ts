@@ -201,3 +201,5 @@ export {
   type GameSubmission,
   type GameReceipt,
 } from "./games";
+
+export type { LearningProgress, SkillProgress } from "./progress";

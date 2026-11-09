@@ -307,6 +307,9 @@ export default function Library() {
           >
             Listening &amp; speaking
           </button>
+          <Link className="nav" href="/progress">
+            Learning progress
+          </Link>
           <Link className="nav" href="/games">
             Game practice
           </Link>

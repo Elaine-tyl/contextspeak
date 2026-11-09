@@ -133,8 +133,9 @@ export class SessionService {
         nonce,
         destination: code
           ? "/pair?code=" + code
-          : req.query.returnTo === "/games"
-            ? "/games"
+          : req.query.returnTo === "/games" ||
+              req.query.returnTo === "/progress"
+            ? req.query.returnTo
             : "/library",
         expiresAt: later(600),
       },

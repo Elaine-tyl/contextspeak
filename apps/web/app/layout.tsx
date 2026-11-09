@@ -14,6 +14,9 @@ export default function Layout({ children }: { children: ReactNode }) {
           <Link href="/library" aria-label="ContextSpeak home">
             ContextSpeak
           </Link>
+          <Link href="/progress" aria-label="Open learning progress">
+            Progress
+          </Link>
         </header>
         {children}
       </body>

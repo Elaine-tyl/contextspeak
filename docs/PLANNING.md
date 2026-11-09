@@ -60,3 +60,5 @@ M1, the recall portion of M2 and guided listening/speaking practice are usable l
 Game practice has 179 tasks across seven listening/speaking modes, each with ten levels and theme/source selection. A server-owned run contains up to three different questions; its mean of 70+ unlocks the next level for that mode. Completed levels offer Retry and Next, with preserved history and saved-run recovery. See [game rules and limits](GAMES.md). Full-length reading content, adaptive generation and real-player matchmaking remain later work.
 
 English playback can now use pinned local Ollama/Phonon without cloud generation quotas. Private WAV files persist across restarts, indexed through Prisma/PostgreSQL with per-account/global retention limits. Gemini recording assessment and configured non-English voices remain separate cloud services. See [voice storage and setup](AI_SPEECH.md).
+
+The [learning progress dashboard](PROGRESS.md) now aggregates real review, speech/listening and game records. The current remaining work is tracked in [the MVP checklist](MVP_CHECKLIST.md); later school/native expansion is excluded by the user’s confirmed scope.

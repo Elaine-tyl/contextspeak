@@ -123,3 +123,5 @@ Guided conversation: choose an everyday scenario in practice, then **Conversatio
 **Adaptive practice:** contextual vocabulary questions, visible answer criteria, evidence-based speaking rubric v2 and transparent difficulty recommendations now use owned SQL history, without RAG. See [rules and scoring limits](docs/ADAPTIVE_PRACTICE.md).
 
 Reviewed [open practice sources](docs/PRACTICE_SOURCES.md) add 96 attributed listening/speaking exercises. Validate the committed corpus with `pnpm content:verify`.
+
+Open `/progress` for your [learning progress dashboard](docs/PROGRESS.md). See the [current MVP checklist](docs/MVP_CHECKLIST.md) for implemented features and outstanding release gates.

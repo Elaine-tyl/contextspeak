@@ -1,0 +1,50 @@
+.progress-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  color: #233a32;
+}
+.progress-page h1 {
+  font-size: clamp(2rem, 6vw, 3.5rem);
+}
+.progress-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  gap: 16px;
+}
+.progress-card {
+  background: white;
+  border: 1px solid #dce4db;
+  border-radius: 16px;
+  padding: 24px;
+  margin: 16px 0;
+  overflow-wrap: anywhere;
+}
+.progress-card h2,
+.progress-card h3 {
+  margin-top: 0;
+}
+.progress-number {
+  font-size: 2rem;
+}
+.progress-totals {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.progress-totals dt {
+  color: #596f62;
+}
+.progress-totals dd {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 8px 0 20px;
+}
+.progress-card li {
+  margin: 12px 0;
+}
+.progress-card > .primary {
+  display: inline-block;
+  margin: 8px 0 16px;
+  text-decoration: none;
+}

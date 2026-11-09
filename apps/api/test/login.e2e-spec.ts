@@ -251,3 +251,24 @@ it("rejects_expired_login_and_invalid_PKCE_or_nonce_without_issuing_a_session", 
     await client.get("/auth/session").expect(401);
   }
 });
+
+it("returns to the learning dashboard after login but rejects external destinations", async () => {
+  for (const [destination, expected] of [
+    ["/progress", "/progress"],
+    ["https://evil.invalid", "/library"],
+  ]) {
+    const client = agent();
+    const start = await client
+      .get("/auth/login")
+      .query({ returnTo: destination })
+      .expect(302);
+    const authorize = new URL(start.headers.location);
+    authorize.searchParams.set("test_user", "progress-login");
+    const response = await fetch(authorize, { redirect: "manual" });
+    const callback = new URL(response.headers.get("location")!);
+    const done = await client
+      .get(callback.pathname + callback.search)
+      .expect(302);
+    expect(done.headers.location).toBe(web + expected);
+  }
+});

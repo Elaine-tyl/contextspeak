@@ -90,6 +90,16 @@ export default function GamesPage() {
             loaded = true;
             setError("");
             const id = new URLSearchParams(window.location.search).get("run");
+            const selectedMode = gameModes.find(
+              (mode) =>
+                mode.kind ===
+                new URLSearchParams(window.location.search).get("mode"),
+            );
+            if (!id && selectedMode) {
+              setKind(selectedMode.kind);
+              setTrack(selectedMode.track);
+              setLevel(value.modeProgress?.[selectedMode.kind]?.level ?? 1);
+            }
             if (id) {
               const resumed = await api<GameLevelRun>(
                 session.csrfToken,
