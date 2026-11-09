@@ -1,3 +1,4 @@
+import { beginnerChallenges } from "./beginner";
 import type { GameRound, GameProgress } from "@contextspeak/contracts";
 export type Challenge = GameRound & { answer: string; explanation: string };
 // Original, immutable content: new revisions get new IDs so saved progress stays meaningful.
@@ -72,13 +73,13 @@ const spoken = [
     ],
   ],
 ];
-export const challenges: Challenge[] = passages.flatMap((texts, index) => {
+const legacyChallenges: Challenge[] = passages.flatMap((texts, index) => {
   const level = index + 1;
   const base = texts.map((text, genre) => ({
     id: `listen-${level}-${genre}-v1`,
     track: "listening" as const,
     kind: "dictation" as const,
-    level,
+    level: level + 7,
     title: `${genres[genre]} dictation`,
     genre: genres[genre],
     instruction: "Listen, then type exactly what you hear.",
@@ -94,7 +95,7 @@ export const challenges: Challenge[] = passages.flatMap((texts, index) => {
       id: `picture-${level}-v1`,
       track: "listening",
       kind: "picture",
-      level,
+      level: level + 7,
       title: "Hear it, find it",
       instruction: "Listen and choose the matching picture.",
       audioText: [
@@ -110,7 +111,7 @@ export const challenges: Challenge[] = passages.flatMap((texts, index) => {
       id: `question-${level}-v1`,
       track: "listening",
       kind: "comprehension",
-      level,
+      level: level + 7,
       title: "Listen and answer",
       instruction: [
         "Where will they meet?",
@@ -166,7 +167,7 @@ export const challenges: Challenge[] = passages.flatMap((texts, index) => {
                   ],
       track: "speaking" as const,
       kind: (["riddle", "puzzle", "pk"] as const)[kind],
-      level,
+      level: level + 7,
       title: ["Speak the riddle", "Talk through a puzzle", "AI sparring match"][
         kind
       ],
@@ -180,11 +181,12 @@ export const challenges: Challenge[] = passages.flatMap((texts, index) => {
     })),
   ];
 });
+export const challenges = [...beginnerChallenges, ...legacyChallenges];
 export function gameProgress(passedIds: string[]): GameProgress {
   const passed = new Set(passedIds);
   const result = {} as GameProgress;
   for (const track of ["listening", "speaking"] as const) {
-    const counts = [1, 2, 3].map(
+    const counts = Array.from({ length: 10 }, (_, index) => index + 1).map(
       (level) =>
         challenges.filter(
           (round) =>
@@ -193,8 +195,15 @@ export function gameProgress(passedIds: string[]): GameProgress {
             passed.has(round.id),
         ).length,
     );
-    let level = 1;
-    while (level < 3 && counts[level - 1] >= 3) level++;
+    // Keep access to moved v1 tasks; immutable IDs preserve old receipts.
+    const legacyLevel = Math.max(
+      1,
+      ...legacyChallenges
+        .filter((round) => round.track === track && passed.has(round.id))
+        .map((round) => round.level),
+    );
+    let level = legacyLevel;
+    while (level < 10 && counts[level - 1] >= 3) level++;
     result[track] = { level, passed: counts };
   }
   return result;

@@ -1,3 +1,5 @@
+import Link from "next/link";
+import "./brand.css";
 import type { ReactNode } from "react";
 export const metadata = {
   title: "ContextSpeak — vocabulary library",
@@ -7,7 +9,14 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       {/* Extensions such as Grammarly can add body attributes before hydration. */}
-      <body suppressHydrationWarning>{children}</body>
+      <body suppressHydrationWarning>
+        <header className="site-header">
+          <Link href="/library" aria-label="ContextSpeak home">
+            ContextSpeak
+          </Link>
+        </header>
+        {children}
+      </body>
     </html>
   );
 }

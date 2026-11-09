@@ -1,0 +1,26 @@
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: 48px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  background: #eef2ec;
+  border-bottom: 1px solid #dce4db;
+  font:
+    700 18px Arial,
+    sans-serif;
+}
+.site-header a {
+  color: #176a56;
+  text-decoration: none;
+}
+.site-header a:focus-visible {
+  outline: 3px solid #d5a863;
+  outline-offset: 4px;
+}
+.shell > aside {
+  top: 48px;
+}

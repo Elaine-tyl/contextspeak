@@ -18,7 +18,7 @@ Server weights: clarity 20%, fluency 20%, grammar 15%, vocabulary 15%, task resp
 
 ## Recommendation policy
 
-Listening and speaking are separate. Use the last 30 days, with bounded SQL reads for both recent valid results and independent evidence (up to 30 rows of each per source). Noise and retries cannot push qualifications out of the sampled history. Game marks and actual dictation/AI results are used; self-check labels and translation activity are not scores.
+Listening and speaking are separate. Use the last 30 days, with bounded SQL reads for both recent valid results and independent evidence (up to 30 recent rows per source; independent game evidence keeps one qualifying result per catalog round, while independent vocabulary evidence is bounded to 30 rows). Noise and retries cannot push qualifications out of the sampled history. Game marks and actual dictation/AI results are used; self-check labels and translation activity are not scores.
 
 - Recommend a higher level only after three different independent 80+ tasks at every prior level. One high score or repeated attempts at one answer cannot promote.
 - If at least two of the last three different usable tasks are below 55, recommend one easier level. Unscorable audio is filtered before sampling and never counts as failure.
@@ -31,3 +31,5 @@ No new migration is required. Stored independence is decided inside the existing
 ## Verification
 
 Deterministic regressions cover advancement thresholds, different-task identity, assisted repeats, delayed requalification, age/window displacement, many unusable recordings, owner separation, relevance ceilings, audio-quality withholding, evidence grounding and frozen question difficulty. Browser tests cover recommendation/manual-level controls, criteria and automatic feedback. Public synthetic relevant/unrelated speech is used for live integration checks; it is not a validation study of learner voices.
+
+Games have ten gradual levels; ordinary vocabulary practice retains its three difficulty bands. Older game completions retain access after their content moves to Levels 8–10.

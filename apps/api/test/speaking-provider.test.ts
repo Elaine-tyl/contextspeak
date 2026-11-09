@@ -58,6 +58,9 @@ it("sends_inline_audio_with_an_explicit_rubric_and_validates_the_model_result", 
     data: input.audio,
   });
   expect(body.systemInstruction.parts[0].text).toContain("Never score silence");
+  expect(body.systemInstruction.parts[0].text).toContain(
+    "A single word can fully satisfy a beginner task",
+  );
   expect(body.contents[0].parts[0].text).not.toContain("userId");
 });
 it("returns_no_mark_for_silence_and_maps_quota_without_fabricated_feedback", async () => {

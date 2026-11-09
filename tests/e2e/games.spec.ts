@@ -81,9 +81,9 @@ test("listening_games_persist_distinct_progress_and_unlock_the_next_level", asyn
     await page.request.get("http://127.0.0.1:4318/v1/games")
   ).json();
   const passage = catalog.rounds.find(
-    (round: any) => round.id === "listen-1-0-v1",
+    (round: any) => round.id === "listen-1-0-v2",
   );
-  await page.getByRole("button", { name: /Story dictation/ }).click();
+  await page.getByRole("button", { name: /Word dictation/ }).click();
   await listen(page);
   await page.getByLabel("Type what you hear").fill(passage.audioText);
   await expect(page.getByLabel("Highlighted answer")).toHaveCount(0);
@@ -150,7 +150,7 @@ test("speaking_riddle_puzzle_and_simulated_PK_assess_automatically_and_unlock_in
         page.getByText("Echo · simulated AI opponent", { exact: false }),
       ).toBeVisible();
       await expect(
-        page.getByText("You win · You 80 : Echo 65", { exact: true }),
+        page.getByText("You win · You 80 : Echo 43", { exact: true }),
       ).toBeVisible();
       await page.screenshot({
         path: testInfo.outputPath("game-pk.png"),
@@ -217,4 +217,28 @@ test("game_retry_keeps_one_recording_and_session_expiry_stops_the_microphone", a
     .poll(() => page.evaluate(() => (window as any).audioFixture.stops))
     .toBeGreaterThan(stops);
   expect(uploads).toHaveLength(2);
+});
+
+test("brand_is_visible_on_every_route_and_game_has_ten_levels", async ({
+  page,
+}) => {
+  for (const route of [
+    "/",
+    "/library",
+    "/pair",
+    "/games",
+    "/library/item/unknown",
+    "/practice/unknown",
+  ]) {
+    await page.goto(`http://127.0.0.1:3000${route}`);
+    await expect(
+      page.getByRole("banner").getByRole("link", { name: "ContextSpeak home" }),
+    ).toBeVisible();
+  }
+  await signIn(page, "Test learner B");
+  const levels = page.getByRole("button", { name: /^Level \d/ });
+  await expect(levels).toHaveCount(10);
+  await expect(
+    page.getByRole("button", { name: "Level 10 · Locked", exact: true }),
+  ).toBeDisabled();
 });

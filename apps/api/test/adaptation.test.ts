@@ -86,3 +86,11 @@ it("uses one exercise identity across capitalization, whitespace and translation
     practiceExerciseKey("speaking", "available", "making-plans", 1),
   ).not.toBe(practiceExerciseKey("speaking", "available", undefined, 1));
 });
+
+it("can recommend through ten game levels without changing vocabulary practice scale", () => {
+  const history = Array.from({ length: 9 }, (_, index) =>
+    [0, 1, 2].map((task) => sample(`${index}-${task}`, 90, index + 1)),
+  ).flat();
+  expect(recommendPractice(history, 10).level).toBe(10);
+  expect(recommendPractice(history).level).toBe(3);
+});

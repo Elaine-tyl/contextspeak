@@ -55,8 +55,8 @@ export class GamesService {
     const user = await this.library.actor(identity);
     const progress = await this.progress(user.id);
     const [listening, speaking] = await Promise.all([
-      this.adaptive.recommend(user.id, "listening"),
-      this.adaptive.recommend(user.id, "speaking"),
+      this.adaptive.recommend(user.id, "listening", 10),
+      this.adaptive.recommend(user.id, "speaking", 10),
     ]);
     return {
       rounds: challenges.map(publicRound),
@@ -148,7 +148,7 @@ export class GamesService {
             criteria: round.criteria,
             language: "en",
             sourceText: round.audioText,
-            goal: `English ${round.kind} game. Assess the spoken answer against this task and solution criteria: ${round.answer}. Reward reasoning and relevance; accept equivalent answers. Do not reveal a correct answer in the transcript unless it was spoken.`,
+            goal: `English ${round.kind} game. Assess the spoken answer against this task and solution criteria: ${round.answer}. Reward relevance and the explicit criteria; accept equivalent answers. Do not require reasoning or a long response unless the criteria ask for it. Do not reveal a correct answer in the transcript unless it was spoken.`,
           },
         });
         feedback.speaking = assessment;

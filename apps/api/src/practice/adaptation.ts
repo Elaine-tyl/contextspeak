@@ -24,6 +24,7 @@ export function practiceExerciseKey(
 }
 export function recommendPractice(
   samples: PerformanceSample[],
+  maxLevel = 3,
 ): PracticeRecommendation {
   const usable = samples.filter(
     (sample) =>
@@ -32,11 +33,11 @@ export function recommendPractice(
       sample.score >= 0 &&
       sample.score <= 100 &&
       sample.level >= 1 &&
-      sample.level <= 3,
+      sample.level <= maxLevel,
   );
   let level = 1;
   // Promotion needs different independent tasks, never repeated attempts at one answer.
-  while (level < 3) {
+  while (level < maxLevel) {
     const passed = new Set(
       usable
         .filter(

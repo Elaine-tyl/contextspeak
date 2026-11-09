@@ -15,7 +15,7 @@ import {
 } from "./adaptation";
 export class AdaptiveService {
   constructor(private prisma: PrismaClient) {}
-  async recommend(userId: string, track: GameTrack) {
+  async recommend(userId: string, track: GameTrack, maxLevel = 3) {
     const recent = { gte: new Date(Date.now() - 30 * 86400000) };
     const orderBy = [{ createdAt: "desc" as const }, { id: "desc" as const }];
     const gameChecks: Prisma.GameAttemptWhereInput[] =
@@ -50,7 +50,7 @@ export class AdaptiveService {
         where: {
           userId,
           createdAt: recent,
-          score: { not: null },
+          score: independent ? { gte: 80 } : { not: null },
           roundId: {
             in: challenges
               .filter((round) => round.track === track)
@@ -64,7 +64,9 @@ export class AdaptiveService {
           ],
         },
         orderBy,
-        take: 30,
+        // One qualifying row per game preserves evidence across all ten levels.
+        ...(independent ? { distinct: ["roundId" as const] } : {}),
+        take: independent ? challenges.length : 30,
       });
     const readPractice = (independent: boolean) =>
       this.prisma.practiceAttempt.findMany({
@@ -150,6 +152,9 @@ export class AdaptiveService {
         at: row.createdAt.getTime(),
       });
     }
-    return recommendPractice(samples.sort((a, b) => b.at - a.at));
+    return recommendPractice(
+      samples.sort((a, b) => b.at - a.at),
+      maxLevel,
+    );
   }
 }

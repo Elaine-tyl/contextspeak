@@ -126,8 +126,9 @@ export default function GamesPage() {
       <p className="eyebrow">ContextSpeak · play and practise</p>
       <h1>Game practice</h1>
       <p>
-        Listen, solve and speak. Pass three different challenges at 70+ to
-        unlock the next level. Listening and speaking progress independently.
+        Ten gradual levels: start with words and short answers, then build up to
+        conversations. Pass three different challenges at 70+ to unlock the next
+        level. Listening and speaking progress independently.
       </p>
       {error && <p role="alert">{error}</p>}
       {loading && <p role="status">Loading games…</p>}
@@ -154,26 +155,28 @@ export default function GamesPage() {
             ))}
           </div>
           <div className="practice-tabs" aria-label="Game difficulty">
-            {[1, 2, 3].map((value) => (
-              <button
-                key={value}
-                className={level === value ? "primary" : "secondary"}
-                disabled={locked || value > progress!.level}
-                aria-pressed={level === value}
-                onClick={() => {
-                  setLevel(value);
-                  setRound(null);
-                }}
-              >
-                Level {value}
-                {value > progress!.level ? " · Locked" : ""}
-              </button>
-            ))}
+            {Array.from({ length: 10 }, (_, index) => index + 1).map(
+              (value) => (
+                <button
+                  key={value}
+                  className={level === value ? "primary" : "secondary"}
+                  disabled={locked || value > progress!.level}
+                  aria-pressed={level === value}
+                  onClick={() => {
+                    setLevel(value);
+                    setRound(null);
+                  }}
+                >
+                  Level {value}
+                  {value > progress!.level ? " · Locked" : ""}
+                </button>
+              ),
+            )}
           </div>
           <p className="game-progress" aria-live="polite">
             Level {level}: {progress!.passed[level - 1]} different challenges
             passed
-            {level < 3 ? " · 3 needed for the next level" : " · highest level"}
+            {level < 10 ? " · 3 needed for the next level" : " · highest level"}
           </p>
           {recommendation && (
             <section

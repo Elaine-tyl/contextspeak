@@ -58,22 +58,22 @@ it("requires authentication, hides solutions and rejects forged marks and locked
   );
   const value = await catalog();
   expect(value.status).toBe(200);
-  expect(value.body.rounds).toHaveLength(27);
+  expect(value.body.rounds).toHaveLength(83);
   expect(value.body.rounds[0]).not.toHaveProperty("answer");
   expect(value.body.progress.listening.level).toBe(1);
   expect(
-    (await post({ ...answer("listen-1-0-v1", "text"), score: 100 })).status,
+    (await post({ ...answer("listen-1-0-v2", "text"), score: 100 })).status,
   ).toBe(400);
-  expect((await post(answer("listen-2-0-v1", "text"))).status).toBe(409);
+  expect((await post(answer("listen-2-0-v2", "text"))).status).toBe(409);
   expect(
-    (await post({ ...answer("listen-1-0-v1", "text"), completedPlays: 0 }))
+    (await post({ ...answer("listen-1-0-v2", "text"), completedPlays: 0 }))
       .status,
   ).toBe(400);
   expect((await post(answer("unknown", "text"))).status).toBe(404);
   expect(await db.prisma.gameAttempt.count()).toBe(0);
 });
 it("coalesces events and unlocks only distinct passing challenges for the same user", async () => {
-  const first = challenges.find((round) => round.id === "listen-1-0-v1")!;
+  const first = challenges.find((round) => round.id === "listen-1-0-v2")!;
   const body = answer(first.id, first.audioText);
   const values = await Promise.all([post(body), post(body)]);
   expect(values.map((value) => value.status)).toEqual([201, 201]);
@@ -82,30 +82,30 @@ it("coalesces events and unlocks only distinct passing challenges for the same u
   expect((await post({ ...body, response: "changed" })).status).toBe(409);
   await post(answer(first.id, first.audioText));
   expect((await catalog()).body.progress.listening.passed[0]).toBe(1);
-  for (const id of ["listen-1-1-v1", "listen-1-2-v1"]) {
+  for (const id of ["listen-1-1-v2", "listen-1-2-v2"]) {
     const round = challenges.find((value) => value.id === id)!;
     expect((await post(answer(id, round.audioText))).status).toBe(201);
   }
   expect((await catalog()).body.progress.listening.level).toBe(2);
   expect((await catalog()).body.progress.speaking.level).toBe(1);
   expect((await catalog("gamer-b")).body.progress.listening.level).toBe(1);
-  expect((await post(answer("listen-2-0-v1", "wrong"), "gamer-b")).status).toBe(
+  expect((await post(answer("listen-2-0-v2", "wrong"), "gamer-b")).status).toBe(
     409,
   );
-  expect((await post(answer("listen-2-0-v1", "wrong"))).status).toBe(201);
+  expect((await post(answer("listen-2-0-v2", "wrong"))).status).toBe(201);
   expect((await catalog()).body.progress.listening.level).toBe(2);
   expect(await db.prisma.reviewEvent.count()).toBe(0);
 });
 it("grades picture and comprehension choices from server-owned answers", async () => {
   expect(
-    (await post({ ...answer("picture-1-v1"), choice: "not-an-option" })).status,
+    (await post({ ...answer("picture-1-v2"), choice: "not-an-option" })).status,
   ).toBe(400);
-  const wrong = await post({ ...answer("picture-1-v1"), choice: "book" });
+  const wrong = await post({ ...answer("picture-1-v2"), choice: "book" });
   expect(wrong.body).toMatchObject({
     score: 0,
     feedback: { correct: false, correctAnswer: "Umbrella" },
   });
-  const correct = await post({ ...answer("question-1-v1"), choice: "station" });
+  const correct = await post({ ...answer("question-1-v2"), choice: "station" });
   expect(correct.body).toMatchObject({
     score: 100,
     feedback: { correct: true },
@@ -114,7 +114,7 @@ it("grades picture and comprehension choices from server-owned answers", async (
 it("assesses recordings once, stores no raw audio and returns cached PK receipts", async () => {
   const audio = (await new FixtureSpeechProvider().generate()).audio;
   const body = {
-    ...answer("speak-1-2-v1"),
+    ...answer("speak-1-2-v2"),
     audio,
     mimeType: "audio/wav",
     durationMs: 1000,
@@ -125,7 +125,7 @@ it("assesses recordings once, stores no raw audio and returns cached PK receipts
   expect(assess).toHaveBeenCalledTimes(1);
   expect(values[0].body).toMatchObject({
     score: 80,
-    feedback: { opponentScore: 65 },
+    feedback: { opponentScore: 43 },
   });
   const row = await db.prisma.gameAttempt.findUniqueOrThrow({
     where: { id: values[0].body.id },
@@ -142,7 +142,7 @@ it("assesses recordings once, stores no raw audio and returns cached PK receipts
 it("does not save provider failures, and silence cannot unlock or win", async () => {
   const audio = (await new FixtureSpeechProvider().generate()).audio;
   const body = {
-    ...answer("speak-1-0-v1"),
+    ...answer("speak-1-0-v2"),
     audio,
     mimeType: "audio/wav",
     durationMs: 1000,
@@ -175,7 +175,7 @@ it("rejects malformed recording payloads before a provider call", async () => {
     expect(
       (
         await post({
-          ...answer("speak-1-0-v1"),
+          ...answer("speak-1-0-v2"),
           audio,
           mimeType: "audio/wav",
           durationMs: 1000,
@@ -205,7 +205,7 @@ it("does_not_recreate_deleted_accounts_after_AI_finishes_and_cascades_saved_game
   const audio = (await new FixtureSpeechProvider().generate()).audio;
   const result = post(
     {
-      ...answer("speak-1-0-v1"),
+      ...answer("speak-1-0-v2"),
       audio,
       mimeType: "audio/wav",
       durationMs: 1000,
