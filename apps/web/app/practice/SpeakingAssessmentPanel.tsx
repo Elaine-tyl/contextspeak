@@ -7,6 +7,7 @@ import type {
   SpeakingAssessment,
 } from "@contextspeak/contracts";
 import { speakingUploadSchema } from "@contextspeak/contracts";
+import { SpeakingFeedback } from "./SpeakingFeedback";
 import { api, ApiError } from "../../src/api";
 async function encode(blob: Blob) {
   const bytes = new Uint8Array(await blob.arrayBuffer());
@@ -18,6 +19,7 @@ async function encode(blob: Blob) {
 }
 export function SpeakingAssessmentPanel({
   blob,
+  conversation,
   task,
   token,
   durationMs,
@@ -30,6 +32,7 @@ export function SpeakingAssessmentPanel({
   onDiscard,
 }: {
   blob: Blob;
+  conversation?: { previousTurnId?: string };
   task: PracticeTask;
   token: string;
   durationMs: number;
@@ -74,6 +77,7 @@ export function SpeakingAssessmentPanel({
         if (!active.current || request.signal.aborted) return;
         const parsed = speakingUploadSchema.safeParse({
           eventId: crypto.randomUUID(),
+          ...(conversation ? { conversation: true, ...conversation } : {}),
           lookupId: task.lookupId,
           ...(task.scenario ? { scenario: task.scenario.id } : {}),
           consent: true,
@@ -132,6 +136,8 @@ export function SpeakingAssessmentPanel({
         saves the transcript and AI feedback, not the recording. Google
         processes uploads under its service terms and may use unpaid-service
         data for product improvement.
+        {conversation &&
+          " Earlier dialogue text is included to generate a relevant follow-up."}
       </p>
       <label className="assessment-consent">
         <input
@@ -182,66 +188,12 @@ export function SpeakingAssessmentPanel({
         </>
       )}
       {result && (
-        <div className="practice-answer" aria-label="Speaking feedback">
-          <h3>
-            {result.overall === null
-              ? "No reliable speaking score"
-              : `AI speaking score: ${result.overall}/100`}
-          </h3>
-          <p>
-            AI-estimated practice feedback. This is not an exam grade or a
-            validated pronunciation assessment.
-          </p>
-          {result.scores && (
-            <dl className="speaking-scores">
-              {(
-                [
-                  ["clarity", "Clarity"],
-                  ["fluency", "Fluency"],
-                  ["grammar", "Grammar"],
-                  ["vocabulary", "Vocabulary"],
-                  ["taskResponse", "Task response"],
-                ] as const
-              ).map(([key, label]) => (
-                <div key={key}>
-                  <dt>{label}</dt>
-                  <dd>{result.scores![key]}/100</dd>
-                </div>
-              ))}
-            </dl>
-          )}
-          {result.transcript && (
-            <>
-              <h4>Your transcript</h4>
-              <p>{result.transcript}</p>
-            </>
-          )}
-          {!!result.strengths.length && (
-            <>
-              <h4>What went well</h4>
-              <ul>
-                {result.strengths.map((value, index) => (
-                  <li key={index}>{value}</li>
-                ))}
-              </ul>
-            </>
-          )}
-          <h4>What to improve</h4>
-          <ul>
-            {result.improvements.map((value, index) => (
-              <li key={index}>{value}</li>
-            ))}
-          </ul>
-          {result.suggestedResponse && (
-            <>
-              <h4>Suggested response</h4>
-              <p>{result.suggestedResponse}</p>
-            </>
-          )}
+        <>
+          <SpeakingFeedback result={result} />
           <button className="secondary" onClick={onDiscard}>
             Record another response
           </button>
-        </div>
+        </>
       )}
     </section>
   );

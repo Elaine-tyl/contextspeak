@@ -12,7 +12,7 @@ Preparing and playing audio have accessible status messages. Audio uses the shar
 
 1. Choose **Play audio**, then type exactly what you hear.
 2. Choose **Submit answer** after at least one complete playback.
-3. Read your mark out of 100, the transcript, and missing/extra/replaced-word feedback. Use **Replay audio**, **Try again** or **Choose next expression** beside the result; returning to the practice list retains its filters.
+3. Read your mark out of 100, the transcript, and the checked answer. Red, text-labelled highlights identify replaced, missing and extra words in sequence, including repeated words. Use **Replay audio**, **Try again** or **Choose next expression** beside the result; returning to the practice list retains its filters.
 
 The transcript and corrections appear in the card only after the server confirms submission. Failed saves keep the typed answer and event ID locked for a safe retry; **Start a new attempt instead** abandons the pending result, which may already be saved. The server stores its own task snapshot and feedback. A retry returns the original result and cannot change the answer or scenario. Old listening self-check receipts remain readable.
 
@@ -32,11 +32,13 @@ After recording and replay, check **I agree to send this recording and exercise 
 
 Gemini receives the submitted audio plus the saved expression and exercise prompt. ContextSpeak stores the transcript, five rubric estimates, feedback, suggested response, model/rubric version, consent metadata and an audio digest; raw/base64 audio is held only in request memory and is not persisted. Google processes input under the [Gemini API terms](https://ai.google.dev/gemini-api/terms); unpaid-service data may be used for product improvement. Do not assume provider-side deletion or zero retention.
 
+When Gemini identifies grammar or vocabulary changes, exact unique phrases in the transcript are highlighted in red with suggested replacements and reasons. Ambiguous, overlapping or invented spans are discarded. A different valid reply is not wrong because it differs from the suggested response. Check speech-recognition accuracy against the recording; highlights do not diagnose mispronunciation.
+
 The result gives clarity, fluency, grammar, vocabulary and task response marks, with an equally weighted server-computed overall mark out of 100, strengths, specific improvements and a suggested English response. Clarity means estimated intelligibility, not similarity to a native accent or phoneme-level pronunciation measurement. Silence/unscorable audio gets no mark. These are approximate practice scores, not exam grades, CEFR levels or independently validated mastery evidence; neither AI results nor self-checks alter FSRS.
 
 Uploads accept WebM, MP4 audio, WAV and Ogg up to 2 MB decoded, with media-signature checks and a route-specific 3 MB JSON limit. The browser stops recording at 60 seconds; submitted duration is client-reported, not independently decoded server-side. Oversized recordings can still be replayed/self-checked locally but need a shorter capture for AI upload.
 
-At most two assessment submissions proceed concurrently, three new assessments per learner/minute and six new assessments per process/minute. These guards are process-local, not deployment-wide guarantees. Results share existing Gemini project quota with other model calls. Completed retries return the saved receipt before rate/provider checks; in-flight matching event IDs share one model call. A changed recording or metadata cannot reuse that event ID. Provider errors save no assessment and retain the frozen recording/event for explicit retry; no automatic provider retries or paid fallbacks are used.
+At most two assessment submissions proceed concurrently, three new single-response assessments per learner/minute (six for conversation turns) and six new assessments per process/minute. All modes share the same per-learner request history. These guards are process-local, not deployment-wide guarantees. Results share existing Gemini project quota with other model calls. Completed retries return the saved receipt before rate/provider checks; in-flight matching event IDs share one model call. A changed recording or metadata cannot reuse that event ID. Provider errors save no assessment and retain the frozen recording/event for explicit retry; no automatic provider retries or paid fallbacks are used.
 
 Navigation/account expiry cancels the browser request and releases local media. Once submitted, cancelling the browser cannot recall audio already sent to Google; a request may finish and be saved even if its response was not received. Vocabulary deletion is rechecked before persistence so late completions cannot recreate deleted learning data.
 
@@ -44,9 +46,15 @@ Saved attempts contain the written answer, mode, optional scenario, dictation ma
 
 ## Everyday role-plays
 
-Choose **Introductions**, **Making plans** or **Asking for help**, then saved English vocabulary with a known English source language. Translation-language settings remain unchanged. Each original fixed partner turn has a response goal: transcribe what the partner says, then switch to speaking and reply using the chosen expression. If that expression does not naturally fit, choose another word. These are curated role-plays, not dynamically generated or independently assessed transfer tasks.
+Choose **Introductions**, **Making plans** or **Asking for help**, then saved English vocabulary with a known English source language. Translation-language settings remain unchanged. Each original fixed partner turn has a response goal: transcribe what the partner says, then switch to speaking and reply using the chosen expression. If that expression does not naturally fit, choose another word. These curated opening turns also seed the **Conversation** mode.
 
-Scenario switches update the URL, clear local answers/recordings and restart listening. Refresh and Back/Forward retain the requested scenario. An unconfirmed save locks the selector until a retry succeeds or the attempt is explicitly abandoned. Dynamic scenario generation, real-time conversational speech and independently validated skill assessment remain future work.
+Scenario switches update the URL, clear local answers/recordings and restart listening. Refresh and Back/Forward retain the requested scenario. An unconfirmed save locks the selector until a retry succeeds or the attempt is explicitly abandoned. Real-time streaming conversation and independently validated skill assessment remain future work.
+
+### Guided AI conversation
+
+Select a scenario, then **Conversation**. Complete the AI partner's audio before recording a reply. Replay your response, check the fresh consent box and submit for AI assessment. **Continue conversation** plays an AI follow-up based on your answer; complete four scored turns to see the mean turn estimate and review all turn feedback. Silent/unscorable audio does not advance the turn. Use **Record another response** to retry it. **New attempt** starts again. Feedback and transcripts are saved per turn; active dialogue navigation is held in this tab, so refresh resets the active conversation while recent turn results remain saved.
+
+Later submissions send earlier dialogue text alongside the new recording, saved expression and scenario to Google. The disclosure appears before consent. The server derives prior context from owned, saved turns for the same encounter/scenario; client-authored prompts/history are not accepted. Each saved turn contains its bounded dialogue history and AI follow-up in the existing JSON snapshot; no extra migration or raw audio storage. Completed-event retries do not generate another follow-up. Provider quota failures preserve the same recording for retry and never switch to a paid provider.
 
 ## Verification
 

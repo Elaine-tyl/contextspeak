@@ -12,6 +12,7 @@ import {
   type ScenarioId,
   type DictationFeedback,
   type SpeakingAssessment,
+  type DialogueTurn,
 } from "@contextspeak/contracts";
 import { gradeDictation } from "./dictation";
 import { conversationTask } from "./scenarios";
@@ -53,12 +54,14 @@ function taskFor(
 }
 export function practiceReceipt(row: PracticeAttempt) {
   const payload = row.payload as unknown as PracticeSubmission;
-  const { feedback, speakingAssessment } = row.task as unknown as {
+  const { feedback, speakingAssessment, dialogue } = row.task as unknown as {
     feedback?: DictationFeedback;
     speakingAssessment?: SpeakingAssessment;
+    dialogue?: DialogueTurn;
   };
   return {
     id: row.id,
+    ...(dialogue ? { dialogue } : {}),
     ...(feedback ? { feedback } : {}),
     ...(speakingAssessment ? { speakingAssessment } : {}),
     mode: payload.mode,

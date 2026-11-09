@@ -86,3 +86,16 @@
   margin: 6px 0;
   font-weight: bold;
 }
+.practice-error {
+  background: #ffe8e8;
+  color: #a01818;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  border-radius: 3px;
+  padding: 1px 3px;
+  overflow-wrap: anywhere;
+}
+[aria-label="Guided conversation"] > section {
+  border-bottom: 1px solid #dce4db;
+  margin-bottom: 24px;
+}

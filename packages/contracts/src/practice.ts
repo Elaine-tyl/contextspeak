@@ -1,3 +1,4 @@
+import type { AlignedWord } from "./practice-feedback";
 import type { SpeakingAssessment } from "./speaking";
 import { z } from "zod";
 export const scenarioSchema = z.enum([
@@ -57,6 +58,7 @@ export interface PracticeReceipt {
   selfCheck?: PracticeSubmission["selfCheck"];
   feedback?: DictationFeedback;
   speakingAssessment?: SpeakingAssessment;
+  dialogue?: DialogueTurn;
   plays: number;
   revealed: boolean;
   durationMs: number;
@@ -83,6 +85,7 @@ export interface PracticeItem {
 }
 
 export type DictationFeedback = {
+  alignment?: AlignedWord[];
   method: "word-error-rate-v1";
   transcript: string;
   score: number;
@@ -91,4 +94,9 @@ export type DictationFeedback = {
   missing: string[];
   extra: string[];
   replacements: { expected: string; actual: string }[];
+};
+
+export type DialogueTurn = {
+  turn: number;
+  history: { partner: string; response: string }[];
 };

@@ -113,3 +113,91 @@ it("rejects_invalid_scores_and_speech_without_a_transcript", async () => {
     await expect(provider.assess(input)).rejects.toMatchObject({ status: 503 });
   }
 });
+
+it("uses dialogue context and discards invented or ambiguous corrections", async () => {
+  let body: any;
+  const provider = new GeminiSpeakingProvider({
+    apiKey: "fake",
+    fetcher: (async (_url, options) => {
+      body = JSON.parse(options!.body as string);
+      return new Response(
+        JSON.stringify({
+          candidates: [
+            {
+              finishReason: "STOP",
+              content: {
+                parts: [
+                  {
+                    text: JSON.stringify({
+                      ...result,
+                      transcript: "I available Saturday. yes yes.",
+                      corrections: [
+                        {
+                          original: "I available",
+                          corrected: "I am available",
+                          reason: "Use a verb.",
+                        },
+                        {
+                          original: "not spoken",
+                          corrected: "changed",
+                          reason: "Invented.",
+                        },
+                        {
+                          original: "yes",
+                          corrected: "no",
+                          reason: "Ambiguous.",
+                        },
+                      ],
+                      nextTurn: "Saturday works. Where shall we meet?",
+                    }),
+                  },
+                ],
+              },
+            },
+          ],
+        }),
+      );
+    }) as typeof fetch,
+  });
+  const feedback = await provider.assess({
+    ...input,
+    dialogue: {
+      turn: 2,
+      history: [{ partner: "When?", response: "Saturday." }],
+    },
+  });
+  expect(feedback.corrections).toEqual([
+    {
+      original: "I available",
+      corrected: "I am available",
+      reason: "Use a verb.",
+    },
+  ]);
+  expect(feedback.nextTurn).toContain("Where");
+  expect(
+    JSON.parse(body.contents[0].parts[0].text).dialogue.history[0].response,
+  ).toBe("Saturday.");
+  expect(
+    (await provider.assess({ ...input, dialogue: { turn: 4, history: [] } }))
+      .nextTurn,
+  ).toBeNull();
+});
+it("does not fabricate a missing follow-up when generation is incomplete", async () => {
+  const provider = new GeminiSpeakingProvider({
+    apiKey: "fake",
+    fetcher: (async () =>
+      new Response(
+        JSON.stringify({
+          candidates: [
+            {
+              finishReason: "STOP",
+              content: { parts: [{ text: JSON.stringify(result) }] },
+            },
+          ],
+        }),
+      )) as typeof fetch,
+  });
+  await expect(
+    provider.assess({ ...input, dialogue: { turn: 1, history: [] } }),
+  ).rejects.toMatchObject({ status: 503 });
+});

@@ -15,6 +15,7 @@ import { RecordingPlayback } from "./RecordingPlayback";
 import { useLocalRecording } from "./useLocalRecording";
 export function PracticeSession({
   task,
+  conversation,
   nextLibrary = "/library?view=practice",
   token,
   mode,
@@ -24,6 +25,7 @@ export function PracticeSession({
   onDiscard,
 }: {
   task: PracticeTask;
+  conversation?: { previousTurnId?: string };
   nextLibrary?: string;
   token: string;
   mode: PracticeSubmission["mode"];
@@ -182,7 +184,11 @@ export function PracticeSession({
           ) : (
             <button
               className="primary"
-              disabled={frozen || speech.playing}
+              disabled={
+                frozen ||
+                speech.playing ||
+                (!!conversation && !speech.completedPlays)
+              }
               onClick={() => {
                 setReplayed(false);
                 void recording.start();
@@ -219,6 +225,7 @@ export function PracticeSession({
           blob={recording.blob}
           task={task}
           token={token}
+          conversation={conversation}
           durationMs={recording.durationMs}
           replayed={replayed}
           revealed={revealed}
@@ -268,7 +275,11 @@ export function PracticeSession({
             {busy ? "Checking answer…" : "Submit answer"}
           </button>
           {feedback && (
-            <DictationResult feedback={feedback}>
+            <DictationResult
+              feedback={feedback}
+              response={response}
+              language={task.language}
+            >
               <div className="review-actions" aria-label="Continue practice">
                 <button
                   className="secondary"
@@ -289,7 +300,7 @@ export function PracticeSession({
             </DictationResult>
           )}
         </>
-      ) : (
+      ) : !conversation ? (
         <div className="review-actions" aria-label="Self-check practice">
           {(["needs-practice", "comfortable"] as const).map((value) => (
             <button
@@ -310,7 +321,7 @@ export function PracticeSession({
             </button>
           ))}
         </div>
-      )}
+      ) : null}
       {error && (
         <>
           <p role="alert">{error}</p>

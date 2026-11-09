@@ -1017,3 +1017,273 @@ test("unscorable_speaking_shows_no_numeric_mark", async ({ page }) => {
   ).toBeVisible();
   await expect(page.locator(".speaking-scores")).toHaveCount(0);
 });
+
+test("guided_dialogue_advances_four_turns_with_fresh_consent_and_red_speaking_suggestions", async ({
+  page,
+}) => {
+  await setup(page);
+  const uploads: any[] = [];
+  await page.route(
+    `http://127.0.0.1:4318/v1/practice/${itemId}/speaking-assessment`,
+    async (route) => {
+      const body = route.request().postDataJSON();
+      uploads.push(body);
+      const turn = uploads.length;
+      await route.fulfill({
+        json: {
+          id: `550e8400-e29b-41d4-a716-44665544001${turn}`,
+          mode: "speaking",
+          plays: 0,
+          revealed: false,
+          durationMs: 1000,
+          createdAt: new Date().toISOString(),
+          dialogue: { turn, history: [] },
+          speakingAssessment: {
+            speechDetected: true,
+            overall: 80,
+            scores: {
+              clarity: 80,
+              fluency: 80,
+              grammar: 80,
+              vocabulary: 80,
+              taskResponse: 80,
+            },
+            transcript: "I available Saturday.",
+            corrections: [
+              {
+                original: "I available",
+                corrected: "I am available",
+                reason: "Use am before the adjective.",
+              },
+            ],
+            strengths: ["Relevant reply."],
+            improvements: ["Use a complete sentence."],
+            suggestedResponse: "I am available on Saturday.",
+            nextTurn:
+              turn < 4
+                ? `Saturday works. What shall we do for turn ${turn + 1}?`
+                : null,
+            model: "fixture",
+            rubricVersion: 1,
+          },
+        },
+      });
+    },
+  );
+  await page.getByLabel("Conversation scenario").selectOption("making-plans");
+  await page.getByRole("button", { name: "Conversation", exact: true }).click();
+  for (let turn = 1; turn <= 4; turn++) {
+    await expect(
+      page.getByRole("heading", {
+        name: `Conversation · turn ${turn} of 4`,
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Start recording", exact: true }),
+    ).toBeDisabled();
+    await page.getByRole("button", { name: "Play audio", exact: true }).click();
+    await expect(
+      page.getByText("Playback complete.", { exact: true }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: "Start recording", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Stop recording", exact: true })
+      .click();
+    await page
+      .getByLabel("Your recording")
+      .evaluate((element) =>
+        element.dispatchEvent(new Event("ended", { bubbles: true })),
+      );
+    const consent = page.getByRole("checkbox", {
+      name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
+    });
+    await expect(consent).not.toBeChecked();
+    await expect(
+      page.getByRole("button", {
+        name: "Submit for AI assessment",
+        exact: true,
+      }),
+    ).toBeDisabled();
+    await consent.check();
+    await page
+      .getByRole("button", { name: "Submit for AI assessment", exact: true })
+      .click();
+    const completed = page.getByRole("region", {
+      name: `Completed turn ${turn}`,
+      exact: true,
+    });
+    await expect(
+      completed.getByLabel("Assessed transcript").locator("mark"),
+    ).toHaveText("I available");
+    await expect(
+      completed
+        .getByRole("listitem")
+        .filter({ hasText: "Use am before the adjective." }),
+    ).toBeVisible();
+    expect(uploads[turn - 1].conversation).toBe(true);
+    if (turn > 1)
+      expect(uploads[turn - 1].previousTurnId).toBe(
+        `550e8400-e29b-41d4-a716-44665544001${turn - 1}`,
+      );
+    if (turn < 4)
+      await page
+        .getByRole("button", { name: "Continue conversation", exact: true })
+        .click();
+  }
+  await expect(
+    page.getByRole("heading", { name: "Conversation complete", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Conversation estimate: 80/100",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Continue conversation", exact: true }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: "New attempt", exact: true }).click();
+  await expect(
+    page.getByRole("heading", {
+      name: "Conversation · turn 1 of 4",
+      exact: true,
+    }),
+  ).toBeVisible();
+});
+
+test("listening_highlights_a_replaced_word_only_after_answer_submission", async ({
+  page,
+}) => {
+  await setup(page);
+  await page.getByRole("button", { name: "Play audio", exact: true }).click();
+  await expect(
+    page.getByText("Playback complete.", { exact: true }),
+  ).toBeVisible();
+  await page.getByLabel("Type what you hear").fill("Are you ready for a call?");
+  await expect(page.getByLabel("Highlighted answer")).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Submit answer", exact: true })
+    .click();
+  await expect(page.locator("main").getByRole("alert")).toBeVisible();
+  await page
+    .getByRole("button", { name: "Submit answer", exact: true })
+    .click();
+  await expect(
+    page.getByLabel("Highlighted answer").locator("mark"),
+  ).toHaveText("ready → available");
+  await expect(page.getByLabel("Highlighted answer").locator("mark")).toHaveCSS(
+    "color",
+    "rgb(160, 24, 24)",
+  );
+});
+
+test("unclear_audio_mid_conversation_does_not_advance_or_lose_previous_turn", async ({
+  page,
+}) => {
+  await setup(page);
+  const uploads: any[] = [];
+  await page.route(
+    `http://127.0.0.1:4318/v1/practice/${itemId}/speaking-assessment`,
+    async (route) => {
+      uploads.push(route.request().postDataJSON());
+      const silent = uploads.length === 2;
+      await route.fulfill({
+        json: {
+          id: `550e8400-e29b-41d4-a716-44665544002${uploads.length}`,
+          mode: "speaking",
+          plays: 0,
+          revealed: false,
+          durationMs: 1000,
+          createdAt: new Date().toISOString(),
+          speakingAssessment: {
+            speechDetected: !silent,
+            overall: silent ? null : 80,
+            scores: silent
+              ? null
+              : {
+                  clarity: 80,
+                  fluency: 80,
+                  grammar: 80,
+                  vocabulary: 80,
+                  taskResponse: 80,
+                },
+            transcript: silent ? "" : "Saturday works for me.",
+            strengths: [],
+            improvements: [
+              silent ? "No clear speech was detected." : "Keep practising.",
+            ],
+            suggestedResponse: "",
+            nextTurn: silent ? null : "Where shall we meet?",
+            model: "fixture",
+            rubricVersion: 1,
+          },
+        },
+      });
+    },
+  );
+  await page.getByLabel("Conversation scenario").selectOption("making-plans");
+  await page.getByRole("button", { name: "Conversation", exact: true }).click();
+  async function recordReply() {
+    await page.getByRole("button", { name: "Play audio", exact: true }).click();
+    await expect(
+      page.getByText("Playback complete.", { exact: true }),
+    ).toBeVisible();
+    await page
+      .getByRole("button", { name: "Start recording", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Stop recording", exact: true })
+      .click();
+    await page
+      .getByLabel("Your recording")
+      .evaluate((element) =>
+        element.dispatchEvent(new Event("ended", { bubbles: true })),
+      );
+    const consent = page.getByRole("checkbox", {
+      name: "I agree to send this recording and exercise prompt to Google for AI assessment.",
+    });
+    await expect(consent).not.toBeChecked();
+    await consent.check();
+    await page
+      .getByRole("button", { name: "Submit for AI assessment", exact: true })
+      .click();
+  }
+  await recordReply();
+  await page
+    .getByRole("button", { name: "Continue conversation", exact: true })
+    .click();
+  await recordReply();
+  await expect(
+    page.getByRole("heading", {
+      name: "No reliable speaking score",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("heading", {
+      name: "Conversation · turn 2 of 4",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Continue conversation", exact: true }),
+  ).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Record another response", exact: true })
+    .click();
+  await recordReply();
+  await expect(
+    page.getByRole("region", { name: "Completed turn 2", exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Continue conversation", exact: true }),
+  ).toBeVisible();
+  expect(uploads[1].previousTurnId).toBe(
+    "550e8400-e29b-41d4-a716-446655440021",
+  );
+  expect(uploads[2].previousTurnId).toBe(uploads[1].previousTurnId);
+  expect(uploads[2].eventId).not.toBe(uploads[1].eventId);
+});

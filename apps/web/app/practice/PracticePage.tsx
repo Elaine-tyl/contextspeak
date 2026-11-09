@@ -17,6 +17,7 @@ import {
   practiceReturn,
 } from "../../src/navigation";
 import { updateQuery } from "../../src/page-query";
+import { DialogueSession } from "./DialogueSession";
 import { PracticeSession } from "./PracticeSession";
 import "../library/library.css";
 import "./practice.css";
@@ -49,7 +50,9 @@ export function PracticePage({
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
   const [retry, setRetry] = useState(0);
-  const [mode, setMode] = useState<PracticeSubmission["mode"]>("listening");
+  const [mode, setMode] = useState<PracticeSubmission["mode"] | "conversation">(
+    "listening",
+  );
   const [round, setRound] = useState(0);
   const [locked, setLocked] = useState(false);
   function expire(message = "Your session expired or changed. Sign in again.") {
@@ -211,7 +214,13 @@ export function PracticePage({
             </section>
           )}
           <div className="practice-tabs" aria-label="Practice mode">
-            {(["listening", "speaking"] as const).map((value) => (
+            {(
+              [
+                "listening",
+                "speaking",
+                ...(task.scenario ? ["conversation" as const] : []),
+              ] as const
+            ).map((value) => (
               <button
                 className={mode === value ? "primary" : "secondary"}
                 key={value}
@@ -219,7 +228,11 @@ export function PracticePage({
                 disabled={locked}
                 onClick={() => setMode(value)}
               >
-                {value === "listening" ? "Listening" : "Speaking"}
+                {value === "listening"
+                  ? "Listening"
+                  : value === "speaking"
+                    ? "Speaking"
+                    : "Conversation"}
               </button>
             ))}
             <button
@@ -230,20 +243,31 @@ export function PracticePage({
               New attempt
             </button>
           </div>
-          <PracticeSession
-            key={`${task.lookupId}:${task.scenario?.id ?? "example"}:${mode}:${round}`}
-            task={task}
-            nextLibrary={practiceReturn(returnTo)}
-            token={token}
-            mode={mode}
-            onSaved={saved}
-            onLocked={setLocked}
-            onExpired={expire}
-            onDiscard={() => {
-              setLocked(false);
-              setRound((value) => value + 1);
-            }}
-          />
+          {mode === "conversation" ? (
+            <DialogueSession
+              key={`${task.lookupId}:${task.scenario?.id}:${round}`}
+              task={task}
+              token={token}
+              onSaved={saved}
+              onLocked={setLocked}
+              onExpired={expire}
+            />
+          ) : (
+            <PracticeSession
+              key={`${task.lookupId}:${task.scenario?.id ?? "example"}:${mode}:${round}`}
+              task={task}
+              nextLibrary={practiceReturn(returnTo)}
+              token={token}
+              mode={mode}
+              onSaved={saved}
+              onLocked={setLocked}
+              onExpired={expire}
+              onDiscard={() => {
+                setLocked(false);
+                setRound((value) => value + 1);
+              }}
+            />
+          )}
           <section aria-label="Recent practice">
             <h2>Recent practice</h2>
             {task.recent.length ? (
@@ -253,7 +277,12 @@ export function PracticePage({
                     {value.scenario
                       ? `${conversationScenarios.find((scenario) => scenario.id === value.scenario)?.title} · `
                       : ""}
-                    {value.mode === "listening" ? "Listening" : "Speaking"} ·{" "}
+                    {value.dialogue
+                      ? `Conversation turn ${value.dialogue.turn}`
+                      : value.mode === "listening"
+                        ? "Listening"
+                        : "Speaking"}{" "}
+                    ·{" "}
                     {value.speakingAssessment
                       ? value.speakingAssessment.overall === null
                         ? "AI: no reliable score"

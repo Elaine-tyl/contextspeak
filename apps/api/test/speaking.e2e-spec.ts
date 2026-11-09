@@ -30,7 +30,10 @@ const assessment = {
   improvements: ["Ask a closing question."],
   suggestedResponse: "I am available on Saturday. Does that work for you?",
 };
-const assess = vi.fn(async () => assessment);
+const assess = vi.fn(
+  async (_input: import("../src/practice/speaking.provider").SpeakingInput) =>
+    assessment,
+);
 async function post(body: object, subject = "speaker-a") {
   return request(app.getHttpServer())
     .post(`/v1/practice/${itemId}/speaking-assessment`)
@@ -194,4 +197,62 @@ it("does_not_resurrect_deleted_vocabulary_after_the_model_finishes", async () =>
   expect(
     await db.prisma.practiceAttempt.count({ where: { userId: user.id } }),
   ).toBe(0);
+});
+
+it("saves_four_owned_dialogue_turns_with_followups_and_prevents_cross_scenario_or_fifth_turns", async () => {
+  const clock = vi.spyOn(Date, "now");
+  let now = new Date().getTime() + 120000;
+  clock.mockImplementation(() => now);
+  const calls = assess.mock.calls.length;
+  let previousTurnId: string | undefined;
+  try {
+    for (let turn = 1; turn <= 4; turn++) {
+      now += 61000;
+      assess.mockResolvedValueOnce({
+        ...assessment,
+        nextTurn: turn < 4 ? `Follow-up ${turn}: where shall we meet?` : null,
+      } as typeof assessment);
+      const body = {
+        ...input(),
+        scenario: "making-plans",
+        conversation: true,
+        ...(previousTurnId ? { previousTurnId } : {}),
+      };
+      const response = await post(body);
+      expect(response.status).toBe(201);
+      expect(response.body.dialogue.turn).toBe(turn);
+      expect(response.body.dialogue.history).toHaveLength(turn - 1);
+      const passed = (assess.mock.calls.at(-1) as unknown as any[])[0];
+      expect(passed.dialogue.turn).toBe(turn);
+      if (turn > 1) {
+        expect(passed.task.sourceText).toContain(`Follow-up ${turn - 1}`);
+        expect(passed.dialogue.history.at(-1).response).toBe(
+          assessment.transcript,
+        );
+      }
+      expect((await post(body)).body.id).toBe(response.body.id);
+      expect(
+        (await post({ ...body, eventId: randomUUID() }, "speaker-b")).status,
+      ).toBe(404);
+      previousTurnId = response.body.id;
+    }
+    expect(assess.mock.calls.length - calls).toBe(4);
+    const body = {
+      ...input(),
+      scenario: "making-plans",
+      conversation: true,
+      previousTurnId,
+    };
+    expect((await post(body)).status).toBe(409);
+    expect((await post({ ...body, scenario: "asking-for-help" })).status).toBe(
+      409,
+    );
+    expect((await post({ ...body, previousTurnId: randomUUID() })).status).toBe(
+      404,
+    );
+    expect((await post({ ...body, conversation: undefined })).status).toBe(400);
+    expect(assess.mock.calls.length - calls).toBe(4);
+  } finally {
+    clock.mockRestore();
+  }
 });

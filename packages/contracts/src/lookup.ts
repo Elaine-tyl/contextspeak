@@ -160,6 +160,7 @@ export {
   type PracticeTask,
   type PracticeReceipt,
   type PracticeItem,
+  type DialogueTurn,
 } from "./practice";
 
 export {
@@ -176,3 +177,10 @@ export {
   type SpeakingUpload,
   type SpeakingAssessment,
 } from "./speaking";
+
+export {
+  alignWords,
+  correctionRanges,
+  type AlignedWord,
+  type SpeakingCorrection,
+} from "./practice-feedback";

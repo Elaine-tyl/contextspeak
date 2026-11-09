@@ -113,3 +113,5 @@ Open **Listening & speaking** in the library sidebar, or choose **Practice liste
 The library keeps search, filters and selected view in its URL. Detail/practice return links restore that view and saved scroll; deeper history reloads its saved pages first. Practice scenarios survive refresh and Back/Forward. AI preparation/playback statuses and nearby Replay / Try again / Choose next expression actions make the next step visible. Account/extension settings are collapsed, and the learning header is smaller.
 
 New AI translations prioritize the meaning in the selected sentence; saved translations are retained. Reload extension **0.7.2** and refresh existing webpages to accept the updated prompt metadata. Prompt revisions are distinct from the version of the learning-card structure.
+
+Guided conversation: choose an everyday scenario in practice, then **Conversation** for four spoken turns with AI follow-ups and a final estimate. Listening highlights word differences after submission; speaking highlights AI-proposed grammar/vocabulary corrections against the transcript. See [practice workflow and privacy](docs/PRACTICE.md).

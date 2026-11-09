@@ -8,9 +8,11 @@ import { createHash } from "node:crypto";
 import type { PrismaClient } from "@prisma/client";
 import type {
   Identity,
+  DialogueTurn,
   PracticeReceipt,
   SpeakingUpload,
 } from "@contextspeak/contracts";
+import { dialogueContext } from "./dialogue";
 import { LibraryService } from "../library/library.service";
 import { PracticeService, practiceReceipt } from "./practice.service";
 import type { SpeakingProvider } from "./speaking.provider";
@@ -99,12 +101,16 @@ export class SpeakingService {
         throw new ConflictException("This event already has another answer.");
       return practiceReceipt(previous);
     }
-    const { recent, ...task } = await this.practice.task(
+    const { recent, ...base } = await this.practice.task(
       identity,
       itemId,
       input.lookupId,
       input.scenario,
     );
+    const task = {
+      ...base,
+      ...(await dialogueContext(this.prisma, userId, base, input)),
+    };
     if (task.language !== "en")
       throw new ConflictException(
         "AI speaking assessment currently supports English practice.",
@@ -121,7 +127,7 @@ export class SpeakingService {
     );
     if (
       this.pending.size > 2 ||
-      times.length >= 3 ||
+      times.length >= (input.conversation ? 6 : 3) ||
       this.globalRequests.length >= 6
     )
       throw new HttpException(
@@ -147,7 +153,9 @@ export class SpeakingService {
     metadata: Omit<SpeakingUpload, "audio">,
     payloadHash: string,
     audioHash: string,
-    task: Omit<Awaited<ReturnType<PracticeService["task"]>>, "recent">,
+    task: Omit<Awaited<ReturnType<PracticeService["task"]>>, "recent"> & {
+      dialogue?: DialogueTurn;
+    },
   ) {
     let assessment;
     try {
@@ -155,6 +163,7 @@ export class SpeakingService {
         audio: input.audio,
         mimeType: input.mimeType,
         task,
+        dialogue: task.dialogue,
       });
     } catch (error) {
       throw new HttpException(
