@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { GamesController } from "./games/games.controller";
 import { GamesService } from "./games/games.service";
 import { SpeechController } from "./speech/speech.controller";
+import { SpeechStore } from "./speech/speech.store";
 import { SpeechService } from "./speech/speech.service";
 import type { SpeechProvider } from "./speech/gemini-speech.provider";
 import type { NestExpressApplication } from "@nestjs/platform-express";
@@ -28,6 +29,8 @@ import {
 export type AppConfig = (AuthConfig | { oidc: OidcConfig }) & {
   prisma: PrismaClient;
   speechProvider?: SpeechProvider;
+  speechFallback?: SpeechProvider;
+  speechCacheDir?: string;
   speakingProvider?: SpeakingProvider;
   provider?: TranslationProvider;
   origins?: string[];
@@ -65,7 +68,14 @@ export async function createApp(config: AppConfig) {
       },
       {
         provide: SpeechService,
-        useValue: new SpeechService(library, config.speechProvider),
+        useValue: new SpeechService(
+          library,
+          config.speechProvider,
+          config.speechCacheDir
+            ? new SpeechStore(config.prisma, config.speechCacheDir)
+            : undefined,
+          config.speechFallback,
+        ),
       },
       {
         provide: PracticeService,

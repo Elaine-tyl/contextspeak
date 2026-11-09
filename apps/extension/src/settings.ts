@@ -51,7 +51,7 @@ export async function api<T>(
             path === "/v1/translations"
               ? 100000
               : path === "/v1/speech"
-                ? 35000
+                ? 180000
                 : 5000,
           ),
         ])
@@ -59,7 +59,7 @@ export async function api<T>(
           path === "/v1/translations"
             ? 100000
             : path === "/v1/speech"
-              ? 35000
+              ? 180000
               : 5000,
         ),
   });

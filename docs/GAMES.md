@@ -17,7 +17,7 @@ The catalog uses short original English texts, including fictional novel excerpt
 
 ## Flow and feedback
 
-Play the cached Gemini challenge audio and finish playback. Dictation: type what you hear and check your answer. Picture/comprehension: select one answer and check it. Transcript/corrections/solutions appear after the result is confirmed; wrong/missing phrases use the existing red highlights. Picture choices have accessible descriptions.
+Play the saved AI challenge audio (local Phonon for English) and finish playback. Dictation: type what you hear and check your answer. Picture/comprehension: select one answer and check it. Transcript/corrections/solutions appear after the result is confirmed; wrong/missing phrases use the existing red highlights. Picture choices have accessible descriptions.
 
 Speaking: read/listen to the prompt, record and stop. The completed recording automatically goes to Gemini; there is no agreement or feedback button. Replay is available locally. Feedback includes the existing estimated rubric, transcript, grounded corrections and reference IPA guidance. The game mark averages the overall and task-response estimates so relevance matters. Silence/unscorable recordings receive no mark and do not unlock or win. Quota/provider errors show an explicit retry; retry uses the same event and recording rather than generating another attempt. Leaving an unconfirmed round cannot recall audio already sent; the result may still save.
 
@@ -29,7 +29,7 @@ Run `pnpm db:generate` and deploy the new Prisma migration before serving the AP
 
 `GET /v1/games` returns the public catalog and owned progress; `POST /v1/games/attempts` validates a bounded answer and returns a durable receipt. Matching in-flight event retries coalesce, completed retries return the saved result, and changed payloads cannot reuse an event. Speaking uploads share the 2 MB decoded/3 MB JSON route limit and signature validation with ordinary practice. Other routes retain the 100 KB JSON limit. Process-local game guards allow two assessment pipelines, six new spoken game requests per user/minute and twelve per process/minute. Existing Gemini project quota is still shared across translation, speech and assessments; no paid fallback is enabled.
 
-Only the server-side existing Gemini key is used. Challenge audio uses the existing per-user speech cache; cached audio remains usable when new generation is unavailable. Recorded audio, prompt and solution criteria go to Google for assessment under the project's existing Gemini setup; unpaid-service data may be used for product improvement. The app stores feedback, not raw recordings. Mode/page changes and account expiry cancel local media and stop microphone tracks.
+Local English playback uses pinned Phonon; the existing server-side Gemini key remains for recorded-answer assessment and configured non-English fallback. Challenge audio uses the existing per-user speech cache; cached audio remains usable when new generation is unavailable. Recorded audio, prompt and solution criteria go to Google for assessment under the project's existing Gemini setup; unpaid-service data may be used for product improvement. The app stores feedback, not raw recordings. Mode/page changes and account expiry cancel local media and stop microphone tracks.
 
 ## Verification
 

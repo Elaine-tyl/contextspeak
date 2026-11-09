@@ -21,6 +21,7 @@ model User {
   sessions          AuthSession[]
   pairings          ExtensionPairing[]
   games             GameAttempt[]
+  speechAssets      SpeechAsset[]
 
   @@unique([issuer, subject])
 }
@@ -169,4 +170,17 @@ model GameAttempt {
 
   @@unique([userId, eventId])
   @@index([userId, score, roundId])
+}
+
+model SpeechAsset {
+  key        String   @id
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  bytes      Int
+  requestHash String
+  digest     String
+  lastUsedAt DateTime @default(now())
+
+  @@index([userId, requestHash, lastUsedAt])
+  @@index([lastUsedAt])
 }

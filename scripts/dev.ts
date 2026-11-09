@@ -1,3 +1,5 @@
+import { startLocalSpeech } from "./local-speech";
+import { OllamaSpeechProvider } from "../apps/api/src/speech/ollama-speech.provider";
 import {
   GeminiSpeechProvider,
   FixtureSpeechProvider,
@@ -58,6 +60,7 @@ let app: Awaited<ReturnType<typeof createApp>> | undefined;
 let web: ChildProcess | undefined;
 let translator: ChildProcess | undefined;
 let localAi: ChildProcess | undefined;
+let localSpeech: ChildProcess | undefined;
 let stopping = false;
 async function stop() {
   if (stopping) return;
@@ -65,6 +68,7 @@ async function stop() {
   web?.kill("SIGTERM");
   translator?.kill("SIGTERM");
   localAi?.kill("SIGTERM");
+  localSpeech?.kill("SIGTERM");
   await app?.close();
   await prisma?.$disconnect();
   await issuer?.close();
@@ -126,6 +130,12 @@ try {
     localAi = await startLocalAi((child) => {
       localAi = child;
     });
+  if (
+    !fixtureTranslation &&
+    process.env.SPEECH_PROVIDER === "ollama" &&
+    !process.env.OLLAMA_SPEECH_URL
+  )
+    localSpeech = await startLocalSpeech();
   const provider = fixtureTranslation
     ? new FixtureTranslationProvider()
     : useGemini
@@ -138,16 +148,25 @@ try {
   app = await createApp({
     prisma,
     provider,
+    speechCacheDir: fixtureTranslation ? undefined : resolve(".local/audio"),
+    speechFallback:
+      process.env.SPEECH_NON_ENGLISH_PROVIDER === "gemini"
+        ? new GeminiSpeechProvider({ apiKey: process.env.GEMINI_API_KEY })
+        : undefined,
     speakingProvider: fixtureTranslation
       ? new FixtureSpeakingProvider()
-      : useGemini || process.env.SPEECH_PROVIDER === "gemini"
+      : useGemini ||
+          process.env.SPEAKING_PROVIDER === "gemini" ||
+          process.env.SPEECH_PROVIDER === "gemini"
         ? new GeminiSpeakingProvider({ apiKey: process.env.GEMINI_API_KEY })
         : undefined,
     speechProvider: fixtureTranslation
       ? new FixtureSpeechProvider()
-      : process.env.SPEECH_PROVIDER === "gemini"
-        ? new GeminiSpeechProvider({ apiKey: process.env.GEMINI_API_KEY })
-        : undefined,
+      : process.env.SPEECH_PROVIDER === "ollama"
+        ? new OllamaSpeechProvider({ url: process.env.OLLAMA_SPEECH_URL })
+        : process.env.SPEECH_PROVIDER === "gemini"
+          ? new GeminiSpeechProvider({ apiKey: process.env.GEMINI_API_KEY })
+          : undefined,
     oidc: {
       issuer: issuer?.issuer ?? "https://accounts.google.com",
       clientId: issuer?.clientId ?? process.env.GOOGLE_CLIENT_ID!,

@@ -7,25 +7,56 @@ import type {
 } from "@contextspeak/contracts";
 import type { LibraryService } from "../library/library.service";
 import type { SpeechProvider } from "./gemini-speech.provider";
+import type { SpeechStore } from "./speech.store";
+const requestKey = (userId: string, input: SpeechInput) =>
+  createHash("sha256")
+    .update(JSON.stringify([userId, input]))
+    .digest("hex");
+type SpeechReply = SpeechAudio & { cached: boolean };
 export class SpeechService {
   private cache = new Map<string, { audio: SpeechAudio; expires: number }>();
-  private pending = new Map<string, Promise<SpeechAudio>>();
+  private pending = new Map<string, Promise<SpeechReply>>();
   private bytes = 0;
   private requests: number[] = [];
+  private active = 0;
+  private localTail = Promise.resolve();
+  private localCount = 0;
+  private cleanupTimer?: ReturnType<typeof setInterval>;
   constructor(
     private library: LibraryService,
     private provider?: SpeechProvider,
+    private store?: SpeechStore,
+    private fallback?: SpeechProvider,
   ) {}
+  async onModuleInit() {
+    if (!this.store) return;
+    await this.store.cleanup();
+    this.cleanupTimer = setInterval(
+      () =>
+        void this.store!.cleanup().catch(() =>
+          console.warn("Speech storage cleanup failed."),
+        ),
+      300000,
+    );
+    this.cleanupTimer.unref();
+  }
+  onModuleDestroy() {
+    clearInterval(this.cleanupTimer);
+  }
   async speak(identity: Identity, input: SpeechInput) {
     const user = await this.library.actor(identity);
+    const provider =
+      this.provider?.languages &&
+      !this.provider.languages.includes(input.language)
+        ? this.fallback
+        : this.provider;
     const key = createHash("sha256")
-      .update(JSON.stringify([user.id, input]))
+      .update(JSON.stringify([user.id, provider?.cacheKey ?? "default", input]))
       .digest("hex");
     const now = Date.now();
     for (const [id, entry] of this.cache)
       if (entry.expires <= now) this.remove(id);
     const cached = this.cache.get(key);
-    // Check successful audio before provider limits: saved playback survives quota errors.
     if (cached) {
       this.cache.delete(key);
       this.cache.set(key, cached);
@@ -33,18 +64,58 @@ export class SpeechService {
     }
     const pending = this.pending.get(key);
     if (pending) return { ...(await pending), cached: true };
-    if (!this.provider)
-      throw new HttpException({ code: "SPEECH_UNAVAILABLE" }, 503);
-    this.requests = this.requests.filter((time) => time > now - 60000);
-    if (this.pending.size >= 2 || this.requests.length >= 6)
-      throw new HttpException({ code: "SPEECH_BUSY" }, 429);
-    this.requests.push(now);
-    const generation = this.generate(key, input);
+    // Reserve before the asynchronous disk lookup so restart misses also coalesce.
+    const generation = this.resolve(user.id, key, input, provider);
     this.pending.set(key, generation);
     try {
-      return { ...(await generation), cached: false };
+      return await generation;
     } finally {
       this.pending.delete(key);
+    }
+  }
+  private async resolve(
+    userId: string,
+    key: string,
+    input: SpeechInput,
+    provider?: SpeechProvider,
+  ): Promise<SpeechReply> {
+    const stored = provider
+      ? await this.store?.get(userId, key)
+      : await this.store?.getLatest(userId, requestKey(userId, input));
+    if (stored) {
+      this.remember(key, stored);
+      return { ...stored, cached: true };
+    }
+    if (!provider) throw new HttpException({ code: "SPEECH_UNAVAILABLE" }, 503);
+    if (provider.local)
+      return this.queueLocal(() => this.generate(userId, key, input, provider));
+    const now = Date.now();
+    this.requests = this.requests.filter((time) => time > now - 60000);
+    if (this.active >= 2 || this.requests.length >= 6)
+      throw new HttpException({ code: "SPEECH_BUSY" }, 429);
+    this.requests.push(now);
+    this.active++;
+    try {
+      return await this.generate(userId, key, input, provider);
+    } finally {
+      this.active--;
+    }
+  }
+  private async queueLocal(work: () => Promise<SpeechReply>) {
+    if (this.localCount >= 2)
+      throw new HttpException({ code: "SPEECH_BUSY" }, 429);
+    const previous = this.localTail;
+    let release!: () => void;
+    this.localTail = new Promise<void>((resolve) => {
+      release = resolve;
+    });
+    this.localCount++;
+    await previous;
+    try {
+      return await work();
+    } finally {
+      this.localCount--;
+      release();
     }
   }
   private remove(key: string) {
@@ -52,27 +123,41 @@ export class SpeechService {
     if (entry) this.bytes -= entry.audio.audio.length;
     this.cache.delete(key);
   }
-  private async generate(key: string, input: SpeechInput) {
+  private remember(key: string, audio: SpeechAudio) {
+    this.remove(key);
+    while (
+      this.cache.size >= 100 ||
+      this.bytes + audio.audio.length > 32 * 1024 * 1024
+    ) {
+      const oldest = this.cache.keys().next().value;
+      if (oldest === undefined) break;
+      this.remove(oldest);
+    }
+    if (audio.audio.length <= 32 * 1024 * 1024) {
+      this.cache.set(key, { audio, expires: Date.now() + 86400000 });
+      this.bytes += audio.audio.length;
+    }
+  }
+  private async generate(
+    userId: string,
+    key: string,
+    input: SpeechInput,
+    provider: SpeechProvider,
+  ): Promise<SpeechReply> {
     try {
-      const audio = await this.provider!.generate(input);
-      while (
-        this.cache.size >= 100 ||
-        this.bytes + audio.audio.length > 32 * 1024 * 1024
-      ) {
-        const oldest = this.cache.keys().next().value;
-        if (oldest === undefined) break;
-        this.remove(oldest);
-      }
-      if (audio.audio.length <= 32 * 1024 * 1024) {
-        this.cache.set(key, { audio, expires: Date.now() + 86400000 });
-        this.bytes += audio.audio.length;
-      }
-      return audio;
+      const audio = await provider.generate(input);
+      await this.store?.put(userId, key, audio, requestKey(userId, input));
+      this.remember(key, audio);
+      return { ...audio, cached: false };
     } catch (error) {
-      const status = (error as { status?: number }).status;
       throw new HttpException(
-        { code: status === 429 ? "SPEECH_QUOTA" : "SPEECH_UNAVAILABLE" },
-        status === 429 ? 429 : 503,
+        {
+          code:
+            (error as { status?: number }).status === 429
+              ? "SPEECH_QUOTA"
+              : "SPEECH_UNAVAILABLE",
+        },
+        (error as { status?: number }).status === 429 ? 429 : 503,
       );
     }
   }

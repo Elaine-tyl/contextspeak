@@ -62,7 +62,7 @@ export function useAiSpeech(
         "/v1/speech",
         "POST",
         input.data,
-        { signal: controller.signal, timeoutMs: 35000 },
+        { signal: controller.signal, timeoutMs: 180000 },
       );
       const audio = speechAudioSchema.parse(response);
       const session = await api<WebSession>(

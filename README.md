@@ -117,3 +117,5 @@ New AI translations prioritize the meaning in the selected sentence; saved trans
 Guided conversation: choose an everyday scenario in practice, then **Conversation** for four spoken turns with AI follow-ups and a final estimate. Listening highlights word differences after submission; speaking highlights AI-proposed grammar/vocabulary corrections against the transcript. See [practice workflow and privacy](docs/PRACTICE.md).
 
 **Game practice:** open `/games` or the library sidebar for 27 original listening/speaking challenges, independent level unlocks and a clearly labelled simulated AI PK opponent. See [game setup and rules](docs/GAMES.md).
+
+**Local and saved voices:** `pnpm speech:setup` downloads pinned English Phonon. Use `SPEECH_PROVIDER=ollama`; generated WAVs persist privately in `.local/audio` with Prisma/PostgreSQL metadata and bounded cleanup. See [voice setup and storage](docs/AI_SPEECH.md). Gemini recording assessment and any configured non-English fallback retain their own quotas.

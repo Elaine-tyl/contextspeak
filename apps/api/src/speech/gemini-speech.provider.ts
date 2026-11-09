@@ -1,6 +1,9 @@
 import type { SpeechAudio, SpeechInput } from "@contextspeak/contracts";
 export const SPEECH_MODEL = "gemini-3.8-flash-lite-tts";
 export interface SpeechProvider {
+  readonly cacheKey?: string;
+  readonly local?: boolean;
+  readonly languages?: readonly string[];
   generate(input: SpeechInput): Promise<SpeechAudio>;
 }
 export class SpeechFailure extends Error {
@@ -56,6 +59,7 @@ export function validateWav(audio: Buffer) {
   if (!format || !data || offset !== audio.length) invalid();
 }
 export class GeminiSpeechProvider implements SpeechProvider {
+  readonly cacheKey = `${SPEECH_MODEL}:Kore:v1`;
   constructor(
     private options: { apiKey?: string; fetcher?: typeof fetch } = {},
   ) {}
@@ -132,6 +136,7 @@ export class GeminiSpeechProvider implements SpeechProvider {
   }
 }
 export class FixtureSpeechProvider implements SpeechProvider {
+  readonly cacheKey = "fixture-speech-v1";
   async generate(): Promise<SpeechAudio> {
     const audio = Buffer.alloc(1644);
     audio.write("RIFF", 0);

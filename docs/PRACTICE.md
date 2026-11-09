@@ -4,7 +4,7 @@ Open **Listening & speaking** in the library sidebar or a vocabulary detail page
 
 ## AI audio
 
-All generated practice, word and example audio uses the existing [cached Gemini AI voice](AI_SPEECH.md). Keep `SPEECH_PROVIDER=gemini` and the server-side key in ignored `.env.local`. Google receives the played text and language; completed English microphone recordings upload automatically for speaking feedback as described below. Playback starts only on a click, and another selection, account change, hidden tab or navigation cancels it. There is no device-voice fallback.
+Generated practice, word and example audio uses the [shared saved voice service](AI_SPEECH.md): local Ollama/Phonon for English, with explicitly configured Gemini fallback for other languages. Keep local voice and Gemini recording-assessment settings separate in ignored `.env.local`. Only configured cloud playback sends played text/language to Google; completed English microphone recordings upload automatically for speaking feedback as described below. Playback starts only on a click, and another selection, account change, hidden tab or navigation cancels it. There is no device-voice fallback.
 
 Preparing and playing audio have accessible status messages. Audio uses the shared per-user cache and provider quotas. Cached audio can still play when new generation reaches its limit. Failed requests show an error and allow retry; they cannot unlock submission. A known supported source language is required. Up to 20 completed plays are allowed per attempt.
 

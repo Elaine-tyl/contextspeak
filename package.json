@@ -24,7 +24,8 @@
     "test:popup": "pnpm build:extension && playwright test --config playwright.popup.config.ts",
     "ai:setup": "tsx scripts/local-ai.ts --setup",
     "test:gemini:live": "pnpm build:extension && playwright test --config playwright.gemini.config.ts",
-    "test:ai:live": "pnpm build:extension && playwright test --config playwright.ai.config.ts"
+    "test:ai:live": "pnpm build:extension && playwright test --config playwright.ai.config.ts",
+    "speech:setup": "tsx scripts/local-speech.ts --setup"
   },
   "devDependencies": {
     "@nestjs/common": "12.3.3",
