@@ -12,22 +12,24 @@ export const reviewSubmissionSchema = z
   })
   .strict();
 export type ReviewSubmission = z.infer<typeof reviewSubmissionSchema>;
-export interface ReviewPrompt {
-  id: string;
-  version: number;
-  prompt: string;
-  answer: string;
-  context: string | null;
-  sourceLanguage: string;
-  targetLanguage: string;
-  dueAt: string;
-}
-export interface ReviewQueue {
-  items: ReviewPrompt[];
-  dueCount: number;
-  totalCount: number;
-  nextDueAt: string | null;
-}
+export const reviewPromptSchema = z.object({
+  id: z.string().min(1),
+  version: z.number().int().nonnegative(),
+  prompt: z.string().min(1),
+  answer: z.string().min(1),
+  context: z.string().nullable(),
+  sourceLanguage: z.string().min(1),
+  targetLanguage: z.string().min(1),
+  dueAt: z.iso.datetime(),
+});
+export const reviewQueueSchema = z.object({
+  items: z.array(reviewPromptSchema),
+  dueCount: z.number().int().nonnegative(),
+  totalCount: z.number().int().nonnegative(),
+  nextDueAt: z.iso.datetime().nullable(),
+});
+export type ReviewPrompt = z.infer<typeof reviewPromptSchema>;
+export type ReviewQueue = z.infer<typeof reviewQueueSchema>;
 export interface ReviewReceipt {
   id: string;
   version: number;

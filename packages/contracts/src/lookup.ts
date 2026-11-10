@@ -144,6 +144,8 @@ export {
 export {
   reviewSubmissionSchema,
   reviewEnrollmentSchema,
+  reviewPromptSchema,
+  reviewQueueSchema,
   type ReviewSubmission,
   type ReviewPrompt,
   type ReviewQueue,

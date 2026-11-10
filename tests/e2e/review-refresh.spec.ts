@@ -129,3 +129,34 @@ test("returning_to_an_empty_queue_checks_for_cards_added_elsewhere", async ({
     queue.getByRole("heading", { name: "available", exact: true }),
   ).toBeVisible();
 });
+test("malformed_review_refresh_keeps_revealed_recall_and_navigation_usable", async ({
+  page,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => errors.push(error.message));
+  let malformed = false;
+  const queue = await prepare(page, () =>
+    malformed
+      ? {}
+      : { items: [prompt], dueCount: 1, totalCount: 1, nextDueAt: null },
+  );
+  await queue.getByRole("button", { name: "Show answer", exact: true }).click();
+  malformed = true;
+  await queue
+    .getByRole("button", { name: "Refresh queue", exact: true })
+    .click();
+  await expect(queue.getByRole("alert")).toContainText(
+    "Could not load reviews",
+  );
+  await expect(queue.getByText("有空的", { exact: true })).toBeVisible();
+  await expect(
+    queue.getByRole("heading", { name: "No reviews yet.", exact: true }),
+  ).toHaveCount(0);
+  await page
+    .getByRole("button", { name: "Vocabulary candidates", exact: false })
+    .click();
+  await expect(
+    page.getByRole("heading", { name: "Vocabulary candidates", exact: true }),
+  ).toBeVisible();
+  expect(errors).toEqual([]);
+});

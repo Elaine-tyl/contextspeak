@@ -30,6 +30,8 @@ test("library_search_filters_and_return_navigation_survive_refresh", async ({
         expiresAt: new Date(Date.now() + 3600000).toISOString(),
       };
     if (path === "/v1/settings") data = { enabled: true, excludedOrigins: [] };
+    if (path === "/v1/reviews")
+      data = { items: [], dueCount: 0, totalCount: 0, nextDueAt: null };
     if (path === "/v1/lookups") data = { items: [lookup], nextCursor: null };
     if (path === "/v1/learning-items")
       data = { items: [item], nextCursor: null };
@@ -59,6 +61,9 @@ test("library_search_filters_and_return_navigation_survive_refresh", async ({
   await expect(page.getByLabel("Search library")).toHaveValue("available");
   await page.getByRole("button", { name: "Review queue", exact: true }).click();
   await expect(page).toHaveURL(/view=reviews/);
+  await expect(
+    page.getByRole("heading", { name: "No reviews yet.", exact: true }),
+  ).toBeVisible();
   await page.goBack();
   await expect(
     page.getByRole("heading", { name: "Vocabulary candidates", exact: true }),

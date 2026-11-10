@@ -6,6 +6,7 @@ import type {
   ReviewReceipt,
   ReviewSubmission,
 } from "@contextspeak/contracts";
+import { reviewQueueSchema } from "@contextspeak/contracts";
 import { api } from "../../src/api";
 function dateLabel(value: string) {
   return new Date(value).toLocaleString("en-GB", {
@@ -28,7 +29,10 @@ export function ReviewQueue({ token, onChanged }: Props) {
     setLoading(true);
     setError("");
     try {
-      const result = await api<Queue>(token, "/v1/reviews");
+      // Keep the last valid queue if a malformed response arrives during refresh.
+      const result = reviewQueueSchema.parse(
+        await api<unknown>(token, "/v1/reviews"),
+      );
       if (current === request.current) setQueue(result);
     } catch {
       if (current === request.current)
