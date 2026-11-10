@@ -88,8 +88,9 @@ export class ExpansionService {
       .digest("hex");
     const cached = this.cache.get(key);
     let value = cached && cached.until > Date.now() ? cached.value : undefined;
+    let work: Promise<WordExpansion> | undefined;
     if (!value) {
-      let work = this.pending.get(key);
+      work = this.pending.get(key);
       if (!work) {
         for (const [id, times] of this.requests)
           if (times.every((time) => time < Date.now() - 60000))
@@ -116,47 +117,54 @@ export class ExpansionService {
       try {
         value = await work;
       } catch {
+        if (this.pending.get(key) === work) this.pending.delete(key);
         throw new ServiceUnavailableException(
           "Expansion unavailable. The base translation is unchanged.",
         );
-      } finally {
-        if (this.pending.get(key) === work) this.pending.delete(key);
       }
     }
-    await this.prisma.$transaction(async (tx) => {
-      await tx.$queryRaw`SELECT id FROM "User" WHERE id = ${user.id} FOR UPDATE`;
-      const current = await tx.user.findUnique({ where: { id: user.id } });
-      if (!current) throw new NotFoundException();
-      if (current.consentVersion !== user.consentVersion)
-        throw new ConflictException("Collection settings changed.");
-      this.cache.set(key, {
-        userId: user.id,
-        until: Date.now() + 86400000,
-        value,
+    try {
+      await this.prisma.$transaction(async (tx) => {
+        await tx.$queryRaw`SELECT id FROM "User" WHERE id = ${user.id} FOR UPDATE`;
+        const current = await tx.user.findUnique({ where: { id: user.id } });
+        if (!current) throw new NotFoundException();
+        if (current.consentVersion !== user.consentVersion)
+          throw new ConflictException("Collection settings changed.");
+        this.cache.set(key, {
+          userId: user.id,
+          until: Date.now() + 86400000,
+          value,
+        });
+        if (this.cache.size > 500)
+          this.cache.delete(this.cache.keys().next().value!);
+        if (lookup) {
+          const row = await tx.lookupEvent.findFirst({
+            where: {
+              id: lookup.id,
+              userId: user.id,
+              translationStatus: "succeeded",
+            },
+          });
+          const details = learningDetailsSchema.safeParse(row?.learningDetails);
+          if (!details.success)
+            throw new ConflictException(
+              "Saved learning notes are unavailable.",
+            );
+          await tx.lookupEvent.update({
+            where: { id: lookup.id },
+            data: {
+              learningDetails: JSON.parse(
+                JSON.stringify({ ...details.data, expansion: value }),
+              ) as Prisma.InputJsonValue,
+            },
+          });
+        }
       });
-      if (this.cache.size > 500)
-        this.cache.delete(this.cache.keys().next().value!);
-      if (lookup) {
-        const row = await tx.lookupEvent.findFirst({
-          where: {
-            id: lookup.id,
-            userId: user.id,
-            translationStatus: "succeeded",
-          },
-        });
-        const details = learningDetailsSchema.safeParse(row?.learningDetails);
-        if (!details.success)
-          throw new ConflictException("Saved learning notes are unavailable.");
-        await tx.lookupEvent.update({
-          where: { id: lookup.id },
-          data: {
-            learningDetails: JSON.parse(
-              JSON.stringify({ ...details.data, expansion: value }),
-            ) as Prisma.InputJsonValue,
-          },
-        });
-      }
-    });
+    } finally {
+      // Keep the reservation until the checked cache is visible, not just until
+      // model generation ends; otherwise a concurrent request can generate again.
+      if (work && this.pending.get(key) === work) this.pending.delete(key);
+    }
     return { expansion: value };
   }
 }
