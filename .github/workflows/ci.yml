@@ -46,7 +46,12 @@ jobs:
       - name: Build extension
         run: pnpm build:extension
       - name: Install Chromium and Linux dependencies
-        run: pnpm exec playwright install --with-deps chromium
+        run: |
+          # Avoid the hosted runner's HTTP Azure mirror timing out before tests.
+          if [ -f /etc/apt/apt-mirrors.txt ]; then
+            sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' /etc/apt/apt-mirrors.txt
+          fi
+          pnpm exec playwright install --with-deps chromium
       # Default browser tests use simulated login and translation fixtures only.
       - name: Capture and library browser tests
         run: pnpm exec playwright test
