@@ -250,3 +250,46 @@ it("uses only different independent reliable practice tasks for a vocabulary gap
   expect(item.practiceEvidence).toBe(2);
   expect(item.signals.gap).toBeCloseTo(0.7);
 });
+it("reports new-context readiness separately from total saved contexts and matches the appropriate goal", async () => {
+  const cached = (await call()).body;
+  expect(cached.analysis).toMatchObject({
+    status: "up-to-date",
+    newContexts: 0,
+    minimum: 10,
+  });
+  await lookup(60, "Would you please help me find the bus platform today?");
+  const fresh = (await call()).body;
+  expect(fresh.contextCount).toBeGreaterThan(10);
+  expect(fresh.analysis).toMatchObject({
+    status: "needs-context",
+    newContexts: 1,
+    minimum: 10,
+  });
+  await call("/goals", "put", { goals: ["introductions", "asking-for-help"] });
+  const plan = (await call()).body;
+  expect(
+    plan.priorities.some((row: { matchedGoals: string[] }) =>
+      row.matchedGoals.includes("asking-for-help"),
+    ),
+  ).toBe(true);
+});
+it("does not overwrite confirmed goals changed in another tab", async () => {
+  const previous = (await call()).body.profile.goals;
+  expect(
+    (
+      await call("/goals", "put", {
+        goals: ["making-plans"],
+        expectedGoals: previous,
+      })
+    ).status,
+  ).toBe(200);
+  expect(
+    (
+      await call("/goals", "put", {
+        goals: ["introductions"],
+        expectedGoals: previous,
+      })
+    ).status,
+  ).toBe(409);
+  expect((await call()).body.profile.goals).toEqual(["making-plans"]);
+});

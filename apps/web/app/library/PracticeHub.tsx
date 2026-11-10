@@ -7,7 +7,7 @@ import {
   type PracticeItem,
 } from "@contextspeak/contracts";
 import { api } from "../../src/api";
-import { withLibraryReturn } from "../../src/navigation";
+import { withLibraryReturn, practiceMode } from "../../src/navigation";
 import {
   rememberLibraryScroll,
   updateQuery,
@@ -22,6 +22,7 @@ export function PracticeHub({ token }: { token: string }) {
       (value) => value.id === params.get("practiceScenario"),
     )?.id ?? "";
   const query = (params.get("practiceQ") ?? "").slice(0, 200);
+  const mode = practiceMode(params.get("practiceMode"));
   const language = params.get("practiceLanguage") ?? "";
   const returnTo = "/library" + search;
   const [items, setItems] = useState<PracticeItem[]>([]);
@@ -152,7 +153,7 @@ export function PracticeHub({ token }: { token: string }) {
                 <h3>
                   <Link
                     href={withLibraryReturn(
-                      `/practice/${item.id}?lookup=${item.lookupId}${scenario ? `&scenario=${scenario}` : ""}`,
+                      `/practice/${item.id}?lookup=${item.lookupId}${mode === "speaking" ? "&mode=speaking" : ""}${scenario ? `&scenario=${scenario}` : ""}`,
                       returnTo,
                     )}
                     onClick={() => rememberLibraryScroll()}

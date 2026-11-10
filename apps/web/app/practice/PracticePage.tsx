@@ -12,7 +12,8 @@ import type {
 } from "@contextspeak/contracts";
 import { api, ApiError, API, type WebSession } from "../../src/api";
 import {
-  libraryReturn,
+  learningReturn,
+  practiceMode,
   withLibraryReturn,
   practiceReturn,
 } from "../../src/navigation";
@@ -26,22 +27,25 @@ export function PracticePage({
   lookupId,
   scenarioId,
   returnTo = "/library",
+  initialMode = "listening",
 }: {
   id: string;
   lookupId?: string;
   scenarioId?: ScenarioId;
   returnTo?: string;
+  initialMode?: "listening" | "speaking" | "conversation";
 }) {
   const [scenario, setScenario] = useState<ScenarioId | "">(scenarioId ?? "");
   useEffect(() => {
-    const restore = () =>
-      setScenario(
+    const restore = () => {
+      const query = new URLSearchParams(window.location.search);
+      const restored =
         conversationScenarios.find(
-          (value) =>
-            value.id ===
-            new URLSearchParams(window.location.search).get("scenario"),
-        )?.id ?? "",
-      );
+          (value) => value.id === query.get("scenario"),
+        )?.id ?? "";
+      setMode(practiceMode(query.get("mode"), Boolean(restored)));
+      setScenario(restored);
+    };
     window.addEventListener("popstate", restore);
     return () => window.removeEventListener("popstate", restore);
   }, []);
@@ -51,7 +55,7 @@ export function PracticePage({
   const [loading, setLoading] = useState(true);
   const [retry, setRetry] = useState(0);
   const [mode, setMode] = useState<PracticeSubmission["mode"] | "conversation">(
-    "listening",
+    initialMode,
   );
   const [round, setRound] = useState(0);
   const [locked, setLocked] = useState(false);
@@ -150,13 +154,18 @@ export function PracticePage({
         : null,
     );
   }
-  const back = withLibraryReturn(
-    `/library/item/${encodeURIComponent(id)}${lookupId ? `?lookup=${encodeURIComponent(lookupId)}` : ""}`,
-    libraryReturn(returnTo),
-  );
+  const back =
+    returnTo === "/progress"
+      ? "/progress"
+      : withLibraryReturn(
+          `/library/item/${encodeURIComponent(id)}${lookupId ? `?lookup=${encodeURIComponent(lookupId)}` : ""}`,
+          learningReturn(returnTo),
+        );
   return (
     <main className="vocabulary-detail practice-page">
-      <Link href={back}>Back to vocabulary</Link>
+      <Link href={back}>
+        {returnTo === "/progress" ? "Back to progress" : "Back to vocabulary"}
+      </Link>
       <h1>Listening and speaking</h1>
       <p className="section-copy">
         Practice with cached AI voices and local recording. Submit what you hear
@@ -173,10 +182,17 @@ export function PracticePage({
             onChange={(event) => {
               setTask(null);
               setLoading(true);
-              setMode("listening");
+              const nextMode =
+                mode === "conversation" && !event.target.value
+                  ? "speaking"
+                  : mode;
+              setMode(nextMode);
               setRound(0);
               setScenario(event.target.value as ScenarioId | "");
-              updateQuery({ scenario: event.target.value }, true);
+              updateQuery(
+                { scenario: event.target.value, mode: nextMode },
+                true,
+              );
             }}
           >
             <option value="">Saved example</option>
@@ -226,7 +242,10 @@ export function PracticePage({
                 key={value}
                 aria-pressed={mode === value}
                 disabled={locked}
-                onClick={() => setMode(value)}
+                onClick={() => {
+                  setMode(value);
+                  updateQuery({ mode: value }, true);
+                }}
               >
                 {value === "listening"
                   ? "Listening"

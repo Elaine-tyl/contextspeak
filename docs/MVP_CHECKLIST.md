@@ -34,3 +34,5 @@ No RAG, broad crawling, full-duplex voice, custom training, real-player matchmak
 - Independent review led to regressions for slow AI responses, unsaved/reset goals, context capture during analysis, trusted deleted-account identity and late audio-cache generations.
 
 These are local development results. External gates above remain open.
+
+Follow-up learner audit: compact daily actions, clearer goal drafts, fresh-context eligibility, conservative priorities and skill-preserving navigation added. Latest verification: 261 unit/database regressions, 60 browser tests and direct Chrome checks; see [learner audit](LEARNER_AUDIT.md). External gates remain open.

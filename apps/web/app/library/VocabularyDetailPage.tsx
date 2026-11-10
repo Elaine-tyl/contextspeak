@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReviewReceipt, VocabularyDetail } from "@contextspeak/contracts";
 import { API, api, ApiError, type WebSession } from "../../src/api";
-import { libraryReturn, withLibraryReturn } from "../../src/navigation";
+import { learningReturn, withLibraryReturn } from "../../src/navigation";
 import { SpeakerButton } from "./SpeakerButton";
 import { LearningNotes } from "./LearningNotes";
 import "./library.css";
@@ -134,12 +134,12 @@ export function VocabularyDetailPage({
   return (
     <main className="vocabulary-detail">
       <a
-        href={libraryReturn(
+        href={learningReturn(
           returnTo,
           lookupId ? "/library" : "/library?view=candidates",
         )}
       >
-        Back to library
+        {returnTo === "/progress" ? "Back to progress" : "Back to library"}
       </a>
       {message && <p role="alert">{message}</p>}
       {!token && !loading && (
@@ -220,7 +220,7 @@ export function VocabularyDetailPage({
                 className="secondary"
                 href={withLibraryReturn(
                   `/practice/${encodeURIComponent(id)}?lookup=${encodeURIComponent(lookup.id)}`,
-                  libraryReturn(returnTo),
+                  learningReturn(returnTo),
                 )}
               >
                 Practice listening and speaking

@@ -531,6 +531,10 @@ test("practice_saves_through_the_real_API_and_native_recording_produces_decodabl
   await expect(
     page.getByRole("heading", { name: "Making plans", exact: true }),
   ).toBeVisible();
+  await expect(
+    page.getByRole("button", { name: "Speaking", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Listening", exact: true }).click();
   await page.getByRole("button", { name: "Play audio", exact: true }).click();
   await expect(
     page.getByText("Playback complete.", { exact: true }),
@@ -673,6 +677,10 @@ test("scenarios_hide_the_partner_turn_lock_retries_and_clear_recordings_on_switc
     .poll(() => page.evaluate(() => (window as any).audioFixture.stops))
     .toBeGreaterThan(stops);
   await expect(page.getByLabel("Your recording")).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "Speaking", exact: true }),
+  ).toHaveAttribute("aria-pressed", "true");
+  await page.getByRole("button", { name: "Listening", exact: true }).click();
   await expect(page.getByLabel("Type what you hear")).toHaveValue("");
   await expect(
     page.getByText("Would you like to meet for coffee this weekend?", {

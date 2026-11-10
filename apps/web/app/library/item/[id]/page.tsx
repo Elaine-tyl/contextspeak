@@ -1,4 +1,4 @@
-import { libraryReturn } from "../../../../src/navigation";
+import { learningReturn } from "../../../../src/navigation";
 import { VocabularyDetailPage } from "../../VocabularyDetailPage";
 export default async function Page({
   params,
@@ -14,7 +14,7 @@ export default async function Page({
   return (
     <VocabularyDetailPage
       id={id}
-      returnTo={query.returnTo ? libraryReturn(query.returnTo) : undefined}
+      returnTo={query.returnTo ? learningReturn(query.returnTo) : undefined}
       lookupId={typeof query.lookup === "string" ? query.lookup : undefined}
     />
   );

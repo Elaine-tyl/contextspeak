@@ -13,3 +13,5 @@ The read-only `GET /v1/progress` endpoint uses bounded owned SQL reads and aggre
 Regression coverage includes ownership, empty states, due versus paused cards, recent versus old events, unreliable-audio floods, self-check/old-rubric exclusion, repeated/assisted weakness evidence, per-mode levels, login redirects, stale-data display, initial failures and account cleanup. Real learner calibration remains a separate release gate.
 
 The same page includes the [personal learning plan](PERSONALIZATION.md): learner-confirmed goals, optional AI suggestions and inspectable priorities. The associated additive migration stores the profile on User. The progress endpoint itself never invokes AI. Account export/deletion is available from the shared Account link.
+
+The pilot usability pass adds a Review / Listen / Speak entry, compact priorities (five by default), clear goal drafts and real new-context readiness. Speaking opens Speaking directly and keeps that mode when the scenario changes; Dashboard-originated detail/practice links can return to Progress. See [the learner audit](LEARNER_AUDIT.md).

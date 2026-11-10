@@ -40,3 +40,20 @@ it("keeps_practice_filters_when_choosing_the_next_expression", () => {
     "/library?view=practice",
   );
 });
+it("preserves only safe learning return routes", async () => {
+  const { learningReturn, practiceMode } = await import("../src/navigation");
+  expect(learningReturn("/progress")).toBe("/progress");
+  expect(
+    withLibraryReturn("/practice/item?mode=speaking", "/progress"),
+  ).toContain("returnTo=%2Fprogress");
+  for (const value of [
+    "https://evil.example/progress",
+    "//evil.example/progress",
+    "/progress?next=https://evil.example",
+    "/account",
+  ])
+    expect(learningReturn(value)).toBe("/library");
+  expect(practiceMode("speaking")).toBe("speaking");
+  expect(practiceMode("untrusted")).toBe("listening");
+  expect(practiceMode("conversation", false)).toBe("listening");
+});

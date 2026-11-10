@@ -14,7 +14,7 @@ Normalize each score to [0,1] and start with this explainable ranking:
 
 `priority = 0.30 goal keyword relevance + 0.25 personal encounter frequency + 0.20 subtitle-domain frequency + 0.15 reliable practice gap + 0.10 review urgency`
 
-The implemented snapshot, missing-signal normalization, evidence rules and ownership limits are documented in [Personalization](PERSONALIZATION.md). Subtitle counts are not universal frequency; the model never supplies invented frequency data.
+The implemented snapshot, fixed-scale handling of missing signals, evidence rules and ownership limits are documented in [Personalization](PERSONALIZATION.md). Subtitle counts are not universal frequency; the model never supplies invented frequency data.
 
 Use capped log-scaled eligible encounter counts for personal frequency; unknown skill is neutral (0.5). Review urgency comes from the scheduler, and zero is used for unscheduled items. Exclude ignored/archived items before ranking. Missing general frequency is marked unavailable and remaining weights are renormalized; do not invent a model-based frequency value. These starting weights require pilot calibration.
 

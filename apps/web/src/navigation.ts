@@ -12,7 +12,7 @@ export function libraryReturn(value: unknown, fallback = "/library") {
   }
 }
 export function withLibraryReturn(href: string, returnTo: string) {
-  const target = libraryReturn(returnTo);
+  const target = learningReturn(returnTo);
   return target === "/library"
     ? href
     : `${href}${href.includes("?") ? "&" : "?"}returnTo=${encodeURIComponent(target)}`;
@@ -22,4 +22,16 @@ export function practiceReturn(value: unknown) {
   const url = new URL(libraryReturn(value), "http://contextspeak.invalid");
   url.searchParams.set("view", "practice");
   return url.pathname + url.search;
+}
+
+// Dashboard is the only extra return destination; never accept a URL prefix match.
+export function learningReturn(value: unknown, fallback = "/library") {
+  return value === "/progress" ? "/progress" : libraryReturn(value, fallback);
+}
+export function practiceMode(
+  value: unknown,
+  hasScenario = false,
+): "listening" | "speaking" | "conversation" {
+  if (value === "speaking") return "speaking";
+  return value === "conversation" && hasScenario ? "conversation" : "listening";
 }

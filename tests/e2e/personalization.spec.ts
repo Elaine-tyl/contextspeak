@@ -77,6 +77,7 @@ test("scenario_analysis_waits_for_slow_provider_responses", async ({
           ...data.personalization,
           contextCount: 10,
           suggestionAvailable: true,
+          analysis: { status: "ready", newContexts: 10, minimum: 10 },
         },
       },
     });

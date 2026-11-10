@@ -2,19 +2,35 @@
 import Link from "next/link";
 import type { SkillProgress } from "@contextspeak/contracts";
 import { API } from "../../src/api";
+import { practiceEntry } from "../../src/learning-plan";
+import { DailyActions } from "./DailyActions";
 import { PersonalizationPanel } from "./PersonalizationPanel";
 import { useProgress } from "./useProgress";
 import "../library/library.css";
 import "../practice/practice.css";
 import "./progress.css";
-function SkillCard({ title, value }: { title: string; value: SkillProgress }) {
+function SkillCard({
+  title,
+  value,
+  href,
+}: {
+  title: string;
+  value: SkillProgress;
+  href: string;
+}) {
   return (
     <section className="progress-card" aria-label={`${title} progress`}>
       <h2>{title}</h2>
       <strong className="progress-number">
-        {value.average === null ? "No score yet" : `${value.average}/100`}
+        {value.average === null ? "No eligible score" : `${value.average}/100`}
       </strong>
       <p>{value.scored} assessed samples · last 30 days</p>
+      {value.scored === 0 && (
+        <p>
+          Only current, reliable assessments appear here. Older or unscorable
+          feedback may still be visible in your practice history.
+        </p>
+      )}
       {value.unscorable > 0 && (
         <p>{value.unscorable} unscorable recordings excluded from scores.</p>
       )}
@@ -23,7 +39,7 @@ function SkillCard({ title, value }: { title: string; value: SkillProgress }) {
           ? `Focus: ${value.focus.dimension.replace("taskResponse", "task response")} · ${value.focus.evidenceCount} different independent tasks.`
           : "No consistent focus has been established from recent independent tasks."}
       </p>
-      <Link href="/library?view=practice">Practise {title.toLowerCase()}</Link>
+      <Link href={href}>Practise {title.toLowerCase()}</Link>
     </section>
   );
 }
@@ -35,8 +51,8 @@ export default function ProgressPage() {
       <p className="eyebrow">ContextSpeak · your learning</p>
       <h1>Learning progress</h1>
       <p>
-        Review activity, assessed practice and unlocked games. Practice scores
-        are estimates, not proof of mastery or CEFR levels.
+        Pick one small task, then see how your practice is going. Scores are
+        estimates, not mastery or CEFR levels.
       </p>
       {loading && <p role="status">Loading progress…</p>}
       {error && <p role="alert">{error}</p>}
@@ -52,6 +68,7 @@ export default function ProgressPage() {
       )}
       {data && (
         <>
+          <DailyActions data={data} />
           <section
             className="progress-card"
             aria-label="Vocabulary review progress"
@@ -82,8 +99,16 @@ export default function ProgressPage() {
             </p>
           </section>
           <div className="progress-grid">
-            <SkillCard title="Listening" value={data.listening} />
-            <SkillCard title="Speaking" value={data.speaking} />
+            <SkillCard
+              title="Listening"
+              value={data.listening}
+              href={practiceEntry(data.personalization, "listening")}
+            />
+            <SkillCard
+              title="Speaking"
+              value={data.speaking}
+              href={practiceEntry(data.personalization, "speaking")}
+            />
           </div>
           <section className="progress-card" aria-label="Focus vocabulary">
             <h2>Words to revisit</h2>

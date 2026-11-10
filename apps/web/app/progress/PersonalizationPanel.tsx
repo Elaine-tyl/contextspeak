@@ -1,17 +1,16 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import type {
-  Personalization,
-  ScenarioId,
-  LearningProfile,
+import {
+  conversationScenarios,
+  type Personalization,
+  type ScenarioId,
+  type LearningProfile,
 } from "@contextspeak/contracts";
 import { api } from "../../src/api";
-const scenarios: { id: ScenarioId; label: string }[] = [
-  { id: "introductions", label: "Introductions" },
-  { id: "making-plans", label: "Making plans" },
-  { id: "asking-for-help", label: "Asking for help" },
-];
+import { goalLabel } from "../../src/learning-plan";
+import { Priorities } from "./Priorities";
+const sameGoals = (a: ScenarioId[], b: ScenarioId[]) =>
+  a.length === b.length && a.every((goal) => b.includes(goal));
 export function PersonalizationPanel({
   value,
   token,
@@ -21,17 +20,29 @@ export function PersonalizationPanel({
   token: string;
   refresh: () => void;
 }) {
-  const [goals, setGoals] = useState(value.profile.goals);
-  const [busy, setBusy] = useState(false);
+  const [draft, setDraft] = useState({
+    goals: value.profile.goals,
+    base: value.profile.goals,
+  });
+  const [busy, setBusy] = useState("");
   const [message, setMessage] = useState("");
-  const confirmedGoals = JSON.stringify(value.profile.goals);
-  useEffect(
-    () => setGoals(JSON.parse(confirmedGoals) as ScenarioId[]),
-    [confirmedGoals],
-  );
+  const [failed, setFailed] = useState(false);
+  const confirmed = JSON.stringify(value.profile.goals);
+  useEffect(() => {
+    const goals = JSON.parse(confirmed) as ScenarioId[];
+    // A background refresh may update saved goals, but must not erase a draft.
+    setDraft((current) =>
+      sameGoals(current.goals, current.base) || sameGoals(current.goals, goals)
+        ? { goals, base: goals }
+        : current,
+    );
+  }, [confirmed]);
+  const dirty = !sameGoals(draft.goals, draft.base);
+  const conflict = dirty && !sameGoals(draft.base, value.profile.goals);
   async function save(path: string, body?: object) {
-    setBusy(true);
+    setBusy(path);
     setMessage("");
+    setFailed(false);
     try {
       const saved = await api<LearningProfile>(
         token,
@@ -40,7 +51,7 @@ export function PersonalizationPanel({
         body,
         { timeoutMs: path === "suggestions" ? 60000 : 6000 },
       );
-      if (path === "goals") setGoals(saved.goals);
+      if (path === "goals") setDraft({ goals: saved.goals, base: saved.goals });
       setMessage(
         path === "goals"
           ? "Goals saved."
@@ -48,193 +59,206 @@ export function PersonalizationPanel({
       );
       refresh();
     } catch {
+      setFailed(true);
       setMessage(
-        "Could not confirm the update. Refresh before retrying; previously saved progress remains available.",
+        "Could not confirm the update. Refresh to check saved changes before retrying.",
       );
+      refresh();
     } finally {
-      setBusy(false);
+      setBusy("");
     }
   }
+  const eligibility = value.analysis ?? {
+    status: "unavailable",
+    newContexts: 0,
+    minimum: 10,
+  };
   return (
     <section className="progress-card" aria-label="Personal learning plan">
-      <h2>Your learning plan</h2>
-      <p>
-        Choose everyday situations to practise. Suggestions are optional and
-        never change your goals automatically.
-      </p>
-      <fieldset disabled={busy}>
-        <legend>Confirmed goals</legend>
-        {scenarios.map((scenario) => (
-          <label className="goal-choice" key={scenario.id}>
-            <input
-              type="checkbox"
-              checked={goals.includes(scenario.id)}
-              onChange={(event) =>
-                setGoals(
-                  event.target.checked
-                    ? [...goals, scenario.id]
-                    : goals.filter((id) => id !== scenario.id),
-                )
-              }
-            />
-            {scenario.label}
-          </label>
-        ))}
-      </fieldset>
-      <button disabled={busy} onClick={() => void save("goals", { goals })}>
-        Save goals
-      </button>{" "}
-      <button
-        className="secondary"
-        disabled={busy}
-        onClick={() => void save("goals", { goals: [], dismissed: [] })}
-      >
-        Reset goals
-      </button>
-      <p>
-        {value.contextCount} distinct English contexts in up to{" "}
-        {value.historySampleSize} recent successful lookups.
-      </p>
-      <p>
-        Analyze sends up to 30 saved English excerpts to the configured AI
-        provider. It needs ten new distinct contexts. Estimates may be wrong;
-        inspect the cited excerpts.
-      </p>
-      <button
-        disabled={busy || !value.suggestionAvailable || value.contextCount < 10}
-        onClick={() => void save("suggestions")}
-      >
-        Analyze saved contexts
-      </button>
-      {!value.suggestionAvailable && (
-        <p>
-          AI suggestions are unavailable. You can still choose goals and
-          practise.
-        </p>
-      )}
-      {message && <p role="status">{message}</p>}
-      {value.profile.suggestions
-        .filter(
-          (suggestion) =>
-            !value.profile.dismissed.includes(suggestion.scenario),
-        )
-        .map((suggestion) => (
-          <div className="scenario-suggestion" key={suggestion.scenario}>
-            <h3>
-              {
-                scenarios.find(
-                  (scenario) => scenario.id === suggestion.scenario,
-                )?.label
-              }
-            </h3>
-            <p>{suggestion.reason}</p>
-            <p>
-              AI suggestion · uncalibrated confidence{" "}
-              {Math.round(suggestion.confidence * 100)}%
+      <div className="plan-columns">
+        <div className="goal-panel">
+          <p className="eyebrow">Your everyday conversations</p>
+          <h2>Your learning plan</h2>
+          <p>Choose situations you want to feel more comfortable in.</p>
+          <fieldset disabled={Boolean(busy)}>
+            <legend>Practice goals</legend>
+            {conversationScenarios.map((goal) => (
+              <label className="goal-choice" key={goal.id}>
+                <input
+                  type="checkbox"
+                  checked={draft.goals.includes(goal.id)}
+                  onChange={(event) => {
+                    setMessage("");
+                    setDraft({
+                      ...draft,
+                      goals: event.target.checked
+                        ? [...draft.goals, goal.id]
+                        : draft.goals.filter((id) => id !== goal.id),
+                    });
+                  }}
+                />
+                {goal.title}
+              </label>
+            ))}
+          </fieldset>
+          {conflict ? (
+            <p role="alert">
+              Goals changed in another tab.{" "}
+              <button
+                className="text-button"
+                onClick={() =>
+                  setDraft({
+                    goals: value.profile.goals,
+                    base: value.profile.goals,
+                  })
+                }
+              >
+                Reload saved goals
+              </button>
             </p>
-            <details>
-              <summary>Inspect evidence</summary>
-              <ul>
-                {value.evidence
-                  .filter((row) => suggestion.evidenceIds.includes(row.id))
-                  .map((row) => (
-                    <li key={row.id}>
-                      {row.text}: {row.context}
-                    </li>
-                  ))}
-              </ul>
-            </details>
+          ) : dirty ? (
+            <p className="draft-message" role="status">
+              Unsaved goal changes
+            </p>
+          ) : (
+            <p className="section-copy">
+              {draft.base.length
+                ? "Your saved goals shape these practice suggestions."
+                : "No goals saved yet. You can still practise."}
+            </p>
+          )}
+          <div className="goal-actions">
             <button
-              disabled={busy || goals.includes(suggestion.scenario)}
+              disabled={Boolean(busy) || !dirty || conflict}
               onClick={() =>
                 void save("goals", {
-                  goals: [...new Set([...goals, suggestion.scenario])],
+                  goals: draft.goals,
+                  expectedGoals: draft.base,
                 })
               }
             >
-              Use this goal
-            </button>{" "}
+              {busy === "goals" ? "Saving…" : "Save goals"}
+            </button>
             <button
               className="secondary"
-              disabled={busy}
+              disabled={Boolean(busy) || conflict}
               onClick={() =>
                 void save("goals", {
-                  goals,
-                  dismissed: [
-                    ...new Set([
-                      ...value.profile.dismissed,
-                      suggestion.scenario,
-                    ]),
-                  ],
+                  goals: [],
+                  dismissed: [],
+                  expectedGoals: draft.base,
                 })
               }
             >
-              Dismiss
+              Reset goals
             </button>
           </div>
-        ))}
-      <h3>Suggested vocabulary priorities</h3>
-      <p>
-        Priority is a practice order, not a mastery score. Based on up to 500
-        recent successful English lookups and 500 recent vocabulary-practice
-        attempts.
-      </p>
-      {!value.priorities.length && (
-        <p>Save vocabulary to build your practice list.</p>
-      )}
-      <ol>
-        {value.priorities.map((item) => (
-          <li key={item.id}>
-            <Link href={`/library/item/${item.id}`}>{item.word}</Link> ·
-            priority {item.score}/100{" "}
-            <Link
-              href={`/practice/${item.id}?lookup=${item.lookupId}${value.profile.goals[0] ? `&scenario=${value.profile.goals[0]}` : ""}`}
+          <div className="scenario-analysis">
+            <h3>Find goals from your reading</h3>
+            <p className="section-copy">
+              AI can suggest goals using up to 30 saved English excerpts. You
+              decide which to use.
+            </p>
+            <p>
+              {eligibility.status === "up-to-date"
+                ? "Suggestions are up to date."
+                : eligibility.status === "unavailable"
+                  ? "AI suggestions are unavailable. Manual goals still work."
+                  : `${Math.min(eligibility.newContexts, eligibility.minimum)} of ${eligibility.minimum} new contexts ready`}
+            </p>
+            <button
+              className="secondary"
+              disabled={Boolean(busy) || eligibility.status !== "ready"}
+              onClick={() => void save("suggestions")}
             >
-              Practise
-            </Link>
+              {busy === "suggestions"
+                ? "Checking your contexts…"
+                : "Analyze saved contexts"}
+            </button>
             <details>
-              <summary>Why this order?</summary>
+              <summary>What is shared with AI?</summary>
               <p>
-                {item.encounters} encounters in the sample ·{" "}
-                {item.due ? "review due" : "no active review due"} · goal
-                keyword clues: {item.goalClues.join(", ") || "none"}.
-              </p>
-              <p>
-                Subtitle frequency:{" "}
-                {item.frequency
-                  ? `rank ${item.frequency.rank}, ${item.frequency.count} occurrences`
-                  : "unknown (no frequency estimate)"}
-                .
-              </p>
-              <p>
-                Practice gap:{" "}
-                {item.signals.gap === null
-                  ? "unknown; needs two different independent scored tasks"
-                  : `${Math.round(item.signals.gap * 100)}% from ${item.practiceEvidence} independent tasks`}
-                .
-              </p>
-              <p>
-                Weights: goal 30%, encounters 25%, subtitle frequency 20%,
-                practice gap 15%, due review 10%. Missing signals are excluded
-                and remaining weights normalized. Goal matching uses a small
-                English keyword list.
+                Only saved selection text and bounded English excerpts are sent
+                to the configured provider. No full pages or page addresses.{" "}
+                {value.contextCount} distinct contexts in{" "}
+                {value.historySampleSize} recent successful lookups. Ten
+                different new contexts are needed between analyses; repeats do
+                not count.
               </p>
             </details>
-          </li>
-        ))}
-      </ol>
-      <p>
-        Frequency evidence:{" "}
-        <a href={value.frequencySource.url} target="_blank" rel="noreferrer">
-          {value.frequencySource.title}
-        </a>
-        , Hermit Dave, filtered top-5,000 snapshot. Subtitle-domain counts are
-        not universal usage frequency.{" "}
-        <a href={value.frequencySource.licenseUrl}>
-          {value.frequencySource.license}
-        </a>
-        .
-      </p>
+          </div>
+          {message && <p role={failed ? "alert" : "status"}>{message}</p>}
+          {value.profile.suggestions
+            .filter(
+              (suggestion) =>
+                !value.profile.dismissed.includes(suggestion.scenario),
+            )
+            .map((suggestion) => (
+              <div className="scenario-suggestion" key={suggestion.scenario}>
+                <h3>{goalLabel(suggestion.scenario)}</h3>
+                <p>{suggestion.reason}</p>
+                <details>
+                  <summary>
+                    Based on {suggestion.evidenceIds.length} saved excerpts
+                  </summary>
+                  <p>
+                    AI suggestion; this is not a confirmed fact about your
+                    needs.
+                  </p>
+                  <ul>
+                    {value.evidence
+                      .filter((row) => suggestion.evidenceIds.includes(row.id))
+                      .map((row) => (
+                        <li key={row.id}>
+                          {row.text}: {row.context}
+                        </li>
+                      ))}
+                  </ul>
+                </details>
+                <div className="goal-actions">
+                  <button
+                    disabled={
+                      Boolean(busy) ||
+                      dirty ||
+                      draft.base.includes(suggestion.scenario)
+                    }
+                    onClick={() =>
+                      void save("goals", {
+                        goals: [
+                          ...new Set([...draft.base, suggestion.scenario]),
+                        ],
+                        expectedGoals: draft.base,
+                      })
+                    }
+                  >
+                    {draft.base.includes(suggestion.scenario)
+                      ? "Goal selected"
+                      : "Use this goal"}
+                  </button>
+                  <button
+                    className="secondary"
+                    disabled={Boolean(busy) || dirty}
+                    onClick={() =>
+                      void save("goals", {
+                        goals: draft.base,
+                        dismissed: [
+                          ...new Set([
+                            ...value.profile.dismissed,
+                            suggestion.scenario,
+                          ]),
+                        ],
+                        expectedGoals: draft.base,
+                      })
+                    }
+                  >
+                    Dismiss
+                  </button>
+                </div>
+              </div>
+            ))}
+        </div>
+        <Priorities value={value} />
+      </div>
     </section>
   );
 }

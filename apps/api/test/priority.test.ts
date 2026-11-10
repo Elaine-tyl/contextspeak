@@ -35,3 +35,13 @@ it("combines inspectable priority signals without treating unknown frequency or 
     "plan",
   );
 });
+it("does not boost missing frequency above an otherwise identical known word", () => {
+  const input = { encounters: 3, goal: null, gap: null, due: false };
+  const unknown = rankPriority({ ...input, frequency: null });
+  const known = rankPriority({
+    ...input,
+    frequency: frequencyFor("available")!,
+  });
+  expect(unknown.score).toBeLessThanOrEqual(known.score);
+  expect(unknown.signals.frequency).toBeNull();
+});

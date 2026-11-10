@@ -94,6 +94,11 @@ export class PersonalizationService {
         take: 500,
       }),
     ]);
+    const contextual = this.contexts(rows);
+    const analyzed = new Set(current.analyzedContexts);
+    const newContexts = contextual.filter(
+      (row) => !analyzed.has(contextKey(row.context!)),
+    ).length;
     const priorities = items
       .map((item) => {
         const encounters = rows.filter((row) => row.candidateId === item.id);
@@ -103,6 +108,15 @@ export class PersonalizationService {
           encounters
             .map((row) => row.text + " " + (row.context ?? ""))
             .join(" "),
+        );
+        const matchedGoals = current.goals.filter(
+          (goal) =>
+            goalClues(
+              [goal],
+              encounters
+                .map((row) => row.text + " " + (row.context ?? ""))
+                .join(" "),
+            ).length > 0,
         );
         const scores = new Map<string, number>();
         for (const attempt of attempts.filter(
@@ -163,6 +177,7 @@ export class PersonalizationService {
             due,
           }),
           goalClues: clues,
+          matchedGoals,
           frequency,
           practiceEvidence: scores.size,
           due,
@@ -184,7 +199,18 @@ export class PersonalizationService {
     });
     return {
       profile: current,
-      contextCount: this.contexts(rows).length,
+      contextCount: contextual.length,
+      analysis: {
+        status: !this.provider
+          ? "unavailable"
+          : newContexts >= 10
+            ? "ready"
+            : current.analyzedAt && newContexts === 0
+              ? "up-to-date"
+              : "needs-context",
+        newContexts,
+        minimum: 10,
+      },
       historySampleSize: rows.length,
       priorities,
       frequencySource,
@@ -198,8 +224,15 @@ export class PersonalizationService {
       await tx.$queryRaw`SELECT id FROM "User" WHERE id=${user.id} FOR UPDATE`;
       const current = await tx.user.findUnique({ where: { id: user.id } });
       if (!current) throw new NotFoundException();
+      const saved = profile(current.learningProfile);
+      if (
+        settings.expectedGoals &&
+        (new Set(settings.expectedGoals).size !== saved.goals.length ||
+          saved.goals.some((goal) => !settings.expectedGoals!.includes(goal)))
+      )
+        throw new ConflictException("Goals changed. Refresh before saving.");
       const value = {
-        ...profile(current.learningProfile),
+        ...saved,
         goals: [...new Set(settings.goals)],
         dismissed: [
           ...new Set(

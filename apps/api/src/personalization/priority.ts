@@ -63,12 +63,12 @@ export function rankPriority(input: {
     gap: 0.15,
     due: 0.1,
   };
-  let value = 0,
-    total = 0;
+  let value = 0;
   for (const key of Object.keys(weights) as (keyof typeof weights)[])
     if (signals[key] !== null) {
       value += signals[key]! * weights[key];
-      total += weights[key];
     }
-  return { score: Math.round((100 * value) / total), signals };
+  // Missing evidence earns no priority boost; it remains null in the inspector.
+  // Removing its denominator would otherwise reward an unknown-frequency word.
+  return { score: Math.round(100 * value), signals };
 }

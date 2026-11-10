@@ -15,6 +15,7 @@ export const goalSettingsSchema = z
   .object({
     goals: z.array(scenarioSchema).max(3),
     dismissed: z.array(scenarioSchema).max(3).optional(),
+    expectedGoals: z.array(scenarioSchema).max(3).optional(),
   })
   .strict();
 export const learningProfileSchema = z
@@ -50,6 +51,7 @@ export type PriorityItem = {
     due: number;
   };
   goalClues: string[];
+  matchedGoals: z.infer<typeof scenarioSchema>[];
   frequency: { rank: number; count: number } | null;
   practiceEvidence: number;
   due: boolean;
@@ -58,6 +60,11 @@ export type Personalization = {
   profile: LearningProfile;
   suggestionAvailable: boolean;
   contextCount: number;
+  analysis: {
+    status: "ready" | "up-to-date" | "needs-context" | "unavailable";
+    newContexts: number;
+    minimum: number;
+  };
   historySampleSize: number;
   priorities: PriorityItem[];
   frequencySource: {
