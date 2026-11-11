@@ -1,6 +1,6 @@
 import { z } from "zod";
-import everydayCatalog from "../../games/cafe/data/roleplay.json";
-import challengeCatalog from "../../games/cafe/data/real_life.json";
+import everydayCatalog from "../../games/cafe/data/roleplay.json" with { type: "json" };
+import challengeCatalog from "../../games/cafe/data/real_life.json" with { type: "json" };
 
 export const challengeSceneId = z.enum([
   "shopping",

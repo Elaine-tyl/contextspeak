@@ -7,6 +7,7 @@ import { z } from "zod";
 import { intentSchema, normalizeWave, replySchema } from "./protocol";
 import { conversationInput, conversationOutput } from "./conversation";
 import { roleplayInput, roleplayOutput } from "./roleplay";
+import { lifeInput, lifeOutput } from "./life";
 
 interface Options {
   webRoot: string;
@@ -22,6 +23,10 @@ interface Options {
   ) => Promise<unknown>;
   roleplay?: (
     input: z.infer<typeof roleplayInput>,
+    signal: AbortSignal,
+  ) => Promise<unknown>;
+  lifeReview?: (
+    input: z.infer<typeof lifeInput>,
     signal: AbortSignal,
   ) => Promise<unknown>;
   speak: (text: string, signal: AbortSignal) => Promise<Buffer>;
@@ -48,6 +53,12 @@ async function body(request: IncomingMessage) {
 const types: Record<string, string> = {
   ".html": "text/html; charset=utf-8",
   ".js": "application/javascript",
+  ".css": "text/css",
+  ".data": "application/octet-stream",
+  ".bundle": "application/octet-stream",
+  ".bin": "application/octet-stream",
+  ".hash": "text/plain",
+  ".json": "application/json",
   ".wasm": "application/wasm",
   ".pck": "application/octet-stream",
   ".png": "image/png",
@@ -115,6 +126,7 @@ export function createWorldServer(options: Options) {
             "/speech",
             "/conversation",
             "/roleplay",
+            "/life/review",
           ].includes(path)
         )
           throw new HttpFailure(404, "Not found.");
@@ -155,6 +167,28 @@ export function createWorldServer(options: Options) {
             value = JSON.parse(input.toString("utf8"));
           } catch {
             throw new HttpFailure(400, "Invalid request.");
+          }
+          if (path === "/life/review") {
+            const parsed = lifeInput.safeParse(value);
+            if (!parsed.success)
+              throw new HttpFailure(
+                400,
+                "Choose a current Life task and use a short reply.",
+              );
+            if (!options.lifeReview)
+              throw new HttpFailure(
+                503,
+                "Restart the companion to enable Life practice.",
+              );
+            const checked = lifeOutput.safeParse(
+              await options.lifeReview(parsed.data, controller.signal),
+            );
+            if (!checked.success)
+              throw new HttpFailure(
+                502,
+                "That reply could not be checked. Your task is kept; please retry.",
+              );
+            return json(200, checked.data);
           }
           if (path === "/interpret") {
             const parsed = replySchema.safeParse(value);
@@ -236,25 +270,44 @@ export function createWorldServer(options: Options) {
       let file: string;
       if (path === "/download/macos" && options.macArchive) {
         file = options.macArchive;
-        response.setHeader(
-          "Content-Disposition",
-          'attachment; filename="ContextSpeak-Cafe-macOS.zip"',
-        );
       } else {
         const root = await realpath(options.webRoot);
         file = await realpath(
           resolve(
             root,
-            "." + decodeURIComponent(path === "/" ? "/index.html" : path),
+            "." +
+              decodeURIComponent(
+                path.endsWith("/") ? path + "index.html" : path,
+              ),
           ),
         );
         if (!file.startsWith(root + sep) || !types[extname(file)])
           throw new HttpFailure(404, "Not found.");
       }
+      // Read before committing success; a missing export must not look like an empty ZIP.
+      let content: Buffer;
+      try {
+        content = await readFile(file);
+      } catch (error) {
+        if (
+          path === "/download/macos" &&
+          (error as NodeJS.ErrnoException).code === "ENOENT"
+        )
+          throw new HttpFailure(
+            404,
+            "Build the desktop preview first: pnpm unity:build:mac.",
+          );
+        throw error;
+      }
+      if (path === "/download/macos")
+        response.setHeader(
+          "Content-Disposition",
+          'attachment; filename="ContextSpeak-Cafe-macOS.zip"',
+        );
       response.writeHead(200, {
         "Content-Type": types[extname(file)] ?? "application/octet-stream",
       });
-      response.end(await readFile(file));
+      response.end(content);
     } catch (error) {
       if (response.destroyed) return;
       if (response.headersSent) {

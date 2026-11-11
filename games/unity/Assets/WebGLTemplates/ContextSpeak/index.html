@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ContextSpeak · Unity Forest Cafe</title>
+  <link rel="stylesheet" href="cafe.css">
+</head>
+<body>
+  <canvas id="unity-canvas" tabindex="0" aria-label="3D cafe. WASD to walk, E to talk."></canvas>
+  <header><a href="/">ContextSpeak</a><span id="world-title">Unity · Forest Cafe</span><span id="loading" role="status">Loading the cafe…</span><button id="life">Explore Life town</button><button id="cafe" hidden>Original cafe</button></header>
+  <aside id="mission"><p id="objective"></p><dl id="life-inventory" hidden><dt>Wallet</dt><dd id="wallet"></dd><dt>Bag</dt><dd id="bag"></dd></dl><button id="walk" hidden>Walk to objective</button><label>Test stage <select id="stage"><option value="continue">Continue saved task</option><option value="counter">Counter · practice</option><option value="friend">Friend chat · practice</option></select></label><button id="reconnect">Reconnect local AI</button><button id="reset">New task</button><small>Unity preview · separate local save</small></aside>
+  <aside id="life-menu" aria-label="Scene menu" hidden></aside>
+  <p id="travel-status" role="status" hidden></p>
+  <button id="interact" hidden></button>
+  <form id="dialogue" hidden aria-label="NPC conversation">
+    <div class="dialogue-head"><h1 id="speaker"></h1><button type="button" id="close" aria-label="Close conversation">×</button></div>
+    <p id="line"></p><p id="feedback"></p><p id="repair-note" hidden></p><p id="transcript"></p>
+    <label id="reply-label" for="reply">Your reply</label><textarea id="reply" rows="1" maxlength="400" placeholder="Type a reply, or record your voice…"></textarea>
+    <div class="buttons"><button id="send" type="submit">Send reply</button><button id="record" type="button">Record reply</button><button id="hear" type="button">Hear NPC</button><button id="hear-repair" type="button" hidden>Hear correction</button><button id="join" type="button" hidden>Join Alex</button></div>
+    <p id="status" role="status"></p>
+  </form>
+  <footer>WASD / arrows · E to talk · Right-drag to look · Scroll to zoom · Esc to explore</footer>
+  <output id="unity-status" hidden></output>
+  <script src="/microphone.js"></script><script src="cafe.js"></script>
+  <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+  <script>
+    createUnityInstance(document.getElementById("unity-canvas"), {
+      dataUrl: "Build/{{{ DATA_FILENAME }}}", frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}", codeUrl: "Build/{{{ CODE_FILENAME }}}",
+      streamingAssetsUrl: "StreamingAssets", companyName: "ContextSpeak", productName: "ContextSpeak Unity Cafe", productVersion: "0.1.0"
+    }, progress => { document.getElementById("loading").textContent = "Loading " + Math.round(progress * 100) + "%"; })
+    .then(instance => { window.ContextSpeakUnity.instance = instance; document.getElementById("loading").textContent = "Ready"; })
+    .catch(() => { document.getElementById("loading").textContent = "Could not load Unity. Check WebGL2 support and restart the local companion."; });
+  </script>
+</body></html>

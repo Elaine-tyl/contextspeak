@@ -5,11 +5,13 @@ import { localProviders } from "../packages/world/providers";
 
 const server = createWorldServer({
   webRoot: resolve(".local/world-builds/web"),
-  macArchive: resolve(".local/world-builds/ContextSpeak-Cafe-macOS.zip"),
+  macArchive: resolve(
+    ".local/world-builds/web/unity/ContextSpeak-Cafe-macOS.zip",
+  ),
   ...localProviders(resolve(".local/world-tools")),
 });
 server.listen(4320, "127.0.0.1", () => {
-  console.log("ContextSpeak Cafe: http://127.0.0.1:4320");
+  console.log("ContextSpeak Life: http://127.0.0.1:4320");
   console.log(
     "Local guest prototype · English · no cloud requests or account sync",
   );

@@ -243,3 +243,24 @@
     min-height: 0;
   }
 }
+
+.arcade-host {
+  min-width: 0;
+}
+.arcade-frame {
+  display: block;
+  width: 100%;
+  height: 820px;
+  border: 1px solid var(--line, #cfdbd4);
+  border-radius: 18px;
+  background: #f5f7f0;
+}
+.arcade-feedback {
+  margin-top: 1rem;
+}
+@media (max-width: 600px) {
+  .arcade-frame {
+    height: 780px;
+    border-radius: 12px;
+  }
+}

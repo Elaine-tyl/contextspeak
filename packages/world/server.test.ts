@@ -1,5 +1,5 @@
 import { afterEach, expect, it } from "vitest";
-import { mkdtemp, rm, writeFile } from "node:fs/promises";
+import { mkdir, mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { AddressInfo } from "node:net";
@@ -22,12 +22,24 @@ async function start(
     feedback: "Your request is clear and polite.",
     acknowledgement: "That hoodie looks comfy.",
   }),
+  lifeReview = async (
+    _input: unknown,
+    _signal: AbortSignal,
+  ): Promise<unknown> => ({
+    accepted: true,
+    correction: "",
+    feedback: "Clear request.",
+    acknowledgement: "Sure.",
+    choice: "",
+  }),
+  macArchive?: string,
 ) {
   directory = await mkdtemp(join(tmpdir(), "cs-world-test-"));
   await writeFile(join(directory, "index.html"), "Cafe prototype");
   await writeFile(join(directory, "index.wasm"), "fixture");
   server = createWorldServer({
     webRoot: directory,
+    macArchive,
     transcribe: async () => "Two coffees, please.",
     interpret: interpret ?? (async () => intent),
     converse: async () => ({
@@ -36,6 +48,7 @@ async function start(
       feedback: "Clear preference and reason.",
     }),
     roleplay,
+    lifeReview,
     speak: async () =>
       Buffer.from(
         (await new FixtureSpeechProvider().generate()).audio,
@@ -49,6 +62,44 @@ afterEach(async () => {
   if (server)
     await new Promise<void>((resolve) => server.close(() => resolve()));
   if (directory) await rm(directory, { recursive: true, force: true });
+});
+
+it("protects life review and rejects invalid steps or malformed assessment output", async () => {
+  let calls = 0;
+  const url = await start(undefined, undefined, undefined, async () => {
+    calls++;
+    return calls === 1
+      ? {
+          accepted: true,
+          correction: "",
+          feedback: "Clear request.",
+          acknowledgement: "Sure.",
+          choice: "",
+        }
+      : { accepted: true, balance: 99999 };
+  });
+  const { token } = await (
+    await fetch(url + "/session", { headers: native })
+  ).json();
+  const send = (value: unknown, authorized = true, origin?: string) =>
+    fetch(url + "/life/review", {
+      method: "POST",
+      headers: {
+        ...native,
+        ...(authorized ? { Authorization: `Bearer ${token}` } : {}),
+        ...(origin ? { Origin: origin } : {}),
+      },
+      body: JSON.stringify(value),
+    });
+  const answer = { step: "market_apples", text: "Three apples, please." };
+  expect((await send(answer, false)).status).toBe(401);
+  expect((await send(answer, true, "https://untrusted.example")).status).toBe(
+    403,
+  );
+  expect((await send({ ...answer, step: "win" })).status).toBe(400);
+  expect(calls).toBe(0);
+  expect((await send(answer)).status).toBe(200);
+  expect((await send(answer)).status).toBe(502);
 });
 
 it("validates roleplay scene, role and turn history before evaluating", async () => {
@@ -287,4 +338,66 @@ it("bounds friend turns before calling local AI and returns only learning feedba
       })
     ).status,
   ).toBe(400);
+});
+
+it("serves nested engine directory indexes without allowing traversal", async () => {
+  const url = await start();
+  await mkdir(join(directory, "unity"));
+  await writeFile(join(directory, "unity/index.html"), "Native Unity cafe");
+  const page = await fetch(url + "/unity/");
+  expect(page.status).toBe(200);
+  expect(await page.text()).toBe("Native Unity cafe");
+  await writeFile(join(directory, "unity/cafe.css"), "body { color: green; }");
+  await writeFile(join(directory, "unity/cafe.data"), "fixture-data");
+  const style = await fetch(url + "/unity/cafe.css");
+  expect(style.status).toBe(200);
+  expect(style.headers.get("content-type")).toBe("text/css");
+  expect((await fetch(url + "/unity/cafe.data")).status).toBe(200);
+  expect(
+    (await fetch(url + "/unity/%2e%2e/%2e%2e/secret.html")).status,
+  ).not.toBe(200);
+});
+
+it("serves Unity district catalogs and bundles while keeping private files inaccessible", async () => {
+  const url = await start();
+  const assets = join(directory, "unity", "StreamingAssets", "aa");
+  await mkdir(assets, { recursive: true });
+  for (const file of [
+    "catalog.json",
+    "catalog.hash",
+    "catalog.bin",
+    "town.bundle",
+  ])
+    await writeFile(
+      join(assets, file),
+      file === "catalog.json" ? '{"locations":[]}' : "public-game-data",
+    );
+  await writeFile(join(directory, "private.key"), "not-public");
+  for (const file of [
+    "catalog.json",
+    "catalog.hash",
+    "catalog.bin",
+    "town.bundle",
+  ]) {
+    const response = await fetch(url + "/unity/StreamingAssets/aa/" + file);
+    expect(response.status).toBe(200);
+    expect(await response.text()).toContain(
+      file === "catalog.json" ? "locations" : "public-game-data",
+    );
+  }
+  expect((await fetch(url + "/private.key")).status).toBe(404);
+});
+
+it("explains a missing Unity desktop export instead of downloading an empty ZIP", async () => {
+  const url = await start(
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    join(tmpdir(), crypto.randomUUID() + ".zip"),
+  );
+  const response = await fetch(url + "/download/macos");
+  expect(response.status).toBe(404);
+  expect(response.headers.get("content-type")).toContain("application/json");
+  expect(await response.text()).toContain("pnpm unity:build:mac");
 });

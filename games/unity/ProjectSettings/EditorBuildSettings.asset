@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/Generated/ForestCafe.unity
+    guid: 1861699cfdc7b4151a7cc577e1292e8b
+  - enabled: 0
+    path: Assets/Generated/LifeTown.unity
+    guid: 4e39addf6385a43fba3c0621d1a650a5
+  m_configObjects:
+    com.unity.addressableassets: {fileID: 11400000, guid: db6e96fb5596b41fbab334478c17b042, type: 2}
+  m_UseUCBPForAssetBundles: 0

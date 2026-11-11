@@ -1,0 +1,274 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #d7decb;
+  color: #243c33;
+  font:
+    16px/1.45 system-ui,
+    sans-serif;
+}
+#unity-canvas {
+  width: 100vw;
+  height: 100dvh;
+  display: block;
+  outline: none;
+}
+header {
+  position: fixed;
+  top: 16px;
+  left: 20px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  background: #fff9edee;
+  padding: 12px 18px;
+  border-radius: 14px;
+  box-shadow: 0 5px 24px #19302716;
+}
+header a {
+  color: #176b58;
+  font-weight: 800;
+  text-decoration: none;
+  font-size: 22px;
+}
+#loading {
+  font-size: 13px;
+}
+header button {
+  font-size: 13px;
+  padding: 8px 12px;
+}
+#life-inventory {
+  margin: 12px 0;
+  display: grid;
+  grid-template-columns: 50px 1fr;
+  gap: 8px;
+  font-size: 13px;
+}
+#life-inventory dt {
+  color: #617867;
+}
+#life-inventory dd {
+  margin: 0;
+  font-weight: 650;
+}
+#life-menu {
+  position: fixed;
+  top: 86px;
+  right: 20px;
+  width: 235px;
+  white-space: pre-line;
+  padding: 20px;
+  border-radius: 14px;
+  background: #fff9edf2;
+  box-shadow: 0 6px 24px #19302716;
+  line-height: 1.8;
+  font-size: 14px;
+}
+#repair-note {
+  padding: 12px;
+  border-radius: 9px;
+  background: #fff0de;
+  border-left: 3px solid #b86645;
+  color: #81382c;
+}
+#travel-status {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: min(560px, calc(100vw - 32px));
+  padding: 10px 16px;
+  border-radius: 10px;
+  background: #fff9edf2;
+  font-size: 14px;
+}
+#mission {
+  position: fixed;
+  top: 86px;
+  left: 20px;
+  width: 260px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #fff9ede8;
+}
+#mission p {
+  margin: 0 0 12px;
+}
+#mission label {
+  display: grid;
+  gap: 5px;
+  font-size: 13px;
+}
+small {
+  display: block;
+  margin-top: 10px;
+  color: #617867;
+}
+button,
+select,
+textarea {
+  font: inherit;
+  border: 1px solid #b9c9bc;
+  border-radius: 9px;
+  padding: 10px 14px;
+}
+button {
+  color: #fff9ed;
+  background: #176b58;
+  cursor: pointer;
+  min-height: 42px;
+}
+button:hover {
+  background: #275b4c;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+button:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #e2a35d;
+  outline-offset: 2px;
+}
+#mission button {
+  font-size: 12px;
+  padding: 8px;
+  margin-top: 10px;
+}
+#interact {
+  position: fixed;
+  bottom: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 6px 25px #10221940;
+}
+#dialogue {
+  position: fixed;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(620px, calc(100vw - 24px));
+  max-height: 45dvh;
+  overflow: auto;
+  padding: 14px 18px;
+  background: #fffbf1f7;
+  border: 1px solid #bccbbc;
+  border-radius: 14px;
+  box-shadow: 0 14px 60px #10221935;
+}
+.dialogue-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  align-items: center;
+}
+h1 {
+  margin: 0;
+  font-size: 17px;
+}
+#close {
+  font-size: 24px;
+  background: transparent;
+  color: #243c33;
+  border: 0;
+}
+#line {
+  font-size: 17px;
+  margin: 6px 0;
+}
+#feedback,
+#transcript,
+#status {
+  color: #526e5e;
+  font-size: 13px;
+  margin: 5px 0;
+}
+#feedback:empty,
+#transcript:empty,
+#status:empty {
+  display: none;
+}
+#dialogue button {
+  font-size: 13px;
+  min-height: 38px;
+  padding: 7px 11px;
+}
+#reply-label {
+  font-size: 12px;
+}
+#reply {
+  display: block;
+  width: 100%;
+  background: white;
+  color: #243c33;
+  resize: vertical;
+  min-height: 42px;
+  max-height: 80px;
+  padding: 8px 10px;
+  margin: 4px 0 8px;
+}
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+footer {
+  position: fixed;
+  bottom: 12px;
+  left: 20px;
+  right: 20px;
+  color: white;
+  background: #233e33c9;
+  width: fit-content;
+  padding: 7px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+}
+[hidden] {
+  display: none !important;
+}
+@media (max-width: 600px) {
+  header {
+    left: 10px;
+    right: 10px;
+    gap: 8px;
+    padding: 10px;
+  }
+  header span {
+    font-size: 11px;
+  }
+  #mission {
+    left: 10px;
+    width: 210px;
+    top: 75px;
+    font-size: 13px;
+  }
+  #dialogue {
+    padding: 12px;
+    max-height: 50dvh;
+  }
+  #line {
+    font-size: 16px;
+  }
+  #life-menu {
+    top: 76px;
+    right: 10px;
+    width: min(160px, 40vw);
+    padding: 12px;
+    font-size: 12px;
+  }
+  header button {
+    padding: 6px;
+    font-size: 11px;
+  }
+  footer {
+    left: 10px;
+    right: 10px;
+    font-size: 10px;
+  }
+}

@@ -1,0 +1,16 @@
+#arcade-board { padding: 20px; max-width: 1000px; width: 100%; align-self: center; }
+.title { font-size: 27px; -unity-font-style: bold; margin-top: 10px; }
+.eyebrow { font-size: 15px; color: #62766b; }
+.error { color: #a52d35; }
+.question { font-size: 21px; margin-top: 14px; }
+Button { min-height: 48px; margin: 6px 0; }
+TextField { min-height: 48px; margin: 6px 0; }
+.sentence { flex-direction: row; flex-wrap: wrap; align-items: center; margin-bottom: 10px; }
+.sentence Label { margin-right: 8px; }
+.sentence TextField { margin-right: 8px; }
+.choices { flex-direction: row; flex-wrap: wrap; }
+.choice { flex-grow: 1; flex-basis: 240px; margin-right: 10px; background-color: #ffffff; color: #243c33; border-width: 2px; border-color: #c6d5c9; }
+.choice:hover { background-color: #e1eee4; }
+.choice.selected { border-color: #3156ce; background-color: #e8edff; }
+
+#response .unity-text-field__input { white-space: normal; }

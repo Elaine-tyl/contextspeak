@@ -134,6 +134,8 @@ export class SessionService {
         destination: code
           ? "/pair?code=" + code
           : req.query.returnTo === "/games" ||
+              req.query.returnTo === "/games/arcade" ||
+              req.query.returnTo === "/games/web" ||
               req.query.returnTo === "/progress" ||
               req.query.returnTo === "/account"
             ? req.query.returnTo

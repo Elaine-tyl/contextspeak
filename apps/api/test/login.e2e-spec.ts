@@ -255,6 +255,7 @@ it("rejects_expired_login_and_invalid_PKCE_or_nonce_without_issuing_a_session", 
 it("returns to the learning dashboard after login but rejects external destinations", async () => {
   for (const [destination, expected] of [
     ["/progress", "/progress"],
+    ["/games/web", "/games/web"],
     ["https://evil.invalid", "/library"],
   ]) {
     const client = agent();

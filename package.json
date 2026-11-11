@@ -28,10 +28,20 @@
     "speech:setup": "tsx scripts/local-speech.ts --setup",
     "content:verify": "tsx scripts/practice-content.ts",
     "world:setup": "python3 tools/world/setup.py",
-    "world:build": "python3 tools/world/build.py",
-    "world:test": "python3 tools/world/build.py --test",
+    "world:build": "python3 tools/unity/build.py web",
+    "world:test": "python3 tools/unity/build.py test",
     "world:dev": "tsx scripts/world.ts",
-    "world:test:voice": "tsx scripts/world-voice-fixture.ts && CONTEXTSPEAK_WORLD_VOICE_TEST=1 playwright test --config playwright.world.config.ts local-voice"
+    "world:test:voice": "tsx scripts/world-voice-fixture.ts && CONTEXTSPEAK_WORLD_VOICE_TEST=1 playwright test --config playwright.world.config.ts local-voice",
+    "arcade:setup": "python3 tools/arcade/setup.py",
+    "arcade:build": "python3 tools/arcade/build.py",
+    "arcade:test": "python3 tools/arcade/build.py --test",
+    "unity:prepare": "python3 tools/unity/build.py prepare",
+    "unity:test": "python3 tools/unity/build.py test",
+    "unity:build:web": "python3 tools/unity/build.py web",
+    "unity:build:mac": "python3 tools/unity/build.py mac",
+    "test:unity": "playwright test --config playwright.unity.config.ts",
+    "unity:test:ui": "python3 tools/unity/build.py ui-test",
+    "unity:test:tools": "python3 -m unittest tools/unity/test_build.py"
   },
   "devDependencies": {
     "@nestjs/common": "12.3.3",

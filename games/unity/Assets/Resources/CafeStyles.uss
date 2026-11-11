@@ -1,0 +1,18 @@
+:root { color: #243c33; font-size: 18px; }
+#hud { position: absolute; top: 20px; left: 20px; max-width: 340px; padding: 18px; background-color: rgba(255, 250, 237, 0.96); border-radius: 14px; }
+#hud > Label:first-child { font-size: 23px; -unity-font-style: bold; margin-bottom: 10px; }
+Label { white-space: normal; margin-bottom: 8px; }
+Button { background-color: #176b58; color: #fff8e8; border-width: 0; border-radius: 8px; padding: 10px 14px; margin: 4px; min-height: 42px; }
+Button:hover { background-color: #275b4c; }
+Button:disabled { background-color: #99b5a5; }
+#dialogue { position: absolute; bottom: 60px; left: 50%; translate: -50% 0; width: 620px; max-width: 94%; max-height: 45%; background-color: rgba(255, 250, 237, 0.98); border-radius: 14px; padding: 14px; font-size: 16px; }
+.speaker { font-size: 18px; -unity-font-style: bold; }
+#dialogue Button { min-height: 42px; padding: 7px 10px; }
+.buttons { flex-direction: row; flex-wrap: wrap; }
+.nearby { position: absolute; bottom: 40%; align-self: center; color: white; background-color: rgba(28, 57, 46, 0.92); padding: 14px; border-radius: 10px; }
+.controls { position: absolute; bottom: 14px; left: 20px; color: white; background-color: rgba(28, 57, 46, 0.85); padding: 10px; border-radius: 8px; }
+TextField { margin-top: 8px; margin-bottom: 8px; }
+TextField > .unity-text-field__input { background-color: white; color: #243c33; padding: 12px; border-radius: 8px; }
+#dialogue TextField > .unity-text-field__input { padding: 7px; }
+#life-menu { position: absolute; top: 20px; right: 20px; max-width: 290px; padding: 18px; background-color: rgba(255, 250, 237, 0.96); border-radius: 14px; }
+#repair { color: #8b3428; background-color: #fff0de; padding: 10px; border-radius: 8px; }

@@ -74,20 +74,21 @@ Implemented: Google OIDC sign-in, HttpOnly website sessions, one-time extension 
 
 ## Documentation
 
-| Document | Purpose |
-| --- | --- |
-| [Planning](docs/PLANNING.md) | Requirements mapping, MVP, roadmap, costs, and decisions |
-| [Methodology](docs/METHODOLOGY.md) | Collection, scenario inference, word priorities, and mastery evidence |
-| [Personal learning plan](docs/PERSONALIZATION.md) | Confirmed goals, evidence-linked suggestions and priority provenance |
-| [Account data](docs/ACCOUNT.md) | Full export, deletion, audio cleanup and backup boundaries |
-| [Pilot checks](docs/PILOT.md) | Production guards, health, synthetic recovery and external release gates |
-| [Local AI translation](docs/AI_TRANSLATION.md) | Seven languages, automatic cards, examples, setup and model pin |
-| [Plain free translation](docs/TRANSLATION.md) | Reproducible local setup, languages, usage and live regression suite |
-| [AI pronunciation](docs/AI_SPEECH.md) | Natural word/phrase/example audio, private caching, setup and quota limits |
-| [Listening and speaking](docs/PRACTICE.md) | Cached AI audio, dictation marks/feedback, local recording and limitations |
-| [Google login and pairing](docs/LOGIN.md) | Provider setup, sessions, pairing, and revocation |
-| [Architecture](docs/ARCHITECTURE.md) | Stack, translation/dictionary services, data flow, and safeguards |
-| [First coding plan](docs/superpowers/plans/2026-11-07-capture-to-library.md) | A bounded capture-to-library implementation with checks |
+| Document                                                                     | Purpose                                                                    |
+| ---------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [Planning](docs/PLANNING.md)                                                 | Requirements mapping, MVP, roadmap, costs, and decisions                   |
+| [Methodology](docs/METHODOLOGY.md)                                           | Collection, scenario inference, word priorities, and mastery evidence      |
+| [Personal learning plan](docs/PERSONALIZATION.md)                            | Confirmed goals, evidence-linked suggestions and priority provenance       |
+| [Account data](docs/ACCOUNT.md)                                              | Full export, deletion, audio cleanup and backup boundaries                 |
+| [Pilot checks](docs/PILOT.md)                                                | Production guards, health, synthetic recovery and external release gates   |
+| [Local AI translation](docs/AI_TRANSLATION.md)                               | Seven languages, automatic cards, examples, setup and model pin            |
+| [Plain free translation](docs/TRANSLATION.md)                                | Reproducible local setup, languages, usage and live regression suite       |
+| [AI pronunciation](docs/AI_SPEECH.md)                                        | Natural word/phrase/example audio, private caching, setup and quota limits |
+| [Game engines](docs/GAME-ENGINES.md)                                         | Unity 3D worlds, Godot 2D games, shared scores and build setup             |
+| [Listening and speaking](docs/PRACTICE.md)                                   | Cached AI audio, dictation marks/feedback, local recording and limitations |
+| [Google login and pairing](docs/LOGIN.md)                                    | Provider setup, sessions, pairing, and revocation                          |
+| [Architecture](docs/ARCHITECTURE.md)                                         | Stack, translation/dictionary services, data flow, and safeguards          |
+| [First coding plan](docs/superpowers/plans/2026-11-07-capture-to-library.md) | A bounded capture-to-library implementation with checks                    |
 
 ## Working principles
 
@@ -128,3 +129,9 @@ Guided conversation: choose an everyday scenario in practice, then **Conversatio
 Reviewed [open practice sources](docs/PRACTICE_SOURCES.md) supply 54 current news exercises (18 dictations, 18 speaking discussions and 18 news gap tasks); earlier source exercises remain readable in saved results. Validate the committed corpus with `pnpm content:verify`.
 
 Open `/progress` for your [learning progress dashboard](docs/PROGRESS.md). See the [current MVP checklist](docs/MVP_CHECKLIST.md) for implemented features and outstanding release gates.
+
+**ContextSpeak Life:** the first Unity day links a family errand, a walkable town,
+produce shopping, grocery delivery, cafe ordering and friend conversation. Stop
+recording for automatic feedback; repair wording in a new spoken answer before
+continuing. Menus, wallet, inventory and receipts follow the task. Open `/world`
+and choose **Play Life town**; see [setup and milestone limits](docs/GAME-ENGINES.md#first-playable-day).

@@ -1,3 +1,5 @@
+> Legacy source reference. Active game builds now use [games/unity](../unity/README.md). See [current setup](../../docs/GAME-ENGINES.md).
+
 # ContextSpeak Worlds — local prototype
 
 A single-player 3D speaking prototype with animated CC0 characters. Choose

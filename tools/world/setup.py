@@ -1,26 +1,12 @@
-"""Install pinned Godot tools locally; never change the system installation."""
-
-import argparse
+"""Install pinned local speech recognition for Unity; no Godot runtime is needed."""
 import hashlib
 from pathlib import Path
 import subprocess
 import sys
 import tarfile
-from zipfile import ZipFile
 
 ROOT = Path(__file__).resolve().parents[2]
-TOOLS = ROOT / ".local" / "world-tools"
-VERSION = "4.7.2"
-DOWNLOADS = {
-    "engine": (
-        f"Godot_v{VERSION}-stable_macos.universal.zip",
-        "c58a24e31d720be9d62f60cb5627c4e695fb72f21b0cfe1bc9ccaa9a3b3ba63e",
-    ),
-    "templates": (
-        f"Godot_v{VERSION}-stable_export_templates.tpz",
-        "f298490b8d44d934be425a5a65a51bf15f422428b229a06a6e11d9ffea248011",
-    ),
-}
+TOOLS = ROOT / ".local/world-tools"
 
 def download(url, path, expected):
     if not path.exists():
@@ -53,45 +39,6 @@ def install_voice():
     print("Verified local English speech recognition ready", flush=True)
 
 
-def install(kind):
-    name, expected = DOWNLOADS[kind]
-    archive = TOOLS / name
-    if not archive.exists():
-        url = f"https://github.com/godotengine/godot/releases/download/{VERSION}-stable/{name}"
-        print(f"Downloading official {name}", flush=True)
-        temporary = archive.with_suffix(".download")
-        # System curl uses the macOS trust store; never disable TLS validation.
-        subprocess.run(["curl", "--fail", "--location", "--retry", "2", "--output", str(temporary), url], check=True)
-        temporary.replace(archive)
-    with archive.open("rb") as source:
-        digest = hashlib.file_digest(source, "sha256").hexdigest()
-    if digest != expected:
-        raise RuntimeError(f"Checksum mismatch: remove {archive} and retry")
-    with ZipFile(archive) as package:
-        if any(Path(name).is_absolute() or ".." in Path(name).parts for name in package.namelist()):
-            raise RuntimeError("Unsafe archive paths")
-        if kind == "engine":
-            subprocess.run(["ditto", "-xk", str(archive), str(TOOLS)], check=True)
-        else:
-            destination = TOOLS / "templates"
-            destination.mkdir(exist_ok=True)
-            for entry in package.infolist():
-                filename = Path(entry.filename).name
-                if filename.startswith("web_") or filename in {"macos.zip", "version.txt"}:
-                    (destination / filename).write_bytes(package.read(entry))
-            print("Installed templates:", ", ".join(p.name for p in destination.iterdir()))
-    print(f"Verified and installed {kind}", flush=True)
-
-
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("parts", nargs="*", choices=[*DOWNLOADS, "voice"], default=["engine", "templates", "voice"])
-    args = parser.parse_args()
-    if sys.platform != "darwin":
-        raise SystemExit("This bootstrap targets macOS; see games/cafe/README.md for other platforms.")
     TOOLS.mkdir(parents=True, exist_ok=True)
-    for part in args.parts:
-        if part == "voice":
-            install_voice()
-        else:
-            install(part)
+    install_voice()

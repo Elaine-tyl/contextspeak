@@ -23,26 +23,19 @@ export default function WorldPage() {
       <a className="back-link" href="/games">
         Back to games
       </a>
-      <h1>3D conversation world</h1>
+      <h1>ContextSpeak Life</h1>
       <p className="page-lead">
-        Order two drinks with Maya, then sit with Alex for a voiced
-        conversation.
+        Explore your neighborhood, help your family and make plans with friends
+        through spoken English.
       </p>
       <section className="panel">
-        <h2>Your first cafe mission</h2>
+        <h2>Your first day</h2>
         <p>
-          Choose your drinks, answer the barista’s questions, and confirm your
-          order. Take your drinks to Alex’s table, share your preferences, make
-          a weekend plan and invite your friend. NPC questions play aloud
-          automatically; speak or type your reply.
-        </p>
-        <p>
-          Move with WASD or arrow keys. Walk to the counter and press E to talk.
-          Recording stops after 20 seconds and your reply is checked
-          automatically.
-        </p>
-        <p className="badge">
-          Local prototype · English · Guest progress on this device
+          Help your family with dinner, walk to Green Market for groceries, then
+          order a drink and catch up with a friend. Menus, your bag and wallet
+          follow the conversation. Stop recording for automatic feedback. If
+          wording needs a correction, say it again before continuing; typing is
+          rehearsal only.
         </p>
         <p role="status">
           {!checked
@@ -52,33 +45,64 @@ export default function WorldPage() {
               : "Start the local launcher, then refresh this page."}
         </p>
         <div className="detail-actions">
-          <a className="primary" href={LOCAL} target="_blank" rel="noreferrer">
-            Play in browser
+          <a
+            className="primary"
+            href={LOCAL + "/unity/?world=life"}
+            target="_blank"
+            rel="noreferrer"
+          >
+            Play Life town
           </a>
           <a className="secondary" href={LOCAL + "/download/macos"}>
-            Download macOS prototype
+            Download macOS preview
           </a>
         </div>
+        <p className="badge">
+          Unity 3D · Local guest save · Family home, market and cafe
+        </p>
+      </section>
+      <section className="panel">
+        <h2>More ways to practice</h2>
+        <p>
+          <a href={LOCAL + "/unity/"} target="_blank" rel="noreferrer">
+            Original cafe mission
+          </a>
+          {" · "}
+          <a href="/games">Godot 2D learning games</a>
+          {" · "}
+          <a href="/games/web">Accessible web games</a>
+        </p>
+        <p>
+          The arcade saves scores to your account. Life is a separate local
+          guest world.
+        </p>
       </section>
       <details className="panel">
-        <summary>Prototype setup and limits</summary>
+        <summary>Setup and controls</summary>
         <p>
-          From your ContextSpeak project, run <code>pnpm world:setup</code>,{" "}
-          <code>pnpm world:build</code>, then <code>pnpm world:dev</code>. Keep
-          the local launcher and Ollama running for either version.
+          Install and activate Unity 6000.3.28f1 LTS with Web Build Support. Run{" "}
+          <code>pnpm unity:prepare</code>, <code>pnpm unity:test</code>,{" "}
+          <code>pnpm world:build</code> and <code>pnpm world:dev</code>. Build
+          the desktop download with <code>pnpm unity:build:mac</code>; build the
+          arcade with <code>pnpm arcade:build</code>.
         </p>
         <p>
-          AI runs on your computer. Initial setup downloads free tools/models;
-          there is no cloud API fallback. The desktop download is a development
-          build, not a self-contained installer.
+          WASD / arrows to walk, E to talk, right-drag to look, scroll to zoom,
+          Esc to explore. Walk to objective finds a route; movement keys cancel
+          it.
         </p>
         <p>
-          Task-goal feedback is separate from pronunciation assessment, your
-          vocabulary reviews and your account Dashboard. School, amusement-park
-          scenes and additional difficulty levels will follow this first
-          prototype.
+          Keep the local launcher, Ollama and installed speech models running.
+          Initial voice setup uses <code>pnpm world:setup</code> and{" "}
+          <code>pnpm speech:setup</code>. This desktop preview requires the
+          companion; it is not a self-contained installer.
         </p>
       </details>
+      <p className="section-copy">
+        School, farming, clothing, restaurants, fishing, amusement parks and
+        travel are planned districts. Task feedback is separate from acoustic
+        pronunciation assessment and vocabulary reviews.
+      </p>
     </main>
   );
 }

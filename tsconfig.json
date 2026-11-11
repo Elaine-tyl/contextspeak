@@ -26,7 +26,8 @@
     "vitest.config.ts",
     "playwright.config.ts",
     "games/**/*.ts",
-    "playwright.world.config.ts"
+    "playwright.world.config.ts",
+    "playwright.unity.config.ts"
   ],
   "exclude": [
     "node_modules",

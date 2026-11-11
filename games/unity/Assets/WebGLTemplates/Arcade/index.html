@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>ContextSpeak · Unity Arcade</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #f6f8f4;
+        font-family: system-ui, sans-serif;
+        color: #243c33;
+      }
+      #canvas {
+        width: 100%;
+        height: 100%;
+        display: block;
+        outline: none;
+      }
+      #loading {
+        position: absolute;
+        top: 12px;
+        left: 20px;
+        background: #fffaf0;
+        padding: 8px;
+        border-radius: 8px;
+      }
+    </style>
+    <script src="bridge.js"></script>
+  </head>
+  <body>
+    <canvas
+      id="canvas"
+      tabindex="0"
+      aria-label="ContextSpeak Unity learning game"
+    ></canvas>
+    <p id="loading" role="status">Loading ContextSpeak…</p>
+    <output id="arcade-status" hidden></output>
+    <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+    <script>
+      createUnityInstance(
+        document.getElementById("canvas"),
+        {
+          dataUrl: "Build/{{{ DATA_FILENAME }}}",
+          frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}",
+          codeUrl: "Build/{{{ CODE_FILENAME }}}",
+          streamingAssetsUrl: "StreamingAssets",
+          companyName: "ContextSpeak",
+          productName: "ContextSpeak Arcade",
+          productVersion: "0.1.0",
+          devicePixelRatio: 1,
+        },
+        (progress) => {
+          document.getElementById("loading").textContent =
+            "Loading " + Math.round(progress * 100) + "%";
+        },
+      )
+        .then((instance) => {
+          window.ContextSpeakArcade.subscribe((json) =>
+            instance.SendMessage("ArcadeRuntime", "OnHostState", json),
+          );
+          window.ContextSpeakArcade.emit("ready", "", "");
+          document.getElementById("loading").hidden = true;
+        })
+        .catch(() => {
+          document.getElementById("loading").textContent =
+            "Could not load Unity. Use the accessible web controls below.";
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,177 @@
+{
+  "items": [
+    {
+      "id": "apple",
+      "name": "Apples",
+      "price": 100,
+      "category": "produce"
+    },
+    {
+      "id": "carrot",
+      "name": "Carrots",
+      "price": 200,
+      "category": "produce"
+    },
+    {
+      "id": "coffee",
+      "name": "Coffee",
+      "price": 400,
+      "category": "drink"
+    },
+    {
+      "id": "latte",
+      "name": "Latte",
+      "price": 650,
+      "category": "drink"
+    },
+    {
+      "id": "tea",
+      "name": "Tea",
+      "price": 300,
+      "category": "drink"
+    },
+    {
+      "id": "lemonade",
+      "name": "Lemonade",
+      "price": 350,
+      "category": "drink"
+    }
+  ],
+  "npcs": [
+    {
+      "id": "mom",
+      "name": "Mom",
+      "role": "Your family",
+      "place": "Family home",
+      "x": -12,
+      "z": 4,
+      "standX": -12,
+      "standZ": 6.1
+    },
+    {
+      "id": "sam",
+      "name": "Sam",
+      "role": "Produce seller",
+      "place": "Green Market",
+      "x": 11,
+      "z": -2,
+      "standX": 11,
+      "standZ": 0.2
+    },
+    {
+      "id": "maya",
+      "name": "Maya",
+      "role": "Barista",
+      "place": "Forest Cafe",
+      "x": -13,
+      "z": -16,
+      "standX": -13,
+      "standZ": -13.25
+    },
+    {
+      "id": "alex",
+      "name": "Alex",
+      "role": "Your friend",
+      "place": "Cafe seating",
+      "x": -6,
+      "z": -13,
+      "standX": -6,
+      "standZ": -10.25
+    }
+  ],
+  "steps": [
+    {
+      "id": "home_errand",
+      "npc": "mom",
+      "question": "Could you pick up three apples and two carrots for dinner? You have twenty dollars.",
+      "goal": "Agree to help with the grocery errand.",
+      "sample": "Sure, I'll pick those up."
+    },
+    {
+      "id": "market_apples",
+      "npc": "sam",
+      "question": "Hey there! What can I get you today?",
+      "goal": "Ask for exactly three apples.",
+      "sample": "Could I have three apples, please?"
+    },
+    {
+      "id": "market_carrots",
+      "npc": "sam",
+      "question": "Three apples. Anything else for dinner?",
+      "goal": "Ask for exactly two carrots.",
+      "sample": "Two carrots, please."
+    },
+    {
+      "id": "market_pay",
+      "npc": "sam",
+      "question": "That's seven dollars altogether. Cash or card?",
+      "goal": "Choose cash or card to pay for the groceries.",
+      "sample": "I'll pay by card, thanks."
+    },
+    {
+      "id": "home_deliver",
+      "npc": "mom",
+      "question": "You're back! Did you get the apples and carrots?",
+      "goal": "Hand over both the apples and carrots.",
+      "sample": "Here are the apples and carrots for dinner."
+    },
+    {
+      "id": "cafe_order",
+      "npc": "maya",
+      "question": "Hey! Good to see you. What can I get started for you?",
+      "goal": "Order one coffee, latte, tea or lemonade from the menu.",
+      "sample": "Could I get a coffee, please?"
+    },
+    {
+      "id": "cafe_temperature",
+      "npc": "maya",
+      "question": "Would you like that hot or iced?",
+      "goal": "Choose hot or iced.",
+      "sample": "Iced, please."
+    },
+    {
+      "id": "cafe_service",
+      "npc": "maya",
+      "question": "And is that for here or to go?",
+      "goal": "Choose for here or to go.",
+      "sample": "For here, please."
+    },
+    {
+      "id": "cafe_confirm",
+      "npc": "maya",
+      "question": "Does that all look right? Shall I put your order through?",
+      "goal": "Clearly confirm the order, without hesitation or a request to change it.",
+      "sample": "Yes, go ahead, please."
+    },
+    {
+      "id": "friend_preference",
+      "npc": "alex",
+      "question": "Hey, grab a seat! What do you like to drink, and why?",
+      "goal": "Give a drink preference and a reason.",
+      "sample": "I like tea because it helps me relax.",
+      "criteria": [
+        "State a drink preference",
+        "Give a reason for that preference"
+      ]
+    },
+    {
+      "id": "friend_plan",
+      "npc": "alex",
+      "question": "That sounds nice. Got any plans for the weekend?",
+      "goal": "Suggest or describe a weekend activity.",
+      "sample": "How about going hiking this weekend?",
+      "criteria": [
+        "Name or propose an activity",
+        "Answer the question about upcoming plans"
+      ]
+    },
+    {
+      "id": "friend_invite",
+      "npc": "alex",
+      "question": "I'd be up for hanging out. Want to make a plan?",
+      "goal": "Invite your friend and suggest a day or time.",
+      "sample": "Want to join me on Saturday at ten?",
+      "criteria": ["Invite Alex to join you", "Propose a day or time"]
+    }
+  ]
+}

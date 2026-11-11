@@ -41,6 +41,8 @@ jobs:
           pnpm exec prettier --check ".github/workflows/*.yml"
       - name: Check types
         run: pnpm typecheck
+      - name: Unity build-tool regressions (no Editor required)
+        run: pnpm unity:test:tools
       - name: Unit and database integration tests
         run: pnpm test
       - name: Build extension

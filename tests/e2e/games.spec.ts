@@ -14,12 +14,12 @@ async function signIn(
       route.fulfill({ json: audio }),
     );
   }
-  await page.goto("http://127.0.0.1:3000/games");
+  await page.goto("http://127.0.0.1:3000/games/web");
   await page
     .getByRole("link", { name: "Sign in with Google", exact: true })
     .click();
   await page.getByRole("link", { name: learner, exact: true }).click();
-  await expect(page).toHaveURL("http://127.0.0.1:3000/games");
+  await expect(page).toHaveURL("http://127.0.0.1:3000/games/web");
   await expect(
     page.getByRole("button", { name: "Listening games", exact: true }),
   ).toBeVisible();
@@ -652,7 +652,7 @@ test("academic_six_blank_mobile_rounds_and_credited_news_are_available_with_offi
     );
     expect(checked.ok()).toBe(true);
   }
-  await page.goto("http://127.0.0.1:3000/games?mode=gap-fill");
+  await page.goto("http://127.0.0.1:3000/games/web?mode=gap-fill");
   await page.getByRole("button", { name: "Level 2", exact: true }).click();
   for (const theme of [
     "News · technology",
@@ -783,7 +783,7 @@ test("all_modes_share_difficulty_and_old_foundation_results_retry_current_conten
       },
     }),
   );
-  await page.goto(`http://127.0.0.1:3000/games?run=${id}`);
+  await page.goto(`http://127.0.0.1:3000/games/web?run=${id}`);
   await expect(page.getByText(/Earlier edition/)).toBeVisible();
   await page.getByText("Review answers", { exact: true }).click();
   await expect(
