@@ -48,7 +48,14 @@ jobs:
       - name: Build extension
         run: pnpm build:extension
       - name: Install Chromium and Linux dependencies
+        timeout-minutes: 5
         run: |
+          # Retry transient mirror errors without consuming the whole job timeout.
+          sudo tee /etc/apt/apt.conf.d/80-ci-network >/dev/null <<'APT'
+          Acquire::Retries "2";
+          Acquire::http::Timeout "15";
+          Acquire::https::Timeout "15";
+          APT
           # Avoid the hosted runner's HTTP Azure mirror timing out before tests.
           if [ -f /etc/apt/apt-mirrors.txt ]; then
             sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' /etc/apt/apt-mirrors.txt
