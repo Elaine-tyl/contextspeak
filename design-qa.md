@@ -1,47 +1,71 @@
-# Popup design QA
+# ContextSpeak three-colour redesign QA
 
 final result: passed
 
-## Scope and reference
+## Source and scope
 
-Approved adaptation of the supplied language-settings screenshots: charcoal surfaces, light typography, rounded pickers, searchable expanded menu, teal focus/selected states and switches. ContextSpeak retains separate source/target roles, explicit Save, and installed English/Chinese languages. Country flags, regional variants and Add are intentionally outside the approved scope.
+- Visual target: `/Users/elaineting/Downloads/three-colour-theme.png` (1750 × 910 pixels).
+- Supplied implementation: `contextspeak-design.patch`, cross-checked with `ContextSpeak-redesign.zip`. Applied only the proposed frontend/test changes; excluded generated Next.js/TypeScript files from the ZIP.
+- Routes: Library, Review, Listen & speak, Games, Progress, Account, vocabulary detail, practice detail and extension pairing.
+- Kept the working API, extension, authentication, saved records and model providers.
 
-## Visual evidence
+## Browser evidence and normalization
 
-- Reference: codex-clipboard-cf7d9c61-ea86-4e65-ba70-74366ca109c0.png supplied by the user.
-- Rendered production popup at 390 CSS pixels: /private/tmp/contextspeak-popup-redesign.png (closed) and /private/tmp/contextspeak-popup-language-menu.png (expanded).
-- Side-by-side comparison reviewed: /private/tmp/contextspeak-design-comparison.png. Language controls are compared; the additional account and collection sections are not present in the reference.
-- Verified rounded borders, readable contrast, teal selection/focus, dropdown layering and popup-width layout. No unresolved P0/P1/P2 visual findings.
+Desktop captures use the in-app Browser at a 1440 × 900 CSS viewport. Saved image dimensions are 1440 × 900, normalized at 0.5 scale to the board's 720 × 450 desktop panels. The phone capture uses 375 × 960 CSS pixels, normalized to the 273 × 700 phone panel. No browser chrome is included.
 
-## Interaction verification
+Implementation screenshots:
 
-Search filtering and empty state, ArrowDown/ArrowUp and Enter selection, Escape focus return, outside click, Tab exit, checked state, explicit Save and persisted preferences passed. Review found tabbable options could break arrow navigation; its regression failed before tabIndex=-1 and passed afterward. Reviewer confirmed the fix and found no remaining substantive issues.
+- `/private/tmp/contextspeak-redesign-progress-desktop.png`
+- `/private/tmp/contextspeak-redesign-practice-desktop.png`
+- `/private/tmp/contextspeak-redesign-games-desktop.png`
+- `/private/tmp/contextspeak-redesign-review-desktop.png`
+- `/private/tmp/contextspeak-redesign-progress-mobile.png`
 
-## Checks
+Opened side-by-side comparisons, with the reference on the left:
 
-62 unit/API regressions, 12 existing browser regressions, 2 actual-model browser tests, and 1 dedicated popup browser test passed. Type checking, formatting and extension build passed. Existing backend and webpage translation panel are unchanged. The normal local app was restored after isolated tests.
+- `/private/tmp/contextspeak-redesign-compare-progress.png`
+- `/private/tmp/contextspeak-redesign-compare-practice.png`
+- `/private/tmp/contextspeak-redesign-compare-games.png`
+- `/private/tmp/contextspeak-redesign-compare-mobile.png`
+- Focused task-card comparison: `/private/tmp/contextspeak-redesign-compare-task-cards.png`
 
-## Activation
+State: signed-in isolated test learner, not the user's personal records. Scores, word counts, review availability and unlocked levels differ from the illustrative source. The reference's due Review button and the tested no-due button are intentionally different states. The Review capture shows an empty queue; populated recall/reveal/rating states were separately inspected in `test-results/reviews-saved-vocabulary-c-b9c93-viewed-through-the-real-API/vocabulary-review.png` and covered by regression tests. These data/state differences are not pixel-fidelity claims.
 
-The existing Free Translator Test folder was updated to v0.2.0 at the same path. Chrome must reload that extension to display the redesign in the user's installed profile; no new pairing is needed. The screenshots above are from isolated browser verification, not a claim that the user's existing popup has already reloaded.
+## Fidelity findings
 
-## AI card follow-up (v0.3.0)
+No actionable P0/P1/P2 visual differences remain.
 
-final result: passed
+- **Typography:** compact sans-serif hierarchy, weights, readable secondary copy and single-line vocabulary titles match the supplied design approach. Uses the supplied local font stack; platform rasterization can differ slightly.
+- **Spacing/layout:** fixed desktop sidebar, centered content, three daily actions, compact game/practice grids and stacked phone cards match the target. Reference and implementation were compared at equivalent scales, including focused task controls.
+- **Colour:** shared green, blue and orange tokens and their pale surfaces match the supplied patch and board. Review uses orange; listening uses blue; core and speaking daily actions use green. Feedback errors retain red highlighting.
+- **Assets:** retained the supplied vector navigation icons and ContextSpeak brand treatment from the user's patch. No placeholder imagery or new raster assets were introduced.
+- **Copy/content:** applied the supplied simpler labels and instructions. Dynamic totals and real exercise content remain data-driven; examples in the board were not inserted into learner records.
 
-Compared the supplied rich-card reference with the rendered automatic word card in /private/tmp/contextspeak-ai-design-comparison.png. The adaptation keeps the dark surface, source/target controls, word class, meaning, phrases and bilingual examples. ContextSpeak branding, English UI labels, two examples, AI provenance labeling, and omission of unverified pronunciation/audio are intentional approved differences. Compact phrase rows make both examples visible in the tested desktop viewport.
+## Comparison and fix history
 
-Actual-model browser evidence: /private/tmp/contextspeak-ai-word-card.png and /private/tmp/contextspeak-ai-library.png. No initial Translate button is present in the AI flow. New users default to automatic translation; existing explicit pause preferences and collection consent remain respected. Existing profiles require extension reload and webpage refresh to activate the new worker/content script.
+The first visual comparison found no substantive visual drift, so no visual correction/recapture loop was needed. Before visual QA, a new failing regression exposed sidebar interception of Ctrl/Cmd-click. Restored native modified-click behavior and confirmed the test passes. Updated old UI assertions for the supplied labels, accessible error tooltip, review navigation, feedback palette and subpixel grid rounding; retained the original behavioral checks.
 
-Verification: 81 unit/API tests, 12 capture/hydration browser tests, 1 AI browser test covering word and sentence automatic cards, 2 plain-translator browser tests, and 1 popup interaction browser test passed. Both extension and production website builds passed, with type and formatting checks. Review findings on duplicate retry encounters, output bounds, and valid inflections were addressed with regressions.
+Independent code review found no remaining concrete P1/P2 issue. Its narrow-phone concern was checked at both 320px and 375px, including the full vocabulary practice link, without overflow.
 
-Local multilingual samples covered all six target languages and reverse-direction examples. These are smoke checks, not a claim of native-speaker validation: generated learning notes are labeled AI-generated and may contain linguistic errors.
+## Interaction and verification results
 
+- 264 unit/database tests passed across 58 files.
+- All 66 browser regressions passed, including five redesign tests for active navigation, retained filters/history, modified-click links, and phone layouts.
+- Type checks, formatting, extension build and production website build passed.
+- Browser interactions covered navigation, Review reveal/rate/retry/pause, library search/filter/detail return, automatic translation/saving, practice and game flows, goal drafts and account boundaries.
+- In-app Browser visual verification covered desktop Progress, practice hub, Games and Review plus the phone dashboard. Captured console error check returned no errors.
+- Normal local development server restored after disposable test databases were shut down.
 
-## Gemini live acceptance — 8 November 2026
+## Follow-up polish
 
-Real Gemini automatic word and sentence translation passed in Chromium, including bilingual examples and identical saved library content. The dark card identifies Gemini AI; long content scrolls within the card. Screenshots: `/private/tmp/contextspeak-ai-word-card.png` and `/private/tmp/contextspeak-ai-library.png`. Key verified restricted to Gemini API; AI Studio showed Free tier.
+- Test data can display minor singular/plural labels such as “1 words in review”; this does not affect task completion or accessibility.
+- Native font rasterization varies slightly between screenshot environments. No external font download was added.
 
-## Compact card and library navigation — 8 November 2026
+## Implementation checklist
 
-Inspected current fixture-browser screenshots: compact card is approximately 225px tall at 1280×720; selected text, languages, translation, Saved and Close remain visible. Expanded explanation scrolls within 70vh. Library search/source/target controls have visible labels, focus indicators, and an explicit filtered-empty state. Captures: `/private/tmp/contextspeak-compact-card.png`, `/private/tmp/contextspeak-expanded-card.png`, `/private/tmp/contextspeak-library-filters.png`. These use deterministic fixtures, not a live Gemini quota request.
+- [x] Apply the supplied design to the existing application.
+- [x] Preserve working learning flows and privacy boundaries.
+- [x] Fix native sidebar-link behavior and add regressions.
+- [x] Verify desktop, 375px and 320px layouts.
+- [x] Run the regression suite and production build.
+- [x] Restore the user's normal local app.

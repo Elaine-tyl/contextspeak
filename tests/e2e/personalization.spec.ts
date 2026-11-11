@@ -56,7 +56,7 @@ test("learners confirm goals, inspect priorities and reach account export", asyn
   });
   await page.getByRole("link", { name: "Account", exact: true }).click();
   await expect(
-    page.getByRole("heading", { name: "Your data, your choice", exact: true }),
+    page.getByRole("heading", { name: "Account", exact: true }),
   ).toBeVisible();
   const download = page.waitForEvent("download");
   await page

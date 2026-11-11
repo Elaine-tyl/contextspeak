@@ -16,9 +16,19 @@ export function LearningNotes({
   return (
     <section className="learning-notes" data-testid="learning-notes">
       <small>AI-generated learning notes</small>
-      {details.partOfSpeech && <p>{details.partOfSpeech}</p>}
       <h4>Meaning</h4>
-      <p>{details.definition}</p>
+      <p>
+        {details.partOfSpeech && (
+          <span className="part-of-speech">{details.partOfSpeech}</span>
+        )}
+        {details.definition}
+      </p>
+      {details.notes && (
+        <>
+          <h4>Usage</h4>
+          <p>{details.notes}</p>
+        </>
+      )}
       {details.collocations.length > 0 && (
         <>
           <h4>Common phrases</h4>
@@ -32,8 +42,7 @@ export function LearningNotes({
                   language={sourceLanguage}
                   label="Listen to phrase"
                 />
-                <br />
-                {pair.translation}
+                <span className="note-translation">{pair.translation}</span>
               </li>
             ))}
           </ul>
@@ -50,8 +59,7 @@ export function LearningNotes({
               language={sourceLanguage}
               label="Listen to example"
             />
-            <br />
-            {pair.translation}
+            <span className="note-translation">{pair.translation}</span>
           </li>
         ))}
       </ol>
@@ -68,7 +76,7 @@ export function LearningNotes({
                 <h4>{title}</h4>
                 <ul>
                   {words.map((word) => (
-                    <li key={word.term}>
+                    <li key={word.term} className="related-word">
                       <strong>{word.term}</strong>
                       <SpeakerButton
                         token={token}
@@ -76,7 +84,7 @@ export function LearningNotes({
                         language={sourceLanguage}
                         label="Listen to related word"
                       />
-                      <p>{word.difference}</p>
+                      <p className="related-difference">{word.difference}</p>
                       <p>
                         {word.example.source}
                         <SpeakerButton
@@ -85,8 +93,9 @@ export function LearningNotes({
                           language={sourceLanguage}
                           label="Listen to related example"
                         />
-                        <br />
-                        {word.example.translation}
+                        <span className="note-translation">
+                          {word.example.translation}
+                        </span>
                       </p>
                     </li>
                   ))}
@@ -94,12 +103,6 @@ export function LearningNotes({
               </section>
             ),
         )}
-      {details.notes && (
-        <>
-          <h4>Usage</h4>
-          <p>{details.notes}</p>
-        </>
-      )}
     </section>
   );
 }

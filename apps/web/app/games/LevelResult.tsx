@@ -1,6 +1,8 @@
 import type { GameLevelRun } from "@contextspeak/contracts";
 import { DictationResult } from "../practice/DictationResult";
 import { SpeakingFeedback } from "../practice/SpeakingFeedback";
+import { EditionNotice, GameSourceCredit } from "./GameContext";
+import { GapFillResult } from "./GapFill";
 export function LevelResult({
   run,
   busy,
@@ -20,6 +22,7 @@ export function LevelResult({
           ? "No reliable level score"
           : `Level score: ${run.score}/100`}
       </h2>
+      <EditionNotice archived={run.rounds.some((round) => round.archived)} />
       {run.kind === "pk" && run.score !== null && opponent !== undefined && (
         <p className="game-match-result">
           {run.score > opponent
@@ -72,21 +75,7 @@ export function LevelResult({
                 Question {index + 1} ·{" "}
                 {receipt.score === null ? "Unscorable" : `${receipt.score}/100`}
               </h3>
-              {round.source && (
-                <p>
-                  <a href={round.source.url} target="_blank" rel="noreferrer">
-                    {round.source.provider} · {round.source.title}
-                  </a>{" "}
-                  · {round.source.author} ·{" "}
-                  <a
-                    href={round.source.licenseUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {round.source.license}
-                  </a>
-                </p>
-              )}
+              <GameSourceCredit source={round.source} />
               {receipt.feedback.dictation && (
                 <DictationResult
                   feedback={receipt.feedback.dictation}
@@ -95,6 +84,9 @@ export function LevelResult({
               )}
               {receipt.feedback.speaking && (
                 <SpeakingFeedback result={receipt.feedback.speaking} />
+              )}
+              {receipt.feedback.gapFill && (
+                <GapFillResult feedback={receipt.feedback.gapFill} />
               )}
               {receipt.feedback.correctAnswer && (
                 <p>Correct answer: {receipt.feedback.correctAnswer}</p>

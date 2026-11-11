@@ -15,10 +15,10 @@ test("progress_is_navigable_refresh_safe_owned_and_links_to_a_game_mode", async 
   ).toBeVisible();
   await expect(
     page.getByRole("region", { name: "Unlocked game levels" }),
-  ).toContainText("Unlocked Level");
+  ).toContainText("of 10 unlocked");
   await expect(
     page.getByRole("region", { name: "Speaking progress" }),
-  ).toContainText("assessed samples");
+  ).toContainText("scored answers");
   await page.route("http://127.0.0.1:4318/v1/progress", (route) =>
     route.fulfill({ status: 503, json: {} }),
   );
@@ -47,7 +47,8 @@ test("progress_is_navigable_refresh_safe_owned_and_links_to_a_game_mode", async 
     page.getByRole("button", { name: "Start level", exact: true }),
   ).toBeVisible();
   await page
-    .getByRole("link", { name: "Open learning progress", exact: true })
+    .getByRole("navigation", { name: "Main" })
+    .getByRole("link", { name: "Progress", exact: true })
     .click();
   await expect(
     page.getByRole("region", { name: "Vocabulary review progress" }),
@@ -103,7 +104,10 @@ test("progress_layout_is_usable_on_a_phone_width", async ({ page }) => {
     .getByRole("link", { name: "Review due vocabulary", exact: true })
     .boundingBox();
   const heading = await page
-    .getByRole("heading", { name: "Last 30 days", exact: true })
+    .getByRole("heading", {
+      name: "How your last 30 days of reviews went",
+      exact: true,
+    })
     .boundingBox();
   expect(button!.y + button!.height).toBeLessThanOrEqual(heading!.y);
 });

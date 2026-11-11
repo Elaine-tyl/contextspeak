@@ -31,9 +31,19 @@ export function DailyActions({ data }: { data: LearningProgress }) {
   return (
     <section className="daily-actions" aria-label="Your next steps">
       {actions.map((action) => (
-        <article key={action.step}>
-          <p className="eyebrow">
-            {action.step} · {action.title}
+        <article
+          key={action.step}
+          className={
+            action.step === "01"
+              ? "tone-review"
+              : action.step === "02"
+                ? "tone-speak"
+                : "tone-brand"
+          }
+        >
+          <p className="daily-step">
+            <span aria-hidden="true">{Number(action.step)}</span>
+            {action.title}
           </p>
           <p>{action.copy}</p>
           {action.step !== "01" && (
@@ -47,7 +57,7 @@ export function DailyActions({ data }: { data: LearningProgress }) {
             className={
               action.step === "01" && data.vocabulary.due
                 ? "primary"
-                : "daily-link"
+                : "secondary"
             }
             href={action.href}
           >

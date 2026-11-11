@@ -19,12 +19,30 @@ function SkillCard({
   href: string;
 }) {
   return (
-    <section className="progress-card" aria-label={`${title} progress`}>
+    <section
+      className="progress-card tone-speak"
+      aria-label={`${title} progress`}
+    >
       <h2>{title}</h2>
       <strong className="progress-number">
-        {value.average === null ? "No eligible score" : `${value.average}/100`}
+        {value.average === null ? (
+          <span className="progress-none">No score yet</span>
+        ) : (
+          <>
+            {value.average}
+            <small>/100</small>
+          </>
+        )}
       </strong>
-      <p>{value.scored} assessed samples · last 30 days</p>
+      {value.average !== null && (
+        <div className="meter" aria-hidden="true">
+          <span style={{ width: `${value.average}%` }} />
+        </div>
+      )}
+      <p className="muted">
+        Based on {value.scored} scored{" "}
+        {value.scored === 1 ? "answer" : "answers"} in the last 30 days
+      </p>
       {value.scored === 0 && (
         <p>
           Only current, reliable assessments appear here. Older or unscorable
@@ -32,55 +50,77 @@ function SkillCard({
         </p>
       )}
       {value.unscorable > 0 && (
-        <p>{value.unscorable} unscorable recordings excluded from scores.</p>
+        <p className="muted">
+          {value.unscorable} unclear{" "}
+          {value.unscorable === 1 ? "recording was" : "recordings were"} left
+          out.
+        </p>
       )}
       <p>
         {value.focus
-          ? `Focus: ${value.focus.dimension.replace("taskResponse", "task response")} · ${value.focus.evidenceCount} different independent tasks.`
-          : "No consistent focus has been established from recent independent tasks."}
+          ? `Work on next: ${value.focus.dimension.replace("taskResponse", "task response")} (seen in ${value.focus.evidenceCount} different tasks).`
+          : "Keep practising — we'll suggest what to work on once there's a clear pattern."}
       </p>
-      <Link href={href}>Practise {title.toLowerCase()}</Link>
+      <Link className="secondary" href={href}>
+        Practise {title.toLowerCase()}
+      </Link>
     </section>
   );
 }
 export default function ProgressPage() {
   const { data, error, loading, signedIn, token, refresh } = useProgress();
   return (
-    <main className="progress-page">
-      <Link href="/library">Back to library</Link>
-      <p className="eyebrow">ContextSpeak · your learning</p>
-      <h1>Learning progress</h1>
-      <p>
-        Pick one small task, then see how your practice is going. Scores are
-        estimates, not mastery or CEFR levels.
-      </p>
+    <main className="page progress-page">
+      <div className="page-head">
+        <div>
+          <h1>Learning progress</h1>
+          <p className="page-lead">
+            Start with one of today’s steps, then see how you’re doing. Scores
+            are rough estimates, not official levels.
+          </p>
+        </div>
+        {signedIn && (
+          <button className="secondary" onClick={refresh}>
+            Refresh
+          </button>
+        )}
+      </div>
       {loading && <p role="status">Loading progress…</p>}
       {error && <p role="alert">{error}</p>}
       {!signedIn && !loading && (
-        <a className="primary" href={API + "/auth/login?returnTo=/progress"}>
-          Sign in with Google
-        </a>
-      )}
-      {signedIn && (
-        <button className="secondary" onClick={refresh}>
-          Refresh
-        </button>
+        <section className="connect-panel sign-in-panel">
+          <div>
+            <h2>Sign in to see your progress</h2>
+            <p>
+              Your reviews, practice and game levels are saved to your account.
+            </p>
+          </div>
+          <a className="primary" href={API + "/auth/login?returnTo=/progress"}>
+            Sign in with Google
+          </a>
+        </section>
       )}
       {data && (
         <>
+          <h2 className="progress-section-title">Today</h2>
           <DailyActions data={data} />
           <section
-            className="progress-card"
+            className="progress-card tone-review"
             aria-label="Vocabulary review progress"
           >
-            <h2>Vocabulary review</h2>
+            <div className="section-head">
+              <h2>Vocabulary review</h2>
+              <Link className="primary" href="/library?view=reviews">
+                Review due vocabulary
+              </Link>
+            </div>
             <dl className="progress-totals">
               {[
-                ["Saved vocabulary", data.vocabulary.saved],
-                ["Active review cards", data.vocabulary.active],
                 ["Due now", data.vocabulary.due],
-                ["Paused cards", data.vocabulary.paused],
-                ["Completed reviews", data.vocabulary.reviews],
+                ["Words in review", data.vocabulary.active],
+                ["Saved words", data.vocabulary.saved],
+                ["Reviews done", data.vocabulary.reviews],
+                ["Paused", data.vocabulary.paused],
               ].map(([label, value]) => (
                 <div key={label}>
                   <dt>{label}</dt>
@@ -88,15 +128,17 @@ export default function ProgressPage() {
                 </div>
               ))}
             </dl>
-            <Link className="primary" href="/library?view=reviews">
-              Review due vocabulary
-            </Link>
-            <h3>Last 30 days</h3>
-            <p>
-              {Object.entries(data.vocabulary.recentRatings)
-                .map(([rating, count]) => `${rating}: ${count}`)
-                .join(" · ")}
-            </p>
+            <h3>How your last 30 days of reviews went</h3>
+            <ul className="rating-summary">
+              {Object.entries(data.vocabulary.recentRatings).map(
+                ([rating, count]) => (
+                  <li key={rating} className={`rating-${rating}`}>
+                    <strong>{count}</strong>
+                    {rating[0].toUpperCase() + rating.slice(1)}
+                  </li>
+                ),
+              )}
+            </ul>
           </section>
           <div className="progress-grid">
             <SkillCard
@@ -116,15 +158,18 @@ export default function ProgressPage() {
               <ul>
                 {data.vocabulary.difficult.map((word) => (
                   <li key={word.id}>
-                    <Link href={`/library/item/${word.id}`}>{word.word}</Link> ·{" "}
-                    {word.count} Again/Hard reviews in the last 30 days
+                    <Link href={`/library/item/${word.id}`}>{word.word}</Link>{" "}
+                    <span className="muted">
+                      — marked Again or Hard {word.count}{" "}
+                      {word.count === 1 ? "time" : "times"} this month
+                    </span>
                   </li>
                 ))}
               </ul>
             ) : (
               <p>
-                No recent Again/Hard review evidence yet. A saved word alone
-                does not indicate difficulty.
+                Nothing to worry about yet. Words you mark “Again” or “Hard” in
+                review will show up here.
               </p>
             )}
           </section>
@@ -135,8 +180,8 @@ export default function ProgressPage() {
               refresh={refresh}
             />
           )}
-          <section aria-label="Unlocked game levels">
-            <h2>Game levels</h2>
+          <section className="tone-speak" aria-label="Unlocked game levels">
+            <h2 className="progress-section-title">Game levels</h2>
             <div className="progress-grid">
               {data.games.map((mode) => (
                 <section
@@ -146,8 +191,11 @@ export default function ProgressPage() {
                 >
                   <h3>{mode.label}</h3>
                   <p>
-                    Unlocked Level <strong>{mode.level}</strong> of 10
+                    Level <strong>{mode.level}</strong> of 10 unlocked
                   </p>
+                  <div className="meter" aria-hidden="true">
+                    <span style={{ width: `${mode.level * 10}%` }} />
+                  </div>
                   <Link href={`/games?mode=${mode.kind}`}>
                     Practise {mode.label.toLowerCase()}
                   </Link>
@@ -155,14 +203,15 @@ export default function ProgressPage() {
               ))}
             </div>
           </section>
-          <p className="section-copy">
+          <details className="fine-print how-calculated">
+            <summary>How these numbers are calculated</summary>
             Review totals and game access use saved records. Skill averages use
             up to {data.sampleLimit} recent scored attempts per source
             (vocabulary practice and games), within 30 days. Self-check-only and
             unreliable speech are excluded; focus requires different independent
             tasks. Activity is not a mastery claim.
-          </p>
-          <p className="section-copy">
+          </details>
+          <p className="fine-print">
             Updated {new Date(data.updatedAt).toLocaleString()}
           </p>
         </>

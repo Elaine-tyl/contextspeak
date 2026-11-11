@@ -119,12 +119,12 @@ New AI translations prioritize the meaning in the selected sentence; saved trans
 
 Guided conversation: choose an everyday scenario in practice, then **Conversation** for four spoken turns with AI follow-ups and a final estimate. Listening highlights word differences after submission; speaking highlights AI-proposed grammar/vocabulary corrections against the transcript. See [practice workflow and privacy](docs/PRACTICE.md).
 
-**Game practice:** open `/games` or the library sidebar for seven game modes, ten levels per mode, theme/source selection and 179 original or credited tasks. Completed levels show a score with Retry and Next; AI PK uses a clearly labelled simulated opponent. See [game setup and rules](docs/GAMES.md).
+**Game practice:** open `/games` or the sidebar for eight game modes, ten levels per mode, theme/source selection and 184 current original or credited tasks. All modes share intermediate (1–3), upper-intermediate (4–7) and advanced (8–10) practice bands. The seven other modes have 90 new original tasks, including inference, practical problem-solving and qualified spoken arguments. **Missing words** targets intermediate–advanced vocabulary with 2–6 inline blanks, Academic study and credited news on education, technology, work and the environment. Red corrections and expanding answer fields support longer words. Completed levels show a score with Retry and Next; AI PK uses a clearly labelled simulated opponent. See [game setup and rules](docs/GAMES.md).
 
 **Local and saved voices:** `pnpm speech:setup` downloads pinned English Phonon. Use `SPEECH_PROVIDER=ollama`; generated WAVs persist privately in `.local/audio` with Prisma/PostgreSQL metadata and bounded cleanup. See [voice setup and storage](docs/AI_SPEECH.md). Gemini recording assessment and any configured non-English fallback retain their own quotas.
 
 **Adaptive practice:** contextual vocabulary questions, visible answer criteria, evidence-based speaking rubric v2 and transparent difficulty recommendations now use owned SQL history, without RAG. See [rules and scoring limits](docs/ADAPTIVE_PRACTICE.md).
 
-Reviewed [open practice sources](docs/PRACTICE_SOURCES.md) add 96 attributed listening/speaking exercises. Validate the committed corpus with `pnpm content:verify`.
+Reviewed [open practice sources](docs/PRACTICE_SOURCES.md) supply 54 current news exercises (18 dictations, 18 speaking discussions and 18 news gap tasks); earlier source exercises remain readable in saved results. Validate the committed corpus with `pnpm content:verify`.
 
 Open `/progress` for your [learning progress dashboard](docs/PROGRESS.md). See the [current MVP checklist](docs/MVP_CHECKLIST.md) for implemented features and outstanding release gates.

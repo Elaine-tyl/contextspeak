@@ -1,17 +1,20 @@
 "use client";
-import Link from "next/link";
 import { API } from "../../src/api";
 import { useAccount } from "./useAccount";
 import "./account.css";
 export default function AccountPage() {
   const account = useAccount();
   return (
-    <main className="account-page">
-      <Link href="/library" className="account-back">
-        ← Library
-      </Link>
-      <p className="account-eyebrow">YOUR ACCOUNT</p>
-      <h1>Your data, your choice</h1>
+    <main className="page page-narrow account-page">
+      <div className="page-head">
+        <div>
+          <h1>Account</h1>
+          <p className="page-lead">
+            Connect the browser extension, download a copy of your data, or
+            delete your account.
+          </p>
+        </div>
+      </div>
       {account.deleted ? (
         <section className="account-panel" aria-live="polite">
           <h2>Your account has been deleted</h2>
@@ -33,8 +36,24 @@ export default function AccountPage() {
       ) : account.session ? (
         <>
           <p className="account-identity">
-            Signed in as {account.session.identity.subject}
+            <span className="status-dot online" aria-hidden="true" /> Signed in
+            as <strong>{account.session.identity.subject}</strong>
           </p>
+          <section className="account-panel">
+            <h2>Browser extension</h2>
+            <p>
+              The extension translates words as you read and saves them to your
+              library. Pair it once on each browser you use.
+            </p>
+            <div className="account-actions">
+              <a className="secondary" href="/pair">
+                Pair an extension
+              </a>
+              <a className="link-button" href="/library">
+                Manage in Library settings
+              </a>
+            </div>
+          </section>
           <section className="account-panel">
             <h2>Download your data</h2>
             <p>
@@ -42,12 +61,12 @@ export default function AccountPage() {
               schedule, practice, games, and learning preferences. Generated
               audio is listed as metadata.
             </p>
-            <p>
+            <p className="fine-print">
               Exports can contain private text and page addresses. Store your
               download somewhere safe.
             </p>
             <button
-              className="account-button"
+              className="primary"
               disabled={!!account.busy}
               onClick={() => void account.run("export")}
             >
@@ -63,7 +82,7 @@ export default function AccountPage() {
               every connected website and extension session. This cannot be
               undone.
             </p>
-            <p>
+            <p className="fine-print">
               Generated audio is removed from active storage, with automatic
               retries if storage is unavailable. Backups may retain data until
               they expire.
@@ -80,7 +99,7 @@ export default function AccountPage() {
               disabled={!!account.busy}
             />
             <button
-              className="account-button account-delete"
+              className="danger-button"
               disabled={!!account.busy || account.confirmation !== "DELETE"}
               onClick={() => void account.run("delete")}
             >
@@ -98,7 +117,7 @@ export default function AccountPage() {
               : "Checking sign-in…"}
           </p>
           {account.checked && (
-            <a href={API + "/auth/login?returnTo=/account"}>
+            <a className="primary" href={API + "/auth/login?returnTo=/account"}>
               Sign in with Google
             </a>
           )}

@@ -1,7 +1,13 @@
+import { currentChallenges } from "./current";
 import { openChallenges } from "./open-content";
 import { beginnerChallenges } from "./beginner";
+import { gapFillChallenges, archivedGapFillChallenges } from "./gap-fill";
 import type { GameRound, GameProgress } from "@contextspeak/contracts";
-export type Challenge = GameRound & { answer: string; explanation: string };
+export type Challenge = GameRound & {
+  answer: string;
+  explanation: string;
+  gapAnswers?: string[];
+};
 // Original, immutable content: new revisions get new IDs so saved progress stays meaningful.
 const passages = [
   [
@@ -183,10 +189,16 @@ const legacyChallenges: Challenge[] = passages.flatMap((texts, index) => {
   ];
 });
 export const challenges = [
-  ...beginnerChallenges,
-  ...legacyChallenges,
+  ...currentChallenges,
+  ...[...beginnerChallenges, ...legacyChallenges].map((round) => ({
+    ...round,
+    archived: true,
+  })),
+  ...gapFillChallenges,
   ...openChallenges,
+  ...archivedGapFillChallenges,
 ];
+export const activeChallenges = challenges.filter((round) => !round.archived);
 export function gameProgress(passedIds: string[]): GameProgress {
   const passed = new Set(passedIds);
   const result = {} as GameProgress;
@@ -216,6 +228,7 @@ export function gameProgress(passedIds: string[]): GameProgress {
 export function publicRound({
   answer,
   explanation,
+  gapAnswers,
   ...round
 }: Challenge): GameRound {
   return { ...round, topic: roundTopic(round) };

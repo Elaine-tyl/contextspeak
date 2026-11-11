@@ -1,0 +1,267 @@
+{
+  "shopping": {
+    "spawn": [0, 0, 10],
+    "size": [36, 28],
+    "zones": [
+      {
+        "id": "clothes",
+        "label": "Clothes boutique",
+        "center": [-10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [-10, 0, -5.5],
+        "approach": [-10, 0, -3.8]
+      },
+      {
+        "id": "sale",
+        "label": "Sale corner",
+        "center": [10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [10, 0, -5.5],
+        "approach": [10, 0, -3.8]
+      },
+      {
+        "id": "fitting",
+        "label": "Fitting rooms",
+        "center": [10, 0, 6],
+        "size": [12, 10],
+        "npc_position": [10, 0, 6.5],
+        "approach": [10, 0, 8.2]
+      }
+    ],
+    "navigation": {
+      "points": [
+        [0, 0, 10],
+        [0, 0, 0],
+        [-10, 0, 0],
+        [-10, 0, -3.8],
+        [10, 0, 0],
+        [10, 0, -3.8],
+        [10, 0, 8.2],
+        [4, 0, 0],
+        [4, 0, 8.2]
+      ],
+      "links": [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+        [1, 4],
+        [4, 5],
+        [1, 7],
+        [7, 8],
+        [8, 6]
+      ]
+    }
+  },
+  "farm": {
+    "spawn": [0, 0, 10],
+    "size": [36, 28],
+    "zones": [
+      {
+        "id": "fields",
+        "label": "Crop fields",
+        "center": [-10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [-10, 0, -5.5],
+        "approach": [-10, 0, -3.8]
+      },
+      {
+        "id": "farm_shop",
+        "label": "Farm shop",
+        "center": [10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [10, 0, -5.5],
+        "approach": [10, 0, -3.8]
+      },
+      {
+        "id": "packing",
+        "label": "Packing barn",
+        "center": [10, 0, 6],
+        "size": [12, 10],
+        "npc_position": [10, 0, 6.5],
+        "approach": [10, 0, 8.2]
+      }
+    ],
+    "navigation": {
+      "points": [
+        [0, 0, 10],
+        [0, 0, 0],
+        [-10, 0, 0],
+        [-10, 0, -3.8],
+        [10, 0, 0],
+        [10, 0, -3.8],
+        [10, 0, 8.2],
+        [4, 0, 0],
+        [4, 0, 8.2]
+      ],
+      "links": [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+        [1, 4],
+        [4, 5],
+        [1, 7],
+        [7, 8],
+        [8, 6]
+      ]
+    }
+  },
+  "market": {
+    "spawn": [0, 0, 10],
+    "size": [36, 28],
+    "zones": [
+      {
+        "id": "fruit_stall",
+        "label": "Fruit stall",
+        "center": [-10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [-10, 0, -5.5],
+        "approach": [-10, 0, -3.8]
+      },
+      {
+        "id": "produce_stall",
+        "label": "Produce stall",
+        "center": [10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [10, 0, -5.5],
+        "approach": [10, 0, -3.8]
+      },
+      {
+        "id": "checkout",
+        "label": "Market checkout",
+        "center": [10, 0, 6],
+        "size": [12, 10],
+        "npc_position": [10, 0, 6.5],
+        "approach": [10, 0, 8.2]
+      }
+    ],
+    "navigation": {
+      "points": [
+        [0, 0, 10],
+        [0, 0, 0],
+        [-10, 0, 0],
+        [-10, 0, -3.8],
+        [10, 0, 0],
+        [10, 0, -3.8],
+        [10, 0, 8.2],
+        [4, 0, 0],
+        [4, 0, 8.2]
+      ],
+      "links": [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+        [1, 4],
+        [4, 5],
+        [1, 7],
+        [7, 8],
+        [8, 6]
+      ]
+    }
+  },
+  "restaurant": {
+    "spawn": [0, 0, 10],
+    "size": [36, 28],
+    "zones": [
+      {
+        "id": "entrance",
+        "label": "Welcome lounge",
+        "center": [-10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [-10, 0, -5.5],
+        "approach": [-10, 0, -3.8]
+      },
+      {
+        "id": "dining",
+        "label": "Dining room",
+        "center": [10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [10, 0, -5.5],
+        "approach": [10, 0, -3.8]
+      },
+      {
+        "id": "till",
+        "label": "Restaurant till",
+        "center": [10, 0, 6],
+        "size": [12, 10],
+        "npc_position": [10, 0, 6.5],
+        "approach": [10, 0, 8.2]
+      }
+    ],
+    "navigation": {
+      "points": [
+        [0, 0, 10],
+        [0, 0, 0],
+        [-10, 0, 0],
+        [-10, 0, -3.8],
+        [10, 0, 0],
+        [10, 0, -3.8],
+        [10, 0, 8.2],
+        [4, 0, 0],
+        [4, 0, 8.2]
+      ],
+      "links": [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+        [1, 4],
+        [4, 5],
+        [1, 7],
+        [7, 8],
+        [8, 6]
+      ]
+    }
+  },
+  "amusement_park": {
+    "spawn": [0, 0, 10],
+    "size": [36, 28],
+    "zones": [
+      {
+        "id": "tickets",
+        "label": "Ticket plaza",
+        "center": [-10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [-10, 0, -5.5],
+        "approach": [-10, 0, -3.8]
+      },
+      {
+        "id": "rides",
+        "label": "Ride garden",
+        "center": [10, 0, -6],
+        "size": [12, 10],
+        "npc_position": [10, 0, -5.5],
+        "approach": [10, 0, -3.8]
+      },
+      {
+        "id": "snacks",
+        "label": "Snack square",
+        "center": [10, 0, 6],
+        "size": [12, 10],
+        "npc_position": [10, 0, 6.5],
+        "approach": [10, 0, 8.2]
+      }
+    ],
+    "navigation": {
+      "points": [
+        [0, 0, 10],
+        [0, 0, 0],
+        [-10, 0, 0],
+        [-10, 0, -3.8],
+        [10, 0, 0],
+        [10, 0, -3.8],
+        [10, 0, 8.2],
+        [4, 0, 0],
+        [4, 0, 8.2]
+      ],
+      "links": [
+        [0, 1],
+        [1, 2],
+        [2, 3],
+        [1, 4],
+        [4, 5],
+        [1, 7],
+        [7, 8],
+        [8, 6]
+      ]
+    }
+  }
+}

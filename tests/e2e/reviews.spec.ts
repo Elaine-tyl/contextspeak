@@ -72,9 +72,7 @@ test("enroll_reveal_rate_and_pause_reviews_with_retry_safe_submission", async ({
   });
   await page.goto("http://127.0.0.1:3000/library");
   await expect(page.getByText("Connected", { exact: true })).toBeVisible();
-  await page
-    .getByRole("button", { name: "▤ Vocabulary candidates", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Word list", exact: true }).click();
   await page
     .getByRole("button", { name: "Start reviewing", exact: true })
     .click();
@@ -107,8 +105,10 @@ test("enroll_reveal_rate_and_pause_reviews_with_retry_safe_submission", async ({
   expect(submissions[0]).toEqual(submissions[1]);
   await expect(queue.getByText(/^Next review:/)).toBeVisible();
   await page
-    .getByRole("button", { name: "▤ Vocabulary candidates", exact: true })
+    .getByRole("navigation", { name: "Main" })
+    .getByRole("link", { name: "Library", exact: true })
     .click();
+  await page.getByRole("button", { name: "Word list", exact: true }).click();
   await page
     .getByRole("button", { name: "Pause reviews", exact: true })
     .click();
@@ -162,9 +162,7 @@ test("saved_vocabulary_can_be_reviewed_through_the_real_API", async ({
     )
     .toBe("succeeded");
   await page.getByRole("button", { name: "Refresh", exact: true }).click();
-  await page
-    .getByRole("button", { name: "▤ Vocabulary candidates", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Word list", exact: true }).click();
   const candidate = page.getByTestId("candidate-card").filter({
     has: page.getByRole("heading", { name: "confident", exact: true }),
   });

@@ -95,13 +95,13 @@ it("creates owned immutable runs, filters themes and sources and makes starts re
   expect(
     (
       await start("dictation", 1, {
-        source: "Tatoeba",
-        topic: "Asking for help",
+        source: "VOA Learning English",
+        topic: "News · education",
       })
     ).body.rounds.every(
       (round: { source: { provider: string }; topic: string }) =>
-        round.source.provider === "Tatoeba" &&
-        round.topic === "Asking for help",
+        round.source.provider === "VOA Learning English" &&
+        round.topic === "News · education",
     ),
   ).toBe(true);
   expect((await start("dictation", 1, { topic: "invented" })).status).toBe(400);
@@ -131,8 +131,9 @@ it("only completes after ordered saved answers and unlocks this mode without era
   expect((await call(`/v1/games/levels/${run.id}`)).body.score).toBe(100);
 });
 it("does not pass incomplete or low-scoring levels and isolates theme/source selection", async () => {
-  const run = (await start("dictation", 1, { source: "Tatoeba" }, "level-low"))
-    .body;
+  const run = (
+    await start("dictation", 1, { source: "VOA Learning English" }, "level-low")
+  ).body;
   for (let i = 0; i < run.rounds.length; i++)
     await answer(run, i, "wrong answer", "level-low");
   expect(
@@ -277,10 +278,352 @@ it("preserves access earned by legacy unscoped game results", async () => {
   });
   const value = await call("/v1/games", undefined, "level-legacy");
   expect(value.body.modeProgress.picture.level).toBe(2);
+  expect(value.body.modeProgress["gap-fill"].level).toBe(1);
   expect((await start("picture", 2, {}, "level-legacy")).status).toBe(201);
   expect(
     await db.prisma.gameAttempt.count({
       where: { userId: user.id, levelSessionId: null },
     }),
   ).toBe(3);
+});
+
+// Simulate a persisted v1 session to protect saved runs during content upgrades.
+async function archivedGapRun(level: number, subject: string) {
+  const started = await start("gap-fill", level, {}, subject);
+  expect(started.status).toBe(201);
+  expect(
+    started.body.rounds.every((round: { id: string }) =>
+      round.id.endsWith("-v3"),
+    ),
+  ).toBe(true);
+  await db.prisma.gameLevelSession.update({
+    where: { id: started.body.id },
+    data: {
+      roundIds: [0, 1, 2].map((index) => `gap-fill-${level}-${index}-v1`),
+    },
+  });
+  const restored = await call(
+    `/v1/games/levels/${started.body.id}`,
+    undefined,
+    subject,
+  );
+  expect(restored.status).toBe(200);
+  expect(
+    restored.body.rounds.every(
+      (round: { archived?: boolean }) => round.archived,
+    ),
+  ).toBe(true);
+  return restored;
+}
+
+it("checks missing words server-side, saves replay-safe feedback and unlocks only this mode", async () => {
+  const started = await archivedGapRun(1, "gap-player");
+  const run = started.body;
+  expect(run.rounds).toHaveLength(3);
+  const body = {
+    eventId: randomUUID(),
+    levelSessionId: run.id,
+    roundId: run.rounds[0].id,
+    completedPlays: 1,
+    gapAnswers: ["  TEA!  "],
+  };
+  expect((await call("/v1/games/attempts", body, "gap-other")).status).toBe(
+    404,
+  );
+  for (const patch of [
+    { completedPlays: 0 },
+    { gapAnswers: [] },
+    { gapAnswers: ["tea", "extra"] },
+    { gapAnswers: [""] },
+    { score: 100 },
+    { response: "I'd like tea, please." },
+    { choice: "tea" },
+  ]) {
+    expect(
+      (await call("/v1/games/attempts", { ...body, ...patch }, "gap-player"))
+        .status,
+    ).toBe(400);
+  }
+  const first = await call("/v1/games/attempts", body, "gap-player");
+  expect(first.status).toBe(201);
+  expect(first.body).toMatchObject({
+    score: 100,
+    feedback: {
+      correctAnswer: "I'd like tea, please.",
+      gapFill: {
+        score: 100,
+        words: [{ answer: "TEA!", expected: "tea", correct: true }],
+      },
+    },
+  });
+  expect((await call("/v1/games/attempts", body, "gap-player")).body.id).toBe(
+    first.body.id,
+  );
+  expect(
+    (
+      await call(
+        "/v1/games/attempts",
+        { ...body, gapAnswers: ["coffee"] },
+        "gap-player",
+      )
+    ).status,
+  ).toBe(409);
+  for (const [index, word] of [
+    [1, "noon"],
+    [2, "bus"],
+  ] as const) {
+    expect(
+      (
+        await call(
+          "/v1/games/attempts",
+          {
+            ...body,
+            eventId: randomUUID(),
+            roundId: run.rounds[index].id,
+            gapAnswers: [word],
+          },
+          "gap-player",
+        )
+      ).status,
+    ).toBe(201);
+  }
+  const saved = (
+    await call(`/v1/games/levels/${run.id}`, undefined, "gap-player")
+  ).body;
+  expect(saved).toMatchObject({
+    score: 100,
+    completed: true,
+    passed: true,
+    nextLevel: 2,
+  });
+  expect(saved.receipts[0].feedback).toEqual(first.body.feedback);
+  const retry = await start("gap-fill", 1, {}, "gap-player");
+  expect(retry.status).toBe(201);
+  expect(
+    retry.body.rounds.every(
+      (round: { id: string; archived?: boolean }) =>
+        round.id.endsWith("-v3") && !round.archived,
+    ),
+  ).toBe(true);
+  expect((await start("gap-fill", 2, {}, "gap-player")).status).toBe(201);
+  expect((await start("dictation", 2, {}, "gap-player")).status).toBe(409);
+  const progress = (await call("/v1/progress", undefined, "gap-player")).body;
+  expect(progress.games).toContainEqual({
+    kind: "gap-fill",
+    label: "Missing words",
+    track: "listening",
+    level: 2,
+  });
+});
+
+it("scores only the blank words, with equal partial credit and ordered corrections", async () => {
+  const user = await db.prisma.user.create({
+    data: { issuer: issuer.issuer, subject: "gap-marks" },
+  });
+  await db.prisma.gameLevelSession.createMany({
+    data: [1, 2, 3].map((level) => ({
+      userId: user.id,
+      eventId: randomUUID(),
+      kind: "gap-fill",
+      level,
+      roundIds: [],
+      score: 100,
+      completedAt: new Date(),
+    })),
+  });
+  for (const [words, score] of [
+    [["OAT!", "insted"], 50],
+    [["instead", "oat"], 0],
+    [["oat milk", "instead"], 50],
+  ] as const) {
+    const started = await archivedGapRun(4, "gap-marks");
+    const run = started.body;
+    const result = await call(
+      "/v1/games/attempts",
+      {
+        eventId: randomUUID(),
+        levelSessionId: run.id,
+        roundId: run.rounds[0].id,
+        completedPlays: 1,
+        gapAnswers: words,
+      },
+      "gap-marks",
+    );
+    expect(result.status).toBe(201);
+    expect(result.body.score).toBe(score);
+    expect(
+      result.body.feedback.gapFill.words.map(
+        (word: { expected: string }) => word.expected,
+      ),
+    ).toEqual(["oat", "instead"]);
+  }
+});
+
+it("requires a missing-words level session so legacy submissions cannot unlock other modes", async () => {
+  for (const [index, word] of ["tea", "noon", "bus"].entries()) {
+    const result = await call(
+      "/v1/games/attempts",
+      {
+        eventId: randomUUID(),
+        roundId: `gap-fill-1-${index}-v1`,
+        gapAnswers: [word],
+        completedPlays: 1,
+      },
+      "gap-unscoped",
+    );
+    expect(result.status).toBe(400);
+  }
+  const catalog = (await call("/v1/games", undefined, "gap-unscoped")).body;
+  expect(catalog.modeProgress["gap-fill"].level).toBe(1);
+  expect(catalog.modeProgress.dictation.level).toBe(1);
+  expect(catalog.modeProgress.picture.level).toBe(1);
+});
+
+it("starts current academic and news gaps, keeps hidden answers private and grades all six blanks", async () => {
+  const subject = "gap-current";
+  const academic = await start(
+    "gap-fill",
+    1,
+    { topic: "Academic study" },
+    subject,
+  );
+  expect(academic.status).toBe(201);
+  expect(academic.body.rounds).toHaveLength(1);
+  expect(academic.body.rounds[0]).toMatchObject({
+    id: "gap-fill-1-3-v3",
+    topic: "Academic study",
+  });
+  expect(academic.body.rounds[0]).not.toHaveProperty("gapAnswers");
+  expect(academic.body.rounds[0]).not.toHaveProperty("answer");
+  const news = await start(
+    "gap-fill",
+    1,
+    { topic: "News · education", source: "VOA Learning English" },
+    subject,
+  );
+  expect(news.status).toBe(201);
+  expect(news.body.rounds[0].source).toMatchObject({
+    author: "Dan Friedell",
+    publishedAt: "2024-02-24",
+  });
+  const user = await db.prisma.user.findUniqueOrThrow({
+    where: { issuer_subject: { issuer: issuer.issuer, subject } },
+  });
+  await db.prisma.gameLevelSession.createMany({
+    data: Array.from({ length: 9 }, (_, index) => ({
+      userId: user.id,
+      eventId: randomUUID(),
+      kind: "gap-fill",
+      level: index + 1,
+      roundIds: [],
+      score: 100,
+      completedAt: new Date(),
+    })),
+  });
+  const advanced = await start(
+    "gap-fill",
+    10,
+    { topic: "Academic study" },
+    subject,
+  );
+  expect(advanced.status).toBe(201);
+  const result = await call(
+    "/v1/games/attempts",
+    {
+      eventId: randomUUID(),
+      levelSessionId: advanced.body.id,
+      roundId: advanced.body.rounds[0].id,
+      completedPlays: 1,
+      gapAnswers: [
+        "methodological",
+        "confounding",
+        "generalizability",
+        "replication",
+        "corroborating",
+        "wrong",
+      ],
+    },
+    subject,
+  );
+  expect(result.status).toBe(201);
+  expect(result.body.score).toBe(83);
+  expect(result.body.feedback.gapFill.words[5]).toEqual({
+    answer: "wrong",
+    expected: "tentative",
+    correct: false,
+  });
+});
+
+it("reopens v2 runs with their original answers while Retry starts v3", async () => {
+  const subject = "gap-v2-existing";
+  const fresh = await start("gap-fill", 1, { topic: "Café" }, subject);
+  expect(fresh.status).toBe(201);
+  await db.prisma.gameLevelSession.update({
+    where: { id: fresh.body.id },
+    data: { roundIds: ["gap-fill-1-0-v2"] },
+  });
+  const restored = await call(
+    `/v1/games/levels/${fresh.body.id}`,
+    undefined,
+    subject,
+  );
+  expect(restored.body.rounds[0]).toMatchObject({
+    id: "gap-fill-1-0-v2",
+    archived: true,
+    audioText: "Could I get a coffee with oat milk to go, please?",
+  });
+  const receipt = await call(
+    "/v1/games/attempts",
+    {
+      eventId: randomUUID(),
+      levelSessionId: restored.body.id,
+      roundId: "gap-fill-1-0-v2",
+      gapAnswers: ["coffee", "oat"],
+      completedPlays: 1,
+    },
+    subject,
+  );
+  expect(receipt.status).toBe(201);
+  expect(receipt.body.score).toBe(100);
+  const retry = await start("gap-fill", 1, { topic: "Café" }, subject);
+  expect(retry.body.rounds[0].id).toBe("gap-fill-1-0-v3");
+  const saved = await call(
+    `/v1/games/levels/${restored.body.id}`,
+    undefined,
+    subject,
+  );
+  expect(saved.body.receipts[0]).toEqual(receipt.body);
+});
+
+it("keeps archived foundational sessions scorable while new starts exclude their source", async () => {
+  const subject = "archived-foundation";
+  const started = await start("dictation", 1, {}, subject);
+  await db.prisma.gameLevelSession.update({
+    where: { id: started.body.id },
+    data: {
+      source: "Tatoeba",
+      topic: "Asking for help",
+      roundIds: ["open-tatoeba-12335770-listen-v1"],
+    },
+  });
+  const restored = (
+    await call(`/v1/games/levels/${started.body.id}`, undefined, subject)
+  ).body;
+  expect(restored.rounds[0]).toMatchObject({
+    archived: true,
+    audioText: "Help is available.",
+  });
+  const receipt = await answer(restored, 0, "Help is available.", subject);
+  expect(receipt.status).toBe(201);
+  expect(receipt.body.score).toBe(100);
+  expect(
+    (await start("dictation", 1, { source: "Tatoeba" }, subject)).status,
+  ).toBe(400);
+  const current = await start("dictation", 1, {}, subject);
+  expect(current.body.rounds[0].id).toBe("game-dictation-1-0-v3");
+  const saved = (
+    await call(`/v1/games/levels/${restored.id}`, undefined, subject)
+  ).body;
+  expect(saved.receipts[0]).toEqual(receipt.body);
+  expect((await start("dictation", 2, {}, subject)).status).toBe(201);
 });

@@ -1,6 +1,8 @@
 import corpus from "../content/corpus.json";
 import { validateCorpus } from "../content/validation";
 import type { Challenge } from "./catalog";
+import { speakingInstruction, speakingRequirements } from "./difficulty";
+import { makeGapFill } from "./gap-fill";
 const reviewed = validateCorpus(corpus);
 const sources = new Map(reviewed.sources.map((source) => [source.id, source]));
 export const openChallenges: Challenge[] = reviewed.excerpts.flatMap(
@@ -21,9 +23,11 @@ export const openChallenges: Challenge[] = reviewed.excerpts.flatMap(
               "Answer all parts of the question",
               "Connect your ideas with a reason or example",
             ];
+    const news = !!original.publishedAt;
     return [
       {
         id: `open-${excerpt.id}-listen-v1`,
+        ...(!news ? { archived: true } : {}),
         track: "listening",
         kind: "dictation",
         level: excerpt.level,
@@ -38,6 +42,7 @@ export const openChallenges: Challenge[] = reviewed.excerpts.flatMap(
       },
       {
         id: `open-${excerpt.id}-speak-v1`,
+        archived: true,
         track: "speaking",
         kind: "response",
         level: excerpt.level,
@@ -53,6 +58,37 @@ export const openChallenges: Challenge[] = reviewed.excerpts.flatMap(
           "Answer the question in your own words. Repeating the excerpt is not required.",
         source,
       },
+      ...(news
+        ? [
+            {
+              id: `open-${excerpt.id}-speak-v2`,
+              track: "speaking" as const,
+              kind: "response" as const,
+              level: excerpt.level,
+              topic: excerpt.topic,
+              title: `${excerpt.topic} · discussion`,
+              instruction: speakingInstruction(excerpt.level, "response"),
+              audioText: `${excerpt.text}\n\n${excerpt.question} ${speakingRequirements(excerpt.level, "response").join(" ")}`,
+              answer:
+                "A reasoned response to the question. Accept relevant personal perspectives, alternative solutions and qualified disagreement.",
+              criteria: speakingRequirements(excerpt.level, "response"),
+              explanation:
+                "Answer the question in your own words, with the stated reasoning. The article is context, not a script to repeat.",
+              source,
+            },
+          ]
+        : []),
+      ...(excerpt.gapTemplate
+        ? [
+            makeGapFill(
+              excerpt.gapTemplate,
+              `open-${excerpt.id}-gap-v1`,
+              excerpt.level,
+              excerpt.topic,
+              source,
+            ),
+          ]
+        : []),
     ];
   },
 );

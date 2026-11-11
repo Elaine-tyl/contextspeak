@@ -16,9 +16,11 @@ import { AdaptiveService } from "../practice/adaptive.service";
 import { LibraryService } from "../library/library.service";
 import { recording } from "../practice/recording";
 import { gradeDictation } from "../practice/dictation";
+import { gradeGapFill } from "./gap-fill";
 import type { SpeakingProvider } from "../practice/speaking.provider";
 import {
   challenges,
+  activeChallenges,
   gameProgress,
   publicRound,
   type Challenge,
@@ -61,7 +63,7 @@ export class GamesService {
       this.adaptive.recommend(user.id, "speaking", 10),
     ]);
     return {
-      rounds: challenges.map(publicRound),
+      rounds: activeChallenges.map(publicRound),
       progress,
       modeProgress: await this.levels.progress(user.id, this.prisma, progress),
       recommendations: {
@@ -122,6 +124,8 @@ export class GamesService {
         );
       return receipt(previous);
     }
+    if (round.kind === "gap-fill" && !input.levelSessionId)
+      throw new BadRequestException("Start a Missing words level first.");
     if (input.levelSessionId)
       await this.levels.assertRound(
         this.prisma,
@@ -136,6 +140,8 @@ export class GamesService {
       );
     if (!input.completedPlays)
       throw new BadRequestException("Finish the challenge audio first.");
+    if (input.gapAnswers && round.kind !== "gap-fill")
+      throw new BadRequestException("This challenge does not have word gaps.");
     const feedback: GameReceipt["feedback"] = {
       explanation: round.explanation,
     };
@@ -178,6 +184,18 @@ export class GamesService {
           (error as { status?: number }).status === 429 ? 429 : 503,
         );
       }
+    } else if (round.kind === "gap-fill") {
+      if (
+        !input.gapAnswers ||
+        input.gapAnswers.length !== round.gapAnswers!.length ||
+        input.audio ||
+        input.response !== undefined ||
+        input.choice !== undefined
+      )
+        throw new BadRequestException("Fill each blank with one word.");
+      feedback.gapFill = gradeGapFill(round.gapAnswers!, input.gapAnswers);
+      feedback.correctAnswer = round.answer;
+      score = feedback.gapFill.score;
     } else if (round.kind === "dictation") {
       if (
         !input.response ||

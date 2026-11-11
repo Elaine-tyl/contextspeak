@@ -1086,7 +1086,7 @@ test("listening_highlights_a_replaced_word_only_after_answer_submission", async 
   ).toHaveText("ready → available");
   await expect(page.getByLabel("Highlighted answer").locator("mark")).toHaveCSS(
     "color",
-    "rgb(160, 24, 24)",
+    "rgb(143, 36, 18)",
   );
 });
 

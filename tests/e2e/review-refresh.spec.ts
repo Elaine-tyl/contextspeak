@@ -153,10 +153,12 @@ test("malformed_review_refresh_keeps_revealed_recall_and_navigation_usable", asy
     queue.getByRole("heading", { name: "No reviews yet.", exact: true }),
   ).toHaveCount(0);
   await page
-    .getByRole("button", { name: "Vocabulary candidates", exact: false })
+    .getByRole("navigation", { name: "Main" })
+    .getByRole("link", { name: "Library", exact: true })
     .click();
+  await page.getByRole("button", { name: "Word list", exact: false }).click();
   await expect(
-    page.getByRole("heading", { name: "Vocabulary candidates", exact: true }),
+    page.getByRole("heading", { name: "Word list", exact: true }),
   ).toBeVisible();
   expect(errors).toEqual([]);
 });

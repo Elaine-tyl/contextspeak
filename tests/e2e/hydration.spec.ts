@@ -48,10 +48,10 @@ for (const path of ["/library", "/pair"]) {
     if (path === "/pair") {
       await expect(page.getByLabel("Pairing code")).toHaveValue("ABCDEF123456");
     } else {
-      await page.getByRole("button", { name: "Vocabulary candidates" }).click();
+      await page.getByRole("button", { name: "Word list" }).click();
       await expect(
         page.getByRole("heading", {
-          name: "Vocabulary candidates",
+          name: "Word list",
           exact: true,
         }),
       ).toBeVisible();

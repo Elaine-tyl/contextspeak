@@ -5,6 +5,7 @@ import { createApp } from "../src/app";
 import { startDatabase } from "../../../tests/helpers/database";
 import { startIssuer } from "../../../tests/helpers/issuer";
 import { FixtureSpeakingProvider } from "../src/practice/speaking.provider";
+import { gameModes } from "@contextspeak/contracts";
 let db: Awaited<ReturnType<typeof startDatabase>>;
 let issuer: Awaited<ReturnType<typeof startIssuer>>;
 let app: Awaited<ReturnType<typeof createApp>>;
@@ -53,7 +54,9 @@ it("requires auth and returns honest empty owned progress", async () => {
     average: null,
     focus: null,
   });
-  expect(value.body.games).toHaveLength(7);
+  expect(value.body.games.map((game: { kind: string }) => game.kind)).toEqual(
+    gameModes.map((mode) => mode.kind),
+  );
 });
 it("counts owned due reviews, recent difficulty and actual per-mode unlocks", async () => {
   for (const [index, active] of [true, false].entries()) {

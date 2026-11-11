@@ -4,6 +4,7 @@ import type { PracticeRecommendation, DictationFeedback } from "./practice";
 export type GameTrack = "listening" | "speaking";
 export type GameKind =
   | "dictation"
+  | "gap-fill"
   | "picture"
   | "comprehension"
   | "response"
@@ -20,6 +21,8 @@ export type GameRound = {
   genre?: "Story" | "Drama" | "Literature" | "Novel excerpt";
   instruction: string;
   audioText: string;
+  gapText?: string[];
+  archived?: boolean;
   topic?: string;
   source?: {
     id: string;
@@ -29,6 +32,7 @@ export type GameRound = {
     author: string;
     license: string;
     licenseUrl: string;
+    publishedAt?: string;
   };
   choices?: { id: string; label: string; picture?: PictureId }[];
   criteria?: string[];
@@ -50,6 +54,11 @@ export const gameSubmissionSchema = z
     levelSessionId: z.uuid().optional(),
     roundId: z.string().min(1).max(80),
     response: z.string().trim().max(2000).optional(),
+    gapAnswers: z
+      .array(z.string().trim().min(1).max(80))
+      .min(1)
+      .max(6)
+      .optional(),
     choice: z.string().min(1).max(80).optional(),
     completedPlays: z.number().int().min(0).max(20),
     audio: speakingUploadSchema.shape.audio.optional(),
@@ -58,6 +67,10 @@ export const gameSubmissionSchema = z
   })
   .strict();
 export type GameSubmission = z.infer<typeof gameSubmissionSchema>;
+export type GapFillFeedback = {
+  score: number;
+  words: { answer: string; expected: string; correct: boolean }[];
+};
 export type GameReceipt = {
   id: string;
   roundId: string;
@@ -69,6 +82,7 @@ export type GameReceipt = {
     correctAnswer?: string;
     correct?: boolean;
     dictation?: DictationFeedback;
+    gapFill?: GapFillFeedback;
     speaking?: SpeakingAssessment;
     opponentScore?: number;
   };
@@ -80,6 +94,12 @@ export const gameModes = [
     track: "listening",
     label: "Dictation",
     description: "Listen and write what you hear.",
+  },
+  {
+    kind: "gap-fill",
+    track: "listening",
+    label: "Missing words",
+    description: "Hear a sentence and fill in the missing words.",
   },
   {
     kind: "picture",
@@ -123,6 +143,7 @@ export const gameLevelStartSchema = z
     eventId: z.uuid(),
     kind: z.enum([
       "dictation",
+      "gap-fill",
       "picture",
       "comprehension",
       "response",
@@ -156,3 +177,13 @@ export type GameLevelRun = {
   passed: boolean;
   nextLevel: number | null;
 };
+
+export const gameDifficultyBands = [
+  { first: 1, last: 3, label: "Intermediate" },
+  { first: 4, last: 7, label: "Upper-intermediate" },
+  { first: 8, last: 10, label: "Advanced" },
+] as const;
+
+export function gameDifficulty(level: number) {
+  return gameDifficultyBands.find((band) => level <= band.last)!.label;
+}

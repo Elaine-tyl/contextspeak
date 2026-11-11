@@ -13,7 +13,13 @@ import {
   type Identity,
 } from "@contextspeak/contracts";
 import { LibraryService } from "../library/library.service";
-import { challenges, gameProgress, publicRound, roundTopic } from "./catalog";
+import {
+  challenges,
+  activeChallenges,
+  gameProgress,
+  publicRound,
+  roundTopic,
+} from "./catalog";
 export class GameLevelsService {
   constructor(
     private prisma: PrismaClient,
@@ -40,7 +46,8 @@ export class GameLevelsService {
     });
     return Object.fromEntries(
       gameModes.map((mode) => {
-        let level = old[mode.track].level;
+        // Legacy track scores predate this mode and cannot skip its practice.
+        let level = mode.kind === "gap-fill" ? 1 : old[mode.track].level;
         const completed = new Set(
           passed
             .filter((value) => value.kind === mode.kind)
@@ -77,7 +84,7 @@ export class GameLevelsService {
         throw new ConflictException(
           "Pass the previous level in this game mode first.",
         );
-      const rounds = challenges
+      const rounds = activeChallenges
         .filter(
           (round) =>
             round.kind === input.kind &&

@@ -285,7 +285,8 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
   const long = (await cards.nth(1).boundingBox())!;
   expect(small.height).toBeLessThanOrEqual(180);
   expect(long.height).toBe(small.height);
-  expect(long.width).toBe(small.width);
+  // Fractional grid tracks can differ by a browser layout rounding unit.
+  expect(Math.abs(long.width - small.width)).toBeLessThanOrEqual(1);
   await cards.nth(1).getByText("Show details", { exact: true }).click();
   expect((await cards.nth(1).boundingBox())!.height).toBe(small.height);
   await cards.nth(1).getByText("Hide details", { exact: true }).click();

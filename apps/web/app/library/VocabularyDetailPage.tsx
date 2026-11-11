@@ -6,6 +6,7 @@ import { learningReturn, withLibraryReturn } from "../../src/navigation";
 import { SpeakerButton } from "./SpeakerButton";
 import { LearningNotes } from "./LearningNotes";
 import "./library.css";
+import { hostname, languagePair } from "../../src/languages";
 export function VocabularyDetailPage({
   id,
   lookupId,
@@ -131,9 +132,38 @@ export function VocabularyDetailPage({
     }
   }
   const lookup = detail?.lookup;
+  const actions = detail && (
+    <div className="detail-actions">
+      {detail.item.reviewDueAt ? (
+        <a className="secondary tone-review" href="/library?view=reviews">
+          Open review queue
+        </a>
+      ) : (
+        <button
+          className="primary tone-review"
+          disabled={busy || !lookup?.meaning}
+          onClick={() => void enroll()}
+        >
+          Start reviewing
+        </button>
+      )}
+      {lookup?.translationStatus === "succeeded" && lookup.meaning && (
+        <a
+          className="secondary tone-speak"
+          href={withLibraryReturn(
+            `/practice/${encodeURIComponent(id)}?lookup=${encodeURIComponent(lookup.id)}`,
+            learningReturn(returnTo),
+          )}
+        >
+          Practice listening and speaking
+        </a>
+      )}
+    </div>
+  );
   return (
-    <main className="vocabulary-detail">
+    <main className="page page-narrow vocabulary-detail">
       <a
+        className="back-link"
         href={learningReturn(
           returnTo,
           lookupId ? "/library" : "/library?view=candidates",
@@ -141,42 +171,60 @@ export function VocabularyDetailPage({
       >
         {returnTo === "/progress" ? "Back to progress" : "Back to library"}
       </a>
-      {message && <p role="alert">{message}</p>}
+      {message && (
+        <p className="notice" role="alert">
+          {message}
+        </p>
+      )}
       {!token && !loading && (
-        <a className="primary" href={API + "/auth/login"}>
-          Sign in with Google
-        </a>
+        <section className="connect-panel sign-in-panel">
+          <div>
+            <h2>Sign in to see this word</h2>
+            <p>Your saved words are private to your account.</p>
+          </div>
+          <a className="primary" href={API + "/auth/login"}>
+            Sign in with Google
+          </a>
+        </section>
       )}
       {loading && !detail && <p role="status">Loading vocabulary…</p>}
       {detail && (
         <>
           <div className="section-head">
-            <div className="vocabulary-title">
-              <h1>{lookup?.text ?? detail.item.text}</h1>
-              <SpeakerButton
-                key={lookup?.id ?? id}
-                token={token}
-                text={lookup?.text ?? detail.item.text}
-                language={
-                  lookup?.detectedSourceLanguage ??
-                  (detail.item.sourceLanguage === "auto"
-                    ? null
-                    : detail.item.sourceLanguage)
-                }
-              />
+            <div>
+              <div className="vocabulary-title">
+                <h1>{lookup?.text ?? detail.item.text}</h1>
+                <SpeakerButton
+                  key={lookup?.id ?? id}
+                  token={token}
+                  text={lookup?.text ?? detail.item.text}
+                  language={
+                    lookup?.detectedSourceLanguage ??
+                    (detail.item.sourceLanguage === "auto"
+                      ? null
+                      : detail.item.sourceLanguage)
+                  }
+                />
+              </div>
+              <p className="detail-meta">
+                {languagePair(
+                  lookup?.detectedSourceLanguage ?? detail.item.sourceLanguage,
+                  detail.item.targetLanguage,
+                )}{" "}
+                · looked up {detail.item.encounterCount}{" "}
+                {detail.item.encounterCount === 1 ? "time" : "times"}
+              </p>
             </div>
             <button
-              className="secondary"
+              className="link-button"
               disabled={loading}
               onClick={() => reload.current?.()}
             >
               Refresh
             </button>
           </div>
-          <p className="section-copy">
-            {detail.item.sourceLanguage} → {detail.item.targetLanguage}
-          </p>
-          <article className="lookup-card">
+          {actions}
+          <article className="lookup-card detail-card">
             <span
               className={"badge " + (lookup?.translationStatus ?? "pending")}
             >
@@ -189,7 +237,30 @@ export function VocabularyDetailPage({
                     : "No translation yet"}
             </span>
             {lookup?.meaning && <p className="meaning">{lookup.meaning}</p>}
-            {lookup?.context && <blockquote>{lookup.context}</blockquote>}
+            {lookup?.context && (
+              <figure className="detail-context">
+                <blockquote>{lookup.context}</blockquote>
+                <figcaption>
+                  Where you found it:{" "}
+                  {lookup.sourceUrl ? (
+                    <a href={lookup.sourceUrl} target="_blank" rel="noreferrer">
+                      {hostname(lookup.sourceUrl)} ↗
+                    </a>
+                  ) : (
+                    "typed manually"
+                  )}
+                </figcaption>
+              </figure>
+            )}
+            {lookup?.translationStatus === "pending" && (
+              <p role="status">Translation is processing…</p>
+            )}
+            {lookup?.errorCode && (
+              <p className="failure" title={lookup.errorCode}>
+                We couldn’t translate this yet. Your lookup is saved — try
+                Refresh in a moment.
+              </p>
+            )}
             <LearningNotes
               value={lookup?.learningDetails}
               token={token}
@@ -197,16 +268,7 @@ export function VocabularyDetailPage({
                 lookup?.detectedSourceLanguage ?? detail.item.sourceLanguage
               }
             />
-            {lookup?.translationStatus === "pending" && (
-              <p role="status">Translation is processing…</p>
-            )}
-            {lookup?.errorCode && (
-              <p>
-                Translation unavailable ({lookup.errorCode}). Your lookup is
-                saved.
-              </p>
-            )}
-            {lookup?.sourceUrl && (
+            {lookup?.sourceUrl && !lookup.context && (
               <p>
                 <a href={lookup.sourceUrl} target="_blank" rel="noreferrer">
                   Open original webpage
@@ -214,32 +276,6 @@ export function VocabularyDetailPage({
               </p>
             )}
           </article>
-          <div className="detail-actions">
-            {lookup?.translationStatus === "succeeded" && lookup.meaning && (
-              <a
-                className="secondary"
-                href={withLibraryReturn(
-                  `/practice/${encodeURIComponent(id)}?lookup=${encodeURIComponent(lookup.id)}`,
-                  learningReturn(returnTo),
-                )}
-              >
-                Practice listening and speaking
-              </a>
-            )}
-            {detail.item.reviewDueAt ? (
-              <a className="secondary" href="/library?view=reviews">
-                Open review queue
-              </a>
-            ) : (
-              <button
-                className="primary"
-                disabled={busy || !lookup?.meaning}
-                onClick={() => void enroll()}
-              >
-                Start reviewing
-              </button>
-            )}
-          </div>
         </>
       )}
     </main>

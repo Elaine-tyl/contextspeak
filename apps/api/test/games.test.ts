@@ -1,6 +1,11 @@
 import { gameModes } from "@contextspeak/contracts";
 import { expect, it } from "vitest";
-import { challenges, gameProgress, publicRound } from "../src/games/catalog";
+import {
+  challenges,
+  activeChallenges,
+  gameProgress,
+  publicRound,
+} from "../src/games/catalog";
 it("unlocks only after three different passing rounds, independently per skill", () => {
   const ids = challenges
     .filter((round) => round.track === "listening" && round.level === 1)
@@ -20,8 +25,9 @@ it("unlocks only after three different passing rounds, independently per skill",
   expect(gameProgress([...ids, ...second]).listening.level).toBe(3);
 });
 it("has immutable distinct rounds with answer-free public content and enough challenges per level", () => {
-  expect(challenges).toHaveLength(179);
-  expect(new Set(challenges.map((round) => round.id)).size).toBe(179);
+  expect(new Set(challenges.map((round) => round.id)).size).toBe(
+    challenges.length,
+  );
   for (const round of challenges) {
     expect(round.audioText.length).toBeLessThanOrEqual(2000);
     expect(publicRound(round)).not.toHaveProperty("answer");
@@ -50,11 +56,13 @@ it("offers ten gradual levels and preserves legacy completion access", () => {
         .map((round) => round.answer),
     ).size,
   ).toBeGreaterThanOrEqual(3);
-  const beginner = challenges.filter((round) => round.level === 1);
+  const current = activeChallenges.filter(
+    (round) => round.level === 1 && !round.source,
+  );
   expect(
-    beginner
+    current
       .filter((round) => round.kind === "dictation")
-      .every((round) => round.audioText.split(/\s+/).length <= 3),
+      .every((round) => round.audioText.split(/\s+/).length >= 14),
   ).toBe(true);
   expect(challenges.find((round) => round.id === "listen-1-0-v1")?.level).toBe(
     8,
@@ -67,8 +75,7 @@ it("offers ten gradual levels and preserves legacy completion access", () => {
   ).toBe(10);
 });
 
-it("has reviewed questions at every level in all seven classified modes", () => {
-  expect(gameModes).toHaveLength(7);
+it("has reviewed questions at every level in each classified mode", () => {
   for (const mode of gameModes)
     for (let level = 1; level <= 10; level++) {
       const rounds = challenges.filter(

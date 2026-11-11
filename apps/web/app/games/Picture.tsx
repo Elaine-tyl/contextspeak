@@ -6,8 +6,7 @@ export function Picture({ kind }: { kind: PictureId }) {
       width="96"
       height="96"
       aria-hidden="true"
-      fill="#e1eee8"
-      stroke="#176b5b"
+      style={{ fill: "var(--brand-soft)", stroke: "var(--brand)" }}
       strokeWidth="4"
       strokeLinecap="round"
       strokeLinejoin="round"

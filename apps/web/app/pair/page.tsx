@@ -35,64 +35,75 @@ export default function Pair() {
     }
   }
   return (
-    <main
-      style={{
-        maxWidth: 560,
-        margin: "60px auto",
-        padding: 24,
-        fontFamily: "system-ui",
-        lineHeight: 1.6,
-      }}
-    >
+    <main className="page page-narrow pair-page">
+      <a className="back-link" href="/library">
+        Back to library
+      </a>
       <h1>Pair your extension</h1>
-      <p>
-        Only approve if you just started pairing from your own ContextSpeak
-        extension. Match this code with the code shown there. Never approve a
-        code sent by someone else.
+      <p className="page-lead">
+        Connect the ContextSpeak extension to your account so the words you look
+        up are saved here.
       </p>
-      <label>
-        Pairing code
-        <input
-          aria-label="Pairing code"
-          value={code}
-          maxLength={12}
-          onChange={(e) => setCode(e.target.value.toUpperCase())}
-          disabled={done}
-          style={{ display: "block", padding: 12, fontSize: 22, width: "90%" }}
-        />
-      </label>
-      {session ? (
-        <>
-          <p>Account: {session.identity.subject}</p>
-          <p>
-            This extension can translate, collect queries when enabled, and
-            access your library for 30 days. You can revoke access from the
-            library.
-          </p>
-          <button
-            disabled={done || busy || !/^[A-F0-9]{12}$/.test(code)}
-            onClick={approve}
-          >
-            Approve extension
-          </button>
-        </>
-      ) : sessionChecked ? (
-        <p>
-          <a
-            href={
-              API +
-              "/auth/login" +
-              (/^[A-F0-9]{12}$/.test(code) ? "?pair=" + code : "")
-            }
-          >
-            Sign in with Google
-          </a>
+      <section className="panel pair-panel">
+        <ol className="pair-steps">
+          <li>
+            In the extension, click <strong>Pair extension</strong>.
+          </li>
+          <li>Check that the code below matches the one in the extension.</li>
+          <li>
+            Click <strong>Approve extension</strong>.
+          </li>
+        </ol>
+        <p className="notice">
+          Only approve a code you started yourself. Never approve a code someone
+          sent you.
         </p>
-      ) : (
-        <p>Checking sign-in…</p>
-      )}
-      <p role="status">{message}</p>
-      <a href="/library">Back to library</a>
+        <label className="pair-code">
+          Pairing code
+          <input
+            aria-label="Pairing code"
+            value={code}
+            maxLength={12}
+            onChange={(e) => setCode(e.target.value.toUpperCase())}
+            disabled={done}
+            autoComplete="off"
+            spellCheck={false}
+          />
+        </label>
+        {session ? (
+          <>
+            <p className="muted">
+              Signing in as <strong>{session.identity.subject}</strong>. The
+              extension can translate, save lookups (when you turn that on) and
+              read your library for 30 days. You can revoke it any time in
+              Library settings.
+            </p>
+            <button
+              className="primary"
+              disabled={done || busy || !/^[A-F0-9]{12}$/.test(code)}
+              onClick={approve}
+            >
+              Approve extension
+            </button>
+          </>
+        ) : sessionChecked ? (
+          <p>
+            <a
+              className="primary"
+              href={
+                API +
+                "/auth/login" +
+                (/^[A-F0-9]{12}$/.test(code) ? "?pair=" + code : "")
+              }
+            >
+              Sign in with Google
+            </a>
+          </p>
+        ) : (
+          <p>Checking sign-in…</p>
+        )}
+        <p role="status">{message}</p>
+      </section>
     </main>
   );
 }

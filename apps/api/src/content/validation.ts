@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { z } from "zod";
+import { reviewedNews } from "./reviewed-news";
 const licenses = {
   "CC0-1.0": "https://creativecommons.org/publicdomain/zero/1.0/",
   "CC-BY-3.0": "https://creativecommons.org/licenses/by/3.0/",
@@ -15,6 +16,7 @@ const sourceSchema = z
     license: z.enum(["CC0-1.0", "CC-BY-3.0", "Public-domain-VOA"]),
     licenseUrl: z.url(),
     fetchUrl: z.url(),
+    publishedAt: z.iso.date().optional(),
   })
   .strict();
 const excerptSchema = z
@@ -26,6 +28,7 @@ const excerptSchema = z
     topic: z.string().trim().min(1).max(40),
     question: z.string().trim().min(1).max(300),
     sha256: z.string().regex(/^[a-f0-9]{64}$/),
+    gapTemplate: z.string().trim().min(1).max(1500).optional(),
   })
   .strict();
 export type ContentSource = z.infer<typeof sourceSchema>;
@@ -56,12 +59,21 @@ function sourceMatchesPolicy(source: ContentSource) {
     );
   }
   const url = new URL(source.fetchUrl);
+  const news = reviewedNews.find((item) => item.id === source.id);
+  const reviewedReport =
+    news &&
+    url.pathname === news.path &&
+    source.author === news.author &&
+    source.publishedAt === news.publishedAt;
   return (
     url.origin === "https://learningenglish.voanews.com" &&
-    /^\/a\/lets-learn-english-.*\/\d+\.html$/.test(url.pathname) &&
+    !url.search &&
+    !url.hash &&
+    (reviewedReport ||
+      (/^\/a\/lets-learn-english-.*\/\d+\.html$/.test(url.pathname) &&
+        source.author === "Voice of America")) &&
     source.license === "Public-domain-VOA" &&
-    source.url === source.fetchUrl &&
-    source.author === "Voice of America"
+    source.url === source.fetchUrl
   );
 }
 export function validateCorpus(input: unknown) {
@@ -96,6 +108,18 @@ export function validateCorpus(input: unknown) {
       excerpt.sha256 !== textDigest(excerpt.text)
     )
       throw new Error(`Invalid or duplicate excerpt: ${excerpt.id}`);
+    if (excerpt.gapTemplate) {
+      const words = [...excerpt.gapTemplate.matchAll(/\[([^\]]+)\]/gu)];
+      const reconstructed = excerpt.gapTemplate.replace(/\[([^\]]+)\]/gu, "$1");
+      if (
+        reconstructed !== excerpt.text ||
+        words.length < 2 ||
+        words.length > 6 ||
+        words.some((word) => !/^\p{L}+$/u.test(word[1])) ||
+        /[\[\]]/u.test(reconstructed)
+      )
+        throw new Error(`Invalid gap template: ${excerpt.id}`);
+    }
     ids.add(excerpt.id);
     texts.add(normalized);
   }
@@ -120,17 +144,23 @@ function htmlText(html: string) {
     ldquo: "“",
     rdquo: "”",
   };
-  return html
-    .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, " ")
-    .replace(/<[^>]*>/g, " ")
-    .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, entity: string) => {
-      if (!entity.startsWith("#")) return entities[entity] ?? match;
-      const code =
-        entity[1].toLowerCase() === "x"
-          ? parseInt(entity.slice(2), 16)
-          : Number(entity.slice(1));
-      return code > 0 && code <= 0x10ffff ? String.fromCodePoint(code) : match;
-    });
+  return (
+    html
+      .replace(/<(script|style)\b[^>]*>[\s\S]*?<\/\1>/gi, " ")
+      // Inline emphasis must not insert spaces before adjacent punctuation.
+      .replace(/<\/?(?:a|b|strong|em|i|span|sup|sub)\b[^>]*>/gi, "")
+      .replace(/<[^>]*>/g, " ")
+      .replace(/&(#x[0-9a-f]+|#\d+|[a-z]+);/gi, (match, entity: string) => {
+        if (!entity.startsWith("#")) return entities[entity] ?? match;
+        const code =
+          entity[1].toLowerCase() === "x"
+            ? parseInt(entity.slice(2), 16)
+            : Number(entity.slice(1));
+        return code > 0 && code <= 0x10ffff
+          ? String.fromCodePoint(code)
+          : match;
+      })
+  );
 }
 export function verifySourceText(
   source: ContentSource,
@@ -150,8 +180,12 @@ export function verifySourceText(
     )
       throw new Error(`Changed Tatoeba metadata: ${source.id}`);
     text = sentence.text;
-  } else if (source.provider === "VOA Learning English") text = htmlText(body);
-  else {
+  } else if (source.provider === "VOA Learning English") {
+    text = htmlText(body);
+    const news = reviewedNews.find((item) => item.id === source.id);
+    if (news && !normalizeText(text).includes(news.attribution))
+      throw new Error(`Changed news attribution: ${source.id}`);
+  } else {
     if (
       !body.includes("* License: [CC-BY]") ||
       !body.includes(`* Text: ${source.author}\n`)

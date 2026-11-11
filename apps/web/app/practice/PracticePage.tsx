@@ -162,17 +162,19 @@ export function PracticePage({
           learningReturn(returnTo),
         );
   return (
-    <main className="vocabulary-detail practice-page">
-      <Link href={back}>
+    <main className="page page-narrow vocabulary-detail practice-page tone-speak">
+      <Link className="back-link" href={back}>
         {returnTo === "/progress" ? "Back to progress" : "Back to vocabulary"}
       </Link>
-      <h1>Listening and speaking</h1>
-      <p className="section-copy">
-        Practice with cached AI voices and local recording. Submit what you hear
-        for dictation marks and corrections. Text is sent to Google for AI
-        audio; completed English recordings are automatically sent for AI
-        feedback. Results stay separate from vocabulary recall.
-      </p>
+      <div className="page-head">
+        <div>
+          <h1>{task ? <>Practise “{task.expression}”</> : "Listen & speak"}</h1>
+          <p className="page-lead">
+            Listen and type what you hear, or answer a question out loud. You
+            get feedback straight away.
+          </p>
+        </div>
+      </div>
       {token && (
         <label className="scenario-picker">
           Conversation scenario
@@ -195,7 +197,7 @@ export function PracticePage({
               );
             }}
           >
-            <option value="">Saved example</option>
+            <option value="">Sentence I saved</option>
             {conversationScenarios.map((value) => (
               <option key={value.id} value={value.id}>
                 {value.title}
@@ -224,38 +226,38 @@ export function PracticePage({
               <h2>{task.scenario.title}</h2>
               <p>{task.scenario.goal}</p>
               <p className="section-copy">
-                Curated English role-play · reply in your own words. The meaning
-                guide is in English.
+                Reply in your own words. The guide is in English.
               </p>
             </section>
           )}
-          <div className="practice-tabs" aria-label="Practice mode">
-            {(
-              [
-                "listening",
-                "speaking",
-                ...(task.scenario ? ["conversation" as const] : []),
-              ] as const
-            ).map((value) => (
-              <button
-                className={mode === value ? "primary" : "secondary"}
-                key={value}
-                aria-pressed={mode === value}
-                disabled={locked}
-                onClick={() => {
-                  setMode(value);
-                  updateQuery({ mode: value }, true);
-                }}
-              >
-                {value === "listening"
-                  ? "Listening"
-                  : value === "speaking"
-                    ? "Speaking"
-                    : "Conversation"}
-              </button>
-            ))}
+          <div className="practice-toolbar">
+            <div className="segmented" role="group" aria-label="Practice mode">
+              {(
+                [
+                  "listening",
+                  "speaking",
+                  ...(task.scenario ? ["conversation" as const] : []),
+                ] as const
+              ).map((value) => (
+                <button
+                  key={value}
+                  aria-pressed={mode === value}
+                  disabled={locked}
+                  onClick={() => {
+                    setMode(value);
+                    updateQuery({ mode: value }, true);
+                  }}
+                >
+                  {value === "listening"
+                    ? "Listening"
+                    : value === "speaking"
+                      ? "Speaking"
+                      : "Conversation"}
+                </button>
+              ))}
+            </div>
             <button
-              className="secondary"
+              className="link-button"
               disabled={locked}
               onClick={() => setRound((value) => value + 1)}
             >
@@ -287,7 +289,7 @@ export function PracticePage({
               }}
             />
           )}
-          <section aria-label="Recent practice">
+          <section className="recent-practice" aria-label="Recent practice">
             <h2>Recent practice</h2>
             {task.recent.length ? (
               <ul>
@@ -322,9 +324,18 @@ export function PracticePage({
                 ))}
               </ul>
             ) : (
-              <p>No practice results saved for this encounter yet.</p>
+              <p className="muted">
+                No results yet for this word. Finish an exercise above and it
+                will show up here.
+              </p>
             )}
           </section>
+          <p className="fine-print privacy-note">
+            How this works: AI voices are generated once and cached. Text is
+            sent to Google to create the audio, and finished English recordings
+            are sent for AI feedback. Practice results are kept separate from
+            your vocabulary review.
+          </p>
         </>
       )}
     </main>

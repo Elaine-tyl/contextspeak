@@ -36,3 +36,6 @@ next-env.d.ts
 # Isolated Python translation runtime
 .venv/
 __pycache__/
+
+# Godot import caches and generated identifiers are recreated by world:build.
+games/cafe/.godot/

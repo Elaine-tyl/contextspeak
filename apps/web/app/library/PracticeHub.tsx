@@ -67,22 +67,31 @@ export function PracticeHub({ token }: { token: string }) {
   }, [token, query, language, retry]);
   return (
     <section className="library-section">
-      <h2>Listening &amp; speaking</h2>
-      <p className="section-copy">
-        Practice with your saved vocabulary and AI audio. Type what you hear and
-        submit for marks and corrections, or record and replay a spoken
-        response. Results stay separate from vocabulary recall.
-      </p>
+      <ol className="how-it-works" aria-label="How practice works">
+        <li>
+          <strong>Choose a word</strong>
+          <span>Pick one of your saved words below.</span>
+        </li>
+        <li>
+          <strong>Listen</strong>
+          <span>Hear it in a sentence and type what you hear.</span>
+        </li>
+        <li>
+          <strong>Speak</strong>
+          <span>Answer a question out loud and get feedback.</span>
+        </li>
+      </ol>
       <div
         className="library-filters"
         role="search"
         aria-label="Filter practice"
       >
-        <label>
-          Search
+        <label className="filter-search">
+          <span className="sr-only">Search</span>
           <input
             type="search"
             aria-label="Search practice"
+            placeholder="Search your saved words"
             maxLength={200}
             value={query}
             onChange={(event) => updateQuery({ practiceQ: event.target.value })}
@@ -96,7 +105,7 @@ export function PracticeHub({ token }: { token: string }) {
               updateQuery({ practiceScenario: event.target.value })
             }
           >
-            <option value="">Saved example</option>
+            <option value="">Sentence I saved</option>
             {conversationScenarios.map((value) => (
               <option key={value.id} value={value.id}>
                 {value.title}
@@ -124,13 +133,12 @@ export function PracticeHub({ token }: { token: string }) {
           className="secondary"
           onClick={() => setRetry((value) => value + 1)}
         >
-          Refresh practice
+          Refresh
         </button>
       </div>
       {scenario && (
         <p className="section-copy">
-          English role-play: choose saved English vocabulary to use in your
-          reply.
+          Role-play: pick a saved English word to use in a short conversation.
         </p>
       )}
       {message ? (
@@ -138,18 +146,21 @@ export function PracticeHub({ token }: { token: string }) {
       ) : loading ? (
         <p role="status">Loading practice…</p>
       ) : !items.length ? (
-        <p>
-          No matching practice yet. Save a successful translation to get
-          started.
-        </p>
+        <div className="empty">
+          <h3>Nothing to practise yet</h3>
+          <p>
+            No matching practice yet. Look up a word with the extension, and
+            once it is translated it will appear here.
+          </p>
+        </div>
       ) : (
         <>
           <p className="section-copy">
-            Up to 50 recent matches. Search to find older vocabulary.
+            Showing your 50 most recent words. Search to find older ones.
           </p>
-          <div className="cards">
+          <div className="practice-grid">
             {items.map((item) => (
-              <article className="lookup-card" key={item.id}>
+              <article className="lookup-card practice-item" key={item.id}>
                 <h3>
                   <Link
                     href={withLibraryReturn(
@@ -161,7 +172,7 @@ export function PracticeHub({ token }: { token: string }) {
                     {item.text}
                   </Link>
                 </h3>
-                <p>
+                <p className="candidate-meta">
                   {aiLanguages.find(
                     (value) => value.code === item.sourceLanguage,
                   )?.name ?? "Auto-detected"}{" "}

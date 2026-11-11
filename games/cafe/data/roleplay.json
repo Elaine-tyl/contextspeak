@@ -1,0 +1,432 @@
+[
+  {
+    "id": "shopping",
+    "title": "Shopping with a friend",
+    "roles": [
+      {
+        "id": "shopper",
+        "label": "Shopping for myself",
+        "npc": "Alex, your friend",
+        "turns": [
+          {
+            "prompt": "Hey! What clothes are you looking for today?",
+            "goal": "Tell your friend what clothing you want to find. Any reasonable clothing choice is welcome.",
+            "sample": "I'm looking for a blue hoodie.",
+            "action": "outfit",
+            "npc": {
+              "id": "clothes",
+              "name": "Alex",
+              "role": "friend"
+            }
+          },
+          {
+            "prompt": "That one's twenty dollars. What do you think?",
+            "goal": "Give your opinion about the price, or suggest finding something cheaper.",
+            "sample": "That's a bit much. Let's find something cheaper.",
+            "action": "price",
+            "npc": {
+              "id": "sale",
+              "name": "Maya",
+              "role": "sales assistant"
+            }
+          },
+          {
+            "prompt": "Want to try it on, or check another shop?",
+            "goal": "Choose to try it on or keep browsing, in this shop or another one.",
+            "sample": "Let's try it on.",
+            "action": "bags",
+            "npc": {
+              "id": "fitting",
+              "name": "Jamie",
+              "role": "fitting assistant"
+            }
+          }
+        ]
+      },
+      {
+        "id": "buddy",
+        "label": "Helping a friend",
+        "npc": "Alex, your friend",
+        "turns": [
+          {
+            "prompt": "I need something comfy for the weekend. Got any ideas?",
+            "goal": "Suggest some comfortable clothing for your friend. Any reasonable clothing choice is welcome.",
+            "sample": "How about a green sweatshirt?",
+            "action": "outfit",
+            "npc": {
+              "id": "clothes",
+              "name": "Alex",
+              "role": "friend"
+            }
+          },
+          {
+            "prompt": "Your friend isn't sure about red. What would you tell them?",
+            "goal": "Give your opinion about the color, or suggest another color for your friend.",
+            "sample": "I think blue would look great on you.",
+            "action": "outfit",
+            "npc": {
+              "id": "sale",
+              "name": "Maya",
+              "role": "sales assistant"
+            }
+          },
+          {
+            "prompt": "This one's a bit pricey. What could you and your friend do?",
+            "goal": "Suggest a practical plan, such as looking for something cheaper, checking a sale, or waiting.",
+            "sample": "Let's check the sale rack first.",
+            "action": "bags",
+            "npc": {
+              "id": "fitting",
+              "name": "Jamie",
+              "role": "fitting assistant"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "farm",
+    "title": "Farm",
+    "roles": [
+      {
+        "id": "helper",
+        "label": "Farm helper",
+        "npc": "Jo, the farmer",
+        "turns": [
+          {
+            "prompt": "Those carrots look dry. Which plants will you water?",
+            "goal": "Tell the farmer that you will water the carrots.",
+            "sample": "I will water the carrots.",
+            "action": "water",
+            "npc": {
+              "id": "fields",
+              "name": "Jo",
+              "role": "farmer"
+            }
+          },
+          {
+            "prompt": "What are you picking today?",
+            "goal": "Say that you will pick the ripe tomatoes.",
+            "sample": "I will pick the ripe tomatoes.",
+            "action": "harvest",
+            "npc": {
+              "id": "farm_shop",
+              "name": "Mia",
+              "role": "grower"
+            }
+          },
+          {
+            "prompt": "Where are you putting those tomatoes?",
+            "goal": "Say that you will put the tomatoes in the basket.",
+            "sample": "I will put the tomatoes in the basket.",
+            "action": "basket",
+            "npc": {
+              "id": "packing",
+              "name": "Sam",
+              "role": "packing assistant"
+            }
+          }
+        ]
+      },
+      {
+        "id": "farm_shop_customer",
+        "label": "Farm shop customer",
+        "npc": "Jo, the farm shopkeeper",
+        "turns": [
+          {
+            "prompt": "Welcome to our farm stand! What can I get you?",
+            "goal": "Politely ask for six eggs.",
+            "sample": "I would like six eggs, please.",
+            "action": "basket",
+            "npc": {
+              "id": "fields",
+              "name": "Jo",
+              "role": "farm shopkeeper"
+            }
+          },
+          {
+            "prompt": "We have fresh carrots here. Would you like some?",
+            "goal": "Politely ask for two carrots.",
+            "sample": "Yes, I would like two carrots, please.",
+            "action": "harvest",
+            "npc": {
+              "id": "farm_shop",
+              "name": "Mia",
+              "role": "grower"
+            }
+          },
+          {
+            "prompt": "That's five dollars. How would you like to pay?",
+            "goal": "Say that you will pay with cash.",
+            "sample": "I will pay with cash, please.",
+            "action": "pay",
+            "npc": {
+              "id": "packing",
+              "name": "Sam",
+              "role": "cashier"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "market",
+    "title": "Market",
+    "roles": [
+      {
+        "id": "shopper",
+        "label": "Shopper",
+        "npc": "Ana, the fruit vendor",
+        "turns": [
+          {
+            "prompt": "Morning! What can I get you?",
+            "goal": "Politely ask for three apples.",
+            "sample": "I would like three apples, please.",
+            "action": "basket",
+            "npc": {
+              "id": "fruit_stall",
+              "name": "Ana",
+              "role": "fruit vendor"
+            }
+          },
+          {
+            "prompt": "You can pack your apples here. Need anything to carry them?",
+            "goal": "Politely ask for a bag.",
+            "sample": "Could I have a bag, please?",
+            "action": "basket",
+            "npc": {
+              "id": "produce_stall",
+              "name": "Ben",
+              "role": "bag assistant"
+            }
+          },
+          {
+            "prompt": "That's three dollars. How would you like to pay?",
+            "goal": "Say that you will pay with cash.",
+            "sample": "I will pay with cash, please.",
+            "action": "pay",
+            "npc": {
+              "id": "checkout",
+              "name": "Mia",
+              "role": "cashier"
+            }
+          }
+        ]
+      },
+      {
+        "id": "vendor",
+        "label": "Fruit vendor",
+        "npc": "Ana, the customer",
+        "turns": [
+          {
+            "prompt": "How much are the apples?",
+            "goal": "Tell your customer that the apples cost three dollars.",
+            "sample": "The apples cost three dollars.",
+            "action": "basket",
+            "npc": {
+              "id": "fruit_stall",
+              "name": "Ana",
+              "role": "customer"
+            }
+          },
+          {
+            "prompt": "Can I get two apples, please?",
+            "goal": "Offer the customer their two apples.",
+            "sample": "Here are your two apples.",
+            "action": "basket",
+            "npc": {
+              "id": "produce_stall",
+              "name": "Ben",
+              "role": "customer"
+            }
+          },
+          {
+            "prompt": "Can I pay by card?",
+            "goal": "Tell your customer that they can pay by card.",
+            "sample": "Yes, you can pay by card.",
+            "action": "pay",
+            "npc": {
+              "id": "checkout",
+              "name": "Mia",
+              "role": "customer"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "restaurant",
+    "title": "Restaurant",
+    "roles": [
+      {
+        "id": "customer",
+        "label": "Customer",
+        "npc": "Maya, the host",
+        "turns": [
+          {
+            "prompt": "Hey, welcome in! Table for how many?",
+            "goal": "Politely ask for a table for two people.",
+            "sample": "A table for two, please.",
+            "action": "table",
+            "npc": {
+              "id": "entrance",
+              "name": "Maya",
+              "role": "host"
+            }
+          },
+          {
+            "prompt": "Ready to order?",
+            "goal": "Politely order the vegetable soup.",
+            "sample": "I would like the vegetable soup, please.",
+            "action": "meal",
+            "npc": {
+              "id": "dining",
+              "name": "Alex",
+              "role": "server"
+            }
+          },
+          {
+            "prompt": "Ready to pay? What can I get for you?",
+            "goal": "Politely ask for the bill.",
+            "sample": "Could I have the bill, please?",
+            "action": "pay",
+            "npc": {
+              "id": "till",
+              "name": "Jamie",
+              "role": "cashier"
+            }
+          }
+        ]
+      },
+      {
+        "id": "server",
+        "label": "Server",
+        "npc": "Tom, the guest",
+        "turns": [
+          {
+            "prompt": "Hey! We've got a reservation for two. Where should we go?",
+            "goal": "Politely ask the customer to follow you to their table.",
+            "sample": "Please follow me to your table.",
+            "action": "table",
+            "npc": {
+              "id": "entrance",
+              "name": "Tom",
+              "role": "guest"
+            }
+          },
+          {
+            "prompt": "What vegetarian dish would you recommend?",
+            "goal": "Recommend the vegetable soup.",
+            "sample": "I recommend the vegetable soup.",
+            "action": "meal",
+            "npc": {
+              "id": "dining",
+              "name": "Mia",
+              "role": "guest"
+            }
+          },
+          {
+            "prompt": "Can we get the bill, please?",
+            "goal": "Tell the customer that their bill is ten dollars.",
+            "sample": "Your bill is ten dollars.",
+            "action": "pay",
+            "npc": {
+              "id": "till",
+              "name": "Alex",
+              "role": "guest"
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "amusement_park",
+    "title": "Amusement park with a friend",
+    "roles": [
+      {
+        "id": "visitor",
+        "label": "Choosing rides",
+        "npc": "Sam, the ticket staff",
+        "turns": [
+          {
+            "prompt": "Welcome! What ride do you want to try first?",
+            "goal": "Choose a ride to try first. Any reasonable amusement park ride is welcome.",
+            "sample": "Let's start with the Ferris wheel.",
+            "action": "ride",
+            "npc": {
+              "id": "tickets",
+              "name": "Sam",
+              "role": "ticket staff"
+            }
+          },
+          {
+            "prompt": "I'm a little nervous about the big rides. Any ideas?",
+            "goal": "Reassure your friend, or suggest a gentler ride or another activity.",
+            "sample": "No worries. We can try the carousel instead.",
+            "action": "ride",
+            "npc": {
+              "id": "rides",
+              "name": "Alex",
+              "role": "friend"
+            }
+          },
+          {
+            "prompt": "What food, snack, or drink would you and your friend like?",
+            "goal": "Suggest a food, snack, or drink to have together.",
+            "sample": "Let's grab some popcorn and take a break.",
+            "action": "snack",
+            "npc": {
+              "id": "snacks",
+              "name": "Mia",
+              "role": "snack vendor"
+            }
+          }
+        ]
+      },
+      {
+        "id": "planner",
+        "label": "Planning our day",
+        "npc": "Sam, the ticket staff",
+        "turns": [
+          {
+            "prompt": "Hey, how many tickets would you like?",
+            "goal": "Suggest a reasonable number of tickets for you and your friend.",
+            "sample": "Two tickets should do it.",
+            "action": "tickets",
+            "npc": {
+              "id": "tickets",
+              "name": "Sam",
+              "role": "ticket staff"
+            }
+          },
+          {
+            "prompt": "There's a long queue for the coaster. What's your plan?",
+            "goal": "Suggest a practical plan, such as waiting, trying another ride, or coming back later.",
+            "sample": "Let's try the Ferris wheel and come back later.",
+            "action": "ride",
+            "npc": {
+              "id": "rides",
+              "name": "Jamie",
+              "role": "ride operator"
+            }
+          },
+          {
+            "prompt": "This place is huge! Where should we meet if we get split up?",
+            "goal": "Suggest a clear meeting place or landmark in the park.",
+            "sample": "Let's meet by the big wheel.",
+            "action": "meet",
+            "npc": {
+              "id": "snacks",
+              "name": "Alex",
+              "role": "friend"
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

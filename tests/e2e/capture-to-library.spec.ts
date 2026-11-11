@@ -239,16 +239,21 @@ test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () =>
     )
     .toBe("failed");
   await library.getByRole("button", { name: "Refresh", exact: true }).click();
+  const failedLookup = library
+    .getByTestId("lookup-card")
+    .filter({ hasText: "unknown-fixture" });
+  await expect(failedLookup).toContainText("Your lookup is saved.");
+  await expect(failedLookup.getByTitle("FIXTURE_NOT_FOUND")).toBeVisible();
   await expect(
-    library.getByTestId("lookup-card").filter({ hasText: "unknown-fixture" }),
-  ).toContainText("FIXTURE_NOT_FOUND");
+    failedLookup.getByRole("button", { name: "Retry translation" }),
+  ).toBeEnabled();
   await library.screenshot({
     path: ".local/library-desktop.png",
     fullPage: true,
   });
   await library.setViewportSize({ width: 390, height: 844 });
   await expect(
-    library.getByRole("heading", { name: "Recent encounters", exact: true }),
+    library.getByRole("heading", { name: "Recent lookups", exact: true }),
   ).toBeVisible();
   expect(
     await library.evaluate(

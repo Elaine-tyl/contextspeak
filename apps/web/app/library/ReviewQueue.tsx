@@ -8,6 +8,7 @@ import type {
 } from "@contextspeak/contracts";
 import { reviewQueueSchema } from "@contextspeak/contracts";
 import { api } from "../../src/api";
+import { languageName } from "../../src/languages";
 function dateLabel(value: string) {
   return new Date(value).toLocaleString("en-GB", {
     dateStyle: "medium",
@@ -90,7 +91,14 @@ export function ReviewQueue({ token, onChanged }: Props) {
       aria-label="Vocabulary review"
     >
       <div className="section-head">
-        <h2>Review queue</h2>
+        {queue ? (
+          <p className="review-count">
+            <span className="badge due">{queue.dueCount} due now</span>
+            <span className="badge">{queue.totalCount} words in review</span>
+          </p>
+        ) : (
+          <span />
+        )}
         <button
           className="secondary"
           disabled={loading}
@@ -99,17 +107,8 @@ export function ReviewQueue({ token, onChanged }: Props) {
           Refresh queue
         </button>
       </div>
-      <p className="section-copy">
-        Recall the meaning before revealing the answer. Ratings reflect your own
-        recall, not proven mastery.
-      </p>
       {message && <p role="status">{message}</p>}
       {error && <p role="alert">{error}</p>}
-      {queue && (
-        <p>
-          {queue.dueCount} due · {queue.totalCount} active
-        </p>
-      )}
       {card ? (
         <RecallCard
           key={`${card.id}:${card.version}`}
@@ -123,7 +122,7 @@ export function ReviewQueue({ token, onChanged }: Props) {
           <p>
             {queue.nextDueAt
               ? `Next review: ${dateLabel(queue.nextDueAt)}. This queue updates automatically.`
-              : "Choose Start reviewing on a vocabulary candidate."}
+              : "Open your Word list and choose “Start reviewing” on any word."}
           </p>
         </div>
       ) : (
@@ -134,6 +133,12 @@ export function ReviewQueue({ token, onChanged }: Props) {
     </section>
   );
 }
+const hints = {
+  again: "Forgot",
+  hard: "Struggled",
+  good: "Remembered",
+  easy: "Instantly",
+} as const;
 interface CardProps {
   card: ReviewPrompt;
   token: string;
@@ -198,9 +203,7 @@ function RecallCard({ card, token, onCompleted }: CardProps) {
   }
   return (
     <article className="lookup-card recall-card">
-      <small>
-        {card.sourceLanguage} → {card.targetLanguage}
-      </small>
+      <small>What does this mean in {languageName(card.targetLanguage)}?</small>
       <h3>{card.prompt}</h3>
       {!revealed ? (
         <button className="primary" onClick={() => setRevealed(true)}>
@@ -222,12 +225,12 @@ function RecallCard({ card, token, onCompleted }: CardProps) {
                 onClick={() => void rate(rating)}
               >
                 {rating[0].toUpperCase() + rating.slice(1)}
+                <span className="rating-hint" aria-hidden="true">
+                  {hints[rating]}
+                </span>
               </button>
             ))}
           </div>
-          <p className="section-copy">
-            Again: forgot · Hard: difficult · Good: recalled · Easy: effortless
-          </p>
         </>
       )}
       {error && <p role="alert">{error}</p>}

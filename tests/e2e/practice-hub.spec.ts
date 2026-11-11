@@ -32,7 +32,10 @@ test("library_practice_navigation_search_filter_and_selected_encounter", async (
     await route.fulfill({ json: data });
   });
   await page.goto("http://127.0.0.1:3000/library");
-  await page.getByRole("button", { name: "Listening & speaking" }).click();
+  await page
+    .getByRole("navigation", { name: "Main" })
+    .getByRole("link", { name: "Listen & speak" })
+    .click();
   const link = page.getByRole("link", { name: "available", exact: true });
   await expect(link).toHaveAttribute(
     "href",
@@ -68,7 +71,7 @@ test("library_practice_navigation_search_filter_and_selected_encounter", async (
   );
   await page.goto("http://127.0.0.1:3000/library?view=practice");
   await expect(
-    page.getByRole("heading", { name: "Listening & speaking" }),
+    page.getByRole("heading", { name: "Listen & speak" }),
   ).toBeVisible();
   await expect(link).toBeVisible();
 });

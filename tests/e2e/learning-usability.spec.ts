@@ -46,7 +46,7 @@ test("library_search_filters_and_return_navigation_survive_refresh", async ({
     "zh-Hans",
   );
   await expect(
-    page.getByRole("heading", { name: "Vocabulary candidates", exact: true }),
+    page.getByRole("heading", { name: "Word list", exact: true }),
   ).toBeVisible();
   await page.getByRole("link", { name: "available", exact: true }).click();
   await expect(page.getByText("Translated", { exact: true })).toBeVisible();
@@ -55,18 +55,21 @@ test("library_search_filters_and_return_navigation_survive_refresh", async ({
     .click();
   await expect(page.getByLabel("Search library")).toHaveValue("available");
   await expect(
-    page.getByRole("heading", { name: "Vocabulary candidates", exact: true }),
+    page.getByRole("heading", { name: "Word list", exact: true }),
   ).toBeVisible();
   await page.reload();
   await expect(page.getByLabel("Search library")).toHaveValue("available");
-  await page.getByRole("button", { name: "Review queue", exact: true }).click();
+  await page
+    .getByRole("navigation", { name: "Main" })
+    .getByRole("link", { name: "Review", exact: true })
+    .click();
   await expect(page).toHaveURL(/view=reviews/);
   await expect(
     page.getByRole("heading", { name: "No reviews yet.", exact: true }),
   ).toBeVisible();
   await page.goBack();
   await expect(
-    page.getByRole("heading", { name: "Vocabulary candidates", exact: true }),
+    page.getByRole("heading", { name: "Word list", exact: true }),
   ).toBeVisible();
   await expect(page.getByLabel("Search library")).toHaveValue("available");
 });

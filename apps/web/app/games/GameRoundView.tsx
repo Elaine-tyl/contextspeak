@@ -13,7 +13,9 @@ import { useLocalRecording } from "../practice/useLocalRecording";
 import { RecordingPlayback } from "../practice/RecordingPlayback";
 import { SpeakingFeedback } from "../practice/SpeakingFeedback";
 import { DictationResult } from "../practice/DictationResult";
+import { EditionNotice, GameSourceCredit } from "./GameContext";
 import { Picture } from "./Picture";
+import { GapFillSentence, GapFillResult } from "./GapFill";
 export function GameRoundView({
   round,
   token,
@@ -30,14 +32,18 @@ export function GameRoundView({
   onLocked(value: boolean): void;
   onExpired(): void;
   onLeave(): void;
-  onContinue(): void;
+  onContinue(): Promise<void>;
   levelSessionId: string;
 }) {
   const speech = usePracticeSpeech(token, round.audioText, "en");
   const recording = useLocalRecording();
   const [response, setResponse] = useState("");
   const [choice, setChoice] = useState("");
+  const [gapAnswers, setGapAnswers] = useState(() =>
+    Array<string>(Math.max(0, (round.gapText?.length ?? 1) - 1)).fill(""),
+  );
   const [busy, setBusy] = useState(false);
+  const [advancing, setAdvancing] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<GameReceipt | null>(null);
   const attempt = useRef<GameSubmission | null>(null);
@@ -45,6 +51,9 @@ export function GameRoundView({
   const controller = useRef<AbortController | null>(null);
   const started = useRef(false);
   const speaking = round.track === "speaking";
+  const gapFill = round.kind === "gap-fill";
+  const gapsComplete =
+    gapAnswers.length > 0 && gapAnswers.every((word) => word.trim());
   const recordingBusy =
     recording.state === "recording" || recording.state === "requesting";
   useEffect(() => {
@@ -64,6 +73,7 @@ export function GameRoundView({
   }, [recording.url]);
   async function submit(blob?: Blob) {
     if (busy || result || !speech.completedPlays) return;
+    if (gapFill && !gapsComplete) return;
     if (blob && blob.size > 2 * 1024 * 1024) {
       setError("Record a shorter answer: AI uploads are limited to 2 MB.");
       return;
@@ -88,9 +98,11 @@ export function GameRoundView({
                 mimeType: blob?.type.split(";")[0],
                 durationMs: recording.durationMs,
               }
-            : round.kind === "dictation"
-              ? { response }
-              : { choice }),
+            : gapFill
+              ? { gapAnswers }
+              : round.kind === "dictation"
+                ? { response }
+                : { choice }),
         });
       }
       const value = await api<GameReceipt>(
@@ -120,30 +132,23 @@ export function GameRoundView({
       if (active.current) setBusy(false);
     }
   }
-  const frozen = busy || !!attempt.current || !!result;
+  async function nextQuestion() {
+    setAdvancing(true);
+    try {
+      await onContinue();
+    } finally {
+      if (active.current) setAdvancing(false);
+    }
+  }
+  const frozen = busy || advancing || !!attempt.current || !!result;
   return (
     <article className="game-round">
       <p className="eyebrow">
         Level {round.level} · {round.track} · {round.genre ?? round.kind}
       </p>
       <h2>{round.title}</h2>
-      {round.source && (
-        <p className="game-source-credit">
-          <a href={round.source.url} target="_blank" rel="noreferrer">
-            Source: {round.source.provider} · {round.source.title}
-          </a>
-          {" · "}
-          {round.source.author}
-          {" · "}
-          <a href={round.source.licenseUrl} target="_blank" rel="noreferrer">
-            {round.source.license}
-          </a>
-          <small>
-            Excerpt with whitespace normalised; exercise questions by
-            ContextSpeak. Audio is AI-generated.
-          </small>
-        </p>
-      )}
+      <EditionNotice archived={round.archived} />
+      <GameSourceCredit source={round.source} />
       <p>{round.instruction}</p>
       {!!round.criteria?.length && (
         <section aria-label="Answer requirements">
@@ -163,7 +168,13 @@ export function GameRoundView({
       )}
       <button
         className="primary"
-        disabled={speech.playing || recordingBusy || busy || speech.plays >= 20}
+        disabled={
+          speech.playing ||
+          recordingBusy ||
+          busy ||
+          advancing ||
+          speech.plays >= 20
+        }
         onClick={() => void speech.play()}
       >
         Play challenge
@@ -208,6 +219,14 @@ export function GameRoundView({
           )}
           {recording.error && <p role="alert">{recording.error}</p>}
         </>
+      ) : gapFill ? (
+        <GapFillSentence
+          parts={round.gapText!}
+          answers={gapAnswers}
+          disabled={frozen || !speech.completedPlays}
+          onChange={setGapAnswers}
+          onSubmit={() => void submit()}
+        />
       ) : round.kind === "dictation" ? (
         <label className="practice-response">
           Type what you hear
@@ -253,9 +272,11 @@ export function GameRoundView({
           disabled={
             frozen ||
             !speech.completedPlays ||
-            (round.kind === "dictation"
-              ? !/[\p{L}\p{N}]/u.test(response)
-              : !choice)
+            (gapFill
+              ? !gapsComplete
+              : round.kind === "dictation"
+                ? !/[\p{L}\p{N}]/u.test(response)
+                : !choice)
           }
           onClick={() => void submit()}
         >
@@ -307,6 +328,9 @@ export function GameRoundView({
               language="en"
             />
           )}
+          {result.feedback.gapFill && (
+            <GapFillResult feedback={result.feedback.gapFill} />
+          )}
           {result.feedback.speaking && (
             <SpeakingFeedback result={result.feedback.speaking} />
           )}
@@ -320,8 +344,12 @@ export function GameRoundView({
             Your answer is saved. Your level score is shown when all questions
             are complete.
           </p>
-          <button className="primary" disabled={busy} onClick={onContinue}>
-            Next question
+          <button
+            className="primary"
+            disabled={busy || advancing}
+            onClick={() => void nextQuestion()}
+          >
+            {advancing ? "Loading question…" : "Next question"}
           </button>
         </section>
       )}

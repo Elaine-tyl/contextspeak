@@ -1,0 +1,918 @@
+[
+  {
+    "id": "shopping",
+    "title": "Shopping with a friend",
+    "roles": [
+      {
+        "id": "shopper",
+        "label": "Shopping for myself",
+        "npc": "Alex, your friend",
+        "turns": [
+          {
+            "prompt": "We've got twenty minutes before the streetcar. What clothes are you after, what do you need them for, and how much can you spend?",
+            "goal": "Tell Alex what clothing you need and give a spending limit. Any suitable clothing choice is welcome.",
+            "sample": "I'm after a light jacket for rainy walks, but I can only spend $55.",
+            "action": "outfit",
+            "npc": {
+              "id": "clothes",
+              "name": "Alex",
+              "role": "friend"
+            },
+            "criteria": [
+              "Name the clothing you want and its intended use.",
+              "State your spending limit."
+            ],
+            "follow_up": {
+              "prompt": "If you can't find anything suitable today, what's your backup plan, and why?",
+              "goal": "Suggest a backup plan and explain why it works for you. You can postpone, browse elsewhere or suggest another practical option.",
+              "sample": "I'll use my old jacket this week and check another shop on Saturday, when I've got more time.",
+              "criteria": [
+                "Suggest a practical alternative if nothing suitable is available.",
+                "Give a reason for that alternative."
+              ]
+            }
+          },
+          {
+            "prompt": "The rain jacket is $65 and the fleece is $45. What would work within the fifty-five-dollar maximum, and what would you ask me first?",
+            "goal": "Choose a next step that respects your budget and ask a useful question. Buying, continuing to look and leaving are all valid.",
+            "sample": "The fleece is within my budget. Is it suitable for light rain, or should I keep looking?",
+            "action": "price",
+            "npc": {
+              "id": "sale",
+              "name": "Maya",
+              "role": "sales assistant"
+            },
+            "criteria": [
+              "Choose a next step consistent with the $55 limit.",
+              "Ask a relevant question before deciding."
+            ],
+            "follow_up": {
+              "prompt": "Before buying anything, what would you confirm about our return rules, and why would that matter to you?",
+              "goal": "Ask about a relevant return condition and explain your concern. Use this fictional shop's stated rules.",
+              "sample": "Could I return an unworn item with its tags and receipt within fourteen days? I might need a different size.",
+              "criteria": [
+                "Ask to confirm a stated return or exchange condition.",
+                "Explain a personal reason for checking it."
+              ]
+            }
+          },
+          {
+            "prompt": "You can take three items into the fitting room, and your streetcar leaves in ten minutes. What would you like to try, and how will you manage the time?",
+            "goal": "Request what you want to try and give a realistic timing plan. Any clothing choice within the fitting-room limit is welcome.",
+            "sample": "Could I try the medium and large, please? I'll leave in five minutes so I have time to reach the streetcar.",
+            "action": "bags",
+            "npc": {
+              "id": "fitting",
+              "name": "Jamie",
+              "role": "fitting assistant"
+            },
+            "criteria": [
+              "Request no more than three items or sizes to try.",
+              "State a plan that leaves time to catch the streetcar."
+            ],
+            "follow_up": {
+              "prompt": "If the fit isn't right, how would you tell me what needs changing and ask for the next step?",
+              "goal": "Describe a possible fit problem and ask for a useful next step. You may ask for another size or decide to leave it.",
+              "sample": "The shoulders feel too tight. Could I try a size up, or come back when I've got more time?",
+              "criteria": [
+                "Describe a specific fit problem.",
+                "Ask for a practical next step."
+              ]
+            }
+          }
+        ],
+        "setting": "You are shopping with Alex at fictional Clover & Cotton in Toronto, Canada. Prices are CAD. Your maximum budget is 55 and your streetcar leaves in 20 minutes. Full-price clothes can be returned unworn with tags and a receipt within 14 days; sale items are exchange only. Quoted prices include any tax. Other regional wording is welcome."
+      },
+      {
+        "id": "buddy",
+        "label": "Helping a friend",
+        "npc": "Alex, your friend",
+        "turns": [
+          {
+            "prompt": "I need something comfy for an outdoor birthday, and I've only got $40. What would you suggest, and why?",
+            "goal": "Suggest clothing within your friend's budget and explain why it suits the occasion. Other sensible clothes are welcome.",
+            "sample": "How about the $32 cotton top? It should feel comfortable outside, and you'd stay under budget.",
+            "action": "outfit",
+            "npc": {
+              "id": "clothes",
+              "name": "Alex",
+              "role": "friend"
+            },
+            "criteria": [
+              "Suggest suitable clothing within the $40 budget.",
+              "Explain why it suits an outdoor birthday."
+            ],
+            "follow_up": {
+              "prompt": "I'd rather avoid dark colors. How could we keep the outfit comfortable and still suit that preference?",
+              "goal": "Acknowledge your friend's color preference and suggest a comfortable way forward. Your original choice need not have been dark.",
+              "sample": "Fair enough. We could look for that style in light green so it still feels comfortable outdoors.",
+              "criteria": [
+                "Respect the preference to avoid dark colors.",
+                "Suggest a suitable color or clothing alternative."
+              ]
+            }
+          },
+          {
+            "prompt": "We've got blue cotton tops for $32 and red linen tops for $38. What would you recommend to Alex, and why?",
+            "goal": "Recommend an available option and give a relevant reason. Either option is valid within the budget.",
+            "sample": "I'd suggest the blue cotton one because it leaves more of your $40 budget for the birthday.",
+            "action": "outfit",
+            "npc": {
+              "id": "sale",
+              "name": "Maya",
+              "role": "sales assistant"
+            },
+            "criteria": [
+              "Recommend one of the available tops.",
+              "Explain the recommendation using price, comfort or your friend's preferences."
+            ],
+            "follow_up": {
+              "prompt": "Our gift receipt allows exchanges of unworn items within fourteen days. What would you tell Alex, and what should you check before paying?",
+              "goal": "Explain the exchange condition and suggest a useful check before purchase. Any relevant check is welcome.",
+              "sample": "You can exchange it within fourteen days if it's unworn. Let's check the size before you pay.",
+              "criteria": [
+                "Explain the unworn-item exchange condition and fourteen-day limit.",
+                "Suggest a relevant check before payment."
+              ]
+            }
+          },
+          {
+            "prompt": "The fitting-room line is fifteen minutes, and the birthday starts in thirty. What should you and Alex do, and why?",
+            "goal": "Suggest a realistic plan and explain the time trade-off. Waiting, skipping the purchase or another workable plan is welcome.",
+            "sample": "Let's leave it for today because we still need time to get to the birthday. We can shop together tomorrow.",
+            "action": "bags",
+            "npc": {
+              "id": "fitting",
+              "name": "Jamie",
+              "role": "fitting assistant"
+            },
+            "criteria": [
+              "Propose a practical plan considering the line and event.",
+              "Explain why that plan fits the available time."
+            ],
+            "follow_up": {
+              "prompt": "If the size Alex wants is sold out later, what's another option, and how would you check it before making the trip?",
+              "goal": "Suggest a backup for an unavailable size and a way to check availability. Other practical alternatives are welcome.",
+              "sample": "We could try the branch near the station. I'd call first to ask whether they have the right size.",
+              "criteria": [
+                "Suggest a reasonable alternative for an unavailable size.",
+                "Explain how to check it before travelling."
+              ]
+            }
+          }
+        ],
+        "setting": "At fictional Clover & Cotton in Portland, United States, Alex wants comfortable clothes for an outdoor birthday. The budget is USD40. Cotton tops cost 32 and linen tops cost 38. Gift receipts allow exchanges of unworn items within 14 days. The birthday starts in 30 minutes. Quoted prices include any tax. Other regional wording is welcome."
+      }
+    ]
+  },
+  {
+    "id": "farm",
+    "title": "Farm",
+    "roles": [
+      {
+        "id": "helper",
+        "label": "Farm helper",
+        "npc": "Jo, the farmer",
+        "turns": [
+          {
+            "prompt": "The two carrot rows are dry, but the new seed bed is already wet. What will you water first, and why?",
+            "goal": "Explain your watering priority and the reason. Follow Jo's instructions for this fictional shift.",
+            "sample": "I'll water the two carrot rows first because they're dry. I'll leave the wet seed bed alone.",
+            "action": "water",
+            "npc": {
+              "id": "fields",
+              "name": "Jo",
+              "role": "farmer"
+            },
+            "criteria": [
+              "Say you will water the two carrot rows and leave the wet seed bed.",
+              "Explain the priority using the stated conditions."
+            ],
+            "follow_up": {
+              "prompt": "When I said 'two', did you understand rows or buckets? How would you check and confirm what you'll water before you start?",
+              "goal": "Ask a clear clarification question and state the interpretation you want confirmed.",
+              "sample": "Did you mean two rows rather than two buckets? I'll water the two carrot rows if that's right.",
+              "criteria": [
+                "Ask whether two refers to rows or buckets.",
+                "State the intended action while seeking confirmation."
+              ]
+            }
+          },
+          {
+            "prompt": "We need four kilos of firm red tomatoes for the shop by eleven. What will you pick, and how will you choose them?",
+            "goal": "Confirm the amount and explain which tomatoes belong in the shop order.",
+            "sample": "I'll pick four kilos of firm red tomatoes and leave out soft ones, since these are for the shop.",
+            "action": "harvest",
+            "npc": {
+              "id": "farm_shop",
+              "name": "Mia",
+              "role": "grower"
+            },
+            "criteria": [
+              "State that you will pick four kilos of tomatoes.",
+              "Explain that only firm red tomatoes belong in the shop batch."
+            ],
+            "follow_up": {
+              "prompt": "You've spotted a few soft tomatoes in the shop tray. What would you tell me, and how would you sort it out?",
+              "goal": "Report the sorting problem and suggest the correction using the stated tray rules.",
+              "sample": "There are a few soft tomatoes in this tray. I'll move them to the separate kitchen-use tray and recheck the shop batch.",
+              "criteria": [
+                "Identify soft tomatoes mixed into the shop batch.",
+                "Say you will separate them into the kitchen-use tray."
+              ]
+            }
+          },
+          {
+            "prompt": "Each crate holds six kilos at most, and heavy items can squash tomatoes. How will you pack them, and why?",
+            "goal": "Describe a packing plan within the crate limit and explain how it protects the tomatoes.",
+            "sample": "I'll keep each crate below six kilos and avoid putting heavy items on top so the tomatoes don't get squashed.",
+            "action": "basket",
+            "npc": {
+              "id": "packing",
+              "name": "Sam",
+              "role": "packing assistant"
+            },
+            "criteria": [
+              "Give a packing plan that respects the six-kilo limit.",
+              "Explain how the plan avoids squashing tomatoes."
+            ],
+            "follow_up": {
+              "prompt": "Sorry, did you say you'd put a heavy box on top of the tomatoes? Could you clear that up and confirm your plan?",
+              "goal": "Politely correct the misunderstanding and restate the safe packing plan for these tomatoes.",
+              "sample": "Sorry, I meant I won't put a heavy box on top. I'll keep the tomatoes in their own crate with nothing heavy above them.",
+              "criteria": [
+                "Correct the mistaken claim that a heavy box will go on top.",
+                "Clearly restate how the tomatoes will be packed."
+              ]
+            }
+          }
+        ],
+        "setting": "You are helping at fictional Sunny Farm near Kingston, Canada. Any shop prices are CAD. Jo needs two carrot rows watered before a break in 15 minutes. Only firm red tomatoes go to the shop; soft ones go in a separate kitchen-use tray. Each packing crate holds at most 6 kg. Quoted prices include any tax. Other regional wording is welcome."
+      },
+      {
+        "id": "farm_shop_customer",
+        "label": "Farm shop customer",
+        "npc": "Jo, the farm shopkeeper",
+        "turns": [
+          {
+            "prompt": "Six eggs cost $5 today. What would you like, and how much do you want to spend altogether?",
+            "goal": "Request a quantity of eggs and state your total shopping budget. Any affordable quantity is welcome.",
+            "sample": "Could I have six eggs, please? I'd like to keep all my shopping under $12.",
+            "action": "basket",
+            "npc": {
+              "id": "fields",
+              "name": "Jo",
+              "role": "farm shopkeeper"
+            },
+            "criteria": [
+              "Politely request a quantity of eggs.",
+              "State a total shopping budget no greater than $12."
+            ],
+            "follow_up": {
+              "prompt": "Sorry, the eggs have just sold out. Tomato boxes are $6 and carrot bags are $3. What would you do instead, and why?",
+              "goal": "Choose a reasonable substitute or decline, and give a reason. You do not have to buy a replacement.",
+              "sample": "I'll take a tomato box for $6 instead because I can use it for dinner and it's within my budget.",
+              "criteria": [
+                "Choose an available substitute or clearly decline one.",
+                "Explain the choice with a relevant reason."
+              ]
+            }
+          },
+          {
+            "prompt": "A carrot bag is $3, or loose carrots are $1 each. You only need two carrots. What would you ask for, and why?",
+            "goal": "Request a suitable carrot option and explain the choice. Either a bag or loose carrots is welcome if explained.",
+            "sample": "Could I have two loose carrots for $2, please? I only need two, so I won't waste the rest of a bag.",
+            "action": "harvest",
+            "npc": {
+              "id": "farm_shop",
+              "name": "Mia",
+              "role": "grower"
+            },
+            "criteria": [
+              "Request a clear quantity and form of carrots.",
+              "Explain the choice using cost, quantity or avoiding waste."
+            ],
+            "follow_up": {
+              "prompt": "I heard 'two bags', but I'm not sure. Can you clarify how many carrots you want and whether they're loose or bagged?",
+              "goal": "Clarify the quantity and packing form you actually want. You may keep or change your earlier choice.",
+              "sample": "Sorry, I meant two loose carrots, not two bags, please.",
+              "criteria": [
+                "State the intended number clearly.",
+                "Distinguish loose carrots from bags."
+              ]
+            }
+          },
+          {
+            "prompt": "We take cash or card, and a shopping bag is fifty cents. How would you like to pay? Do you need a bag, and why?",
+            "goal": "Choose a payment method and explain whether you need a bag. Cash and card are both welcome.",
+            "sample": "I'll pay by card, please, and I don't need a bag because I've brought my own.",
+            "action": "pay",
+            "npc": {
+              "id": "packing",
+              "name": "Sam",
+              "role": "cashier"
+            },
+            "criteria": [
+              "Choose cash or card.",
+              "State whether you need a bag and give a reason."
+            ],
+            "follow_up": {
+              "prompt": "Here's the screen before you pay. It lists your carrot purchase twice, though you only bought it once. What needs checking or changing?",
+              "goal": "Point out the duplicate charge and ask for it to be checked or removed.",
+              "sample": "It looks like the carrots have been charged twice. Could you remove the duplicate and confirm the new total, please?",
+              "criteria": [
+                "Identify the duplicate carrot charge.",
+                "Ask for the charge to be corrected or checked before payment."
+              ]
+            }
+          }
+        ],
+        "setting": "You are at fictional Sunny Farm Shop near Madison, United States. Prices are USD: six eggs 5, a tomato box 6, a carrot bag 3, loose carrots 1 each, shopping bags 0.50. Your budget is 12. The shop takes cash or card. All policies and stock are fictional. Quoted prices include any tax. Other regional wording is welcome."
+      }
+    ]
+  },
+  {
+    "id": "market",
+    "title": "Market",
+    "roles": [
+      {
+        "id": "shopper",
+        "label": "Shopper",
+        "npc": "Ana, the fruit vendor",
+        "turns": [
+          {
+            "prompt": "Apples are $3 a kilo and pears are $4. What fruit would you like, how much do you need, and what's it for?",
+            "goal": "Request fruit with a useful quantity and explain what it is for. Any affordable choice is welcome.",
+            "sample": "Could I have half a kilo of apples, please? I need enough for a couple of lunches.",
+            "action": "basket",
+            "npc": {
+              "id": "fruit_stall",
+              "name": "Ana",
+              "role": "fruit vendor"
+            },
+            "criteria": [
+              "Request an available fruit and a clear quantity.",
+              "Explain the intended use or amount needed."
+            ],
+            "follow_up": {
+              "prompt": "The imperfect apples are $2 a kilo and fine to eat today. Would you change your choice or keep it, and why?",
+              "goal": "Decide whether to keep or change the fruit choice and explain the trade-off. Either decision is welcome.",
+              "sample": "I'll switch to the imperfect apples because I'm eating them today and they're cheaper.",
+              "criteria": [
+                "Clearly keep or change the fruit choice.",
+                "Explain the decision using price, timing or a personal preference."
+              ]
+            }
+          },
+          {
+            "prompt": "Paper bags are free; reusable ones are $2. You've got a ten-minute walk home. Which would you prefer, and why?",
+            "goal": "Choose a bag or use your own, and explain why it suits the walk. Any practical choice is welcome.",
+            "sample": "I'll use my own backpack because it will be easier to carry on the walk home.",
+            "action": "basket",
+            "npc": {
+              "id": "produce_stall",
+              "name": "Ben",
+              "role": "bag assistant"
+            },
+            "criteria": [
+              "Choose a bag option or clearly say you will use your own.",
+              "Explain why the carrying option works for the walk."
+            ],
+            "follow_up": {
+              "prompt": "Did you want two bags? Please confirm the number and tell me how you'd like the fruit packed.",
+              "goal": "Clarify the bag quantity and make a useful packing request. Your choice need not match the example.",
+              "sample": "No bags, thanks. Could you put the softer fruit at the top of my backpack so it doesn't get squashed?",
+              "criteria": [
+                "Clearly confirm or correct the number of bags.",
+                "Make a specific request about packing the fruit."
+              ]
+            }
+          },
+          {
+            "prompt": "The card reader will be down for five minutes. We can take cash now or hold your basket for ten minutes. What works for you, and why?",
+            "goal": "Choose an available payment plan and give a reason. Waiting or declining the purchase is also welcome.",
+            "sample": "Could you hold my basket while I wait for the reader? I haven't got enough cash with me.",
+            "action": "pay",
+            "npc": {
+              "id": "checkout",
+              "name": "Mia",
+              "role": "cashier"
+            },
+            "criteria": [
+              "Choose a workable response to the temporary card-reader problem.",
+              "Give a reason for the chosen plan."
+            ],
+            "follow_up": {
+              "prompt": "If that plan doesn't work out, what would you suggest next, and what would you check with me?",
+              "goal": "Propose a backup and ask a relevant question about carrying it out. Other practical plans are welcome.",
+              "sample": "I could come back after lunch. Would you still have these apples, or should I choose something else then?",
+              "criteria": [
+                "Suggest a practical backup to the current payment plan.",
+                "Ask a relevant question about the backup."
+              ]
+            }
+          }
+        ],
+        "setting": "You are buying fruit at fictional Willow Market in Vancouver, Canada. Prices are CAD per kilo: apples 3, pears 4, imperfect apples 2. Paper bags are free and reusable bags cost 2. You have CAD10 and a ten-minute walk home. The stall may hold a basket for ten minutes. Quoted prices include any tax. Other regional wording is welcome."
+      },
+      {
+        "id": "vendor",
+        "label": "Fruit vendor",
+        "npc": "Ana, the customer",
+        "turns": [
+          {
+            "prompt": "I've got $6 for fruit. What could I get, and how much would it cost?",
+            "goal": "Recommend fruit and a quantity that fit the customer's budget, with a clear total. Any valid combination is welcome.",
+            "sample": "You could have a pound of apples for $3, which would leave you $3 from your budget.",
+            "action": "basket",
+            "npc": {
+              "id": "fruit_stall",
+              "name": "Ana",
+              "role": "customer"
+            },
+            "criteria": [
+              "Offer an available fruit and quantity within the $6 budget.",
+              "State an accurate total using the stall's prices."
+            ],
+            "follow_up": {
+              "prompt": "Sorry, is that price for each apple or for a pound? Could you explain it with a smaller amount as an example?",
+              "goal": "Clarify the pricing unit and give an accurate smaller-quantity example. Either available fruit is welcome.",
+              "sample": "The apples are $3 per pound, not each. Half a pound would be $1.50.",
+              "criteria": [
+                "Explain that the quoted fruit price is per pound.",
+                "Give an accurate price for a smaller quantity."
+              ]
+            }
+          },
+          {
+            "prompt": "I need some apples for tonight and some for Friday. Could you suggest a mix and explain your choice?",
+            "goal": "Recommend a mix for the two occasions and explain the difference. Any reasonable quantities are welcome.",
+            "sample": "I'd suggest a few ripe apples for tonight and some firmer ones for Friday so you don't need to eat them all at once.",
+            "action": "basket",
+            "npc": {
+              "id": "produce_stall",
+              "name": "Ben",
+              "role": "customer"
+            },
+            "criteria": [
+              "Suggest apples for both tonight and Friday.",
+              "Explain how the mix suits the two different times."
+            ],
+            "follow_up": {
+              "prompt": "This receipt says pears, but I asked for apples. Could you check that and the amount I've paid?",
+              "goal": "Acknowledge the item mismatch and offer to correct the receipt and check the price.",
+              "sample": "Thanks for spotting that. I'll change pears to apples on the receipt and check that you've been charged the apple price.",
+              "criteria": [
+                "Acknowledge that the receipt lists the wrong fruit.",
+                "Offer a clear correction and price check."
+              ]
+            }
+          },
+          {
+            "prompt": "My total is $4. Can I pay by card without buying anything else? If not, what are my options?",
+            "goal": "Explain the fictional stall's card minimum and offer a permitted alternative without pressuring the customer.",
+            "sample": "I'm afraid our card minimum is $5. You can pay the $4 in cash, or leave the purchase if that doesn't work for you.",
+            "action": "pay",
+            "npc": {
+              "id": "checkout",
+              "name": "Mia",
+              "role": "customer"
+            },
+            "criteria": [
+              "Explain that $4 is below the $5 card minimum.",
+              "Offer a permitted alternative without requiring another purchase."
+            ],
+            "follow_up": {
+              "prompt": "If I don't buy now, can you hold the fruit until noon? That's an hour away. What could I do if that's too long?",
+              "goal": "Explain the actual hold limit and suggest a realistic alternative. Do not promise an hour-long hold.",
+              "sample": "I can hold it for fifteen minutes, but not for an hour. You could come back at noon and check what's still available.",
+              "criteria": [
+                "State that the hold limit is fifteen minutes, not an hour.",
+                "Offer a practical alternative consistent with that limit."
+              ]
+            }
+          }
+        ],
+        "setting": "You run a stall at fictional Willow Market in Seattle, United States. Prices are USD per pound: apples 3, pears 4. Firm and ripe apples cost the same. Card payments require a total of at least 5; cash is accepted for any amount. Orders can be held for 15 minutes only. Quoted prices include any tax. Other regional wording is welcome."
+      }
+    ]
+  },
+  {
+    "id": "restaurant",
+    "title": "Restaurant",
+    "roles": [
+      {
+        "id": "customer",
+        "label": "Customer",
+        "npc": "Maya, the host",
+        "turns": [
+          {
+            "prompt": "For the two of you, a table inside is ready now, or outside in ten minutes. Your bus is in forty-five minutes. Which would you prefer, and why?",
+            "goal": "Request seating for two and explain your timing needs. Either seating option is welcome if the plan is realistic.",
+            "sample": "Could we take the inside table for two, please? Our bus is in forty-five minutes, so we'd rather sit down now.",
+            "action": "table",
+            "npc": {
+              "id": "entrance",
+              "name": "Maya",
+              "role": "host"
+            },
+            "criteria": [
+              "Choose a seating option for two people.",
+              "Explain the choice using the bus deadline."
+            ],
+            "follow_up": {
+              "prompt": "If your table turns out to be too noisy, how would you ask us for help and explain what you need?",
+              "goal": "Make a polite request about noise and explain your reason. Another suitable solution is welcome.",
+              "sample": "Would it be possible to move somewhere quieter? My friend and I would like to hear each other properly.",
+              "criteria": [
+                "Politely request a practical response to a noisy table.",
+                "Explain why a quieter arrangement would help."
+              ]
+            }
+          },
+          {
+            "prompt": "Vegetable noodles are $18 and soup is $12. With your twenty-dollar budget, what would you like, and would you like any change to suit your preferences? Tell me why.",
+            "goal": "Order a meal and request a specific change with a reason. You may choose your own dietary preference; do not assume the example is required.",
+            "sample": "Could I have the vegetable noodles with tofu instead of egg, please? I prefer tofu and can spend up to $20.",
+            "action": "meal",
+            "npc": {
+              "id": "dining",
+              "name": "Alex",
+              "role": "server"
+            },
+            "criteria": [
+              "Order an available meal within the $20 limit.",
+              "Request a specific change and explain your preference."
+            ],
+            "follow_up": {
+              "prompt": "Tofu adds $2 to noodles; leaving egg out is free. Soup stays $12. Could you confirm your meal, any change, and the total?",
+              "goal": "Confirm an available meal and its modifications, then state the correct price. Keeping or changing your earlier choice is welcome.",
+              "sample": "I'll have the noodles with tofu instead of egg, please. That should be $20 altogether.",
+              "criteria": [
+                "Confirm the meal and any intended modification clearly.",
+                "State the correct total for that order."
+              ]
+            }
+          },
+          {
+            "prompt": "Here's your bill, including $3 for sparkling water. Is there anything you'd like me to check or change before you pay?",
+            "goal": "Explain the incorrect charge and request a corrected bill before paying.",
+            "sample": "We only had tap water, so the $3 sparkling water looks like a mistake. Could you remove it and bring the updated bill, please?",
+            "action": "pay",
+            "npc": {
+              "id": "till",
+              "name": "Jamie",
+              "role": "cashier"
+            },
+            "criteria": [
+              "Identify the sparkling-water charge as incorrect because you had tap water.",
+              "Request that the bill be checked or corrected."
+            ],
+            "follow_up": {
+              "prompt": "We allow split payments, one payment per person. How would you and your friend like to handle the bill?",
+              "goal": "Propose a permitted payment arrangement and clarify who is paying for what. A single payment is also welcome.",
+              "sample": "I'd like to pay for my meal by card, and my friend will pay for theirs. Could you separate our amounts, please?",
+              "criteria": [
+                "Choose a payment arrangement within the one-payment-per-person rule.",
+                "Clarify how the bill should be allocated or handled."
+              ]
+            }
+          }
+        ],
+        "setting": "You and a friend visit fictional The Garden Table in Chicago, United States. Prices are USD: vegetable noodles 18, soup 12, tofu substitution +2. Leaving egg out is free. You had the free tap water. Split payments are allowed, one payment per person. These are fictional venue rules. Quoted prices include any tax. Other regional wording is welcome."
+      },
+      {
+        "id": "server",
+        "label": "Server",
+        "npc": "Tom, the guest",
+        "turns": [
+          {
+            "prompt": "We're booked for seven-thirty under Chen, but it's only seven. You mentioned a table at seven-fifteen or the bar now. Could you explain our options?",
+            "goal": "Explain that a table is available at 7:15 or the bar is ready now, then ask which the guest prefers.",
+            "sample": "A table will be ready at seven-fifteen, or you can sit at the bar now. Which would you prefer?",
+            "action": "table",
+            "npc": {
+              "id": "entrance",
+              "name": "Tom",
+              "role": "guest"
+            },
+            "criteria": [
+              "Explain both stated early-seating options accurately.",
+              "Ask which option the guest prefers."
+            ],
+            "follow_up": {
+              "prompt": "Whichever option we choose, how will we know when the table is ready, and where should we wait?",
+              "goal": "Explain the name-call process and tell guests where to wait so they can hear it.",
+              "sample": "We'll call the booking name at the entrance when the table's ready. Please wait nearby so you can hear us.",
+              "criteria": [
+                "Explain that staff call the booking name at the entrance.",
+                "Tell guests to wait where they can hear the call."
+              ]
+            }
+          },
+          {
+            "prompt": "I'd like something without meat or much chilli, and I can spend $20. What would you recommend, and why?",
+            "goal": "Recommend a suitable menu item within budget and explain how it meets the guest's preferences. Either suitable dish is welcome.",
+            "sample": "I'd recommend the vegetable noodles without chilli sauce for $18. They're meat-free and the sauce can be left off.",
+            "action": "meal",
+            "npc": {
+              "id": "dining",
+              "name": "Mia",
+              "role": "guest"
+            },
+            "criteria": [
+              "Recommend an available meat-free meal within $20.",
+              "Explain how it meets the guest's chilli preference."
+            ],
+            "follow_up": {
+              "prompt": "When you say it can be mild, do you mean you can leave the chilli sauce off? Can you check exactly what I'd like?",
+              "goal": "Clarify the available change and ask the guest to confirm the order. Do not claim an ingredient guarantee beyond the menu facts.",
+              "sample": "Yes, the kitchen can leave the chilli sauce off the noodles. Would you like me to request them that way?",
+              "criteria": [
+                "Clarify that the noodles can be ordered without chilli sauce.",
+                "Ask for confirmation of the guest's preferred preparation."
+              ]
+            }
+          },
+          {
+            "prompt": "I had $18 noodles and a $4 tea, but the bill says $26. Could you check that for me?",
+            "goal": "Explain the correct total and offer to fix the bill.",
+            "sample": "You're right: $18 plus $4 is $22. I'll correct the bill before you pay.",
+            "action": "pay",
+            "npc": {
+              "id": "till",
+              "name": "Alex",
+              "role": "guest"
+            },
+            "criteria": [
+              "State that the correct total is $22.",
+              "Offer to correct the incorrect bill."
+            ],
+            "follow_up": {
+              "prompt": "Could I pay eighteen dollars by card and the remaining four in cash?",
+              "goal": "Confirm the requested split and explain that it is allowed by this venue.",
+              "sample": "Certainly, we allow mixed payments. I'll take $18 by card and $4 in cash to cover the $22 total.",
+              "criteria": [
+                "Confirm that mixed card and cash payment is allowed.",
+                "Confirm the $18 card and $4 cash amounts accurately."
+              ]
+            }
+          }
+        ],
+        "setting": "You work at fictional The Garden Table in Toronto, Canada. Prices are CAD: vegetable noodles 18, soup 12, tea 4. Noodles can be made without chilli sauce. Guests may mix cash and card. Staff call waiting guests by booking name at the entrance. All venue rules are fictional. Quoted prices include any tax. Other regional wording is welcome."
+      }
+    ]
+  },
+  {
+    "id": "amusement_park",
+    "title": "Amusement park with a friend",
+    "roles": [
+      {
+        "id": "visitor",
+        "label": "Choosing rides",
+        "npc": "Sam, the ticket staff",
+        "turns": [
+          {
+            "prompt": "A day pass is $35, with most rides included; go-karts are $5 extra. Your budget is $50. What would you ask for, and what will you keep money for?",
+            "goal": "Request an entry option and explain how you will use the remaining budget. Any plan within $50 is welcome.",
+            "sample": "I'd like a day pass, please. I'll keep the remaining $15 for lunch instead of spending it all on extras.",
+            "action": "ride",
+            "npc": {
+              "id": "tickets",
+              "name": "Sam",
+              "role": "ticket staff"
+            },
+            "criteria": [
+              "Request the day pass or an available entry arrangement within budget.",
+              "Explain a plan for the money left within the $50 limit."
+            ],
+            "follow_up": {
+              "prompt": "Rain may close outdoor rides. The indoor arcade is included, but admitted passes aren't refundable here. Would you still go in, or wait, and why?",
+              "goal": "Decide whether to enter or wait and explain the weather trade-off. Either choice is welcome.",
+              "sample": "I'll still go in because I'd enjoy the arcade even if the outdoor rides close.",
+              "criteria": [
+                "Clearly choose to enter, wait or decline in light of the stated policy.",
+                "Give a reason that considers the possible rain closures."
+              ]
+            }
+          },
+          {
+            "prompt": "I'm not keen on the coaster. It's a forty-minute line anyway; the wheel takes ten minutes and the show starts in fifteen. What could we do, and why?",
+            "goal": "Respect Alex's concern and suggest a suitable alternative with a reason. Any considerate, workable plan is welcome.",
+            "sample": "No pressure to go on the coaster. Let's try the wheel because the wait is much shorter.",
+            "action": "ride",
+            "npc": {
+              "id": "rides",
+              "name": "Alex",
+              "role": "friend"
+            },
+            "criteria": [
+              "Respond considerately to Alex's reluctance about the coaster.",
+              "Suggest a practical alternative with a relevant reason."
+            ],
+            "follow_up": {
+              "prompt": "If the line for our choice gets much longer, what's our backup, and where should we meet if we get separated?",
+              "goal": "Suggest a backup activity and a clear meeting place. Your own practical choices are welcome.",
+              "sample": "We could try the arcade instead. If we get separated, let's meet at the main entrance.",
+              "criteria": [
+                "Suggest a backup if the chosen activity has a long line.",
+                "Name a clear meeting place if separated."
+              ]
+            }
+          },
+          {
+            "prompt": "You've set aside ten dollars for food. A vegetable wrap is $9, chips are $6 and tap water is free. What food and drink would you like, and what's the total?",
+            "goal": "Order food and a drink within $10 and state the correct total. Either listed food is welcome.",
+            "sample": "Could I have a vegetable wrap and tap water, please? That should come to $9.",
+            "action": "snack",
+            "npc": {
+              "id": "snacks",
+              "name": "Mia",
+              "role": "snack vendor"
+            },
+            "criteria": [
+              "Request an available food and drink within $10.",
+              "State the accurate total for the chosen items."
+            ],
+            "follow_up": {
+              "prompt": "Looks like there may be an order mix-up. What should I check, and how can I put it right for you?",
+              "goal": "Ask for an order check and clearly request a correction if there is a mismatch. Do not invent an earlier food choice.",
+              "sample": "Could you check this against my order, please? If the snack is different from what I asked for, could you swap it for the right one?",
+              "criteria": [
+                "Ask staff to check the food against the actual order.",
+                "Request a practical correction if it does not match."
+              ]
+            }
+          }
+        ],
+        "setting": "You are visiting fictional Sunny Days Park in San Diego, United States. Prices are USD: day pass 35, go-karts +5, vegetable wrap 9, chips 6; tap water is free. Your day budget is 50. Rain can close outdoor rides. The indoor arcade is included; admitted day passes are not refundable under this fictional park policy. Quoted prices include any tax. Other regional wording is welcome."
+      },
+      {
+        "id": "planner",
+        "label": "Planning our day",
+        "npc": "Sam, the ticket staff",
+        "turns": [
+          {
+            "prompt": "Adult day passes are $35 each. How many people are coming, and is anyone arriving later?",
+            "goal": "State the number of tickets needed and explain the arrival plan. Any clear group size and plan is welcome.",
+            "sample": "There are two of us, but my friend arrives at noon. I'd like to plan for two adult tickets.",
+            "action": "tickets",
+            "npc": {
+              "id": "tickets",
+              "name": "Sam",
+              "role": "ticket staff"
+            },
+            "criteria": [
+              "State a clear number of adult tickets or visitors.",
+              "Explain whether anyone arrives later and when."
+            ],
+            "follow_up": {
+              "prompt": "We can't leave paid tickets at the gate. A late friend can buy their own, or you can enter together. Which arrangement works for your group, and why?",
+              "goal": "Choose an arrangement consistent with the gate rule and explain it. If everyone is already here, say so and choose accordingly.",
+              "sample": "My friend can buy their own ticket at noon, so I can go in now without leaving a ticket at the gate.",
+              "criteria": [
+                "Choose an entry arrangement that does not leave a paid ticket at the gate.",
+                "Explain how it fits the group's arrival plan."
+              ]
+            }
+          },
+          {
+            "prompt": "It's three-thirty. The wheel closes at four, and its queue is thirty-five minutes. The carousel queue is ten minutes. What would you suggest, and why?",
+            "goal": "Suggest a realistic plan using the closing time and queues. Any workable alternative is welcome.",
+            "sample": "Let's try the carousel instead because the wheel's queue is longer than the time left before it closes.",
+            "action": "ride",
+            "npc": {
+              "id": "rides",
+              "name": "Jamie",
+              "role": "ride operator"
+            },
+            "criteria": [
+              "Suggest a feasible plan given the wheel's closing time and queue.",
+              "Explain the relevant timing trade-off."
+            ],
+            "follow_up": {
+              "prompt": "The carousel may close if it rains, but the indoor show starts at three-forty-five. What's your backup, and how will you tell the group?",
+              "goal": "Suggest a weather backup and a way to keep the group informed. Other practical indoor plans are welcome.",
+              "sample": "If it rains, let's go to the indoor show. I'll message the group now so everyone knows where to go.",
+              "criteria": [
+                "Suggest a practical backup for a rain closure.",
+                "Explain how the group will be informed."
+              ]
+            }
+          },
+          {
+            "prompt": "Our bus leaves at four-forty, and the gate is a ten-minute walk from here. Where and when should we meet, and why?",
+            "goal": "Choose a clear meeting place and time that allow for the bus, and explain the timing. Any feasible plan is welcome.",
+            "sample": "Let's meet here at the snack stand at four-fifteen so we've got time to walk to the gate before the bus.",
+            "action": "meet",
+            "npc": {
+              "id": "snacks",
+              "name": "Alex",
+              "role": "friend"
+            },
+            "criteria": [
+              "Specify a meeting place and time that leave enough time for the bus.",
+              "Explain why the timing works."
+            ],
+            "follow_up": {
+              "prompt": "If our phones lose signal, where should we go as a backup, and by when? The information desk is open until five.",
+              "goal": "Give a clear backup location and a time or waiting rule that still fits the bus deadline. Your own feasible plan is welcome.",
+              "sample": "If we miss each other here, let's go to the information desk by four-twenty, then leave for the gate together.",
+              "criteria": [
+                "Name a clear backup meeting location.",
+                "Give a time or waiting rule consistent with catching the four-forty bus."
+              ]
+            }
+          }
+        ],
+        "setting": "You are planning a day at fictional Sunny Days Park in Ottawa, Canada. Prices are CAD: adult day passes 35 each. Paid tickets cannot be left at the gate for collection. The wheel closes at 4 pm; the indoor show starts at 3:45. The information desk beside the gate stays open until 5. All rules are fictional. Quoted prices include any tax. Other regional wording is welcome."
+      }
+    ]
+  },
+  {
+    "id": "cafe",
+    "title": "Forest cafe",
+    "roles": [
+      {
+        "id": "customer",
+        "label": "Cafe customer",
+        "npc": "Maya, the barista",
+        "setting": "You visit fictional After Class Cafe in Seattle, United States. Prices are USD: small flat white 4.50, large 5.50, tea 4; soy milk adds 0.50. Oat milk is unavailable. Your receipt is order 12. It is 4:10 pm; the cafe closes at 5. Your friend Alex has a bus in 40 minutes. All prices and policies are fictional. Quoted prices include any tax. Other regional wording is welcome.",
+        "turns": [
+          {
+            "npc": {
+              "id": "counter",
+              "name": "Maya",
+              "role": "barista"
+            },
+            "action": "basket",
+            "prompt": "What can I get you? Tell me the drink, size, milk and whether it's for here or to go, and explain any change you'd like.",
+            "goal": "Give a detailed drink order and explain your milk choice or another preference. Tea, coffee and other available options are welcome.",
+            "sample": "A small flat white with soy milk for here, please. I prefer the taste of soy to regular milk.",
+            "criteria": [
+              "Specify an available drink, its size if relevant, and for-here or to go service.",
+              "Specify a milk choice or modification and give a reason for the preference."
+            ],
+            "follow_up": {
+              "prompt": "Oat milk isn't available; soy adds fifty cents, and regular or no milk adds nothing. Would you keep or change your order, and what total should I confirm?",
+              "goal": "Confirm or adapt your order using the available options, then state or check the correct price. Your own available drink choice is welcome.",
+              "sample": "I'll keep the small soy flat white, please. Could you confirm that it's $5 altogether?",
+              "criteria": [
+                "Confirm an available drink and milk arrangement.",
+                "State or ask to confirm the correct total for that order."
+              ]
+            }
+          },
+          {
+            "npc": {
+              "id": "counter",
+              "name": "Maya",
+              "role": "barista"
+            },
+            "action": "pay",
+            "prompt": "The cup says fourteen, but your receipt says twelve. Could you explain the mix-up and tell me what you'd like me to check?",
+            "goal": "Explain the order-number mismatch and ask Maya to find the correct drink. Keep your own previous drink choice.",
+            "sample": "My receipt is for order twelve, but this cup says fourteen. Could you check which drink is mine, please?",
+            "criteria": [
+              "Identify the mismatch between receipt twelve and cup fourteen.",
+              "Ask staff to check or find the correct order."
+            ],
+            "follow_up": {
+              "prompt": "Your drink needs remaking. We can make your original order in four minutes, or offer tea now for $4. What would you prefer, and why?",
+              "goal": "Choose a workable resolution and explain your priority. Waiting, switching or asking for another practical option is welcome.",
+              "sample": "I'll wait the four minutes for my original order because that's what I was looking forward to.",
+              "criteria": [
+                "Choose a practical resolution to the drink remake.",
+                "Give a reason for the chosen resolution."
+              ]
+            }
+          },
+          {
+            "npc": {
+              "id": "friend",
+              "name": "Alex",
+              "role": "friend"
+            },
+            "action": "table",
+            "prompt": "I've got forty minutes before my bus. The park's five minutes away; the library's ten away and closes in twenty. What could we do, and why?",
+            "goal": "Suggest a plan that fits Alex's time limit and give a reason. Any feasible activity is welcome.",
+            "sample": "Let's spend twenty minutes at the park because we can chat outside and still get back before your bus.",
+            "criteria": [
+              "Suggest a feasible activity within the forty-minute bus limit.",
+              "Give a relevant reason for the plan."
+            ],
+            "follow_up": {
+              "prompt": "It might rain soon, but this cafe stays open until five. What's our backup, and when should we check whether to change the plan?",
+              "goal": "Suggest a rain backup and a clear decision time before Alex's bus. Your own practical plan is welcome.",
+              "sample": "If it rains, let's stay here and chat. We can check the weather again at four-thirty before your bus.",
+              "criteria": [
+                "Suggest a practical backup if it rains.",
+                "Set a clear time to reconsider the plan before the bus."
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,292 @@
+[
+  {
+    "path": "mini-characters/character-female-a.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/mini-characters/character-female-a.glb",
+    "gitSha": "eaeabab02de3f428d82fa84562a70f3776e71d58"
+  },
+  {
+    "path": "mini-characters/character-male-a.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/mini-characters/character-male-a.glb",
+    "gitSha": "18ff63f798686ed629654a7d13cc793f1da5db98"
+  },
+  {
+    "path": "mini-characters/character-female-c.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/mini-characters/character-female-c.glb",
+    "gitSha": "b1f470d2887100f4e25619a61e427be1bd18fb0d"
+  },
+  {
+    "path": "furniture/kitchenCoffeeMachine.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/furniture/kitchenCoffeeMachine.glb",
+    "gitSha": "f10641b44f34270570796a6115e524b53a4ecb71"
+  },
+  {
+    "path": "furniture/tableRound.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/furniture/tableRound.glb",
+    "gitSha": "885fdcd356eff8cc379e306d7b3b1ef3c5ca7475"
+  },
+  {
+    "path": "furniture/chairCushion.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/furniture/chairCushion.glb",
+    "gitSha": "bffa780b8f8a3efef7756025b2d00a3e01377a41"
+  },
+  {
+    "path": "furniture/pottedPlant.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/furniture/pottedPlant.glb",
+    "gitSha": "774d659a2d2be3f9af3fea78e13b2f250fdbb262"
+  },
+  {
+    "path": "furniture/plantSmall1.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/furniture/plantSmall1.glb",
+    "gitSha": "6c64ddaef49e831446cf673d9d8c6c37e446928b"
+  },
+  {
+    "path": "furniture/books.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/furniture/books.glb",
+    "gitSha": "615aaa9632cf1b262c257f2cb7c208a6f199ab84"
+  },
+  {
+    "path": "furniture/lampRoundFloor.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/furniture/lampRoundFloor.glb",
+    "gitSha": "69f7c9df4fb9e2fb327c59f3b20e8669faf7df0d"
+  },
+  {
+    "path": "food/cup-coffee.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/food/cup-coffee.glb",
+    "gitSha": "834296052d2141050e85135c50535af52c69865a"
+  },
+  {
+    "path": "food/cup-tea.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/food/cup-tea.glb",
+    "gitSha": "85fc62caad1729f19c4fac3f95189a11c369b891"
+  },
+  {
+    "path": "food/croissant.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/food/croissant.glb",
+    "gitSha": "6132064465be0cd84463b3c6a0c0e91f28eeee7f"
+  },
+  {
+    "path": "food/cookie.glb",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/food/cookie.glb",
+    "gitSha": "4f84e1e567640b49c08b6a0aa7d77a30491f5a0e"
+  },
+  {
+    "path": "mini-characters/Textures/colormap.png",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/mini-characters/Textures/colormap.png",
+    "gitSha": "166a545e0e6fda582acc5b6475643acba1288bd7"
+  },
+  {
+    "path": "food/Textures/colormap.png",
+    "url": "https://raw.githubusercontent.com/shorepine/kenney/3694c6879e487c108f55677be7dd2ca75b07cc3b/3d/food/Textures/colormap.png",
+    "gitSha": "1dfac9e6c4639266b629ad4c43e3048c2117d520"
+  },
+  {
+    "path": "quaternius/License.txt",
+    "url": "https://creativecommons.org/publicdomain/zero/1.0/legalcode.txt",
+    "sha256": "a2010f343487d3f7618affe54f789f5487602331c0a8d03f49e9a7c547cf0499",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "quaternius/barista-clothed.png",
+    "url": "https://drive.usercontent.google.com/download?id=1BIybLROxyVjNSA2zmeJMBPx5G3qkya0O&export=download",
+    "sha256": "6abda09e19dd9af94877d050c1b227584690abb01aaba755d08f853aeddb4ee3",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "quaternius/learner-clothed.png",
+    "url": "https://drive.usercontent.google.com/download?id=1zUh9Z_jFxtUQLbi7Zf_Vk3gVMJ3s2SX8&export=download",
+    "sha256": "181eafa11ba479b5e8598cfa62eafad423b632c03ec0a0ba870ca8ad15432da5",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "quaternius/woman-clothed.png",
+    "url": "https://drive.usercontent.google.com/download?id=18Rz48j1AKnjiT1KLJ4onYKVY0Wh6pVsv&export=download",
+    "sha256": "77c799bc4937b510eda8b63a9bf5cd1942a2c657d74354334aa4e95f728fc4c5",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "quaternius/woman.fbx",
+    "url": "https://drive.usercontent.google.com/download?id=1oV3F_SoumglGVmxR1Xk0bA15hKdxjBED&export=download",
+    "sha256": "587512588e1b80af84d899cc93b3597428cd775da24c802a91f5ea348e935619",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/License.txt",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/License.txt",
+    "sha256": "47a1812de438d7452117753d0efbe734c5293db00859b605679128725acf86ef",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/chair_A.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/chair_A.bin",
+    "sha256": "c95a15bc30e2bb9f122762590819c99934db31b7e7dbf3e54b68eb105e36148b",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/chair_A.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/chair_A.gltf",
+    "sha256": "0d0abdc382abedb3e4bc2e0260af663c16ff2dab0d441f09d675e0709a7a7310",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/dishrack_plates.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/dishrack_plates.bin",
+    "sha256": "cf407f6199ece5af971d6c5200c956a14ce4d83f12ca212a1d669c5a93975595",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/dishrack_plates.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/dishrack_plates.gltf",
+    "sha256": "1b5884389ac2a771710996a9331946f29135a17ba7e7a9e494a4d451c53468dc",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/door_A.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/door_A.bin",
+    "sha256": "7db6f8465a5851c7cc38c1c41cf5845a652624f46118e2533847585d06c275b5",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/door_A.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/door_A.gltf",
+    "sha256": "5bcfe533544343c0dc6e32ce96ee727b2525ca76233c2db560961bc733d78cdc",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/jar_A_medium.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/jar_A_medium.bin",
+    "sha256": "83882e909ea76df52c42763c85047e1ed6d1bf6a9c5465eeb64ddc1984814cf0",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/jar_A_medium.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/jar_A_medium.gltf",
+    "sha256": "3eadead8b5bc31a99b2ece53e1aede59638eb45191f828f7b768862547465333",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/jar_B_small.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/jar_B_small.bin",
+    "sha256": "a34b6dabb7059a24ebaf31da87a3431c7c907e9f04f8aec58c39b7cd0cb79682",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/jar_B_small.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/jar_B_small.gltf",
+    "sha256": "fc75158c9904e5b3f6fa45a27f51f839388ea3419a2a3fc2efcc3ff3efe3c539",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/kitchencounter_sink.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/kitchencounter_sink.bin",
+    "sha256": "a0d0ca0667dedccea5af25a4b69c272a4dfdff2b45dc99f3bfe95f512072630f",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/kitchencounter_sink.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/kitchencounter_sink.gltf",
+    "sha256": "41e576c8211cd3e6a33d8622e195b583795b47c671f13bf636e344f037d0f56c",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/kitchencounter_straight_A.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/kitchencounter_straight_A.bin",
+    "sha256": "78e3e82538faf0f03d0799b7980f006f1fe7a45ab7c64ae401d66dee576ebb19",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/kitchencounter_straight_A.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/kitchencounter_straight_A.gltf",
+    "sha256": "500afffa4c87a579a046b67f10c8b2b7907a3dd0983544643c581b95153d6008",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/kitchentable_B.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/kitchentable_B.bin",
+    "sha256": "6809bfa32117228f5aa5661b557d7bc0e83984309ac6937d788a5134ebac2d0b",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/kitchentable_B.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/kitchentable_B.gltf",
+    "sha256": "36b6e8244ef3351fd940c3f2a080fe27f2c59a69b9fbc44d3ea1b2f60ccb6ebe",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/restaurantbits_texture.png",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/restaurantbits_texture.png",
+    "sha256": "1bfff8f880c5e5e1b793bc46fa1f91149b7f70766174a817b3d5962495c5e40f",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/table_round_A_small.bin",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/table_round_A_small.bin",
+    "sha256": "8f39b021b1153eb22653a20103e3308bcc8fb7d3c53439c53d6f0e20331f51c4",
+    "license": "CC0-1.0"
+  },
+  {
+    "path": "kaykit/table_round_A_small.gltf",
+    "url": "https://kaylousberg.itch.io/restaurant-bits",
+    "archive": "KayKit_Restaurant_Bits_1.0_FREE.zip",
+    "archiveSha256": "75f75f0a1ae569f3f2348fa7a04ccd45d2f010d419045755c70ae43289b68e4b",
+    "archivePath": "KayKit_Restaurant_Bits_1.0_FREE/Assets/gltf/table_round_A_small.gltf",
+    "sha256": "eba53971817c536c8df8b69dd41e1f320cf16c450a2f3141ac92bc0eb5213996",
+    "license": "CC0-1.0"
+  }
+]

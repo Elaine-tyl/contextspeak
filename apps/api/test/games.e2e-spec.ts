@@ -4,7 +4,7 @@ import { randomUUID } from "node:crypto";
 import { createApp } from "../src/app";
 import { startDatabase } from "../../../tests/helpers/database";
 import { startIssuer } from "../../../tests/helpers/issuer";
-import { challenges } from "../src/games/catalog";
+import { challenges, activeChallenges } from "../src/games/catalog";
 import { FixtureSpeechProvider } from "../src/speech/gemini-speech.provider";
 import {
   FixtureSpeakingProvider,
@@ -58,15 +58,16 @@ it("requires authentication, hides solutions and rejects forged marks and locked
   );
   const value = await catalog();
   expect(value.status).toBe(200);
-  expect(value.body.rounds).toHaveLength(179);
+  expect(value.body.rounds).toHaveLength(activeChallenges.length);
   expect(value.body.rounds[0]).not.toHaveProperty("answer");
   const imported = value.body.rounds.find(
-    (round: { id: string }) => round.id === "open-tatoeba-12335770-listen-v1",
+    (round: { id: string }) =>
+      round.id === "open-voa-news-academic-writing-listen-v1",
   );
   expect(imported.source).toMatchObject({
-    provider: "Tatoeba",
-    license: "CC0-1.0",
-    author: "Miktsoanit",
+    provider: "VOA Learning English",
+    license: "Public-domain-VOA",
+    author: "Dan Friedell",
   });
   expect(imported).not.toHaveProperty("answer");
   expect(value.body.progress.listening.level).toBe(1);

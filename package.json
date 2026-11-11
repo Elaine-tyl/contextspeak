@@ -15,7 +15,7 @@
     "db:generate": "prisma generate --schema apps/api/prisma/schema.prisma",
     "build:extension": "pnpm --filter @contextspeak/extension build",
     "build:web": "pnpm --filter @contextspeak/web build",
-    "format:check": "prettier --check \"apps/**/*.{ts,tsx,css,json,html}\" \"packages/**/*.{ts,json}\" \"tests/**/*.ts\" \"scripts/**/*.ts\" \"*.{ts,json,yaml}\"",
+    "format:check": "prettier --check \"apps/**/*.{ts,tsx,css,json,html}\" \"packages/**/*.{ts,json}\" \"tests/**/*.ts\" \"scripts/**/*.ts\" \"*.{ts,json,yaml}\" \"games/**/*.{ts,js,json}\"",
     "dev:test": "CONTEXTSPEAK_TEST_AUTH=1 TRANSLATION_PROVIDER=fixture tsx scripts/dev.ts",
     "dev:local": "CONTEXTSPEAK_TEST_AUTH=1 tsx scripts/dev.ts",
     "translator:setup": "tsx scripts/translator.ts --setup",
@@ -26,7 +26,12 @@
     "test:gemini:live": "pnpm build:extension && playwright test --config playwright.gemini.config.ts",
     "test:ai:live": "pnpm build:extension && playwright test --config playwright.ai.config.ts",
     "speech:setup": "tsx scripts/local-speech.ts --setup",
-    "content:verify": "tsx scripts/practice-content.ts"
+    "content:verify": "tsx scripts/practice-content.ts",
+    "world:setup": "python3 tools/world/setup.py",
+    "world:build": "python3 tools/world/build.py",
+    "world:test": "python3 tools/world/build.py --test",
+    "world:dev": "tsx scripts/world.ts",
+    "world:test:voice": "tsx scripts/world-voice-fixture.ts && CONTEXTSPEAK_WORLD_VOICE_TEST=1 playwright test --config playwright.world.config.ts local-voice"
   },
   "devDependencies": {
     "@nestjs/common": "12.3.3",

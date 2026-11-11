@@ -1,5 +1,4 @@
 "use client";
-import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
   gameModes,
@@ -16,6 +15,8 @@ import { GameRoundView } from "./GameRoundView";
 import "../library/library.css";
 import "../practice/practice.css";
 import "./games.css";
+import { DifficultyGuide } from "./GameContext";
+import { GapFillResources } from "./GapFill";
 export default function GamesPage() {
   const [token, setToken] = useState("");
   const currentToken = useRef("");
@@ -196,7 +197,7 @@ export default function GamesPage() {
         );
     }
   }
-  async function startRun(target = level, advance = false) {
+  async function startRun(target = level, allowFallback = false) {
     if (!kind || starting) return;
     let selectedTopic = topic;
     let selectedSource = source;
@@ -209,8 +210,8 @@ export default function GamesPage() {
           (selectedSource === "all" ||
             (round.source?.provider ?? "ContextSpeak") === selectedSource),
       );
-    if (advance && !matches().length) selectedTopic = "all";
-    if (advance && !matches().length) selectedSource = "all";
+    if (allowFallback && !matches().length) selectedTopic = "all";
+    if (allowFallback && !matches().length) selectedSource = "all";
     const settings = {
       kind,
       level: target,
@@ -268,27 +269,43 @@ export default function GamesPage() {
   const recommendation = catalog?.recommendations?.[track];
   const frozen = locked || starting;
   return (
-    <main className="games-page">
-      <Link href="/library">Back to library</Link>
-      <p className="eyebrow">ContextSpeak · play and practise</p>
-      <h1>Game practice</h1>
-      <p>
-        Choose a game mode, level and theme. Complete up to three questions for
-        a level score. Reach 70/100 to unlock the next level in that mode.
-      </p>
+    <main className="page games-page">
+      <div className="page-head">
+        <div>
+          <h1>Games</h1>
+          <p className="page-lead">
+            Short listening and speaking challenges. Each level has up to three
+            questions — score 70 or more to unlock the next level.
+          </p>
+        </div>
+        <a className="secondary" href="/world">
+          3D cafe prototype →
+        </a>
+      </div>
       {error && <p role="alert">{error}</p>}
       {loading && <p role="status">Loading games…</p>}
       {!token && !loading && (
-        <a href={API + "/auth/login?returnTo=/games"}>Sign in with Google</a>
+        <section className="connect-panel sign-in-panel">
+          <div>
+            <h2>Sign in to play</h2>
+            <p>Your levels are saved to your account.</p>
+          </div>
+          <a className="primary" href={API + "/auth/login?returnTo=/games"}>
+            Sign in with Google
+          </a>
+        </section>
       )}
       {catalog && (
         <>
           {!run && (
-            <div className="practice-tabs" aria-label="Game skill">
+            <div
+              className="segmented game-tracks"
+              role="group"
+              aria-label="Game skill"
+            >
               {(["listening", "speaking"] as const).map((value) => (
                 <button
                   key={value}
-                  className={track === value ? "primary" : "secondary"}
                   disabled={frozen}
                   aria-pressed={track === value}
                   onClick={() => {
@@ -306,7 +323,7 @@ export default function GamesPage() {
           )}
           {kind && (
             <button
-              className="secondary"
+              className="back-link game-back"
               disabled={frozen}
               onClick={() => {
                 leaveRun();
@@ -332,24 +349,45 @@ export default function GamesPage() {
                       setSource("all");
                     }}
                   >
-                    <small>{value.track}</small>
+                    <small
+                      className={
+                        "badge " + (value.track === "listening" ? "speak" : "")
+                      }
+                    >
+                      {value.track === "listening" ? "Listening" : "Speaking"}
+                    </small>
                     <h2>{value.label}</h2>
                     <p>{value.description}</p>
-                    <span>
-                      Unlocked to Level{" "}
-                      {catalog.modeProgress?.[value.kind]?.level ??
-                        catalog.progress[value.track].level}
-                    </span>
+                    {(() => {
+                      const reached =
+                        catalog.modeProgress?.[value.kind]?.level ??
+                        catalog.progress[value.track].level;
+                      return (
+                        <>
+                          <span className="game-level">
+                            Level {reached} of 10
+                          </span>
+                          <span className="meter" aria-hidden="true">
+                            <span style={{ width: `${reached * 10}%` }} />
+                          </span>
+                          <span className="game-play">Play →</span>
+                        </>
+                      );
+                    })()}
                   </button>
                 ))}
             </div>
           ) : (
             <>
-              <h2>{mode!.label}</h2>
+              <div className="section-head game-mode-head">
+                <h2>{mode!.label}</h2>
+              </div>
+              <DifficultyGuide />
+              {kind === "gap-fill" && <GapFillResources />}
               {run ? (
                 <>
                   <button
-                    className="secondary"
+                    className="link-button"
                     disabled={frozen}
                     onClick={() => void refreshRun()}
                   >
@@ -359,7 +397,7 @@ export default function GamesPage() {
                     <LevelResult
                       run={run}
                       busy={starting}
-                      onRetry={() => void startRun(run.level)}
+                      onRetry={() => void startRun(run.level, true)}
                       onNext={() => {
                         if (run.nextLevel) void startRun(run.nextLevel, true);
                       }}
@@ -381,12 +419,11 @@ export default function GamesPage() {
                         onLocked={setLocked}
                         onExpired={expire}
                         onLeave={leaveRun}
-                        onContinue={() =>
-                          void refreshRun().then((saved) => {
-                            if (saved && !saved.completed)
-                              setQuestion(saved.receipts.length);
-                          })
-                        }
+                        onContinue={async () => {
+                          const saved = await refreshRun();
+                          if (saved && !saved.completed)
+                            setQuestion(saved.receipts.length);
+                        }}
                       />
                     </>
                   )}

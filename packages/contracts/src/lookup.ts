@@ -191,6 +191,8 @@ export {
 export {
   gameSubmissionSchema,
   gameModes,
+  gameDifficulty,
+  gameDifficultyBands,
   gameLevelStartSchema,
   type GameLevelStart,
   type GameLevelRun,
@@ -202,6 +204,7 @@ export {
   type GameCatalog,
   type GameSubmission,
   type GameReceipt,
+  type GapFillFeedback,
 } from "./games";
 
 export type { LearningProgress, SkillProgress } from "./progress";

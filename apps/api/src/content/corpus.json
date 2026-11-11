@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "reviewedAt": "2026-11-09",
+  "reviewedAt": "2026-11-11",
   "sources": [
     {
       "id": "tatoeba-12335770",
@@ -301,6 +301,50 @@
       "license": "CC-BY-3.0",
       "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
       "fetchUrl": "https://raw.githubusercontent.com/global-asp/asp-source/b5c3d5b2266ad936e5f20fa878e839b32b02b4ba/en/0124_a-fish-and-a-gift.md"
+    },
+    {
+      "id": "voa-writing-ai-7498850",
+      "provider": "VOA Learning English",
+      "title": "How International Students Should Think about Writing, AI",
+      "url": "https://learningenglish.voanews.com/a/how-international-students-should-think-about-writing-ai/7498850.html",
+      "author": "Dan Friedell",
+      "license": "Public-domain-VOA",
+      "licenseUrl": "https://learningenglish.voanews.com/p/6861.html",
+      "fetchUrl": "https://learningenglish.voanews.com/a/how-international-students-should-think-about-writing-ai/7498850.html",
+      "publishedAt": "2024-02-24"
+    },
+    {
+      "id": "voa-ancient-ai-6488034",
+      "provider": "VOA Learning English",
+      "title": "AI Used to Fill in Missing Words in Ancient Writings",
+      "url": "https://learningenglish.voanews.com/a/ai-used-to-fill-in-missing-words-in-ancient-writings/6488034.html",
+      "fetchUrl": "https://learningenglish.voanews.com/a/ai-used-to-fill-in-missing-words-in-ancient-writings/6488034.html",
+      "author": "Bryan Lynn",
+      "publishedAt": "2022-03-16",
+      "license": "Public-domain-VOA",
+      "licenseUrl": "https://learningenglish.voanews.com/p/6861.html"
+    },
+    {
+      "id": "voa-worker-ai-7296498",
+      "provider": "VOA Learning English",
+      "title": "Study Finds AI Tools Help but also Hurt Worker Performance",
+      "url": "https://learningenglish.voanews.com/a/study-finds-ai-tools-help-but-also-hurt-worker-performance/7296498.html/",
+      "fetchUrl": "https://learningenglish.voanews.com/a/study-finds-ai-tools-help-but-also-hurt-worker-performance/7296498.html/",
+      "author": "Bryan Lynn",
+      "publishedAt": "2023-10-04",
+      "license": "Public-domain-VOA",
+      "licenseUrl": "https://learningenglish.voanews.com/p/6861.html"
+    },
+    {
+      "id": "voa-carbon-fuel-5090884",
+      "provider": "VOA Learning English",
+      "title": "Researchers Find Way to Turn Carbon Dioxide into Valuable Fuel",
+      "url": "https://learningenglish.voanews.com/a/researchers-find-way-to-turn-carbon-dioxide-into-valuable-fuel/5090884.html",
+      "fetchUrl": "https://learningenglish.voanews.com/a/researchers-find-way-to-turn-carbon-dioxide-into-valuable-fuel/5090884.html",
+      "author": "Bryan Lynn",
+      "publishedAt": "2019-09-22",
+      "license": "Public-domain-VOA",
+      "licenseUrl": "https://learningenglish.voanews.com/p/6861.html"
     }
   ],
   "excerpts": [
@@ -735,6 +779,186 @@
       "topic": "story",
       "question": "Retell how the father finds a gift. Explain why an inexpensive gift can matter more than an expensive one.",
       "sha256": "17471c174e91bb009446fc35571a5a17badc2bae2404cee1ca2b03a105d2848d"
+    },
+    {
+      "id": "voa-news-academic-writing",
+      "sourceId": "voa-writing-ai-7498850",
+      "text": "Students must learn academic writing and research methods when moving from high school to college.",
+      "level": 1,
+      "topic": "News · education",
+      "question": "Which skills do students develop when starting college?",
+      "sha256": "96a10784a82d8123f1a232421900a8bc46a7b758365030bd771b4dd092bd01fa",
+      "gapTemplate": "Students must learn [academic] writing and [research] methods when moving from high school to college."
+    },
+    {
+      "id": "voa-news-writing-tools",
+      "sourceId": "voa-writing-ai-7498850",
+      "text": "These tools can change their grammar or make their writing easier to understand.",
+      "level": 3,
+      "topic": "News · education",
+      "question": "How can writing tools help a learner, and what should the learner still practise?",
+      "sha256": "7cf289b71b29551786099496680b837e64872015b72851bfea9051d6843d7553",
+      "gapTemplate": "These [tools] can change their [grammar] or make their writing easier to [understand]."
+    },
+    {
+      "id": "voa-news-research-sources",
+      "sourceId": "voa-writing-ai-7498850",
+      "text": "The computer tool permits students to carry out research online and collects all of the source material necessary.",
+      "level": 5,
+      "topic": "News · education",
+      "question": "Describe one advantage of using a tool to organise research sources.",
+      "sha256": "e7b573b56e223828c7754fd8a5e758559388d7052b21d82d643fd7f3aca10acc",
+      "gapTemplate": "The computer tool [permits] students to carry out [research] online and collects all of the [source] [material] necessary."
+    },
+    {
+      "id": "voa-news-advanced-degrees",
+      "sourceId": "voa-writing-ai-7498850",
+      "text": "As experienced students move on to higher degrees, they continue learning how to do research and to write for academic publications.",
+      "level": 7,
+      "topic": "News · education",
+      "question": "How does academic work change as students advance in their studies?",
+      "sha256": "0c7f525780d584db079dac69fa68dc0916eb55cc0d19682b80780e82cb291028",
+      "gapTemplate": "As [experienced] students move on to higher [degrees], they continue learning how to do [research] and to write for [academic] [publications]."
+    },
+    {
+      "id": "voa-news-discovery",
+      "sourceId": "voa-writing-ai-7498850",
+      "text": "They hope that they can make a discovery or create a new idea and be published in a journal.",
+      "level": 9,
+      "topic": "News · education",
+      "question": "What might motivate a researcher to publish their work?",
+      "sha256": "85b3793dfe0fc50570aeab3d07cb5a7e4e6629a3ba4ac6c793d8de01b4b1188d",
+      "gapTemplate": "They [hope] that they can make a [discovery] or [create] a [new] idea and be [published] in a [journal]."
+    },
+    {
+      "id": "voa-news-source-evaluation",
+      "sourceId": "voa-writing-ai-7498850",
+      "text": "On the one hand, they permit students to easily create a source list. On the other hand, they can prevent students from finding or understanding the best sources for a project.",
+      "level": 10,
+      "topic": "News · education",
+      "question": "Explain the trade-off between convenient citation tools and evaluating sources yourself.",
+      "sha256": "0fe330e34d6789c2fc5649643003b291e0ca45c7db7e83dc6492ec8169faf645",
+      "gapTemplate": "On the one hand, they [permit] students to easily [create] a [source] list. On the other hand, they can [prevent] students from finding or [understanding] the best [sources] for a project."
+    },
+    {
+      "id": "voa-news-historians",
+      "sourceId": "voa-ancient-ai-6488034",
+      "text": "The system is designed to help historians restore the writings and identify when and where they were written.",
+      "level": 2,
+      "topic": "News · technology",
+      "question": "How could technology help historians in their work?",
+      "sha256": "a9bc8fd75438b212454719638e887a278c1bc90b8c52ba3340676a51a8f6ab5e",
+      "gapTemplate": "The system is designed to help [historians] [restore] the writings and identify when and where they were written."
+    },
+    {
+      "id": "voa-news-societies",
+      "sourceId": "voa-ancient-ai-6488034",
+      "text": "The writings often contained valuable information about how ancient people lived and how they structured their societies.",
+      "level": 4,
+      "topic": "News · technology",
+      "question": "What could an ancient inscription tell us about a society?",
+      "sha256": "b6f0ad32de64e00f1e24efd659a0adfec48f2dd60b4190915cf62eb4041afc41",
+      "gapTemplate": "The writings often contained [valuable] information about how ancient people lived and how they [structured] their [societies]."
+    },
+    {
+      "id": "voa-news-inscriptions",
+      "sourceId": "voa-ancient-ai-6488034",
+      "text": "The new AI-based method serves as a technological tool to help researchers repair missing inscriptions and estimate the true origins of the records.",
+      "level": 6,
+      "topic": "News · technology",
+      "question": "Why should historians evaluate both an inscription and its origin?",
+      "sha256": "7d0d25426b5011957764440f429754187c14944f7167809885cfb1a05c491260",
+      "gapTemplate": "The new AI-based method serves as a [technological] tool to help researchers [repair] missing [inscriptions] and estimate the true [origins] of the records."
+    },
+    {
+      "id": "voa-news-materials",
+      "sourceId": "voa-ancient-ai-6488034",
+      "text": "Many ancient populations used writings, also known as inscriptions, to document different parts of their lives. The inscriptions have been found on materials such as rock, ceramic and metal.",
+      "level": 8,
+      "topic": "News · technology",
+      "question": "How might the material affect how well a written record survives?",
+      "sha256": "8944fa5da059b659ed365dc78331a244a9ba678174a7bbfa3abd9a34ba2e4bdc",
+      "gapTemplate": "Many [ancient] [populations] used writings, also known as [inscriptions], to [document] different parts of their lives. The inscriptions have been found on materials such as rock, [ceramic] and metal."
+    },
+    {
+      "id": "voa-news-consultants",
+      "sourceId": "voa-worker-ai-7296498",
+      "text": "It involved more than 700 business advisors, called consultants, from Massachusetts-based Boston Consulting Group.",
+      "level": 2,
+      "topic": "News · work",
+      "question": "What could consultants contribute to a workplace technology study?",
+      "sha256": "f0968927ccd31cfef8b1cd79cac4dddd521898659f950eacd3865d407682cc2a",
+      "gapTemplate": "It involved more than 700 business [advisors], called [consultants], from Massachusetts-based Boston Consulting Group."
+    },
+    {
+      "id": "voa-news-analytical",
+      "sourceId": "voa-worker-ai-7296498",
+      "text": "Work tasks used in the study covered four main areas: creativity, analytical thinking, writing and persuasiveness.",
+      "level": 4,
+      "topic": "News · work",
+      "question": "Which of these workplace skills would you most like to improve, and why?",
+      "sha256": "30236a3e56e3df11989ce2f042272e225199cc489ffd5d8bb3237c0cceea64a4",
+      "gapTemplate": "Work tasks used in the study covered four main areas: [creativity], [analytical] thinking, writing and [persuasiveness]."
+    },
+    {
+      "id": "voa-news-performance",
+      "sourceId": "voa-worker-ai-7296498",
+      "text": "However, the paper also noted areas where the performance of consultants using ChatGPT 4 dropped. The researchers said this was especially true with tasks the AI tool was not good at completing.",
+      "level": 6,
+      "topic": "News · work",
+      "question": "How could a team decide whether a task is suitable for automation?",
+      "sha256": "7223a8a610c516781048dd0432789f0fd71fc6fe92b248b570ca373fd16534c9",
+      "gapTemplate": "However, the paper also noted areas where the [performance] of [consultants] using ChatGPT 4 [dropped]. The [researchers] said this was especially true with tasks the AI tool was not good at completing."
+    },
+    {
+      "id": "voa-news-barriers",
+      "sourceId": "voa-worker-ai-7296498",
+      "text": "The team suggests one of the biggest barriers to companies effectively using AI is not knowing which tasks can be completed best with the technology.",
+      "level": 8,
+      "topic": "News · work",
+      "question": "What evidence should a company collect before relying on an AI system?",
+      "sha256": "ba63fcd3ab4fdf5f0483cbed2f1c88ac91f2ea7f0261fc37d4e48eb8c6fb3bc5",
+      "gapTemplate": "The team suggests one of the biggest [barriers] to companies [effectively] using AI is not [knowing] which [tasks] can be [completed] best with the technology."
+    },
+    {
+      "id": "voa-news-climate",
+      "sourceId": "voa-carbon-fuel-5090884",
+      "text": "Scientists blame greenhouse gases for being a major cause of climate change around the world.",
+      "level": 2,
+      "topic": "News · environment",
+      "question": "How would you explain the role of greenhouse gases in simple terms?",
+      "sha256": "de44ebf958ec88daecc0c8c8c77a7d0ae2f89f6dc2bf676522d5216fc41d174b",
+      "gapTemplate": "Scientists blame [greenhouse] gases for being a major cause of [climate] change around the world."
+    },
+    {
+      "id": "voa-news-transportation",
+      "sourceId": "voa-carbon-fuel-5090884",
+      "text": "Most of this heat-trapping gas is produced through human activities related to burning fossil fuels for electricity, heat and transportation. Several major industries have attempted to move away from fossil fuels in favor of cleaner energy solutions.",
+      "level": 4,
+      "topic": "News · environment",
+      "question": "What changes could help a city reduce its dependence on fossil fuels?",
+      "sha256": "a7cb759d15c3996e6a14fc7923bcb75442e3e3c54e61741ad19dadff8fe34d65",
+      "gapTemplate": "Most of this heat-trapping gas is produced through human activities related to burning [fossil] fuels for electricity, heat and [transportation]. Several major industries have attempted to move away from fossil fuels in favor of [cleaner] energy solutions."
+    },
+    {
+      "id": "voa-news-reactor",
+      "sourceId": "voa-carbon-fuel-5090884",
+      "text": "The researchers created a device, called a reactor, that converts carbon dioxide into a pure form of formic acid.",
+      "level": 6,
+      "topic": "News · environment",
+      "question": "Why might converting a waste product into a useful material be valuable?",
+      "sha256": "6364c8cb4c2b622ea3eef76374fb0aa8522f099125f9c87e8f18cf1f06140c4f",
+      "gapTemplate": "The researchers created a device, called a [reactor], that [converts] carbon dioxide into a [pure] form of formic [acid]."
+    },
+    {
+      "id": "voa-news-purification",
+      "sourceId": "voa-carbon-fuel-5090884",
+      "text": "Other methods for turning carbon dioxide into formic acid require intense purification processes, Wang said. Such methods are very costly and require a lot of energy.",
+      "level": 8,
+      "topic": "News · environment",
+      "question": "What trade-offs should researchers consider when developing cleaner production methods?",
+      "sha256": "5ece1b32a723f9142da77fa6a3ae4dfabc0e2923a733c27dc2fdcfbfb0fba5f0",
+      "gapTemplate": "Other [methods] for turning carbon dioxide into formic acid require intense [purification] [processes], Wang said. Such methods are very [costly] and require a lot of [energy]."
     }
   ]
 }
