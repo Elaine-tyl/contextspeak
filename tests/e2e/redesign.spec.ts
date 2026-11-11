@@ -86,10 +86,14 @@ test("phone navigation keeps the brand and all sections reachable without page o
   ).toBe(true);
 });
 
-for (const width of [320, 375]) {
-  test(`library and vocabulary controls fit a ${width}px phone`, async ({
+for (const { width, fontSize } of [
+  { width: 320 },
+  { width: 375 },
+  { width: 320, fontSize: 20 },
+]) {
+  test(`library and vocabulary controls fit a ${width}px phone${fontSize ? " with enlarged text" : ""}`, async ({
     page,
-  }) => {
+  }, info) => {
     await page.setViewportSize({ width, height: 812 });
     await prepareLibrary(page);
     await expect(page.getByLabel("Search library")).toBeVisible();
@@ -118,6 +122,10 @@ for (const width of [320, 375]) {
       }),
     );
     await page.goto("http://127.0.0.1:3000/library/item/item-1");
+    if (fontSize)
+      await page.addStyleTag({
+        content: `.vocabulary-detail .detail-actions > * { font-size: ${fontSize}px; }`,
+      });
     const practice = page.getByRole("link", {
       name: "Practice listening and speaking",
       exact: true,
@@ -131,5 +139,19 @@ for (const width of [320, 375]) {
     const bounds = await practice.boundingBox();
     expect(bounds!.x).toBeGreaterThanOrEqual(0);
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(width);
+    const parent = await practice.locator("..").boundingBox();
+    expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(
+      parent!.x + parent!.width,
+    );
+    expect(
+      await practice.evaluate(
+        (element) => element.scrollWidth <= element.clientWidth,
+      ),
+    ).toBe(true);
+    if (fontSize)
+      await page.screenshot({
+        path: info.outputPath("vocabulary-actions-mobile.png"),
+        fullPage: true,
+      });
   });
 }

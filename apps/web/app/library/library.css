@@ -764,3 +764,11 @@ blockquote {
 .vocabulary-detail .detail-actions {
   margin: 16px 0 16px;
 }
+/* Long actions must fit their card with narrow screens and larger text. */
+.vocabulary-detail .detail-actions > * {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
