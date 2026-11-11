@@ -16,6 +16,14 @@ concurrency:
 jobs:
   checks:
     runs-on: ubuntu-24.04
+    container:
+      # Match @playwright/test in package.json; includes browsers, fonts and OS libraries.
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d
+      options: --ipc=host
+    defaults:
+      run:
+        # Embedded PostgreSQL requires a named, non-root operating-system user.
+        shell: runuser -u pwuser --preserve-environment -- bash --noprofile --norc -e -o pipefail {0}
     timeout-minutes: 20
     env:
       CI: "true"
@@ -27,10 +35,16 @@ jobs:
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: "24.22.1"
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: "3.12"
       - uses: pnpm/action-setup@f40ffcd9367d9f12939873eb1018b921a783ffaa # v4
         with:
           version: "11.25.0"
           run_install: false
+      - name: Prepare writable test workspace
+        shell: bash
+        run: chown -R pwuser:pwuser "$GITHUB_WORKSPACE" "$HOME"
       - name: Install locked dependencies
         run: pnpm install --frozen-lockfile
       - name: Generate database client
@@ -47,20 +61,6 @@ jobs:
         run: pnpm test
       - name: Build extension
         run: pnpm build:extension
-      - name: Install Chromium and Linux dependencies
-        timeout-minutes: 5
-        run: |
-          # Retry transient mirror errors without consuming the whole job timeout.
-          sudo tee /etc/apt/apt.conf.d/80-ci-network >/dev/null <<'APT'
-          Acquire::Retries "2";
-          Acquire::http::Timeout "15";
-          Acquire::https::Timeout "15";
-          APT
-          # Keep the runner's Azure mirror; use HTTPS without redirecting to another host.
-          if [ -f /etc/apt/apt-mirrors.txt ]; then
-            sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://azure.archive.ubuntu.com/ubuntu|g' /etc/apt/apt-mirrors.txt
-          fi
-          pnpm exec playwright install --with-deps chromium
       # Default browser tests use simulated login and translation fixtures only.
       - name: Capture and library browser tests
         run: pnpm exec playwright test
