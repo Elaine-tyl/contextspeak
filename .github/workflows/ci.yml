@@ -56,9 +56,9 @@ jobs:
           Acquire::http::Timeout "15";
           Acquire::https::Timeout "15";
           APT
-          # Avoid the hosted runner's HTTP Azure mirror timing out before tests.
+          # Keep the runner's Azure mirror; use HTTPS without redirecting to another host.
           if [ -f /etc/apt/apt-mirrors.txt ]; then
-            sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://archive.ubuntu.com/ubuntu|g' /etc/apt/apt-mirrors.txt
+            sudo sed -i 's|http://azure.archive.ubuntu.com/ubuntu|https://azure.archive.ubuntu.com/ubuntu|g' /etc/apt/apt-mirrors.txt
           fi
           pnpm exec playwright install --with-deps chromium
       # Default browser tests use simulated login and translation fixtures only.
