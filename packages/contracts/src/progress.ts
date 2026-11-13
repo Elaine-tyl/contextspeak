@@ -1,5 +1,5 @@
 import type { Personalization } from "./personalization";
-import type { GameKind } from "./games";
+import type { GameKind, GameTrack } from "./games";
 export type SkillProgress = {
   scored: number;
   average: number | null;
@@ -25,7 +25,7 @@ export type LearningProgress = {
   games: {
     kind: GameKind;
     label: string;
-    track: "listening" | "speaking";
+    track: GameTrack;
     level: number;
   }[];
 };

@@ -89,3 +89,22 @@ answers and criteria stay unchanged in archived runs. The underlying corpus and
 licenses are unchanged. New selection omits the shorter foundational tasks rather
 than relabelling a one-word exercise as intermediate or advanced. Retry from an
 archived-only source uses current content, with a visible earlier-edition notice.
+
+### Reading game packs (12 November 2026)
+
+The reading game now includes 15 original comprehension questions built around
+five credited texts: the complete *A very tall man* story (Cornelius Gulere,
+African Storybook, CC BY 3.0), and selected excerpts from the four already-reviewed
+VOA science/education reports. The news packs are joined excerpts, not complete
+articles or current-news updates. Original publication dates remain visible.
+
+The complete story was downloaded from the pinned Global Storybooks source above;
+its author and explicit CC BY 3.0 declaration were checked against the collection
+license index. Its text and SHA-256 are committed in `corpus.json`, so the existing
+`pnpm content:verify --online` command also verifies it. No illustrations or
+third-party news-agency media were copied. Questions and distractors are written
+by ContextSpeak; these are practice levels, not official IELTS examinations.
+
+Reading packs appear at levels 1, 3, 5, 7 and 9. Every mode still has original
+questions at all ten levels; choose All sources to include them. Text games need
+neither speech-generation quota nor a live content-provider connection.

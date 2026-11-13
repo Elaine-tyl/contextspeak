@@ -394,14 +394,6 @@ label {
   color: var(--tone-text, var(--brand));
   font-weight: 650;
 }
-.app-nav-footer {
-  margin-top: auto;
-  padding: 16px 12px 0;
-  border-top: 1px solid var(--border);
-  color: var(--text-subtle);
-  font-size: 0.8125rem;
-  line-height: 1.5;
-}
 .app-main {
   flex: 1;
   min-width: 0;
@@ -557,9 +549,6 @@ label {
   .app-nav-link[aria-current="page"] {
     background: transparent;
     border-bottom-color: var(--tone, var(--brand));
-  }
-  .app-nav-footer {
-    display: none;
   }
   .page {
     padding: 20px 16px 48px;

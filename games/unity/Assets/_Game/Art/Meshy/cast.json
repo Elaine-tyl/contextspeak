@@ -1,0 +1,326 @@
+{
+  "actors": [
+    {
+      "world": "ForestCafe",
+      "id": "Maya",
+      "model": "MaidHall"
+    },
+    {
+      "world": "ForestCafe",
+      "id": "Alex",
+      "model": "Elliot"
+    },
+    {
+      "world": "LifeTown",
+      "id": "mom",
+      "model": "BlueLace"
+    },
+    {
+      "world": "LifeTown",
+      "id": "sam",
+      "model": "Rose"
+    },
+    {
+      "world": "LifeTown",
+      "id": "maya",
+      "model": "MaidHall"
+    },
+    {
+      "world": "LifeTown",
+      "id": "alex",
+      "model": "Elliot"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Rowan",
+      "model": "MaidStone"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Hazel",
+      "model": "TrenchElder"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Chef Theo",
+      "model": "Ali"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "school",
+      "model": "UrbanTrench"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "home",
+      "model": "Elliot"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "market",
+      "model": "Rose"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "restaurant",
+      "model": "BlueLace"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "japan",
+      "model": "OpenArms"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "park",
+      "model": "SoccerCaptain"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "mall",
+      "model": "PeachGala"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "cafe",
+      "model": "MaidHall"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "fishing",
+      "model": "OldCardigan"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Customer 1",
+      "model": "Urban"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Customer 2",
+      "model": "Autumn"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Customer 3",
+      "model": "Executive"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Customer 4",
+      "model": "Plaid"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Customer 5",
+      "model": "AnimeDetective"
+    },
+    {
+      "world": "ForestSlice",
+      "id": "Customer 6",
+      "model": "Adrian"
+    }
+  ],
+  "residents": [
+    {
+      "id": "fishing:Archeologist",
+      "model": "Archeologist",
+      "name": "Robin",
+      "role": "Outdoor guide",
+      "x": 43,
+      "z": 8
+    },
+    {
+      "id": "school:Schoolgirl",
+      "model": "Schoolgirl",
+      "name": "Nora",
+      "role": "Student",
+      "x": -53,
+      "z": 49
+    },
+    {
+      "id": "school:Amael",
+      "model": "Amael",
+      "name": "Noah",
+      "role": "Student",
+      "x": -43,
+      "z": 49
+    },
+    {
+      "id": "school:ConfidentBoy",
+      "model": "ConfidentBoy",
+      "name": "Leo",
+      "role": "Visiting student",
+      "x": -43,
+      "z": 43
+    },
+    {
+      "id": "home:Contemplation",
+      "model": "Contemplation",
+      "name": "Ivy",
+      "role": "Neighbour taking a break",
+      "x": -36,
+      "z": 33
+    },
+    {
+      "id": "park:Dawn",
+      "model": "Dawn",
+      "name": "Luna",
+      "role": "Festival performer",
+      "x": 14,
+      "z": 64
+    },
+    {
+      "id": "park:Hooded",
+      "model": "Hooded",
+      "name": "Ash",
+      "role": "Festival guide",
+      "x": -20,
+      "z": 64
+    },
+    {
+      "id": "restaurant:MidnightLace",
+      "model": "MidnightLace",
+      "name": "Celeste",
+      "role": "Restaurant guest",
+      "x": -43,
+      "z": 30
+    },
+    {
+      "id": "home:QuietMorning",
+      "model": "QuietMorning",
+      "name": "Grace",
+      "role": "Neighbour",
+      "x": -40,
+      "z": -37
+    },
+    {
+      "id": "school:SchoolgirlCasual",
+      "model": "SchoolgirlCasual",
+      "name": "Chloe",
+      "role": "Student",
+      "x": -53,
+      "z": 43
+    },
+    {
+      "id": "park:SkateboardBoy",
+      "model": "SkateboardBoy",
+      "name": "Kai",
+      "role": "Skateboarder",
+      "x": -8,
+      "z": 62
+    },
+    {
+      "id": "park:SkaterBoy",
+      "model": "SkaterBoy",
+      "name": "Jay",
+      "role": "Skater",
+      "x": 10,
+      "z": 62
+    },
+    {
+      "id": "park:SmilingBoy",
+      "model": "SmilingBoy",
+      "name": "Ben",
+      "role": "Park visitor",
+      "x": 8,
+      "z": 71
+    },
+    {
+      "id": "restaurant:WhispersPiano",
+      "model": "WhispersPiano",
+      "name": "Clara",
+      "role": "Restaurant pianist on a break",
+      "x": -48,
+      "z": 32
+    },
+    {
+      "id": "mall:VirtualGuide",
+      "model": "VirtualGuide",
+      "name": "Sofia",
+      "role": "Local guide",
+      "x": 18,
+      "z": -55
+    },
+    {
+      "id": "home:DrRavi",
+      "model": "DrRavi",
+      "name": "Ravi",
+      "role": "Doctor off duty",
+      "x": -61,
+      "z": -38
+    },
+    {
+      "id": "school:ProfessorReed",
+      "model": "ProfessorReed",
+      "name": "Reed",
+      "role": "Science teacher",
+      "x": -61,
+      "z": 50
+    },
+    {
+      "id": "park:OfficerJames",
+      "model": "OfficerJames",
+      "name": "James",
+      "role": "Community officer",
+      "x": 22,
+      "z": 59
+    },
+    {
+      "id": "home:DrMorgan",
+      "model": "DrMorgan",
+      "name": "Morgan",
+      "role": "Neighbour and doctor",
+      "x": -34,
+      "z": -31
+    },
+    {
+      "id": "home:DrChen",
+      "model": "DrChen",
+      "name": "Chen",
+      "role": "Doctor visiting family",
+      "x": -61,
+      "z": -30
+    },
+    {
+      "id": "home:NurseLily",
+      "model": "NurseLily",
+      "name": "Lily",
+      "role": "Nurse off duty",
+      "x": -61,
+      "z": -22
+    },
+    {
+      "id": "mall:Secretary",
+      "model": "Secretary",
+      "name": "Avery",
+      "role": "Office assistant",
+      "x": 20,
+      "z": -62
+    },
+    {
+      "id": "park:OfficerMason",
+      "model": "OfficerMason",
+      "name": "Mason",
+      "role": "Neighbourhood officer",
+      "x": -23,
+      "z": 68
+    },
+    {
+      "id": "home:OfficerTaylor",
+      "model": "OfficerTaylor",
+      "name": "Taylor",
+      "role": "Community safety volunteer",
+      "x": -62,
+      "z": 5
+    },
+    {
+      "id": "mall:Rider",
+      "model": "Rider",
+      "name": "Casey",
+      "role": "Motorcyclist",
+      "x": 35,
+      "z": -57
+    }
+  ]
+}

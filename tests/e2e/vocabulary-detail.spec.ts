@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-test("card_click_opens_full_details_and_buttons_keep_their_actions", async ({
+test("library_list_rows_open_full_details_and_keep_review_actions", async ({
   page,
 }, testInfo) => {
   const text =
@@ -37,7 +37,21 @@ test("card_click_opens_full_details_and_buttons_keep_their_actions", async ({
     if (path === "/auth/session")
       data = { csrfToken: "fixture", identity: { subject: "learner" } };
     if (path === "/v1/settings") data = { enabled: true, excludedOrigins: [] };
-    if (path === "/v1/lookups") data = { items: [lookup], nextCursor: null };
+    if (path === "/v1/lookups")
+      data = {
+        items: [
+          lookup,
+          {
+            ...lookup,
+            id: "lookup-2",
+            candidateId: "item-2",
+            text: "available",
+            meaning: "有空的，可用的",
+            context: "available",
+          },
+        ],
+        nextCursor: null,
+      };
     if (path === "/v1/learning-items")
       data = { items: [item], nextCursor: null };
     if (path === "/v1/learning-items/item-1") data = { item, lookup };
@@ -48,15 +62,41 @@ test("card_click_opens_full_details_and_buttons_keep_their_actions", async ({
     await route.fulfill({ json: data });
   });
   await page.goto("http://127.0.0.1:3000/library");
-  const card = page.getByTestId("lookup-card");
-  await expect(card).toHaveCount(1);
+  const cards = page.getByTestId("lookup-card");
+  await expect(cards).toHaveCount(2);
+  const card = cards.first();
+  const list = page.getByRole("list", { name: "Recent lookups", exact: true });
+  await expect(list.getByRole("listitem")).toHaveCount(2);
+  const firstRow = (await card.boundingBox())!;
+  const secondRow = (await cards.nth(1).boundingBox())!;
+  expect(firstRow.width).toBe((await list.boundingBox())!.width - 2);
+  // Animated ancestors can introduce subpixel rounding between consecutive reads.
+  expect(secondRow.y).toBeGreaterThanOrEqual(firstRow.y + firstRow.height - 1);
+  expect(firstRow.height).toBeLessThanOrEqual(80);
   expect(
     (await card.getByRole("heading").boundingBox())!.height,
   ).toBeLessThanOrEqual(22);
-  await card.getByText("Show details", { exact: true }).click();
-  await expect(card.locator("details")).toHaveAttribute("open", "");
-  await expect(page).toHaveURL(/\/library$/);
-  await card.getByText("Hide details", { exact: true }).click();
+  expect((await card.boundingBox())!.height).toBeLessThanOrEqual(140);
+  await expect(card.locator("details")).toHaveCount(0);
+  await expect(
+    card.getByText("A traveller asks for directions.", { exact: true }),
+  ).toHaveCount(0);
+  expect((await card.boundingBox())!.height).toBe(
+    (await cards.nth(1).boundingBox())!.height,
+  );
+  await page
+    .locator(".vocabulary-list")
+    .first()
+    .screenshot({ path: "/private/tmp/contextspeak-vocabulary-list.png" });
+  await page.setViewportSize({ width: 390, height: 844 });
+  expect((await card.boundingBox())!.height).toBe(
+    (await cards.nth(1).boundingBox())!.height,
+  );
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
   await card.click({ position: { x: 5, y: 5 } });
   await expect(page).toHaveURL(/\/library\/item\/item-1\?lookup=lookup-1$/);
   await expect(

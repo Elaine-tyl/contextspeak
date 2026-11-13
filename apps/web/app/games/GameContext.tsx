@@ -21,7 +21,13 @@ export function EditionNotice({ archived }: { archived?: boolean }) {
   );
 }
 
-export function GameSourceCredit({ source }: { source: GameRound["source"] }) {
+export function GameSourceCredit({
+  source,
+  hasAudio = true,
+}: {
+  source: GameRound["source"];
+  hasAudio?: boolean;
+}) {
   if (!source) return null;
   return (
     <p className="game-source-credit">
@@ -38,8 +44,9 @@ export function GameSourceCredit({ source }: { source: GameRound["source"] }) {
         {source.license}
       </a>
       <small>
-        Excerpt with whitespace normalised; exercise questions by ContextSpeak.
-        Audio is AI-generated.
+        Selected excerpts with whitespace normalised; exercise questions by
+        ContextSpeak.
+        {hasAudio && " Audio is AI-generated."}
       </small>
     </p>
   );

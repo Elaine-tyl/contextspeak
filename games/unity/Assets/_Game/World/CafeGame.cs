@@ -67,7 +67,7 @@ namespace ContextSpeak.Cafe
         private void Update()
         {
             if (Player.Controls.Cancel && dialogue) Close();
-            if (!dialogue && !working && Player.Controls.Interact && Near() != "") Open();
+            if (!dialogue && !working && (Player.Controls.Interact || Player.Controls.Talk) && Near() != "") Open();
             if (Time.unscaledTime >= nextReport)
             {
                 nextReport = Time.unscaledTime + 0.15f;
@@ -277,6 +277,7 @@ namespace ContextSpeak.Cafe
                 case "stage": if (command.text == "counter" || command.text == "friend" || command.text == "continue") SelectStage(command.text); break;
                 case "interact": if (!dialogue && Near() != "") Open(); break;
                 case "life": Close(); WorldScenes.Open("LifeTown", Fail); break;
+                case "slice": Close(); WorldScenes.Open("ForestSlice", Fail); break;
             }
         }
         private void OnApplicationFocus(bool focus)

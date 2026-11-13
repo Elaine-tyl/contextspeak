@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import {
   gameSubmissionSchema,
+  gameRequiresAudio,
   type GameRound,
   type GameSubmission,
   type GameReceipt,
@@ -31,13 +32,22 @@ export function useGameRound({
   onContinue,
   levelSessionId,
 }: GameRoundProps) {
-  const speech = usePracticeSpeech(token, round.audioText, "en");
+  const speech = usePracticeSpeech(
+    token,
+    round.audioText,
+    "en",
+    !!round.recall,
+  );
   const recording = useLocalRecording();
   const [response, setResponse] = useState("");
   const [choice, setChoice] = useState("");
   const [gapAnswers, setGapAnswers] = useState(() =>
-    Array<string>(Math.max(0, (round.gapText?.length ?? 1) - 1)).fill(""),
+    Array<string>(
+      round.crossword?.length ?? Math.max(0, (round.gapText?.length ?? 1) - 1),
+    ).fill(""),
   );
+  const [placed, setPlaced] = useState<number[]>([]);
+  const [quickStart, setQuickStart] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [advancing, setAdvancing] = useState(false);
   const [error, setError] = useState("");
@@ -47,7 +57,27 @@ export function useGameRound({
   const controller = useRef<AbortController | null>(null);
   const started = useRef(false);
   const speaking = round.track === "speaking";
-  const gapFill = round.kind === "gap-fill";
+  const requiresAudio = gameRequiresAudio(round);
+  const canAnswer =
+    (!requiresAudio || speech.completedPlays > 0) &&
+    (!round.recall || !speech.playing);
+  const gapFill =
+    round.kind === "gap-fill" ||
+    round.kind === "scene-words" ||
+    round.kind === "mini-crossword" ||
+    !!round.recall;
+  const tileKind =
+    round.kind === "spelling" ||
+    round.kind === "word-order" ||
+    round.kind === "reading-order" ||
+    round.kind === "word-scramble" ||
+    round.kind === "sentence-puzzle";
+  const quickFire = round.kind === "true-false";
+  const tileAnswer = placed
+    .map((index) => round.tiles?.[index] ?? "")
+    .join(
+      round.kind === "spelling" || round.kind === "word-scramble" ? "" : " ",
+    );
   const gapsComplete =
     gapAnswers.length > 0 && gapAnswers.every((word) => word.trim());
   const recordingBusy =
@@ -60,6 +90,10 @@ export function useGameRound({
     };
   }, []);
   useEffect(() => {
+    if (quickFire && speech.completedPlays > 0 && quickStart === null)
+      setQuickStart(Date.now());
+  }, [quickFire, speech.completedPlays, quickStart]);
+  useEffect(() => {
     if (!recording.blob || started.current) return;
     const timer = setTimeout(() => {
       started.current = true;
@@ -68,14 +102,21 @@ export function useGameRound({
     return () => clearTimeout(timer);
   }, [recording.url]);
   async function submit(blob?: Blob, override?: RoundAnswer) {
-    if (busy || result || !speech.completedPlays) return;
+    if (busy || result || !canAnswer) return;
     const answer = readRoundAnswer(
       override ??
         (gapFill
           ? { gapAnswers }
           : round.kind === "dictation"
             ? { response }
-            : { choice }),
+            : tileKind
+              ? { response: tileAnswer }
+              : quickFire && quickStart !== null
+                ? {
+                    choice,
+                    elapsedMs: Math.min(600000, Date.now() - quickStart),
+                  }
+                : { choice }),
       round,
     );
     if (!speaking && !attempt.current && !answer) return;
@@ -85,6 +126,8 @@ export function useGameRound({
     }
     if (!attempt.current && answer) {
       if ("response" in answer) setResponse(answer.response);
+      if ("elapsedMs" in answer && answer.elapsedMs !== undefined)
+        setQuickStart((start) => start ?? Date.now() - answer.elapsedMs!);
       if ("choice" in answer) setChoice(answer.choice);
       if ("gapAnswers" in answer) setGapAnswers(answer.gapAnswers);
     }
@@ -161,6 +204,8 @@ export function useGameRound({
   }
   return {
     speech,
+    requiresAudio,
+    canAnswer,
     recording,
     response,
     setResponse,
@@ -175,6 +220,12 @@ export function useGameRound({
     speaking,
     gapFill,
     gapsComplete,
+    tileKind,
+    quickFire,
+    placed,
+    setPlaced,
+    tileAnswer,
+    quickStart,
     recordingBusy,
     submit,
     nextQuestion,

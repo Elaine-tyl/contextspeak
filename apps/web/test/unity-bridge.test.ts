@@ -17,6 +17,7 @@ it("Unity's semantic form renders model text literally and preserves recording c
   let done: (bytes: Uint8Array) => void = () => {};
   const calls: unknown[] = [];
   const listeners = new Map<string, (event: any) => void>();
+  const classes = new Set<string>();
   const window: any = {
     addEventListener(type: string, listener: (event: any) => void) {
       listeners.set(type, listener);
@@ -35,7 +36,21 @@ it("Unity's semantic form renders model text literally and preserves recording c
     ),
     {
       window,
-      document: { getElementById: get, addEventListener() {} },
+      document: {
+        getElementById: get,
+        addEventListener() {},
+        body: {
+          classList: {
+            toggle(name: string, enabled: boolean) {
+              if (enabled) classes.add(name);
+              else classes.delete(name);
+            },
+          },
+        },
+      },
+      location: { href: "http://127.0.0.1:4320/unity/?world=cafe" },
+      history: { replaceState() {} },
+      URL,
       btoa: (value: string) => Buffer.from(value, "binary").toString("base64"),
     },
   );
@@ -83,4 +98,11 @@ it("Unity's semantic form renders model text literally and preserves recording c
       JSON.stringify({ generation: 7, value: "AQID" }),
     ],
   ]);
+  window.ContextSpeakUnity.state(
+    JSON.stringify({ mode: "slice", line: "Native UI owns this line" }),
+  );
+  expect(classes.has("forest-slice")).toBe(true);
+  expect(window.ContextSpeakUnity.owner).toBe("ForestCafeSlice");
+  expect(get("line").textContent).toBe("<img src=x onerror=alert(1)>");
+  expect(JSON.parse(get("unity-status").textContent).mode).toBe("slice");
 });

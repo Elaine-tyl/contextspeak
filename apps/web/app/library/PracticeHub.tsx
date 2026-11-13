@@ -160,7 +160,11 @@ export function PracticeHub({ token }: { token: string }) {
           </p>
           <div className="practice-grid">
             {items.map((item) => (
-              <article className="lookup-card practice-item" key={item.id}>
+              <article
+                className="lookup-card practice-item"
+                key={item.id}
+                data-depth
+              >
                 <h3>
                   <Link
                     href={withLibraryReturn(

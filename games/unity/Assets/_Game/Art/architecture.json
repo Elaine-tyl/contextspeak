@@ -1,0 +1,308 @@
+[
+  {
+    "id": "World0903d331e8",
+    "label": "Family home",
+    "kind": "room",
+    "scene": "home",
+    "height": 7.0,
+    "position": [0, 0, 0],
+    "yaw": 0
+  },
+  {
+    "id": "World137e0654fe",
+    "label": "Green Market",
+    "kind": "room",
+    "scene": "market",
+    "height": 6.0,
+    "position": [0, 0, 0],
+    "yaw": 0
+  },
+  {
+    "id": "World6402de282c",
+    "label": "Brick Horizon Tower",
+    "kind": "district",
+    "scene": "",
+    "height": 24,
+    "position": [105.0, 0, 0.0],
+    "yaw": 90
+  },
+  {
+    "id": "World2d0ed1f7b1",
+    "label": "Willow shopping atrium",
+    "kind": "room",
+    "scene": "mall",
+    "height": 10.0,
+    "position": [0, 0, 0],
+    "yaw": 0
+  },
+  {
+    "id": "World49b24cf6bf",
+    "label": "Gallery corner",
+    "kind": "interior",
+    "scene": "mall",
+    "height": 2.8,
+    "position": [-8, 0, -5],
+    "yaw": 180
+  },
+  {
+    "id": "World430c4074f1",
+    "label": "Chef prep kitchen",
+    "kind": "interior",
+    "scene": "japan",
+    "height": 1.0,
+    "position": [-5, 0, -4],
+    "yaw": 0
+  },
+  {
+    "id": "Worlde2fe1de289",
+    "label": "Restaurant kitchen",
+    "kind": "interior",
+    "scene": "restaurant",
+    "height": 2.1,
+    "position": [0, 0, -4.2],
+    "yaw": 0
+  },
+  {
+    "id": "World0bfc70919a",
+    "label": "Private dining nook",
+    "kind": "interior",
+    "scene": "restaurant",
+    "height": 3.0,
+    "position": [-5, 0, 2],
+    "yaw": 0
+  },
+  {
+    "id": "Worldc49ef50c4b",
+    "label": "Garden coffee kiosk",
+    "kind": "interior",
+    "scene": "market",
+    "height": 2.8,
+    "position": [-6, 0, -4],
+    "yaw": 0
+  },
+  {
+    "id": "World0bd48f3765",
+    "label": "Healthcare Clinic Exterior",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [114.694, 0, 44.433],
+    "yaw": 69
+  },
+  {
+    "id": "Worldec8ceb0ac2",
+    "label": "Forest Café",
+    "kind": "room",
+    "scene": "counter",
+    "height": 6.5,
+    "position": [0, 0, 0],
+    "yaw": 0
+  },
+  {
+    "id": "Worlda660f918d4",
+    "label": "Garden restaurant",
+    "kind": "room",
+    "scene": "restaurant",
+    "height": 6.5,
+    "position": [0, 0, 0],
+    "yaw": 0
+  },
+  {
+    "id": "Worldf4e269d0f4",
+    "label": "historic cathedral 3d",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [104.2, 0, 94.991],
+    "yaw": 48
+  },
+  {
+    "id": "World8ee8934c46",
+    "label": "Horizon Heights",
+    "kind": "district",
+    "scene": "",
+    "height": 24,
+    "position": [46.803, 0, 93.992],
+    "yaw": 26
+  },
+  {
+    "id": "World355988bb2f",
+    "label": "hospital exterior",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [11.349, 0, 122.475],
+    "yaw": 5
+  },
+  {
+    "id": "Worlda4a79d877f",
+    "label": "Sakura restaurant",
+    "kind": "room",
+    "scene": "japan",
+    "height": 9.0,
+    "position": [0, 0, 0],
+    "yaw": 0
+  },
+  {
+    "id": "World4c51a835cd",
+    "label": "Guest bedroom",
+    "kind": "interior",
+    "scene": "home",
+    "height": 2.6,
+    "position": [5.5, 0, -1],
+    "yaw": 180
+  },
+  {
+    "id": "World4e02418df0",
+    "label": "Stone kitchen",
+    "kind": "interior",
+    "scene": "japan",
+    "height": 2.4,
+    "position": [0, 0, -4.5],
+    "yaw": 0
+  },
+  {
+    "id": "Worldc397bcc62b",
+    "label": "Family lounge",
+    "kind": "interior",
+    "scene": "home",
+    "height": 1.0,
+    "position": [-4.5, 0, 0.2],
+    "yaw": 0
+  },
+  {
+    "id": "Worldd415a7bf75",
+    "label": "Low poly city apartment building GTA",
+    "kind": "district",
+    "scene": "",
+    "height": 24,
+    "position": [-38.586, 0, 135.617],
+    "yaw": -16
+  },
+  {
+    "id": "World5280fc283a",
+    "label": "modern bricks building height of 5",
+    "kind": "district",
+    "scene": "",
+    "height": 24,
+    "position": [-63.277, 0, 83.792],
+    "yaw": -37
+  },
+  {
+    "id": "Worldd4b0331077",
+    "label": "modern city building 1112224403 texture",
+    "kind": "district",
+    "scene": "",
+    "height": 24,
+    "position": [-104.577, 0, 64.751],
+    "yaw": -58
+  },
+  {
+    "id": "Worlda31e64ec45",
+    "label": "Modern Elegance House",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [-138.599, 0, 25.909],
+    "yaw": -79
+  },
+  {
+    "id": "World3cb28a4b86",
+    "label": "Modern Haven Villa",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [-103.212, 0, -19.294],
+    "yaw": -101
+  },
+  {
+    "id": "Worldd498f43d89",
+    "label": "Modern single story house 3 bedrooms 3",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [-104.577, 0, -64.751],
+    "yaw": -122
+  },
+  {
+    "id": "World8131d62c08",
+    "label": "Modern Sunset Villa",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [-84.971, 0, -112.52],
+    "yaw": -143
+  },
+  {
+    "id": "World4f4d74ae4f",
+    "label": "Rainy Night House",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [-28.735, 0, -100.992],
+    "yaw": -164
+  },
+  {
+    "id": "Worldbf34a2147b",
+    "label": "Kitchen showroom",
+    "kind": "interior",
+    "scene": "mall",
+    "height": 3.0,
+    "position": [7, 0, -4],
+    "yaw": 0
+  },
+  {
+    "id": "World784ed44e61",
+    "label": "Community academy",
+    "kind": "room",
+    "scene": "school",
+    "height": 10.0,
+    "position": [0, 0, 0],
+    "yaw": 0
+  },
+  {
+    "id": "World6cccc38d17",
+    "label": "Family kitchen",
+    "kind": "interior",
+    "scene": "home",
+    "height": 2.1,
+    "position": [0, 0, -4.2],
+    "yaw": 0
+  },
+  {
+    "id": "Worldfe4fdca1c3",
+    "label": "Verdant Curve Apartments",
+    "kind": "district",
+    "scene": "",
+    "height": 24,
+    "position": [11.349, 0, -122.475],
+    "yaw": -185
+  },
+  {
+    "id": "World05569d27b2",
+    "label": "Verdant Sky Tower",
+    "kind": "district",
+    "scene": "",
+    "height": 24,
+    "position": [62.849, 0, -126.218],
+    "yaw": -206
+  },
+  {
+    "id": "World11f82c914a",
+    "label": "красивый частный дом 4 этажа",
+    "kind": "district",
+    "scene": "",
+    "height": 8,
+    "position": [77.596, 0, -70.738],
+    "yaw": -228
+  },
+  {
+    "id": "World43ca06749a",
+    "label": "摩天大楼 很高 1112224359 texture",
+    "kind": "district",
+    "scene": "",
+    "height": 24,
+    "position": [114.694, 0, -44.433],
+    "yaw": -249
+  }
+]

@@ -105,11 +105,11 @@ namespace ContextSpeak.Editor
             player.View = camera;
             var avatar = new GameObject("Avatar");
             avatar.transform.SetParent(playerObject.transform, false);
-            Model("mini-characters/character-male-a.glb", playerObject.transform.position, 0, 1.65f, false).transform.SetParent(avatar.transform, true);
+            CozyCharacters.DressPlayer(avatar.transform);
             player.Model = avatar.transform;
-            var maya = Model("mini-characters/character-female-a.glb", new Vector3(3.8f, 0.04f, -5.1f), 0, 1.65f, true);
+            var maya = NpcCastCatalog.CreateNpc("ForestCafe", "Maya", new Vector3(3.8f, 0.04f, -5.1f));
             maya.name = "Maya";
-            var alex = Model("mini-characters/character-female-c.glb", new Vector3(-4, 0.04f, 0.25f), 0, 1.65f, true);
+            var alex = NpcCastCatalog.CreateNpc("ForestCafe", "Alex", new Vector3(-4, 0.04f, 0.25f));
             alex.name = "Alex";
             var drinks = new GameObject("Earned drinks");
             foreach (var x in new[] { -4.3f, -3.7f })
@@ -120,7 +120,7 @@ namespace ContextSpeak.Editor
             runtime.Maya = maya.transform;
             runtime.Alex = alex.transform;
             runtime.Drinks = drinks;
-            WorldBuild.Configure(player, new[] { maya.transform, alex.transform });
+            WorldBuild.Configure(player, new[] { maya.transform, alex.transform }, "ForestCafe");
         }
         private static void Table(Vector3 position, bool friend)
         {

@@ -8,8 +8,10 @@ import { intentSchema, normalizeWave, replySchema } from "./protocol";
 import { conversationInput, conversationOutput } from "./conversation";
 import { roleplayInput, roleplayOutput } from "./roleplay";
 import { lifeInput, lifeOutput } from "./life";
+import { sliceInput, sliceOutput } from "./slice";
 
 interface Options {
+  roomOrigin?: string;
   webRoot: string;
   macArchive?: string;
   transcribe: (audio: Buffer, signal: AbortSignal) => Promise<string>;
@@ -27,6 +29,10 @@ interface Options {
   ) => Promise<unknown>;
   lifeReview?: (
     input: z.infer<typeof lifeInput>,
+    signal: AbortSignal,
+  ) => Promise<unknown>;
+  sliceReview?: (
+    input: z.infer<typeof sliceInput>,
     signal: AbortSignal,
   ) => Promise<unknown>;
   speak: (text: string, signal: AbortSignal) => Promise<Buffer>;
@@ -68,6 +74,14 @@ const types: Record<string, string> = {
 
 /** A local guest runtime, not a public inference server or account API. */
 export function createWorldServer(options: Options) {
+  const roomUrl = new URL(options.roomOrigin ?? "http://127.0.0.1:4330");
+  if (
+    !["http:", "https:"].includes(roomUrl.protocol) ||
+    roomUrl.username ||
+    roomUrl.password
+  )
+    throw new Error("Use an HTTP(S) room origin without credentials.");
+  const roomOrigin = roomUrl.origin;
   const token = randomBytes(32).toString("base64url");
   let active = 0;
   const server = createServer(async (request, response) => {
@@ -91,12 +105,14 @@ export function createWorldServer(options: Options) {
     response.setHeader("X-Content-Type-Options", "nosniff");
     response.setHeader(
       "Content-Security-Policy",
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; frame-ancestors 'self' http://127.0.0.1:3000",
+      `default-src 'self'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval'; worker-src 'self' blob:; connect-src 'self' ${roomOrigin}; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline'; frame-ancestors 'self' http://127.0.0.1:3000`,
     );
     try {
       if (request.headers.host !== `127.0.0.1:${port}`)
         throw new HttpFailure(403, "Use the local launcher address.");
       const path = new URL(request.url ?? "/", origin).pathname;
+      if (request.method === "GET" && path === "/rooms-config")
+        return json(200, { url: roomOrigin });
       if (request.method === "GET" && path === "/health") {
         if (request.headers.origin === "http://127.0.0.1:3000")
           response.setHeader(
@@ -127,6 +143,7 @@ export function createWorldServer(options: Options) {
             "/conversation",
             "/roleplay",
             "/life/review",
+            "/slice/review",
           ].includes(path)
         )
           throw new HttpFailure(404, "Not found.");
@@ -187,6 +204,28 @@ export function createWorldServer(options: Options) {
               throw new HttpFailure(
                 502,
                 "That reply could not be checked. Your task is kept; please retry.",
+              );
+            return json(200, checked.data);
+          }
+          if (path === "/slice/review") {
+            const parsed = sliceInput.safeParse(value);
+            if (!parsed.success)
+              throw new HttpFailure(
+                400,
+                "Use a short reply and a known IELTS band.",
+              );
+            if (!options.sliceReview)
+              throw new HttpFailure(
+                503,
+                "Restart the companion to enable Forest Café feedback.",
+              );
+            const checked = sliceOutput.safeParse(
+              await options.sliceReview(parsed.data, controller.signal),
+            );
+            if (!checked.success)
+              throw new HttpFailure(
+                502,
+                "Feedback is unavailable for that reply. Your conversation is kept.",
               );
             return json(200, checked.data);
           }

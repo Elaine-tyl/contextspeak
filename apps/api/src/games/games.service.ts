@@ -6,6 +6,7 @@ import {
 } from "@nestjs/common";
 import { createHash } from "node:crypto";
 import type { PrismaClient, GameAttempt } from "@prisma/client";
+import { gameRequiresAudio } from "@contextspeak/contracts";
 import type {
   Identity,
   GameSubmission,
@@ -16,6 +17,7 @@ import { AdaptiveService } from "../practice/adaptive.service";
 import { LibraryService } from "../library/library.service";
 import { recording } from "../practice/recording";
 import { gradeDictation } from "../practice/dictation";
+import { gradeQuickFire, gradeSpelling } from "./new-modes";
 import { gradeGapFill } from "./gap-fill";
 import type { SpeakingProvider } from "../practice/speaking.provider";
 import {
@@ -58,15 +60,19 @@ export class GamesService {
   async catalog(identity: Identity) {
     const user = await this.library.actor(identity);
     const progress = await this.progress(user.id);
-    const [listening, speaking] = await Promise.all([
+    const [listening, speaking, vocabulary, reading] = await Promise.all([
       this.adaptive.recommend(user.id, "listening", 10),
       this.adaptive.recommend(user.id, "speaking", 10),
+      this.adaptive.recommend(user.id, "vocabulary", 10),
+      this.adaptive.recommend(user.id, "reading", 10),
     ]);
     return {
       rounds: activeChallenges.map(publicRound),
       progress,
       modeProgress: await this.levels.progress(user.id, this.prisma, progress),
       recommendations: {
+        vocabulary,
+        reading,
         listening: {
           ...listening,
           level: Math.min(listening.level, progress.listening.level),
@@ -124,8 +130,14 @@ export class GamesService {
         );
       return receipt(previous);
     }
-    if (round.kind === "gap-fill" && !input.levelSessionId)
-      throw new BadRequestException("Start a Missing words level first.");
+    if (
+      (round.kind === "gap-fill" ||
+        round.kind === "scene-words" ||
+        round.recall ||
+        !gameRequiresAudio(round)) &&
+      !input.levelSessionId
+    )
+      throw new BadRequestException("Start a level in this game mode first.");
     if (input.levelSessionId)
       await this.levels.assertRound(
         this.prisma,
@@ -134,13 +146,19 @@ export class GamesService {
         round.id,
       );
     const progress = input.levelSessionId ? null : await this.progress(userId);
-    if (progress && round.level > progress[round.track].level)
+    if (progress && round.level > (progress[round.track]?.level ?? 1))
       throw new ConflictException(
         "Pass three different challenges at 70 or above to unlock this level.",
       );
-    if (!input.completedPlays)
+    if (gameRequiresAudio(round) && !input.completedPlays)
       throw new BadRequestException("Finish the challenge audio first.");
-    if (input.gapAnswers && round.kind !== "gap-fill")
+    if (
+      input.gapAnswers &&
+      !round.recall &&
+      round.kind !== "gap-fill" &&
+      round.kind !== "scene-words" &&
+      round.kind !== "mini-crossword"
+    )
       throw new BadRequestException("This challenge does not have word gaps.");
     const feedback: GameReceipt["feedback"] = {
       explanation: round.explanation,
@@ -184,7 +202,12 @@ export class GamesService {
           (error as { status?: number }).status === 429 ? 429 : 503,
         );
       }
-    } else if (round.kind === "gap-fill") {
+    } else if (
+      round.kind === "gap-fill" ||
+      round.kind === "scene-words" ||
+      round.kind === "mini-crossword" ||
+      round.recall
+    ) {
       if (
         !input.gapAnswers ||
         input.gapAnswers.length !== round.gapAnswers!.length ||
@@ -196,6 +219,38 @@ export class GamesService {
       feedback.gapFill = gradeGapFill(round.gapAnswers!, input.gapAnswers);
       feedback.correctAnswer = round.answer;
       score = feedback.gapFill.score;
+      if (round.kind === "scene-words")
+        feedback.sceneWordNotes = round.sceneWordNotes;
+    } else if (round.kind === "spelling" || round.kind === "word-scramble") {
+      if (!input.response || !/\p{L}/u.test(input.response) || input.audio)
+        throw new BadRequestException("Build the word from the letter tiles.");
+      score = gradeSpelling(round.answer, input.response);
+      feedback.correct = score === 100;
+      feedback.correctAnswer = round.answer;
+    } else if (round.kind === "word-order") {
+      if (!input.response || !/\p{L}/u.test(input.response) || input.audio)
+        throw new BadRequestException("Put the word tiles in order.");
+      feedback.dictation = gradeDictation(round.answer, input.response, "en");
+      feedback.correctAnswer = round.answer;
+      score = feedback.dictation.score;
+    } else if (
+      round.kind === "reading-order" ||
+      round.kind === "sentence-puzzle"
+    ) {
+      if (!input.response || input.audio || input.choice !== undefined)
+        throw new BadRequestException(
+          "Arrange the paragraphs before checking.",
+        );
+      const normalize = (text: string) => text.trim().replace(/\s+/gu, " ");
+      const response = normalize(input.response);
+      if (
+        response.length !== normalize(round.answer).length ||
+        !round.tiles!.every((text) => response.includes(normalize(text)))
+      )
+        throw new BadRequestException("Use every paragraph exactly once.");
+      feedback.correct = response === normalize(round.answer);
+      feedback.correctAnswer = round.answer;
+      score = feedback.correct ? 100 : 0;
     } else if (round.kind === "dictation") {
       if (
         !input.response ||
@@ -216,6 +271,15 @@ export class GamesService {
         (choice) => choice.id === round.answer,
       )!.label;
       score = feedback.correct ? 100 : 0;
+      if (round.kind === "true-false") {
+        score = gradeQuickFire(
+          feedback.correct,
+          input.elapsedMs,
+          round.timeLimit ?? 10,
+        );
+        if (feedback.correct && score < 100)
+          feedback.explanation = `Correct, but after the ${round.timeLimit ?? 10}-second timer. ${round.explanation}`;
+      }
     }
     return this.prisma.$transaction(async (tx) => {
       await tx.$queryRaw`SELECT id FROM "User" WHERE id = ${userId} FOR UPDATE`;

@@ -66,3 +66,21 @@ games/unity/Assets/Resources/PerformanceTestRun*.json*
 
 # Compiled from tools/unity/mac-microphone.mm by unity:prepare.
 games/unity/Assets/Plugins/macOS/*.dylib*
+
+# Forest Café logic checks (dotnet)
+tools/unity/slice-checks/bin/
+tools/unity/slice-checks/obj/
+
+# Blender keeps editable sources; backup revisions are local only.
+art/blender/*.blend[0-9]*
+
+# Native Meshy Downloads library: user source assets, regenerated locally (multi-GB).
+games/unity/Assets/_Game/Art/MeshyLibrary/
+games/unity/Assets/_Game/Art/MeshyLibrary.meta
+
+# Reproducible game copies of user-provided FBXs; importer manifests stay in source control.
+games/unity/Assets/_Game/Art/Motion/*.fbx*
+games/unity/Assets/_Game/Art/Motion/Textures/
+games/unity/Assets/_Game/Art/WorldAssets/*.glb*
+games/unity/Assets/_Game/Art/WorldAssets/World*.json*
+games/unity/Assets/_Game/Art/WorldAssets/.staging/

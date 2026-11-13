@@ -51,28 +51,44 @@ def run(mode):
     logs = ROOT / ".local/unity-logs"
     logs.mkdir(parents=True, exist_ok=True)
     log = logs / (mode + ".log")
-    method = {"ui-test": "ContextSpeak.Editor.CafeNativeUiChecks.Begin", "setup": "ContextSpeak.Editor.CafeBuild.ConfigurePipeline", "test": "ContextSpeak.Editor.CafeBuild.Verify", "web": "ContextSpeak.Editor.CafeBuild.BuildWeb", "arcade": "ContextSpeak.Editor.CafeBuild.BuildArcade", "mac": "ContextSpeak.Editor.CafeBuild.BuildMac"}[mode]
+    method = {
+        "ui-test": "ContextSpeak.Editor.CafeNativeUiChecks.Begin",
+        "interaction-test": "ContextSpeak.Editor.SliceInteractionChecks.Begin",
+        "setup": "ContextSpeak.Editor.CafeBuild.ConfigurePipeline",
+        "test": "ContextSpeak.Editor.CafeBuild.Verify",
+        "web": "ContextSpeak.Editor.CafeBuild.BuildWeb",
+        "arcade": "ContextSpeak.Editor.CafeBuild.BuildArcade",
+        "mac": "ContextSpeak.Editor.CafeBuild.BuildMac",
+    }[mode]
     arguments = [str(editor), "-batchmode", "-nographics", "-projectPath", str(PROJECT), "-executeMethod", method, "-logFile", str(log)]
     if mode in {"web", "arcade"}:
         arguments += ["-buildTarget", "WebGL"]
     elif mode == "mac":
         arguments += ["-buildTarget", "OSXUniversal"]
-    arguments += ["-contextspeak-ui-test"] if mode == "ui-test" else ["-quit"]
-    result = subprocess.run(arguments, timeout=180 if mode == "ui-test" else 1200)
+    play_check = mode in {"ui-test", "interaction-test"}
+    if play_check:
+        arguments += ["-contextspeak-ui-test" if mode == "ui-test" else "-contextspeak-interaction-test"]
+    else:
+        arguments += ["-quit"]
+    result = subprocess.run(arguments, timeout=180 if play_check else 1200)
     if result.returncode:
         raise SystemExit("Unity failed; inspect the local log at " + str(log))
+    # Unity can succeed while replacing a failed platform shader with magenta.
+    if log.is_file() and "Shader error in '" in log.read_text(errors="replace"):
+        raise SystemExit("Shader compilation failed; inspect the local log at " + str(log))
     print("Unity " + mode + " finished. Log: " + str(log))
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("mode", choices=["prepare", "test", "ui-test", "web", "mac", "arcade"])
+    parser.add_argument("mode", choices=["prepare", "test", "ui-test", "interaction-test", "web", "mac", "arcade"])
     args = parser.parse_args()
     prepare()
     if args.mode != "prepare":
         run(args.mode)
     if args.mode == "test":
         run("ui-test")
+        run("interaction-test")
     if args.mode == "mac":
         archive = ROOT / ".local/world-builds/web/unity/ContextSpeak-Cafe-macOS.zip"
         archive.parent.mkdir(parents=True, exist_ok=True)

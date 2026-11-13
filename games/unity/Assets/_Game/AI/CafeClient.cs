@@ -25,12 +25,15 @@ namespace ContextSpeak.Cafe
         private const string Origin = "http://127.0.0.1:4320";
         private string token = "";
         private int generation;
+        private int sessionGeneration;
+        private UnityWebRequest sessionRequest;
         private readonly HashSet<UnityWebRequest> active = new HashSet<UnityWebRequest>();
         public bool Connected => token != "";
         public IEnumerator Connect(Action<string> done)
         {
+            CancelSession();
+            token = "";
             yield return Request("/session", null, bytes => {
-                token = "";
                 try {
                     var session = JsonUtility.FromJson<LocalSession>(Encoding.UTF8.GetString(bytes));
                     if (session != null && !string.IsNullOrEmpty(session.token) && session.token.Length <= 100) token = session.token;
@@ -83,7 +86,9 @@ namespace ContextSpeak.Cafe
         private IEnumerator Request(string path, byte[] body, Action<byte[]> success, Action<string> failure, string contentType = "application/json")
         {
             if (path != "/session" && !Connected) { failure("Start pnpm world:dev, then reconnect."); yield break; }
-            var current = generation;
+            var session = path == "/session";
+            var current = session ? sessionGeneration : generation;
+            var connection = sessionGeneration;
             using var request = new UnityWebRequest(Origin + path, body == null ? "GET" : "POST");
             request.downloadHandler = new DownloadHandlerBuffer();
             if (body != null) {
@@ -93,23 +98,39 @@ namespace ContextSpeak.Cafe
             request.SetRequestHeader("X-ContextSpeak-Client", Application.platform == RuntimePlatform.WebGLPlayer ? "web" : "native");
             if (Connected) request.SetRequestHeader("Authorization", "Bearer " + token);
             request.timeout = path == "/speech" ? 90 : 40;
-            active.Add(request);
+            if (session) sessionRequest = request;
+            else active.Add(request);
             yield return request.SendWebRequest();
-            active.Remove(request);
-            if (current != generation) yield break;
+            if (session && sessionRequest == request) sessionRequest = null;
+            else active.Remove(request);
+            if (current != (session ? sessionGeneration : generation)) yield break;
             if (request.result != UnityWebRequest.Result.Success || request.downloadHandler.data.Length > 3200000)
+            {
+                // An old request must not invalidate a newer successful reconnection.
+                if (connection == sessionGeneration &&
+                    (request.result == UnityWebRequest.Result.ConnectionError || request.responseCode == 401))
+                    token = "";
                 failure("Local AI is unavailable or busy. Your task is kept; retry or type a reply.");
+            }
             else success(request.downloadHandler.data);
         }
         public void Cancel()
         {
+            // Closing a conversation must not cancel the initial connection handshake.
             generation++;
             foreach (var request in active) request.Abort();
             active.Clear();
         }
+        private void CancelSession()
+        {
+            sessionGeneration++;
+            sessionRequest?.Abort();
+            sessionRequest = null;
+        }
         private void OnDestroy()
         {
             Cancel();
+            CancelSession();
         }
     }
 }

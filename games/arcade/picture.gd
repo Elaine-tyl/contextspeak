@@ -1,50 +1,94 @@
 extends Control
+## The listening/speaking hero banner and picture cards from the shared library.
+
+const UI = preload("res://ui_art.gd")
+const GREEN := Color("17694f")
+const GREEN_SOFT := Color("e3f0e8")
+const BLUE := Color("2f55c4")
+const BLUE_SOFT := Color("e8eefc")
 
 var kind := "listen"
-const INK := Color("176b58")
-const GOLD := Color("e6a64a")
+## True while audio plays or the microphone records; animates the waveform.
+var active := false
+var _time := 0.0
 
-func _draw() -> void:
-	var center := size / 2
-	var scale_factor := minf(size.x / 240, size.y / 100)
-	draw_set_transform(center, 0, Vector2.ONE * scale_factor)
-	match kind:
-		"umbrella":
-			draw_colored_polygon(PackedVector2Array([Vector2(-48, 0), Vector2(-40, -24), Vector2(-20, -42), Vector2(0, -48), Vector2(20, -42), Vector2(40, -24), Vector2(48, 0)]), INK)
-			draw_line(Vector2.ZERO, Vector2(0, 33), GOLD, 6, true)
-			draw_arc(Vector2(10, 33), 10, 0, PI, 20, GOLD, 6, true)
-		"book":
-			draw_style_box(panel(Color("e8bf78")), Rect2(-48, -35, 96, 70))
-			draw_line(Vector2(0, -31), Vector2(0, 30), INK, 4, true)
-			for y in [-18, -3, 12]:
-				draw_line(Vector2(-35, y), Vector2(-10, y), INK, 3, true)
-				draw_line(Vector2(10, y), Vector2(35, y), INK, 3, true)
-		"bridge":
-			for x in [-35, 35]:
-				draw_line(Vector2(x, -36), Vector2(x, 30), INK, 7, true)
-			draw_line(Vector2(-65, 12), Vector2(65, 12), GOLD, 8, true)
-			draw_polyline(PackedVector2Array([Vector2(-65, 10), Vector2(-35, -32), Vector2.ZERO, Vector2(35, -32), Vector2(65, 10)]), INK, 4, true)
-			for y in [32, 42]:
-				draw_line(Vector2(-65, y), Vector2(65, y), Color("9cbdce"), 3, true)
-		"bicycle":
-			for x in [-38, 38]:
-				draw_arc(Vector2(x, 17), 26, 0, TAU, 48, INK, 5, true)
-			draw_polyline(PackedVector2Array([Vector2(-38, 17), Vector2(-15, -17), Vector2(10, 17), Vector2(-38, 17), Vector2(20, -20), Vector2(38, 17)]), GOLD, 4, true)
-			draw_line(Vector2(20, -20), Vector2(18, -35), INK, 4, true)
-			draw_line(Vector2(18, -35), Vector2(35, -35), INK, 4, true)
-		_:
-			draw_style_box(panel(Color("e1ece3") if kind == "voice" else Color("e5eafb")), Rect2(-110, -45, 220, 90))
-			for index in 15:
-				var height := 8 + 25 * absf(sin(index * 0.75))
-				var x := float(index * 12 - 84)
-				draw_line(Vector2(x, -height), Vector2(x, height), INK if kind == "voice" else Color("3156ce"), 5, true)
-
-func panel(color: Color) -> StyleBoxFlat:
-	var style := StyleBoxFlat.new()
-	style.bg_color = color
-	style.set_corner_radius_all(14)
-	return style
+func _process(delta: float) -> void:
+	if active and kind in ["listen", "voice"]:
+		_time += delta
+		queue_redraw()
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_RESIZED:
 		queue_redraw()
+
+func _draw() -> void:
+	if kind in ["listen", "voice"]:
+		_draw_hero()
+		return
+	_draw_library_picture()
+
+# ---------------------------------------------------------------- hero banner
+func _draw_hero() -> void:
+	var accent := BLUE if kind == "listen" else GREEN
+	var soft := BLUE_SOFT if kind == "listen" else GREEN_SOFT
+	var rect := Rect2(Vector2.ZERO, size)
+	var style := StyleBoxFlat.new()
+	style.bg_color = soft
+	style.set_corner_radius_all(20)
+	draw_style_box(style, rect)
+	# Icon disc
+	var r := minf(size.y * 0.32, 34.0)
+	var disc := Vector2(size.y * 0.55 + 6, size.y / 2)
+	draw_circle(disc, r + 6, Color(accent, 0.15))
+	draw_circle(disc, r, accent)
+	UI.draw_glyph(self, "headphones" if kind == "listen" else "mic", disc, r * 0.5, Color.WHITE)
+	# Waveform: calm when idle, moving while active.
+	var left := disc.x + r + 28
+	var right := size.x - 28
+	var bars := int(clampf((right - left) / 14.0, 6, 48))
+	var step := (right - left) / bars
+	for i in bars:
+		var phase := i * 0.55 + _time * 7.0
+		var amp := 0.25 + 0.75 * absf(sin(i * 0.47) * cos(i * 0.21 + 0.6))
+		if active:
+			amp = clampf(amp * (0.55 + 0.45 * sin(phase)), 0.12, 1.0)
+		var h := (size.y * 0.5) * amp
+		var x := left + i * step + step / 2
+		var col := accent if active or i % 3 != 2 else Color(accent, 0.55)
+		draw_line(Vector2(x, size.y / 2 - h / 2), Vector2(x, size.y / 2 + h / 2), col, maxf(3.0, step * 0.45), true)
+
+# ---------------------------------------------------------------- choice pictures
+# Pictures come from the shared SVG library (pictures.json, generated from the
+# website's contracts), rasterised once per id and cached.
+static var _library: Dictionary = {}
+static var _textures: Dictionary = {}
+
+static func texture_for(id: String) -> Texture2D:
+	if _textures.has(id):
+		return _textures[id]
+	if _library.is_empty():
+		var file := FileAccess.open("res://pictures.json", FileAccess.READ)
+		if file:
+			var parsed = JSON.parse_string(file.get_as_text())
+			if parsed is Dictionary:
+				_library = parsed
+	var entry = _library.get(id)
+	if not entry is Dictionary:
+		return null
+	var image := Image.new()
+	if image.load_svg_from_string(str(entry.get("svg", "")), 3.0) != OK:
+		return null
+	var texture := ImageTexture.create_from_image(image)
+	_textures[id] = texture
+	return texture
+
+func _draw_library_picture() -> void:
+	var texture := texture_for(kind)
+	if texture == null:
+		# Unknown picture: a neutral placeholder rather than an empty card.
+		draw_rect(Rect2(Vector2.ZERO, size), Color("eef2ee"))
+		return
+	var ratio := 200.0 / 120.0
+	var w := minf(size.x, size.y * ratio)
+	var h := w / ratio
+	draw_texture_rect(texture, Rect2((size - Vector2(w, h)) / 2, Vector2(w, h)), false)

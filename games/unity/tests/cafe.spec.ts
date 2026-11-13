@@ -1,3 +1,4 @@
+import { openWorld } from "./helpers";
 import { conversationInput } from "../../../packages/world/conversation";
 import { normalizeWave } from "../../../packages/world/protocol";
 import { expect, test, type Page } from "@playwright/test";
@@ -28,7 +29,7 @@ async function openCafe(page: Page) {
       },
     });
   });
-  await page.goto("http://127.0.0.1:4320/unity/");
+  await openWorld(page, "http://127.0.0.1:4320/unity/");
   await expect(page.locator("#unity-status")).toContainText(
     '"phase":"counter"',
     { timeout: 120000 },
@@ -83,6 +84,68 @@ async function placeOrder(page: Page) {
     page.getByRole("button", { name: "Join Alex", exact: true }),
   ).toBeVisible();
 }
+test("changing_practice_stage_does_not_cancel_the_initial_connection", async ({
+  page,
+}) => {
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  await page.route("**/session", async (route) => {
+    await held;
+    await route.continue();
+  });
+  try {
+    await counter(page);
+    release();
+    await expect(page.locator("#status")).toContainText("Local AI connected");
+    await page
+      .getByRole("button", { name: "Record reply", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "Stop recording", exact: true }),
+    ).toBeVisible();
+  } finally {
+    release();
+  }
+});
+test("a_late_old_request_cannot_disconnect_a_successful_reconnection", async ({
+  page,
+}) => {
+  await openCafe(page);
+  await expect(page.locator("#status")).toContainText("Local AI connected");
+  await page.locator("#stage").selectOption("friend");
+  await page.locator("#interact").click();
+  let release!: () => void;
+  const held = new Promise<void>((resolve) => {
+    release = resolve;
+  });
+  let requested = false;
+  await page.route("**/conversation", async (route) => {
+    requested = true;
+    await held;
+    await route.fulfill({
+      status: 401,
+      json: { error: "Old session expired" },
+    });
+  });
+  try {
+    await reply(page, "I enjoy tea because it helps me relax.");
+    await expect.poll(() => requested).toBe(true);
+    await page.getByRole("button", { name: "Reconnect local AI" }).click();
+    await expect(page.locator("#status")).toContainText("Local AI connected");
+    release();
+    await expect(page.locator("#status")).toContainText("unavailable or busy");
+    await page
+      .getByRole("button", { name: "Record reply", exact: true })
+      .click();
+    await expect(
+      page.getByRole("button", { name: "Stop recording", exact: true }),
+    ).toBeVisible();
+  } finally {
+    release();
+  }
+});
 test("ordering_walk_to_friend_corrections_and_three_followups_complete_the_task", async ({
   page,
 }, info) => {
@@ -244,15 +307,24 @@ test("joining_a_friend_routes_around_the_bar_from_the_players_actual_position", 
       axis
     ] as number;
   await page.locator("#unity-canvas").focus();
+  // Walk for precise steering; the new controller jogs by default and decelerates smoothly.
+  await page.keyboard.down("Control");
   await page.keyboard.down("d");
-  await expect.poll(() => coordinate("x")).toBeLessThan(1.4);
+  await expect
+    .poll(() => coordinate("x"), { intervals: [50] })
+    .toBeLessThan(1.4);
   await page.keyboard.up("d");
   await page.keyboard.down("w");
-  await expect.poll(() => coordinate("z")).toBeLessThan(-5.8);
+  await expect
+    .poll(() => coordinate("z"), { intervals: [50] })
+    .toBeLessThan(-5.8);
   await page.keyboard.up("w");
   await page.keyboard.down("a");
-  await expect.poll(() => coordinate("x")).toBeGreaterThan(2.5);
+  await expect
+    .poll(() => coordinate("x"), { intervals: [50] })
+    .toBeGreaterThan(2.5);
   await page.keyboard.up("a");
+  await page.keyboard.up("Control");
   await page.locator("#interact").click();
   await placeOrder(page);
   await page.getByRole("button", { name: "Join Alex", exact: true }).click();

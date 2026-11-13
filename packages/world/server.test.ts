@@ -401,3 +401,20 @@ it("explains a missing Unity desktop export instead of downloading an empty ZIP"
   expect(response.headers.get("content-type")).toContain("application/json");
   expect(await response.text()).toContain("pnpm unity:build:mac");
 });
+
+it("advertises only the room endpoint while keeping AI on its existing local boundary", async () => {
+  const origin = await start();
+  const config = await fetch(origin + "/rooms-config");
+  expect(config.status).toBe(200);
+  expect(await config.json()).toEqual({ url: "http://127.0.0.1:4330" });
+  expect(config.headers.get("Content-Security-Policy")).toContain(
+    "connect-src 'self' http://127.0.0.1:4330",
+  );
+  expect(
+    (
+      await fetch(origin + "/session", {
+        headers: { Origin: "http://127.0.0.1:4330" },
+      })
+    ).status,
+  ).toBe(403);
+});

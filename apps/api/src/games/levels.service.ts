@@ -47,7 +47,9 @@ export class GameLevelsService {
     return Object.fromEntries(
       gameModes.map((mode) => {
         // Legacy track scores predate this mode and cannot skip its practice.
-        let level = mode.kind === "gap-fill" ? 1 : old[mode.track].level;
+        let level = ["gap-fill", "scene-words"].includes(mode.kind)
+          ? 1
+          : (old[mode.track]?.level ?? 1);
         const completed = new Set(
           passed
             .filter((value) => value.kind === mode.kind)

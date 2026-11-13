@@ -16,3 +16,10 @@ TextField > .unity-text-field__input { background-color: white; color: #243c33; 
 #dialogue TextField > .unity-text-field__input { padding: 7px; }
 #life-menu { position: absolute; top: 20px; right: 20px; max-width: 290px; padding: 18px; background-color: rgba(255, 250, 237, 0.96); border-radius: 14px; }
 #repair { color: #8b3428; background-color: #fff0de; padding: 10px; border-radius: 8px; }
+#life-menu { max-height: 80%; overflow: hidden; }
+.menu-item { margin-top: 8px; padding: 10px; border-radius: 10px; background-color: white; border-width: 1px; border-color: #dbe5de; }
+.menu-item.planned { border-color: #d9791c; background-color: #fdf0e1; }
+.menu-item > Label { margin-bottom: 2px; font-size: 14px; color: #5b6f66; }
+.menu-item > .menu-item-title { font-size: 17px; -unity-font-style: bold; color: #243c33; }
+.menu-item > .menu-item-phrase { color: #176b58; -unity-font-style: italic; }
+.menu-item > Button { align-self: flex-start; min-height: 34px; padding: 4px 12px; font-size: 14px; }

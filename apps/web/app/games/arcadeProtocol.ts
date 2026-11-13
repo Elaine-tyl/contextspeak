@@ -10,7 +10,12 @@ const textAnswer = z
       .regex(/[\p{L}\p{N}]/u),
   })
   .strict();
-const choiceAnswer = z.object({ choice: z.string().min(1).max(80) }).strict();
+const choiceAnswer = z
+  .object({
+    choice: z.string().min(1).max(80),
+    elapsedMs: z.number().int().min(0).max(600000).optional(),
+  })
+  .strict();
 const gapAnswer = z
   .object({
     gapAnswers: z.array(z.string().trim().min(1).max(80)).min(1).max(6),
@@ -25,9 +30,17 @@ export function readRoundAnswer(
 ): RoundAnswer | null {
   if (round.track === "speaking") return null;
   const schema =
-    round.kind === "dictation"
+    round.kind === "dictation" ||
+    round.kind === "spelling" ||
+    round.kind === "word-order" ||
+    round.kind === "reading-order" ||
+    round.kind === "word-scramble" ||
+    round.kind === "sentence-puzzle"
       ? textAnswer
-      : round.kind === "gap-fill"
+      : round.kind === "gap-fill" ||
+          round.kind === "scene-words" ||
+          round.kind === "mini-crossword" ||
+          round.recall
         ? gapAnswer
         : choiceAnswer;
   const parsed = schema.safeParse(answer);
@@ -35,7 +48,8 @@ export function readRoundAnswer(
   const value = parsed.data;
   if (
     "gapAnswers" in value &&
-    value.gapAnswers.length !== (round.gapText?.length ?? 0) - 1
+    value.gapAnswers.length !==
+      (round.crossword?.length ?? (round.gapText?.length ?? 0) - 1)
   )
     return null;
   if (

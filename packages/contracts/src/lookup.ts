@@ -188,9 +188,13 @@ export {
   type SpeakingCorrection,
 } from "./practice-feedback";
 
+export { pictureIds, pictureLibrary, pictureLevels } from "./pictures";
 export {
   gameSubmissionSchema,
   gameModes,
+  gameTracks,
+  gameTrackLabels,
+  gameRequiresAudio,
   gameDifficulty,
   gameDifficultyBands,
   gameLevelStartSchema,
@@ -200,6 +204,9 @@ export {
   type GameKind,
   type PictureId,
   type GameRound,
+  type WordScene,
+  type SceneWordNotes,
+  type CrosswordEntry,
   type GameProgress,
   type GameCatalog,
   type GameSubmission,

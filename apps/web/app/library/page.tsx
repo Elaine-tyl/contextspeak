@@ -3,7 +3,7 @@ import { aiLanguages } from "@contextspeak/contracts";
 import Link from "next/link";
 import { PracticeHub } from "./PracticeHub";
 import { ReviewQueue } from "./ReviewQueue";
-import { LearningNotes } from "./LearningNotes";
+import { LearningSculpture } from "../LearningSculpture";
 import {
   rememberLibraryScroll,
   libraryPosition,
@@ -12,7 +12,6 @@ import {
   useRestoreLibraryScroll,
 } from "../../src/page-query";
 import { withLibraryReturn } from "../../src/navigation";
-import { hostname, languagePair, shortDate } from "../../src/languages";
 import { useEffect, useRef, useState } from "react";
 import type {
   Candidate,
@@ -283,12 +282,6 @@ export default function Library() {
       : view === "practice"
         ? "Listen & speak"
         : "Library";
-  const lead =
-    view === "reviews"
-      ? "Try to remember each meaning before you reveal it. A few minutes a day keeps words fresh."
-      : view === "practice"
-        ? "Pick a saved word to hear it in a sentence, write what you hear, or answer out loud."
-        : "Every word you look up while browsing is saved here with the sentence you found it in.";
   return (
     <main
       className={
@@ -300,29 +293,25 @@ export default function Library() {
             : "")
       }
     >
-      <div className="page-head">
-        <div>
+      <div className="page-head depth-hero">
+        <div className="hero-copy">
           <h1>{title}</h1>
-          <p className="page-lead">{lead}</p>
+          <div className="connection" aria-live="polite">
+            <span className={"status-dot " + (connected ? "online" : "")} />
+            <span>{connected ? "Connected" : "Not connected"}</span>
+            {connected && (
+              <button className="link-button" onClick={disconnect}>
+                Sign out
+              </button>
+            )}
+          </div>
         </div>
-        <div className="connection" aria-live="polite">
-          <span className={"status-dot " + (connected ? "online" : "")} />
-          <span>{connected ? "Connected" : "Not connected"}</span>
-          {connected && (
-            <button className="link-button" onClick={disconnect}>
-              Sign out
-            </button>
-          )}
-        </div>
+        <LearningSculpture />
       </div>
       {connected ? (
         isList && (
           <details className="connect-panel account-settings">
             <summary>Account &amp; extension settings</summary>
-            <p>
-              You are signed in. Pair the browser extension so your lookups
-              arrive here automatically.
-            </p>
             <div className="settings-actions">
               <a className="secondary" href="/pair">
                 Pair an extension
@@ -360,23 +349,17 @@ export default function Library() {
               {history.length}
               {cursor ? "+" : ""}
             </strong>
-            <p>Words and sentences you translated</p>
           </article>
           <article>
             <span>Words</span>
             <strong>{candidates.length}</strong>
-            <p>Unique words you can add to review</p>
           </article>
           <article className="collection">
             <span>Auto-save lookups</span>
             <strong>{enabled ? "On" : "Off"}</strong>
-            {connected ? (
-              <button className="link-button" onClick={toggle}>
-                {enabled ? "Pause collection" : "Enable collection"}
-              </button>
-            ) : (
-              <p>Sign in to turn this on</p>
-            )}
+            <button className="link-button" onClick={toggle}>
+              {enabled ? "Pause collection" : "Enable collection"}
+            </button>
           </article>
         </section>
       )}
@@ -400,6 +383,9 @@ export default function Library() {
         )
       ) : (
         <section className="library-section">
+          <h2 className="sr-only">
+            {view === "history" ? "Recent lookups" : "Word list"}
+          </h2>
           <div className="library-toolbar">
             <div className="segmented" role="group" aria-label="Library view">
               <button
@@ -423,14 +409,6 @@ export default function Library() {
               Refresh
             </button>
           </div>
-          <div className="section-head">
-            <h2>{view === "history" ? "Recent lookups" : "Word list"}</h2>
-          </div>
-          <p className="section-copy">
-            {view === "history"
-              ? "Newest first. Looking a word up doesn't mean you don't know it — it's just a starting point."
-              : "Each word appears once, however many times you looked it up. Choose “Start reviewing” to add it to your daily review."}
-          </p>
           <div
             className="library-filters"
             role="search"
@@ -509,18 +487,19 @@ export default function Library() {
               </button>
             )}
           </div>
-          <div className={view === "history" ? "cards" : "cards hidden"}>
+          <ul
+            className={
+              view === "history" ? "vocabulary-list" : "vocabulary-list hidden"
+            }
+            aria-label="Recent lookups"
+          >
             {history.map((item) => (
-              <article
+              <li
                 className="lookup-card history-card"
                 data-testid="lookup-card"
                 key={item.id}
               >
-                <div
-                  className="card-content"
-                  tabIndex={0}
-                  aria-label="Scrollable vocabulary card"
-                >
+                <div className="card-content">
                   <div className="card-head">
                     <h3 title={item.text}>
                       <Link
@@ -545,15 +524,15 @@ export default function Library() {
                           : "Not translated"}
                       </span>
                     )}
+                    <span className="card-open" aria-hidden="true">
+                      ↗
+                    </span>
                   </div>
                   {item.meaning && <p className="meaning">{item.meaning}</p>}
-                  {item.context && (
-                    <p className="card-context">{item.context}</p>
-                  )}
                   {item.errorCode && (
                     <div className="failure">
                       <p title={item.errorCode}>
-                        Couldn’t translate this yet. Your lookup is saved.
+                        Translation unavailable. Lookup saved.
                       </p>
                       <button
                         className="link-button"
@@ -563,51 +542,25 @@ export default function Library() {
                       </button>
                     </div>
                   )}
-                  {(item.context || item.learningDetails) && (
-                    <details className="lookup-details">
-                      <summary>
-                        <span className="details-show">Show details</span>
-                        <span className="details-hide">Hide details</span>
-                      </summary>
-                      {item.context && (
-                        <blockquote>“{item.context}”</blockquote>
-                      )}
-                      <LearningNotes
-                        value={item.learningDetails}
-                        token={token.current}
-                        sourceLanguage={
-                          item.detectedSourceLanguage ?? item.sourceLanguage
-                        }
-                      />
-                    </details>
-                  )}
                 </div>
-                <footer>
-                  <span>
-                    {hostname(item.sourceUrl)} · {shortDate(item.createdAt)}
-                  </span>
-                  <span>
-                    {languagePair(
-                      item.detectedSourceLanguage ?? item.sourceLanguage,
-                      item.targetLanguage,
-                    )}
-                  </span>
-                </footer>
-              </article>
+              </li>
             ))}
-          </div>
-          <div className={view === "candidates" ? "cards" : "cards hidden"}>
+          </ul>
+          <ul
+            className={
+              view === "candidates"
+                ? "vocabulary-list"
+                : "vocabulary-list hidden"
+            }
+            aria-label="Word list"
+          >
             {candidates.map((item) => (
-              <article
+              <li
                 className="lookup-card candidate-card"
                 data-testid="candidate-card"
                 key={item.id}
               >
-                <div
-                  className="card-content"
-                  tabIndex={0}
-                  aria-label="Scrollable vocabulary card"
-                >
+                <div className="card-content">
                   <div className="card-head">
                     <h3 title={item.text}>
                       <Link
@@ -628,24 +581,23 @@ export default function Library() {
                     {item.reviewDueAt && (
                       <span className="badge due">In review</span>
                     )}
+                    <span className="card-open" aria-hidden="true">
+                      ↗
+                    </span>
                   </div>
-                  <p className="candidate-meta">
-                    Looked up {item.encounterCount}{" "}
-                    {item.encounterCount === 1 ? "time" : "times"} ·{" "}
-                    {languagePair(item.sourceLanguage, item.targetLanguage)}
-                  </p>
-                  <p className="candidate-meta">
-                    {item.reviewDueAt
-                      ? `Next review ${new Date(
-                          item.reviewDueAt,
-                        ).toLocaleString("en-GB", {
+                  {item.reviewDueAt && (
+                    <p className="candidate-meta">
+                      {`Next review ${new Date(item.reviewDueAt).toLocaleString(
+                        "en-GB",
+                        {
                           day: "numeric",
                           month: "short",
                           hour: "2-digit",
                           minute: "2-digit",
-                        })}`
-                      : "Not in your daily review yet"}
-                  </p>
+                        },
+                      )}`}
+                    </p>
+                  )}
                   <div className="review-actions">
                     {item.reviewDueAt ? (
                       <>
@@ -674,9 +626,9 @@ export default function Library() {
                     )}
                   </div>
                 </div>
-              </article>
+              </li>
             ))}
-          </div>
+          </ul>
           {loading && (
             <p className="empty-line" aria-live="polite">
               Loading your library…

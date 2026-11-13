@@ -1,12 +1,16 @@
+> Browser update (2026-11-12): four tracks and twenty-one native React/Three.js modes. Vocabulary and Reading each have four ten-level games, with 240 original text tasks altogether. Text games require no speech playback or AI quota. Existing server grading, owned level sessions, retry safety and mode-specific unlocks remain; no database migration is needed. Quiz marks stay separate from FSRS and audio skill summaries. Game levels are editorial practice difficulty, not certified IELTS bands.
+
+Text puzzle update: **Word scramble** reconstructs words from definition clues; **Mini crossword** uses two intersecting clue words and marks crossing conflicts; **Evidence hunt** selects a supporting sentence directly in a short passage; **Sentence puzzle** builds a reference summary from word tiles. All have ten levels and three tasks per level. Their extra 120 tasks use separate puzzle vocabulary and new passages; no previous quiz word prompt or ordering passage discloses the solution. Summary marks check the supplied reference sentence, rather than claiming that other paraphrases are invalid English. Crossword feedback marks each clue separately, with correction after submission. The eight text modes now contain 240 original tasks in total.
+
 # Classified game practice
 
-Open **Games** from the sidebar or `/games`, using the existing Google sign-in. Games are English-first and do not require a saved vocabulary item. The current catalog has 184 tasks: 130 original challenges and 54 tasks built from [reviewed open text](PRACTICE_SOURCES.md).
+Open **Games** from the sidebar or `/games`, using the existing Google sign-in. Games are English-first and do not require a saved vocabulary item. The catalog includes original challenges and tasks built from [reviewed open text](PRACTICE_SOURCES.md), plus 240 original vocabulary and reading exercises.
 
 ## Choose a mode, level and theme
 
-Listening modes are **Dictation**, **Missing words**, **Picture choice** and **Listening questions**. Speaking modes are **Speaking questions**, **Riddles**, **Puzzles** and **AI PK**. Open-ended source questions belong to Speaking questions, rather than the puzzle category. Every mode has content at all ten levels. Theme and content-source selectors show available reviewed material; not every theme or source appears at every level. The source selector stays visible when a selected source has no questions at that level, with an explicit empty state.
+Listening modes are **Scene words**, **Dictation**, **Missing words**, **Picture choice**, **Listening questions**, **Spelling bee**, **Sentence builder**, **Sound detective** and **Quick fire**. Speaking modes are **Speaking questions**, **Riddles**, **Puzzles** and **AI PK**. Vocabulary modes are **Word meanings**, **Word in context**, **Word scramble** and **Mini crossword**. Reading modes are **Reading questions**, **Paragraph order**, **Evidence hunt** and **Sentence puzzle**. Open-ended source questions belong to Speaking questions, rather than the puzzle category. Every mode has content at all ten levels. Theme and content-source selectors show available reviewed material; not every theme or source appears at every level. The source selector stays visible when a selected source has no questions at that level, with an explicit empty state.
 
-All eight modes now use the same editorial bands: **Intermediate at 1–3**, **Upper-intermediate at 4–7**, **Advanced at 8–10**. These are practice labels, not certified CEFR levels, IELTS bands or validated mastery evidence.
+The existing twenty modes use the same editorial bands: **Intermediate at 1–3**, **Upper-intermediate at 4–7**, **Advanced at 8–10**. These are practice labels, not certified CEFR levels, IELTS bands or validated mastery evidence.
 
 The seven modes other than Missing words have 90 new original v3 tasks: three dictations and one each of picture choice, comprehension, speaking response, riddle, puzzle and AI PK per level. Dictation starts with connected sentences and builds to longer qualified passages. Picture choice uses paraphrase and inference with the existing four images. Comprehension tests reasons, constraints and conditional conclusions. Riddles have distinct plausible answers; practical puzzles state workable constraints. Speaking asks for reasons at 1–3, alternatives or trade-offs at 4–7 and a qualified assumption or limitation at 8–10. Riddles instead ask for supporting clues, adding an alternative interpretation at advanced levels. Relevant alternative answers are accepted.
 
@@ -14,7 +18,7 @@ Original news-style scenarios are fictional practice, clearly labelled separatel
 
 ## Scored level runs
 
-**Start level** creates a server-owned run of up to three different matching questions in a fixed order. A category with fewer matching questions uses the actual count, which the setup screen displays. Listen and submit each answer. Speaking recordings are assessed automatically after stopping. Between questions, inspect feedback and choose **Next question**.
+**Start level** creates a server-owned run of up to three different matching questions in a fixed order. A category with fewer matching questions uses the actual count, which the setup screen displays. Audio games require completed playback before answering; vocabulary and reading games can be answered immediately. Speaking recordings are assessed automatically after stopping. Between questions, inspect feedback and choose **Next question**.
 
 After the final confirmed answer, the level result appears automatically. Its score is the rounded mean of the saved question scores. A mean of **70 or above** passes and unlocks the next level **in that mode only**. The result offers two actions:
 
@@ -69,7 +73,7 @@ Run `pnpm db:generate` and `pnpm db:migrate` after deployment. The local `pnpm d
 - `GET /v1/games`: public tasks, legacy skill access, per-mode access and recommendations.
 - `POST /v1/games/levels`: validated kind/level/theme/source and event ID create an owned ordered run; identical start retries return the same run, changed settings cannot reuse its event.
 - `GET /v1/games/levels/:id`: owned run, saved receipts, completion score, pass status and allowed next level.
-- `POST /v1/games/attempts`: existing bounded answer schema plus optional `levelSessionId`. Missing words requires a level session and ordered `gapAnswers` (at most six answers of 80 characters each). Scoped answers must match the next unanswered run task. Matching event retries coalesce/replay; conflicting or out-of-order answers are rejected. Unscoped requests remain for legacy modes only.
+- `POST /v1/games/attempts`: existing bounded answer schema plus optional `levelSessionId`. Vocabulary, reading and Missing words require a level session. Missing words uses ordered `gapAnswers` (at most six answers of 80 characters each). Scoped answers must match the next unanswered run task. Matching event retries coalesce/replay; conflicting or out-of-order answers are rejected. Unscoped requests remain for legacy modes only.
 
 The server chooses questions, enforces ownership/order/access and computes completion under the user's transaction lock. A unique session/round constraint prevents two saved answers for one slot. A browser cannot submit a level score or completion flag. Completed records cascade on account deletion; pending assessments recheck ownership before saving. Stored feedback contains a transcript and score, never raw/base64 audio or Blob URLs.
 
@@ -145,3 +149,58 @@ remain editorial and AI marks are coaching estimates, not certified exam scores.
 Live local Phonon playback completed for an unlocked Level8 picture inference
 round in the signed-in website, with no answer submitted to that learner account.
 See the [advanced game preview](playtest/aligned-games/live-advanced-picture.png).
+
+## Empty catalogs during local development
+
+`pnpm dev`, `dev:local` and `dev:test` watch imported API code and question JSON.
+After editing a backend dependency, the launcher restarts using the existing
+persistent development database. An already-running older launcher needs one
+manual restart to enable watching. Frontend hot reload alone cannot update the
+API's in-memory question catalog.
+
+If a whole mode is absent from the API response, its setup explains that the
+server content is not loaded. Refresh progress re-fetches the catalog. If only a
+source/theme filter has no matches, Clear filters restores the current level's
+available questions. Selecting another level resets both filters.
+
+## Reading questions: read, listen and recall
+
+Current reading editions highlight 3–6 curated content words in a short passage.
+Press **Start** once to hear cached AI narration while reading. Only a completed
+play replaces the highlighted words with letter boxes. Fill all blanks and use
+**Check answer** for per-word feedback and a saved score. **Replay audio** does
+not reveal the original words or clear answers. Errors and interrupted audio
+leave the preview available for retry. New reading practice needs working AI
+speech or previously cached audio; grading the blanks uses no LLM request.
+
+These editions use new v2 IDs. Existing v1 multiple-choice sessions keep their
+original questions, answers and progress; start a new level to use recall.
+
+Long recall passages are read as consecutive sentence-boundary chunks of at most
+600 Unicode characters, using the same cached speech endpoint. The whole
+passage counts as one completed play only after every chunk finishes. A failed
+or interrupted chunk keeps the preview; retry reads the passage again. This
+keeps existing per-request voice limits and authentication checks in place.
+
+## Scene words
+
+Choose **Listening games → Scene words** for a 3D room with a single-word
+listening gap. The first release contains 30 original prompts across ten levels,
+covering bedrooms, kitchens, cafés, markets, apartments, restaurants and airports.
+Play the AI sentence, type the missing word and press Enter or Check answer.
+The server saves the grade and then returns a word notebook with an English
+meaning, a Chinese gloss, common phrases and a new example. Speaker icons reuse
+the existing cached AI voice. No LLM call is needed for the editorial notebook.
+
+Each level has three questions; a 70+ level score unlocks the next scene level.
+Other listening-game results do not skip this new mode's first level. Existing
+scores and vocabulary review schedules remain unchanged.
+
+Rooms are original procedural Three.js furniture with rounded geometry, soft
+shadows and subtle pointer/light reactions. Animation follows the 3D preference
+and pauses when hidden or outside the viewport. WebGL failure uses a CSS room;
+native keyboard inputs, grading and the word notebook remain available. Sound
+and success confetti use the shared game preferences. No new art downloads,
+paid services or game engine are required.
+
+Scene-word notebooks are also available under **Review answers** on the completed level, including after a reload.

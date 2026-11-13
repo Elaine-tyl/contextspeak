@@ -16,17 +16,25 @@ namespace ContextSpeak.Cafe
         private AsyncOperationHandle<SceneInstance>? current;
         public static void Open(string address, Action<string> failed = null)
         {
-            if (address != "ForestCafe" && address != "LifeTown") return;
+            if (address != "ForestCafe" && address != "LifeTown" && address != "ForestSlice" && address != "CharacterCreation") return;
             if (instance == null)
             {
                 instance = new GameObject("World scene loader").AddComponent<WorldScenes>();
                 DontDestroyOnLoad(instance.gameObject);
             }
-            if (!instance.loading) instance.StartCoroutine(instance.Load(address, failed));
+            instance.StartCoroutine(instance.LoadWhenReady(address, failed));
         }
+        private IEnumerator LoadWhenReady(string address, Action<string> failed)
+        {
+            // The new scene can show controls before the previous one finishes unloading.
+            // Retain fast confirm/cancel requests, and acquire the gate before yielding.
+            while (loading) yield return null;
+            loading = true;
+            yield return Load(address, failed);
+        }
+
         private IEnumerator Load(string address, Action<string> failed)
         {
-            loading = true;
             var previous = SceneManager.GetActiveScene();
             var request = Addressables.LoadSceneAsync(address, LoadSceneMode.Additive, false);
             yield return request;

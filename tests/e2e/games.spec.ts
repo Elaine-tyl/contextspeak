@@ -52,6 +52,50 @@ async function currentRun(page: Page) {
     await page.request.get(`http://127.0.0.1:4318/v1/games/levels/${id}`)
   ).json();
 }
+
+test("new listening games submit tile and sound answers for server-owned feedback", async ({
+  page,
+}) => {
+  await signIn(page);
+  const modes = [
+    { label: "Spelling bee", parts: ["c", "a", "t"] },
+    { label: "Sentence builder", parts: ["I", "like", "green", "tea"] },
+    { label: "Sound detective", answer: "sheep" },
+    { label: "Quick fire", answer: "True" },
+  ];
+  for (const mode of modes) {
+    await page.goto("http://127.0.0.1:3000/games/web");
+    await choose(page, mode.label);
+    if (mode.label === "Quick fire")
+      await expect(
+        page.getByRole("img", { name: "Cat", exact: true }),
+      ).toBeVisible();
+    await listen(page);
+    if (mode.parts) {
+      for (const part of mode.parts)
+        await page
+          .getByRole("button", { name: `Add ${part}`, exact: true })
+          .click();
+    } else {
+      await page
+        .getByRole("button", { name: mode.answer, exact: true })
+        .click();
+    }
+    await page
+      .getByRole("button", { name: "Check answer", exact: true })
+      .click();
+    await expect(
+      page.getByRole("heading", {
+        name: "Answer checked",
+        exact: true,
+      }),
+    ).toBeVisible();
+    const current = await currentRun(page);
+    expect(current.receipts).toHaveLength(1);
+    expect(current.receipts[0].score).toBe(100);
+  }
+});
+
 async function finishDictation(page: Page, response?: string) {
   const run = await currentRun(page);
   for (let index = run.receipts.length; index < run.rounds.length; index++) {
@@ -131,13 +175,22 @@ test("picture_and_listening_question_levels_score_after_completion", async ({
   await signIn(page, "Test learner B", false);
   await choose(page, "Picture choice");
   await expect(
-    page.getByRole("button", { name: "Choose bridge picture", exact: true }),
+    page.getByRole("button", { name: "Choose umbrella picture", exact: true }),
   ).toBeDisabled();
-  await listen(page);
-  await page
-    .getByRole("button", { name: "Choose bridge picture", exact: true })
-    .click();
-  await page.getByRole("button", { name: "Check answer", exact: true }).click();
+  // Level 1 uses its own four-picture theme and three rounds.
+  for (const [index, picture] of ["umbrella", "bicycle", "book"].entries()) {
+    if (index)
+      await page
+        .getByRole("button", { name: "Next question", exact: true })
+        .click();
+    await listen(page);
+    await page
+      .getByRole("button", { name: `Choose ${picture} picture`, exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "Check answer", exact: true })
+      .click();
+  }
   await expect(
     page.getByRole("heading", { name: "Level score: 100/100", exact: true }),
   ).toBeVisible();
@@ -233,7 +286,7 @@ test("pending_answers_reuse_the_same_upload_and_expiry_stops_the_microphone", as
     .toBeGreaterThan(stops);
   expect(uploads).toHaveLength(2);
 });
-test("credited_sources_and_themes_filter_a_level_and_low_scores_require_retry", async ({
+test("credited_sources_filter_levels_low_scores_require_retry_and_stale_filters_recover", async ({
   page,
 }) => {
   await signIn(page);
@@ -288,14 +341,17 @@ test("credited_sources_and_themes_filter_a_level_and_low_scores_require_retry", 
   await page.getByRole("button", { name: "Level 2", exact: true }).click();
   await page.getByLabel("Theme", { exact: true }).selectOption("News · work");
   await expect(page.getByLabel("Content source", { exact: true })).toHaveValue(
-    "ContextSpeak",
+    "all",
   );
   await expect(
     page.getByText(
       "No matching questions. Choose another theme or All sources.",
       { exact: true },
     ),
-  ).toBeVisible();
+  ).toHaveCount(0);
+  await expect(
+    page.getByRole("button", { name: "Start level", exact: true }),
+  ).toBeEnabled();
 });
 test("brand_is_visible_on_every_route_and_modes_remain_visible", async ({
   page,
@@ -562,6 +618,7 @@ test("academic_six_blank_mobile_rounds_and_credited_news_are_available_with_offi
   await page
     .getByRole("button", { name: "Missing words", exact: true })
     .click();
+  await page.getByText("Difficulty and resources", { exact: true }).click();
   await page.getByText("Free news and IELTS practice", { exact: true }).click();
   await expect(
     page.getByRole("link", {
@@ -688,10 +745,10 @@ test("academic_six_blank_mobile_rounds_and_credited_news_are_available_with_offi
       () => document.documentElement.scrollWidth <= window.innerWidth,
     ),
   ).toBe(true);
-  // Long entered vocabulary must remain readable inside each inline field.
-  for (const input of await page.getByRole("textbox").all())
+  // The native input is intentionally hidden; visible letter boxes must not clip glyphs.
+  for (const cell of await page.locator(".letter-cell").all())
     expect(
-      await input.evaluate(
+      await cell.evaluate(
         (element) => element.scrollWidth <= element.clientWidth,
       ),
     ).toBe(true);
@@ -722,6 +779,7 @@ test("all_modes_share_difficulty_and_old_foundation_results_retry_current_conten
     await page.getByRole("button", { name: track, exact: true }).click();
     for (const mode of modes) {
       await page.getByRole("button", { name: mode, exact: true }).click();
+      await page.getByText("Difficulty and resources", { exact: true }).click();
       await expect(
         page.getByText(
           "Levels 1–3: Intermediate · 4–7: Upper-intermediate · 8–10: Advanced",

@@ -1,12 +1,25 @@
+import { textPuzzleChallenges } from "./text-puzzles";
+import { sceneWordChallenges } from "./scene-words";
+import { vocabularyChallenges } from "./vocabulary-content";
+import { readingOrderChallenges } from "./reading-order-content";
+import { readingChallenges } from "./reading-content";
+import { openReadingChallenges } from "./open-reading";
+import { readingRecallEditions } from "./reading-recall";
 import { currentChallenges } from "./current";
 import { openChallenges } from "./open-content";
 import { beginnerChallenges } from "./beginner";
 import { gapFillChallenges, archivedGapFillChallenges } from "./gap-fill";
-import type { GameRound, GameProgress } from "@contextspeak/contracts";
+import { newModeChallenges } from "./new-modes";
+import type {
+  GameRound,
+  GameProgress,
+  SceneWordNotes,
+} from "@contextspeak/contracts";
 export type Challenge = GameRound & {
   answer: string;
   explanation: string;
   gapAnswers?: string[];
+  sceneWordNotes?: SceneWordNotes;
 };
 // Original, immutable content: new revisions get new IDs so saved progress stays meaningful.
 const passages = [
@@ -189,7 +202,16 @@ const legacyChallenges: Challenge[] = passages.flatMap((texts, index) => {
   ];
 });
 export const challenges = [
-  ...currentChallenges,
+  // v3 picture rounds are replaced by themed v4 sets (4, 6 and 9 pictures by level).
+  ...currentChallenges.map((round) =>
+    round.kind === "picture" ? { ...round, archived: true } : round,
+  ),
+  ...newModeChallenges,
+  ...sceneWordChallenges,
+  ...vocabularyChallenges,
+  ...textPuzzleChallenges,
+  ...readingRecallEditions([...readingChallenges, ...openReadingChallenges]),
+  ...readingOrderChallenges,
   ...[...beginnerChallenges, ...legacyChallenges].map((round) => ({
     ...round,
     archived: true,
@@ -229,6 +251,7 @@ export function publicRound({
   answer,
   explanation,
   gapAnswers,
+  sceneWordNotes,
   ...round
 }: Challenge): GameRound {
   return { ...round, topic: roundTopic(round) };

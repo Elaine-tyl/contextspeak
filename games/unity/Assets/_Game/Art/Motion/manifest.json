@@ -1,0 +1,85 @@
+[
+  {
+    "model": "Academy",
+    "motion": "Vault",
+    "sourceHash": "74029dec0228fd44be003e69bf9894a565a02f00b665fc21033bbc5297381b4f",
+    "source": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_74029dec02/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-Vault.fbx"
+  },
+  {
+    "model": "Daydream",
+    "motion": "Walk",
+    "sourceHash": "69bf1600ee27c43afe25d2fd4e297c8c1331881a83966b4a6363412f2b75c254",
+    "source": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk_69bf1600ee/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-Walk.fbx"
+  },
+  {
+    "model": "Daydream",
+    "motion": "Run",
+    "sourceHash": "65f272262156a5acf7f83c3625619fccdac7b8502f23b5ae58180b0c2a61fca9",
+    "source": "Academy_Daydream_20261112_animated_mixamo_RunFast_65f2722621/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-Run.fbx"
+  },
+  {
+    "model": "TrenchElder",
+    "motion": "Walk",
+    "sourceHash": "81fedc64995f31dcaed2d0853c870f3fa6b937298876f4fb309a3173bba1f9bc",
+    "source": "A_fit_old_man_wearing_a_trench_coat_20250318_animated_mixamo_Walking_81fedc6499/Meshy_AI_A_fit_old_man_wearing_a_trench_coat_20250318_animated_mixamo_Walking.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/TrenchElder/BaseColor.png"
+    },
+    "file": "TrenchElder-Walk.fbx"
+  },
+  {
+    "model": "OldCardigan",
+    "motion": "Walk",
+    "sourceHash": "64f9efaab6f0cb734a73aea131f5dcedc8789c6589d6198cb5fb422ea903d65f",
+    "source": "Old_Gentleman_in_a_Cardigan_20260409_animated_mixamo_Walking_64f9efaab6/Meshy_AI_Old_Gentleman_in_a_Cardigan_20260409_animated_mixamo_Walking.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/OldCardigan/BaseColor.png"
+    },
+    "file": "OldCardigan-Walk.fbx"
+  },
+  {
+    "model": "OfficerMason",
+    "motion": "Walk",
+    "sourceHash": "816fb69a4453c2b5da2474b063ee586f7a4b968c06f4ee48660eaaf8898bd0a6",
+    "source": "Ultra_detailed_male_cop_no_weapon_20250211_animated_mixamo_Walking_816fb69a44/Meshy_AI_Ultra_detailed_male_cop_no_weapon_20250211_animated_mixamo_Walking.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/OfficerMason/BaseColor.png"
+    },
+    "file": "OfficerMason-Walk.fbx"
+  },
+  {
+    "model": "OfficerTaylor",
+    "motion": "Walk",
+    "sourceHash": "5f00929bd837432090058cf39a8a409b55e99bf1a7592f1d572321287e08b487",
+    "source": "Uniformed_Police_Officer_20260609_animated_mixamo_Walking_5f00929bd8/Meshy_AI_Uniformed_Police_Officer_20260609_animated_mixamo_Walking.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/OfficerTaylor/BaseColor.png"
+    },
+    "file": "OfficerTaylor-Walk.fbx"
+  }
+]

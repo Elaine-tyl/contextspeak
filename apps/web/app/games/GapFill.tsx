@@ -1,49 +1,66 @@
-import { Fragment } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import type { GapFillFeedback } from "@contextspeak/contracts";
+import { gapWordLengths } from "./gapLetters";
+import { LetterWord } from "./LetterWord";
 
 export function GapFillSentence({
   parts,
+  audioText,
   answers,
   disabled,
   onChange,
   onSubmit,
+  legend = "Fill the letter boxes",
 }: {
   parts: string[];
+  audioText: string;
   answers: string[];
   disabled: boolean;
   onChange(value: string[]): void;
   onSubmit(): void;
+  legend?: string;
 }) {
+  const inputs = useRef<(HTMLInputElement | null)[]>([]);
+  const lengths = gapWordLengths(audioText, parts);
+  useEffect(() => {
+    // Start typing after listening, without moving focus again on each keystroke.
+    if (!disabled)
+      inputs.current.find((input) => input && !input.value.trim())?.focus();
+  }, [disabled]);
+
   return (
-    <fieldset
-      className="gap-fill"
-      disabled={disabled}
-      onKeyDown={(event) => {
-        if (event.key === "Enter" && answers.every((word) => word.trim())) {
-          event.preventDefault();
-          onSubmit();
-        }
-      }}
-    >
-      <legend>Fill in the missing words</legend>
+    <fieldset className="gap-fill" disabled={disabled}>
+      <legend>{legend}</legend>
       <p className="gap-fill-sentence">
         {parts.map((part, index) => (
           <Fragment key={index}>
             {part}
             {index < answers.length && (
-              <input
-                aria-label={`Missing word ${index + 1}`}
+              <LetterWord
+                inputRef={(input) => {
+                  inputs.current[index] = input;
+                }}
+                label={`Missing word ${index + 1}`}
                 value={answers[index]}
-                maxLength={80}
-                // Grow from entered text only; do not hint at the hidden word's length.
-                size={Math.max(12, Math.min(26, answers[index].length + 3))}
-                autoComplete="off"
-                autoCapitalize="none"
-                spellCheck={false}
-                onChange={(event) =>
+                length={lengths[index]}
+                onComplete={() => inputs.current[index + 1]?.focus()}
+                onKeyDown={(event) => {
+                  if (event.key !== "Enter" || event.nativeEvent.isComposing)
+                    return;
+                  event.preventDefault();
+                  if (!answers[index].trim()) return;
+                  const nextEmpty = inputs.current.find(
+                    (input) => input && !input.value.trim(),
+                  );
+                  if (index < answers.length - 1)
+                    inputs.current[index + 1]?.focus();
+                  else if (nextEmpty) nextEmpty.focus();
+                  else onSubmit();
+                }}
+                onChange={(value) =>
                   onChange(
                     answers.map((word, position) =>
-                      position === index ? event.target.value : word,
+                      position === index ? value : word,
                     ),
                   )
                 }
@@ -52,22 +69,46 @@ export function GapFillSentence({
           </Fragment>
         ))}
       </p>
+      <div className="gap-typing-footer">
+        <small id="gap-typing-hint">
+          One letter per box · Tab to switch words · Enter to check
+        </small>
+        <small>
+          {
+            answers.filter((word, index) => word.length === lengths[index])
+              .length
+          }{" "}
+          / {answers.length} filled
+        </small>
+      </div>
     </fieldset>
   );
 }
 
-export function GapFillResult({ feedback }: { feedback: GapFillFeedback }) {
+export function GapFillResult({
+  feedback,
+  crossword = false,
+}: {
+  feedback: GapFillFeedback;
+  crossword?: boolean;
+}) {
   const correct = feedback.words.filter((word) => word.correct).length;
   return (
-    <section className="gap-fill-result" aria-label="Missing words feedback">
+    <section
+      className="gap-fill-result"
+      aria-label={crossword ? "Crossword feedback" : "Missing words feedback"}
+    >
       <h3>Your result: {feedback.score}/100</h3>
       <p>
-        {correct} of {feedback.words.length} missing words correct.
+        {correct} of {feedback.words.length}{" "}
+        {crossword ? "clues" : "missing words"} correct.
       </p>
       <ol>
         {feedback.words.map((word, index) => (
           <li key={index}>
-            <span>Blank {index + 1}</span>{" "}
+            <span>
+              {crossword ? "Clue" : "Blank"} {index + 1}
+            </span>{" "}
             {word.correct ? (
               <strong className="gap-fill-correct">
                 Correct: {word.expected}

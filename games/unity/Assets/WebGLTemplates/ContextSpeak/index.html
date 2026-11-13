@@ -4,12 +4,13 @@
   <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
   <title>ContextSpeak · Unity Forest Cafe</title>
   <link rel="stylesheet" href="cafe.css">
+  <link rel="stylesheet" href="character.css">
 </head>
 <body>
-  <canvas id="unity-canvas" tabindex="0" aria-label="3D cafe. WASD to walk, E to talk."></canvas>
-  <header><a href="/">ContextSpeak</a><span id="world-title">Unity · Forest Cafe</span><span id="loading" role="status">Loading the cafe…</span><button id="life">Explore Life town</button><button id="cafe" hidden>Original cafe</button></header>
-  <aside id="mission"><p id="objective"></p><dl id="life-inventory" hidden><dt>Wallet</dt><dd id="wallet"></dd><dt>Bag</dt><dd id="bag"></dd></dl><button id="walk" hidden>Walk to objective</button><label>Test stage <select id="stage"><option value="continue">Continue saved task</option><option value="counter">Counter · practice</option><option value="friend">Friend chat · practice</option></select></label><button id="reconnect">Reconnect local AI</button><button id="reset">New task</button><small>Unity preview · separate local save</small></aside>
-  <aside id="life-menu" aria-label="Scene menu" hidden></aside>
+  <canvas id="unity-canvas" tabindex="0" aria-label="3D world. WASD to move, Shift to sprint, Space to jump. E to interact, F to talk, M for map or menu."></canvas>
+  <header><a href="/">ContextSpeak</a><span id="world-title">Unity · Forest Cafe</span><span id="loading" role="status">Loading the cafe…</span><button id="life">Explore Life town</button><button id="cafe" hidden>Original cafe</button><button id="slice">Forest café (new)</button></header>
+  <aside id="mission"><p id="objective"></p><dl id="life-inventory" hidden><dt>Wallet</dt><dd id="wallet"></dd><dt>Bag</dt><dd id="bag"></dd></dl><button id="walk" hidden>Walk to objective</button><button id="menu-open" hidden aria-keyshortcuts="M">Menu · M</button><label>Test stage <select id="stage"><option value="continue">Continue saved task</option><option value="counter">Counter · practice</option><option value="friend">Friend chat · practice</option></select></label><button id="reconnect">Reconnect local AI</button><button id="reset">New task</button><small>Unity preview · separate local save</small></aside>
+  <aside id="life-menu" aria-label="Scene menu" hidden><div id="life-menu-text"></div><ul id="life-menu-items"></ul></aside>
   <p id="travel-status" role="status" hidden></p>
   <button id="interact" hidden></button>
   <form id="dialogue" hidden aria-label="NPC conversation">
@@ -19,12 +20,30 @@
     <div class="buttons"><button id="send" type="submit">Send reply</button><button id="record" type="button">Record reply</button><button id="hear" type="button">Hear NPC</button><button id="hear-repair" type="button" hidden>Hear correction</button><button id="join" type="button" hidden>Join Alex</button></div>
     <p id="status" role="status"></p>
   </form>
-  <footer>WASD / arrows · E to talk · Right-drag to look · Scroll to zoom · Esc to explore</footer>
+  <footer>WASD / arrows to walk · Shift to run · Space to jump · E to talk · M for menu · Right-drag to look · Scroll to zoom · Esc to explore</footer>
+  <form id="character-creation" aria-label="Create your character" hidden>
+    <strong>ContextSpeak Life</strong><h1>Create your character</h1>
+    <p>Make this world your own. You can update your character at the wardrobe later.</p>
+    <fieldset id="character-fields">
+      <legend>Character details</legend>
+      <div class="character-options"><button id="character-girl" type="button" aria-pressed="true">Female</button><button id="character-boy" type="button" aria-pressed="false">Male</button></div>
+      <label for="character-name">Character name<input id="character-name" maxlength="48" autocomplete="off" value="Emma"></label>
+      <label for="character-band">Starting practice band<select id="character-band"><option>3</option><option>4</option><option selected>5</option><option>6</option><option>7</option><option>8</option><option>9</option></select></label>
+      <label for="character-height">Height <output id="character-height-value">100%</output><input id="character-height" type="range" min="0.95" max="1.05" step="0.01" value="1"></label>
+      <label for="character-build">Build <output id="character-build-value">100%</output><input id="character-build" type="range" min="0.95" max="1.05" step="0.01" value="1"></label>
+      <p class="character-support">Face, hair, uniform, shoes and backpack use the supplied model. Separate styles need compatible model parts. Starting band applies to new worlds; existing progress is kept. Practice targets are not official IELTS scores.</p>
+      <label for="character-rotation">Rotate preview · 360°<input id="character-rotation" type="range" min="0" max="360" step="1" value="0"></label>
+      <div class="character-options"><button id="character-left" type="button" aria-label="Turn preview left">↶ Turn</button><button id="character-right" type="button" aria-label="Turn preview right">Turn ↷</button><button id="character-reset" type="button">Reset view</button></div>
+      <button id="character-confirm" type="submit">Save &amp; enter world</button><button id="character-cancel" type="button" hidden>Return without changes</button>
+    </fieldset>
+    <p id="character-status" role="status"></p>
+  </form>
   <output id="unity-status" hidden></output>
-  <script src="/microphone.js"></script><script src="cafe.js"></script>
+  <script src="/microphone.js"></script><script src="cafe.js"></script><script src="character.js"></script>
   <script src="Build/{{{ LOADER_FILENAME }}}"></script>
   <script>
     createUnityInstance(document.getElementById("unity-canvas"), {
+      autoSyncPersistentDataPath: true,
       dataUrl: "Build/{{{ DATA_FILENAME }}}", frameworkUrl: "Build/{{{ FRAMEWORK_FILENAME }}}", codeUrl: "Build/{{{ CODE_FILENAME }}}",
       streamingAssetsUrl: "StreamingAssets", companyName: "ContextSpeak", productName: "ContextSpeak Unity Cafe", productVersion: "0.1.0"
     }, progress => { document.getElementById("loading").textContent = "Loading " + Math.round(progress * 100) + "%"; })

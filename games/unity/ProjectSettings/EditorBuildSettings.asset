@@ -11,6 +11,10 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Generated/LifeTown.unity
     guid: 4e39addf6385a43fba3c0621d1a650a5
+  - enabled: 0
+    path: Assets/Generated/ForestSlice.unity
+    guid: 904b6db9641f449dd94127fd0c6a7c3a
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: db6e96fb5596b41fbab334478c17b042, type: 2}
+    com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
   m_UseUCBPForAssetBundles: 0

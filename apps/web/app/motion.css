@@ -1,0 +1,240 @@
+/* Shared depth layer. Learning controls never opt into pointer transforms. */
+.app-main {
+  background:
+    radial-gradient(ellipse at 95% 0, #dce9e642, transparent 55%),
+    radial-gradient(ellipse at 5% 50%, #e8eefc3b, transparent 48%);
+}
+.depth-hero {
+  position: relative;
+  align-items: center;
+  padding: 28px 32px;
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  background: linear-gradient(125deg, #edf6ef, #fafbf8 60%, #edf1fc);
+  box-shadow:
+    0 12px 40px -25px #17694f40,
+    inset 0 1px 0 #fff;
+}
+.depth-hero .hero-copy {
+  flex: 1 1 300px;
+  position: relative;
+  z-index: 1;
+}
+.depth-hero .hero-copy > .secondary,
+.depth-hero .connection {
+  margin-top: 18px;
+}
+.app-shell [data-depth] {
+  transition:
+    transform 180ms ease-out,
+    box-shadow 180ms ease-out;
+}
+.app-shell[data-motion="on"] [data-depth][data-tilting] {
+  transform: perspective(1000px) rotateX(var(--tilt-x)) rotateY(var(--tilt-y))
+    translateY(-3px);
+  box-shadow: 0 18px 32px -20px #1d2b2552;
+}
+.learning-sculpture {
+  position: relative;
+  flex: 0 0 260px;
+  width: 260px;
+  height: 220px;
+  perspective: 900px;
+  isolation: isolate;
+}
+.app-shell .learning-sculpture[data-tilting] {
+  box-shadow: none;
+}
+.sculpture-world {
+  position: absolute;
+  width: 220px;
+  height: 200px;
+  left: 20px;
+  top: 12px;
+  transform: rotateX(58deg) rotateZ(-32deg);
+  transform-style: preserve-3d;
+}
+.sculpture-plinth {
+  position: absolute;
+  inset: 18px 0 0;
+  border-radius: 34px;
+  background: linear-gradient(135deg, #fff, #dce9e1);
+  border: 1px solid #fff;
+  box-shadow:
+    -2px 3px 0 #c6d6ce,
+    -4px 6px 0 #c6d6ce,
+    -6px 9px 0 #c6d6ce,
+    -8px 16px 25px #1d2b2520;
+  transform: translateZ(-12px);
+}
+.sculpture-orbit {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  animation: sculpture-float 7s ease-in-out infinite;
+}
+.sculpture-cube {
+  --size: 68px;
+  position: absolute;
+  width: var(--size);
+  height: var(--size);
+  transform-style: preserve-3d;
+}
+.cube-brand {
+  --cube-color: #27856a;
+  --cube-light: #55b292;
+  left: 24px;
+  top: 40px;
+  transform: translateZ(30px);
+}
+.cube-speak {
+  --size: 54px;
+  --cube-color: #4465d5;
+  --cube-light: #8fa8ff;
+  left: 122px;
+  top: 65px;
+  transform: translateZ(24px);
+}
+.cube-review {
+  --size: 42px;
+  --cube-color: #de943e;
+  --cube-light: #ffcf80;
+  left: 90px;
+  top: 142px;
+  transform: translateZ(18px);
+}
+.cube-face {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border: 1px solid #ffffff25;
+  border-radius: 9px;
+  background: linear-gradient(140deg, var(--cube-color), var(--cube-light));
+  color: white;
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  backface-visibility: hidden;
+}
+.cube-front {
+  transform: translateZ(calc(var(--size) / 2));
+}
+.cube-back {
+  transform: rotateY(180deg) translateZ(calc(var(--size) / 2));
+}
+.cube-left {
+  transform: rotateY(-90deg) translateZ(calc(var(--size) / 2));
+}
+.cube-right {
+  transform: rotateY(90deg) translateZ(calc(var(--size) / 2));
+}
+.cube-top {
+  transform: rotateX(90deg) translateZ(calc(var(--size) / 2));
+  background: var(--cube-light);
+}
+.cube-bottom {
+  transform: rotateX(-90deg) translateZ(calc(var(--size) / 2));
+}
+.sculpture-dot {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #8ab8a3;
+  box-shadow: 0 3px 0 #447e69;
+  transform: translateZ(5px);
+}
+.dot-one {
+  top: 135px;
+  left: 32px;
+}
+.dot-two {
+  top: 38px;
+  right: 20px;
+  width: 8px;
+  height: 8px;
+  background: #e7b570;
+}
+.motion-toggle {
+  position: fixed;
+  right: 18px;
+  bottom: 16px;
+  z-index: 30;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 8px 12px;
+  border: 1px solid var(--border-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  box-shadow: 0 4px 18px #1d2b2512;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+.motion-toggle svg {
+  width: 18px;
+  height: 18px;
+  color: var(--brand);
+}
+.motion-toggle span {
+  color: var(--brand);
+}
+.motion-toggle:disabled {
+  opacity: 1;
+}
+@keyframes sculpture-float {
+  0%,
+  100% {
+    transform: translateZ(0);
+  }
+  50% {
+    transform: translateZ(10px) rotateZ(3deg);
+  }
+}
+.app-shell[data-motion="off"] .sculpture-orbit {
+  animation: none;
+}
+.app-shell[data-motion="off"] [data-depth] {
+  transform: none;
+}
+@media (hover: none), (pointer: coarse) {
+  .app-shell [data-depth] {
+    transform: none !important;
+  }
+}
+@media (max-width: 650px) {
+  .depth-hero {
+    padding: 24px 20px;
+    gap: 4px;
+  }
+  .depth-hero .hero-copy {
+    flex-basis: 100%;
+  }
+  .learning-sculpture {
+    margin: 0 auto;
+    width: 100%;
+    height: 220px;
+    flex-basis: 100%;
+  }
+  .sculpture-world {
+    left: calc(50% - 110px);
+    top: 30px;
+    transform: scale(0.75) rotateX(58deg) rotateZ(-32deg);
+  }
+  .motion-toggle {
+    right: 12px;
+    bottom: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .sculpture-orbit {
+    animation: none;
+  }
+  .app-shell [data-depth] {
+    transform: none !important;
+    transition: none;
+  }
+}

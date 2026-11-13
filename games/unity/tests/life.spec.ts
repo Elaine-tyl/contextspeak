@@ -1,3 +1,4 @@
+import { openWorld } from "./helpers";
 import { expect, test, type Page } from "@playwright/test";
 import { FixtureSpeechProvider } from "../../../apps/api/src/speech/gemini-speech.provider";
 import { lifeInput, reviewLife } from "../../../packages/world/life";
@@ -40,7 +41,7 @@ async function openTown(page: Page) {
       }),
     });
   });
-  await page.goto("http://127.0.0.1:4320/unity/?world=life");
+  await openWorld(page, "http://127.0.0.1:4320/unity/?world=life");
   await expect(page.locator("#unity-status")).toContainText('"mode":"life"', {
     timeout: 120000,
   });

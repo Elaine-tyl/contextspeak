@@ -9,7 +9,8 @@ namespace ContextSpeak.Cafe
     {
         public event Action<string, string> Command;
         private Label objective, wallet, bag, speaker, line, repair, feedback, transcript, status, menu, travelStatus;
-        private VisualElement dialogue, menuPanel;
+        private VisualElement dialogue, menuPanel, menuRows;
+        private string menuSignature = "";
         private TextField reply;
         private Button record, send, hear, hearRepair, nearby;
         private void Awake()
@@ -26,6 +27,7 @@ namespace ContextSpeak.Cafe
             hud.Add(wallet);
             hud.Add(bag);
             hud.Add(Button("Walk to objective", "walk"));
+            hud.Add(Button("Menu · M", "menu"));
             travelStatus = new Label { enableRichText = false };
             hud.Add(travelStatus);
             hud.Add(new Label("Test stage · unearned practice"));
@@ -35,9 +37,12 @@ namespace ContextSpeak.Cafe
             hud.Add(stages);
             hud.Add(Button("Reconnect local AI", "connect"));
             hud.Add(Button("Original cafe", "cafe"));
+            hud.Add(Button("Forest Café (new)", "slice"));
             menuPanel = new VisualElement { name = "life-menu" };
             menu = new Label { enableRichText = false };
             menuPanel.Add(menu);
+            menuRows = new VisualElement { name = "life-menu-items" };
+            menuPanel.Add(menuRows);
             root.Add(menuPanel);
             nearby = Button("Talk", "interact");
             nearby.AddToClassList("nearby");
@@ -72,7 +77,7 @@ namespace ContextSpeak.Cafe
             dialogue.Add(buttons);
             status = new Label { enableRichText = false };
             dialogue.Add(status);
-            var controls = new Label("WASD / arrows · E to talk · Right-drag to look · Esc to explore");
+            var controls = new Label("WASD / arrows to walk · Shift to run · Space to jump · E to talk · M for menu · Right-drag to look · Esc to explore");
             controls.AddToClassList("controls");
             root.Add(controls);
         }
@@ -90,6 +95,7 @@ namespace ContextSpeak.Cafe
             nearby.style.display = state.nearby == "" ? DisplayStyle.None : DisplayStyle.Flex;
             menu.text = state.menu;
             menuPanel.style.display = state.menu == "" ? DisplayStyle.None : DisplayStyle.Flex;
+            RenderMenuItems(state.menuItems ?? new LifeMenuItem[0]);
             dialogue.style.display = state.dialogue ? DisplayStyle.Flex : DisplayStyle.None;
             speaker.text = state.speaker;
             line.text = state.line;
@@ -108,6 +114,35 @@ namespace ContextSpeak.Cafe
             hear.SetEnabled(idle);
             hearRepair.SetEnabled(idle);
             hearRepair.style.display = state.repair == "" ? DisplayStyle.None : DisplayStyle.Flex;
+        }
+        private void RenderMenuItems(LifeMenuItem[] items)
+        {
+            // Rebuild only when the menu actually changes, not on every 150 ms refresh.
+            var signature = string.Join("|", Array.ConvertAll(items, item => item.id + item.planned + item.affordable));
+            if (signature == menuSignature) return;
+            menuSignature = signature;
+            menuRows.Clear();
+            foreach (var item in items)
+            {
+                var row = new VisualElement();
+                row.AddToClassList("menu-item");
+                if (item.planned) row.AddToClassList("planned");
+                var title = new Label(item.name + "  " + item.price) { enableRichText = false };
+                title.AddToClassList("menu-item-title");
+                row.Add(title);
+                row.Add(new Label(item.note) { enableRichText = false });
+                var phrase = new Label("Say: “" + item.phrase + "”") { enableRichText = false };
+                phrase.AddToClassList("menu-item-phrase");
+                row.Add(phrase);
+                if (item.plannable)
+                {
+                    var id = item.id;
+                    var pick = new Button(() => Command?.Invoke("plan", id)) { text = item.planned ? "Picked" : item.affordable ? "Pick this" : "Over budget" };
+                    pick.SetEnabled(item.affordable || item.planned);
+                    row.Add(pick);
+                }
+                menuRows.Add(row);
+            }
         }
         public void ClearInput()
         {

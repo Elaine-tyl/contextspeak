@@ -1,0 +1,11 @@
+.character-creator { flex-direction: row; color: rgb(36, 60, 51); }
+.creation-controls { width: 42%; min-width: 320px; max-width: 550px; background-color: rgba(255, 249, 237, 0.97); padding: 28px; }
+.creation-brand { font-size: 20px; -unity-font-style: bold; color: rgb(23, 107, 88); }
+.creation-title { font-size: 30px; -unity-font-style: bold; margin-top: 20px; margin-bottom: 10px; white-space: normal; }
+.creation-copy { white-space: normal; color: rgb(87, 108, 95); margin-bottom: 18px; }
+.creation-row { flex-direction: row; flex-wrap: wrap; margin-bottom: 12px; }
+.creation-controls Button { height: 44px; margin-right: 6px; margin-bottom: 8px; padding-left: 14px; padding-right: 14px; font-size: 15px; background-color: white; color: rgb(23, 107, 88); }
+.creation-controls .selected, .creation-controls .creation-primary { background-color: rgb(23, 107, 88); color: white; }
+.creation-controls TextField, .creation-controls DropdownField, .creation-controls Slider { margin-bottom: 18px; min-height: 34px; }
+.creation-controls .unity-base-field__label { min-width: 100px; }
+.creation-status { white-space: normal; color: rgb(138, 68, 40); }

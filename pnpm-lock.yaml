@@ -47,6 +47,9 @@ importers:
       "@types/supertest":
         specifier: 7.2.1
         version: 7.2.1
+      "@types/three":
+        specifier: 0.187.0
+        version: 0.187.0
       "@wxt-dev/module-react":
         specifier: 1.2.2
         version: 1.2.2(vite@8.3.6(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15))(wxt@0.21.5(esbuild@0.28.2)(rolldown@1.2.16)(typescript@5.9.3)(vite@8.3.6(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15)))
@@ -175,6 +178,9 @@ importers:
       react-dom:
         specifier: 19.3.1
         version: 19.3.1(react@19.3.1)
+      three:
+        specifier: 0.187.0
+        version: 0.187.0
 
   packages/contracts:
     dependencies:
@@ -241,6 +247,12 @@ packages:
     resolution:
       {
         integrity: sha512-49CycTz1aAZmvFcwkeFyhud1HUmRIB5Tabf7ALV+VA4Iu85MTfz2cUwzPagMFAdVBvrWdkCxG67I30tUwwpKsw==,
+      }
+
+  "@dimforge/rapier3d-compat@0.12.0":
+    resolution:
+      {
+        integrity: sha512-uekIGetywIgopfD97oDL5PfeezkFpNhwlzlaEYNOA0N6ghdsOvh/HYjSMek5Q2O1PYvRSDFcqFVJl4r4ZBwOow==,
       }
 
   "@embedded-postgres/darwin-arm64@18.6.0-beta.19":
@@ -1236,6 +1248,12 @@ packages:
       }
     engines: { node: ">=22.0.0" }
 
+  "@tweenjs/tween.js@23.1.3":
+    resolution:
+      {
+        integrity: sha512-vJmvvwFxYuGnF2axRtPYocag6Clbb5YS7kLL+SO/TeVFzHqDIWrNKYtcsPMibjDx9O+bu+psAy9NKfWklassUA==,
+      }
+
   "@types/body-parser@1.19.6":
     resolution:
       {
@@ -1364,6 +1382,12 @@ packages:
         integrity: sha512-8mam4H1NHLtu7nmtalF7eyBH14QyOASmcxHhSfEoRyr0nP/YdoesEtU+uSRvMe96TW/HPTtkoKqQLl53N7UXMQ==,
       }
 
+  "@types/stats.js@0.17.4":
+    resolution:
+      {
+        integrity: sha512-jIBvWWShCvlBqBNIZt0KAshWpvSjhkwkEu4ZUcASoAvhmrgAUI2t1dXrjSL4xXVLB4FznPrIsX3nKXFl/Dt4vA==,
+      }
+
   "@types/superagent@8.1.11":
     resolution:
       {
@@ -1374,6 +1398,18 @@ packages:
     resolution:
       {
         integrity: sha512-4CbBvoYVLHL7+yhbYrZET0vsvuyXTC05aRe7dNQkwMzm56auceoy6Yu3K50uZmwfHna1os3CMSgM/3QVkUtPTw==,
+      }
+
+  "@types/three@0.187.0":
+    resolution:
+      {
+        integrity: sha512-v+vKNarUtk4n2QRZ4+CN5ygMM0ARUjXjIQl0R/unMUfmStFeVqGbgqarbrpoGTXRZoulSH16ePrVJVxPJEbMUA==,
+      }
+
+  "@types/webxr@0.5.24":
+    resolution:
+      {
+        integrity: sha512-h8fgEd/DpoS9CBrjEQXR+dIDraopAEfu4wYVNY2tEPwk60stPWhvZMf4Foo5FakuQ7HFZoa8WceaWFervK2Ovg==,
       }
 
   "@vitejs/plugin-react@6.2.1":
@@ -2084,6 +2120,12 @@ packages:
       picomatch:
         optional: true
 
+  fflate@0.8.3:
+    resolution:
+      {
+        integrity: sha512-tbZNuJrLwGUp3zshBtdy4W+ORxZuIh8a5ilyIEQDC5rY1f3U20JMry0Ll3WBzU58EZKsEuJFXhb5gwv8CsPvgA==,
+      }
+
   file-type@22.3.0:
     resolution:
       {
@@ -2523,6 +2565,12 @@ packages:
         integrity: sha512-Snk314V5ayFLhp3fkUREub6WtjBfPdCPY1Ln8/8munuLuiYhsABgBVWsozAG+MWMbVEvcdcpbi9R7ww22l9Q3g==,
       }
     engines: { node: ">=18" }
+
+  meshoptimizer@1.1.1:
+    resolution:
+      {
+        integrity: sha512-oRFNWJRDA/WTrVj7NWvqa5HqE1t9MYDj2VaWirQCzCCrAd2GHrqR/sQezCxiWATPNlKTcRaPRHPJwIRoPBAp5g==,
+      }
 
   methods@1.1.2:
     resolution:
@@ -3225,6 +3273,12 @@ packages:
         integrity: sha512-9Jtk+XAnttslCw4i9RceSZGr2PT5TLn0vUyWnoP2SdlSYzkiYRY6kB5qnPi5IQ/Em8e4oBow1rpaA39iijTIrA==,
       }
 
+  three@0.187.0:
+    resolution:
+      {
+        integrity: sha512-Qiu7R+Cmh8CstZsY1uJOSWnVlfo7ZtNLV7mF8Jltk3LB3AtDu9cRZlcnRKkAk8Y4z6KKw35z7Y7Urd7jWY8etA==,
+      }
+
   tiny-open@1.3.0:
     resolution:
       {
@@ -3622,6 +3676,8 @@ snapshots:
       "@babel/helper-validator-identifier": 7.29.7
 
   "@borewit/text-codec@0.2.3": {}
+
+  "@dimforge/rapier3d-compat@0.12.0": {}
 
   "@embedded-postgres/darwin-arm64@18.6.0-beta.19":
     optional: true
@@ -4040,6 +4096,8 @@ snapshots:
 
   "@topcli/prompts@4.0.0": {}
 
+  "@tweenjs/tween.js@23.1.3": {}
+
   "@types/body-parser@1.19.6":
     dependencies:
       "@types/connect": 3.4.38
@@ -4118,6 +4176,8 @@ snapshots:
       "@types/http-errors": 2.0.5
       "@types/node": 26.6.6
 
+  "@types/stats.js@0.17.4": {}
+
   "@types/superagent@8.1.11":
     dependencies:
       "@types/cookiejar": 2.1.5
@@ -4129,6 +4189,17 @@ snapshots:
     dependencies:
       "@types/methods": 1.1.4
       "@types/superagent": 8.1.11
+
+  "@types/three@0.187.0":
+    dependencies:
+      "@dimforge/rapier3d-compat": 0.12.0
+      "@tweenjs/tween.js": 23.1.3
+      "@types/stats.js": 0.17.4
+      "@types/webxr": 0.5.24
+      fflate: 0.8.3
+      meshoptimizer: 1.1.1
+
+  "@types/webxr@0.5.24": {}
 
   "@vitejs/plugin-react@6.2.1(vite@8.3.6(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(tsx@4.23.15))":
     dependencies:
@@ -4553,6 +4624,8 @@ snapshots:
     optionalDependencies:
       picomatch: 4.0.7
 
+  fflate@0.8.3: {}
+
   file-type@22.3.0:
     dependencies:
       "@tokenizer/inflate": 0.6.0
@@ -4784,6 +4857,8 @@ snapshots:
   media-typer@1.1.1: {}
 
   merge-descriptors@2.0.0: {}
+
+  meshoptimizer@1.1.1: {}
 
   methods@1.1.2: {}
 
@@ -5238,6 +5313,8 @@ snapshots:
       - supports-color
 
   tasuku@2.3.0: {}
+
+  three@0.187.0: {}
 
   tiny-open@1.3.0: {}
 

@@ -6,6 +6,7 @@ import { practiceEntry } from "../../src/learning-plan";
 import { DailyActions } from "./DailyActions";
 import { PersonalizationPanel } from "./PersonalizationPanel";
 import { useProgress } from "./useProgress";
+import { LearningSculpture } from "../LearningSculpture";
 import "../library/library.css";
 import "../practice/practice.css";
 import "./progress.css";
@@ -21,6 +22,7 @@ function SkillCard({
   return (
     <section
       className="progress-card tone-speak"
+      data-depth
       aria-label={`${title} progress`}
     >
       <h2>{title}</h2>
@@ -71,19 +73,21 @@ export default function ProgressPage() {
   const { data, error, loading, signedIn, token, refresh } = useProgress();
   return (
     <main className="page progress-page">
-      <div className="page-head">
-        <div>
+      <div className="page-head depth-hero">
+        <div className="hero-copy">
+          <p className="eyebrow">YOUR LEARNING JOURNEY</p>
           <h1>Learning progress</h1>
           <p className="page-lead">
             Start with one of today’s steps, then see how you’re doing. Scores
             are rough estimates, not official levels.
           </p>
+          {signedIn && (
+            <button className="secondary" onClick={refresh}>
+              Refresh
+            </button>
+          )}
         </div>
-        {signedIn && (
-          <button className="secondary" onClick={refresh}>
-            Refresh
-          </button>
-        )}
+        <LearningSculpture />
       </div>
       {loading && <p role="status">Loading progress…</p>}
       {error && <p role="alert">{error}</p>}

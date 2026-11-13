@@ -174,12 +174,18 @@
   align-self: center;
 }
 
-/* ---------- Word cards ---------- */
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  align-items: start;
-  gap: 12px;
+/* ---------- Vocabulary list ---------- */
+.vocabulary-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+.vocabulary-list:empty {
+  display: none;
 }
 .lookup-card {
   position: relative;
@@ -190,26 +196,69 @@
   background: var(--surface);
   box-shadow: var(--shadow);
 }
-/* Uniform height keeps the grid calm; expanded details scroll inside the card. */
-.cards > .lookup-card {
-  height: 176px;
-  padding: 14px 16px 10px;
+/* Each row links to details; no hover transforms move these reading surfaces. */
+.vocabulary-list > .lookup-card {
+  min-height: 76px;
+  padding: 14px 42px 14px 18px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  transition:
-    border-color 0.15s,
-    box-shadow 0.15s;
+  border: 0;
+  border-bottom: 1px solid var(--border);
+  border-radius: 0;
+  box-shadow: none;
 }
-.cards > .lookup-card:hover {
-  border-color: var(--border-strong);
-  box-shadow: 0 4px 12px var(--shadow-color);
+.vocabulary-list > .lookup-card:last-child {
+  border-bottom: 0;
+}
+.vocabulary-list > .lookup-card:hover {
+  background: var(--surface-muted);
+}
+.vocabulary-list > .lookup-card:has(.card-link:focus-visible) {
+  outline-offset: -3px;
+}
+.vocabulary-list .card-content {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+  align-items: center;
+  gap: 24px;
+  overflow: visible;
+}
+.vocabulary-list .card-open {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.vocabulary-list > .history-card {
+  height: 76px;
+}
+.vocabulary-list > .history-card:has(.failure) {
+  height: auto;
+}
+.vocabulary-list .history-card .meaning {
+  margin: 0;
+}
+.vocabulary-list .candidate-card .card-content {
+  gap: 4px 24px;
+}
+.candidate-card .card-head {
+  grid-column: 1;
+  grid-row: 1;
+}
+.candidate-card .candidate-meta {
+  grid-column: 1;
+  grid-row: 2;
+}
+.vocabulary-list .candidate-card .review-actions {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  justify-self: end;
+  margin: 0;
 }
 .card-content {
   flex: 1;
   min-height: 0;
-  overflow: auto;
-  scrollbar-width: thin;
+  overflow: hidden;
 }
 .card-head {
   display: flex;
@@ -221,7 +270,7 @@
   flex: 1;
   min-width: 0;
   margin: 0;
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 700;
   line-height: 22px;
   white-space: nowrap;
@@ -232,6 +281,11 @@
   color: inherit;
   text-decoration: none;
 }
+.card-open {
+  color: var(--text-subtle);
+  font-size: 0.875rem;
+  flex: none;
+}
 .card-link::after {
   content: "";
   position: absolute;
@@ -239,7 +293,6 @@
   z-index: 1;
 }
 .card-content button,
-.card-content summary,
 .card-content a:not(.card-link) {
   position: relative;
   z-index: 2;
@@ -257,24 +310,12 @@
 .history-card .meaning {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 1;
-  overflow: hidden;
-}
-.history-card:has(.lookup-details[open]) .meaning {
-  display: block;
-}
-.card-context {
-  margin: 2px 0 0;
-  color: var(--text-muted);
-  font-size: 0.875rem;
-  line-height: 1.45;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
   overflow: hidden;
+  margin-top: 6px;
+  font-size: 0.875rem;
 }
-.history-card:has(.lookup-details[open]) .card-context,
-.history-card:has(.failure) .card-context {
+.history-card:has(.failure) .meaning {
   display: none;
 }
 .candidate-meta {
@@ -282,22 +323,6 @@
   color: var(--text-muted);
   font-size: 0.875rem;
   line-height: 1.45;
-}
-.lookup-card footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  padding-top: 8px;
-  margin-top: 6px;
-  border-top: 1px solid var(--border);
-  color: var(--text-subtle);
-  font-size: 0.8125rem;
-}
-.cards .lookup-card footer span {
-  min-width: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .failure {
   display: flex;
@@ -316,29 +341,6 @@
   padding: 0;
   font-size: 0.875rem;
 }
-.card-content:focus-visible {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
-  border-radius: 4px;
-}
-
-/* Native disclosure keeps every saved explanation available without a tall card. */
-.lookup-details summary {
-  display: inline-block;
-  padding: 4px 0;
-  color: var(--brand);
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  line-height: 18px;
-}
-.lookup-details .details-hide,
-.lookup-details[open] .details-show {
-  display: none;
-}
-.lookup-details[open] .details-hide {
-  display: inline;
-}
 blockquote {
   margin: 14px 0;
   padding: 2px 0 2px 14px;
@@ -347,10 +349,6 @@ blockquote {
   font-size: 1rem;
   line-height: 1.6;
   overflow-wrap: anywhere;
-}
-.lookup-details blockquote {
-  margin: 10px 0;
-  font-size: 0.9375rem;
 }
 
 .review-actions {
@@ -604,8 +602,18 @@ blockquote {
   .stats p {
     display: none;
   }
-  .cards {
-    grid-template-columns: 1fr;
+  .vocabulary-list .card-content {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .vocabulary-list > .history-card {
+    height: 100px;
+  }
+  .vocabulary-list .candidate-card .review-actions {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: start;
+    margin-top: 6px;
   }
   .library-filters label {
     flex: 1;

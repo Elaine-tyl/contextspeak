@@ -10,6 +10,26 @@ body {
     16px/1.45 system-ui,
     sans-serif;
 }
+/* The slice renders its own HUD and dialogue inside Unity. Keep only a small home link. */
+.forest-slice #mission,
+.forest-slice #life-menu,
+.forest-slice #dialogue,
+.forest-slice #interact,
+.forest-slice #travel-status,
+.forest-slice footer,
+.forest-slice header > :not(a) {
+  display: none !important;
+}
+.forest-slice header {
+  top: auto;
+  left: auto;
+  right: 16px;
+  bottom: 10px;
+  padding: 6px 10px;
+}
+.forest-slice header a {
+  font-size: 15px;
+}
 #unity-canvas {
   width: 100vw;
   height: 100dvh;
@@ -271,4 +291,54 @@ footer {
     right: 10px;
     font-size: 10px;
   }
+}
+#life-menu {
+  max-height: calc(100dvh - 120px);
+  overflow-y: auto;
+}
+#life-menu-text {
+  white-space: pre-line;
+}
+#life-menu-items {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  white-space: normal;
+  line-height: 1.4;
+}
+.menu-item {
+  padding: 10px 12px;
+  border: 1px solid #dbe5de;
+  border-radius: 10px;
+  background: #ffffff;
+}
+.menu-item.planned {
+  border-color: #d9791c;
+  background: #fdf0e1;
+}
+.menu-item-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 15px;
+}
+.menu-price {
+  font-weight: 700;
+  color: #176b58;
+}
+.menu-item p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: #5b6f66;
+}
+.menu-item .menu-phrase {
+  color: #176b58;
+  font-style: italic;
+}
+.menu-item button {
+  margin-top: 8px;
+  font-size: 13px;
+  padding: 6px 12px;
 }

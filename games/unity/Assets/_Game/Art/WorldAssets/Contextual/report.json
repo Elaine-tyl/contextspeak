@@ -1,0 +1,242 @@
+[
+  {
+    "id": "World03c68813dd",
+    "sourceHash": "1b3fb7078a2582c1bb57ebefbfc7097d30faaa20eb8d3dea52da166ce80e77f6",
+    "target": 5000,
+    "triangles": 5000
+  },
+  {
+    "id": "World73438ba0b7",
+    "sourceHash": "2f36fa3a979d1e912c4aa945645825863fea6db3aab6721fe1af91c2aadc7bf0",
+    "target": 5000,
+    "triangles": 5000
+  },
+  {
+    "id": "Worlded6f92e1a2",
+    "sourceHash": "1876b39b506864ef1b246b5523bb6dd55a8aa75f296c87541cdadcfcbb8810d3",
+    "target": 3000,
+    "triangles": 3000
+  },
+  {
+    "id": "World65b03a2587",
+    "sourceHash": "102f2fdfb839b6d136c2bea2390389ed6758ccc3f2e9bcc6b89885612a6c5b48",
+    "target": 1200,
+    "triangles": 1200
+  },
+  {
+    "id": "World930940d8f6",
+    "sourceHash": "bc30b2cec0be3d257fb08dc36feb6ce42c2cf6c4ee6007feb172e3768e4a408a",
+    "target": 6000,
+    "triangles": 5999
+  },
+  {
+    "id": "Worlddd317d3e66",
+    "sourceHash": "dbb6edd977685d20470109a61e9d786a9a9f248afaebedf4cb22f98d610b95ff",
+    "target": 6000,
+    "triangles": 4379
+  },
+  {
+    "id": "World0903d331e8",
+    "sourceHash": "46981840de0f31a9a0ea1fec2bc5dfe21855f84ac46764855ac84029aa4dc543",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World137e0654fe",
+    "sourceHash": "9942867a5d705ab3c7f37de239bfdd67f861cc88194ffedc7a324c4ec5a7bb9d",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World6402de282c",
+    "sourceHash": "59896dfab7cdfc533cdb1565b6a2f27478b1fd75d4b83803c9e3c89277445a08",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World2d0ed1f7b1",
+    "sourceHash": "4d3547fc18f6c78b56b107fed6033088938b492b9e5466be9197dc2392c0d0f9",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World49b24cf6bf",
+    "sourceHash": "6720beb7c25d9005f679f0fecad7db218a4d6280b9710d9f1ffd8f014e892ae3",
+    "target": 70133,
+    "triangles": 70133
+  },
+  {
+    "id": "World430c4074f1",
+    "sourceHash": "a3754dfb0391bc76c62caa8c894a228615e1929215d0895dfd1a7aba64d6a0a6",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "Worlde2fe1de289",
+    "sourceHash": "930fbc1a31afb4d565ab404777c5748534f4a9b8ee4cd87d21ab2ba0b01a28d1",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World0bfc70919a",
+    "sourceHash": "f173e906b2b2611cd7f9ebc98e695c478d2c4e29ced911be52c15bc1ab1e9ad0",
+    "target": 8000,
+    "triangles": 7999
+  },
+  {
+    "id": "Worldc49ef50c4b",
+    "sourceHash": "1f0bd0e5b45100f6e728cf0f9a7519ccaa4c0eb000dbd3c3b554d541270b8605",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World0bd48f3765",
+    "sourceHash": "3d6a901a6331dcf45605b3f11fdf85bf284d2e7b5039e6867f487dd9263a35f5",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "Worldec8ceb0ac2",
+    "sourceHash": "0954d7eba6c8eac487051737997e7bb1f7d8904119261fe570d6b1e66dcb3707",
+    "target": 8000,
+    "triangles": 7999
+  },
+  {
+    "id": "Worlda660f918d4",
+    "sourceHash": "3058ef2301b64ac8aec713f1343c5f823626aad2acf79c314db2313322d61080",
+    "target": 8000,
+    "triangles": 7999
+  },
+  {
+    "id": "Worldf4e269d0f4",
+    "sourceHash": "ab1af1c218acdce25aefd3b7bf5a238525dd7dfd0e8af381f23ce9b3911108ee",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World8ee8934c46",
+    "sourceHash": "f206b303d831db39a7ee73be0cc7f669ad3d84e7609fd31fc2059394edd32b61",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World355988bb2f",
+    "sourceHash": "5e7da6c4dd065bcd66600718b35d8601d4cdacad62a0e3d92b5e645eef21c1f2",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "Worlda4a79d877f",
+    "sourceHash": "700e2c98074dec22ee483afa8f317108a622db77172dcaba948d55b9c9f7e979",
+    "target": 63214,
+    "triangles": 63214
+  },
+  {
+    "id": "World4c51a835cd",
+    "sourceHash": "eb0848f839d8777650f72335a2abc3ddc705fdc2e3256e43317460bc3d265eff",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World4e02418df0",
+    "sourceHash": "6a7b262ef1d60ee87b0be0e9336ce6ab960dee7c267694602a0203ad748fbbff",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "Worldc397bcc62b",
+    "sourceHash": "a2ca1a11d20cbd50e935f14d0f8b8afb0658f04d1861f42db0b7245a3928fd18",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "Worldd415a7bf75",
+    "sourceHash": "c3b50916aec20efc00fe9a55797cbccfa037a091e18eaad3421e9dd5d9c87a8a",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World5280fc283a",
+    "sourceHash": "7c7244a205cdf8cb4c9bd666dfa1618aef332dd1f0df1c251c4814ed12d1d706",
+    "target": 8000,
+    "triangles": 7999
+  },
+  {
+    "id": "Worldd4b0331077",
+    "sourceHash": "b9ff9a610ccd187514c53e6b913ffd84d73d1107079e121584ad50244dedfa94",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "Worlda31e64ec45",
+    "sourceHash": "ecb7ea93615d600dfc0b6273d9c8d2b289c416a8de5cdafca0b28c039cd245f1",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World3cb28a4b86",
+    "sourceHash": "491d4068429ab9ca6bb7799ff5968549ef1137a9fdb953fa75ba868756c8b550",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "Worldd498f43d89",
+    "sourceHash": "365451b476877d525d57c8007817476e702610e8b940a5d65be2a137a52f18ab",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World8131d62c08",
+    "sourceHash": "1e85497306d585128190ed9eb1b3e206acaa02d8641fe028c9e42e780534e351",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World4f4d74ae4f",
+    "sourceHash": "30a9f8f3d3f305ef1891301777f3a5a0ea788b96d592bc3d87dfb1bdba45fcd9",
+    "target": 8000,
+    "triangles": 7999
+  },
+  {
+    "id": "Worldbf34a2147b",
+    "sourceHash": "a09e253f5fd21003edabf63eb3507455c71324fd3353006627e92c3cc4a0c8fe",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World784ed44e61",
+    "sourceHash": "68270bdaa7fd40d0bddd9bbf45a2e2b7a3299a13af8f75e7d3d85b0464aa6e50",
+    "target": 8000,
+    "triangles": 7999
+  },
+  {
+    "id": "World6cccc38d17",
+    "sourceHash": "56ae757d7e6e7bbb13cc95ba592b4abcfa1b3f09c248d0437ae4c5ac1614a4cf",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "Worldfe4fdca1c3",
+    "sourceHash": "930951c8a1e46f9abf7f8b9db0f906cadbf2e09cc99ad03ac571c95572ca26e4",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World05569d27b2",
+    "sourceHash": "b8268833fdf158231e82ef3568a3fa1c56a6d355382cd87f23e7cb68cda6d610",
+    "target": 104890,
+    "triangles": 104890
+  },
+  {
+    "id": "World11f82c914a",
+    "sourceHash": "23a3a3ea9da39cddd8a931bf1658f1f554929c0095364adb41f6fd996a7223aa",
+    "target": 8000,
+    "triangles": 8000
+  },
+  {
+    "id": "World43ca06749a",
+    "sourceHash": "576867fa799c4f04c9872b1dc9d2460a35e6d54d8caf3b9c2001b5e04c6d60eb",
+    "target": 8000,
+    "triangles": 8000
+  }
+]

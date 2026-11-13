@@ -5,8 +5,9 @@ export function usePracticeSpeech(
   token: string,
   text: string,
   language: string | null,
+  continuous = false,
 ) {
-  const speech = useAiSpeech(token, text, language);
+  const speech = useAiSpeech(token, text, language, continuous);
   const [completedPlays, setCompletedPlays] = useState(0);
   const active = useRef(true);
   const pending = useRef(false);

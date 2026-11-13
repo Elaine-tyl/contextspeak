@@ -71,6 +71,18 @@ namespace ContextSpeak.Editor
             Check(!ambiguous.Apply(8, "Yes, cancel the order.", Good(), true), "A cancellation cannot charge for the drink.");
             Check(ambiguous.Apply(8, "Yes, go ahead?", Good(), true), "Transcription punctuation alone is not a spoken error.");
             Check(!new LifeMission().Restore("{\"version\":1,\"step\":0,\"repair\":\" \",\"previous\":\" \"}"), "Whitespace cannot impersonate a pending repair.");
+            var catalog = LifeCatalog.Load();
+            var drinks = LifeMenu.Items(catalog, "drink", "latte", 1300);
+            Check(drinks.Length == 4 && Array.Exists(drinks, item => item.id == "latte" && item.planned && item.price == "$6.50"), "The cafe menu shows catalog prices and the picked drink.");
+            Check(Array.TrueForAll(drinks, item => item.note != "" && item.phrase != ""), "Every drink has a description and a phrase to say.");
+            Check(!Array.Exists(LifeMenu.Items(catalog, "drink", "", 300), item => item.id == "latte" && item.affordable), "Drinks above the wallet are marked over budget.");
+            Check(LifeMenu.Plan(catalog, "latte", 1300).Contains("$6.50 left"), "A plan shows the wallet after paying.");
+            Check(LifeMenu.Plan(catalog, "apple", 1300) == "", "Only drinks can be picked from the cafe menu.");
+            var planned = new LifeMission();
+            planned.StartPractice("cafe");
+            var before = planned.Balance;
+            LifeMenu.Plan(catalog, "latte", planned.Balance);
+            Check(planned.Balance == before && planned.Drink == "", "Picking from the menu never buys; the spoken order does.");
             Debug.Log("ContextSpeak Life mission checks passed");
         }
         public static void VerifyScene()

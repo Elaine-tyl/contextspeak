@@ -1,7 +1,14 @@
 {
   "dependencies": {
-    "com.unity.render-pipelines.universal": "17.3.0",
+    "com.unity.addressables": "2.7.6",
+    "com.unity.ai.assistant": "2.21.0-pre.2",
+    "com.unity.ai.inference": "2.6.1",
+    "com.unity.ai.navigation": "2.0.16",
+    "com.unity.cinemachine": "3.1.7",
     "com.unity.cloud.gltfast": "6.20.0",
+    "com.unity.inputsystem": "1.14.2",
+    "com.unity.render-pipelines.universal": "17.3.0",
+    "com.unity.modules.ai": "1.0.0",
     "com.unity.modules.animation": "1.0.0",
     "com.unity.modules.audio": "1.0.0",
     "com.unity.modules.imageconversion": "1.0.0",
@@ -14,11 +21,6 @@
     "com.unity.modules.uielements": "1.0.0",
     "com.unity.modules.unitywebrequest": "1.0.0",
     "com.unity.modules.unitywebrequestaudio": "1.0.0",
-    "com.unity.modules.unitywebrequesttexture": "1.0.0",
-    "com.unity.inputsystem": "1.14.2",
-    "com.unity.cinemachine": "3.1.7",
-    "com.unity.ai.navigation": "2.0.16",
-    "com.unity.addressables": "2.7.6",
-    "com.unity.modules.ai": "1.0.0"
+    "com.unity.modules.unitywebrequesttexture": "1.0.0"
   }
 }

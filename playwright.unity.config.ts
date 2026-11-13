@@ -14,6 +14,10 @@ export default defineConfig({
       args: [
         "--use-fake-ui-for-media-stream",
         "--use-fake-device-for-media-stream",
+        // Textured NPC rigs need the Mac GPU rather than slow software rendering.
+        ...(process.platform === "darwin"
+          ? ["--use-angle=metal", "--use-gl=angle"]
+          : []),
       ],
     },
   },

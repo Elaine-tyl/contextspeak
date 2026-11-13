@@ -32,6 +32,7 @@ export function DailyActions({ data }: { data: LearningProgress }) {
     <section className="daily-actions" aria-label="Your next steps">
       {actions.map((action) => (
         <article
+          data-depth
           key={action.step}
           className={
             action.step === "01"

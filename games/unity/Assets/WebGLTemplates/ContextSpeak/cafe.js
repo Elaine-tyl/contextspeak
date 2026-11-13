@@ -11,8 +11,40 @@
     instance: null,
     owner: "CafeRuntime",
     mode: "cafe",
+    characterBusy: false,
     state(json) {
       const state = JSON.parse(json);
+      const creating = state.mode === "character";
+      // The outgoing additive scene may publish a final frame during loading.
+      // Keep the creator open until Unity confirms a save/cancel transition.
+      if (bridge.mode === "character" && !creating && !bridge.characterBusy)
+        return;
+      document.body.classList.toggle("character-creation", creating);
+      get("character-creation").hidden = !creating;
+      if (creating) {
+        bridge.owner = "CharacterCreator";
+        bridge.mode = "character";
+        bridge.characterBusy = state.busy === true;
+        document.body.classList.toggle("forest-slice", false);
+        document.title = "ContextSpeak · Create your character";
+        window.ContextSpeakCharacter?.render(state);
+        get("unity-status").textContent = json;
+        return;
+      }
+      const slice = state.mode === "slice";
+      document.body.classList.toggle("forest-slice", slice);
+      if (slice) {
+        bridge.owner = "ForestCafeSlice";
+        if (bridge.mode !== "slice") {
+          bridge.mode = "slice";
+          document.title = "ContextSpeak · Forest Café";
+          const url = new URL(location.href);
+          url.searchParams.set("world", "slice");
+          history.replaceState(null, "", url);
+        }
+        get("unity-status").textContent = json;
+        return;
+      }
       const life = state.mode === "life";
       bridge.owner = life ? "LifeRuntime" : "CafeRuntime";
       if (bridge.mode !== (life ? "life" : "cafe")) {
@@ -53,7 +85,12 @@
       get("travel-status").hidden = !life || state.dialogue || !state.status;
       get("travel-status").textContent = state.status || "";
       get("life-menu").hidden = !life || !state.menu;
-      get("life-menu").textContent = state.menu || "";
+      get("life-menu-text").textContent = state.menu || "";
+      renderMenuItems(life ? state.menuItems || [] : []);
+      get("menu-open").hidden = !life || state.dialogue;
+      get("menu-open").textContent = state.menuOpen
+        ? "Close menu · M"
+        : "Menu · M";
       get("reply-label").textContent = life ? "Typed rehearsal" : "Your reply";
       get("send").textContent = life ? "Check typed rehearsal" : "Send reply";
       get("repair-note").hidden = !life || !state.repair;
@@ -111,6 +148,50 @@
       );
     },
   });
+  // Menu rows: what it is, the price, a phrase to say, and (for drinks) "Pick this".
+  // Picking only plans the order; the spoken order with Maya still buys it.
+  let menuSignature = "";
+  function renderMenuItems(items) {
+    const signature = items
+      .map((item) => item.id + item.planned + item.affordable)
+      .join("|");
+    if (signature === menuSignature) return;
+    menuSignature = signature;
+    get("life-menu-items").replaceChildren(
+      ...items.map((item) => {
+        const row = document.createElement("li");
+        row.className = item.planned ? "menu-item planned" : "menu-item";
+        const title = document.createElement("strong");
+        title.textContent = item.name;
+        const price = document.createElement("span");
+        price.className = "menu-price";
+        price.textContent = item.price;
+        const head = document.createElement("div");
+        head.className = "menu-item-head";
+        head.append(title, price);
+        const note = document.createElement("p");
+        note.textContent = item.note;
+        const phrase = document.createElement("p");
+        phrase.className = "menu-phrase";
+        phrase.textContent = `Say: “${item.phrase}”`;
+        row.append(head, note, phrase);
+        if (item.plannable) {
+          const pick = document.createElement("button");
+          pick.type = "button";
+          pick.textContent = item.planned
+            ? "Picked ✓"
+            : item.affordable
+              ? "Pick this"
+              : "Over budget";
+          pick.disabled = !item.affordable && !item.planned;
+          pick.setAttribute("aria-pressed", String(item.planned));
+          pick.addEventListener("click", () => command("plan", item.id));
+          row.append(pick);
+        }
+        return row;
+      }),
+    );
+  }
   get("dialogue").addEventListener("submit", (event) => {
     event.preventDefault();
     const text = get("reply").value.trim();
@@ -128,7 +209,9 @@
     ["interact", "interact"],
     ["life", "life"],
     ["cafe", "cafe"],
+    ["slice", "slice"],
     ["walk", "walk"],
+    ["menu-open", "menu"],
     ["hear-repair", "repair"],
   ])
     get(id).addEventListener("click", () => command(action));

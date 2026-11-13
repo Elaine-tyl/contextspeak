@@ -67,11 +67,10 @@ namespace ContextSpeak.Editor
             movement.View = camera;
             var avatar = new GameObject("Avatar");
             avatar.transform.SetParent(player.transform, false);
-            Model("mini-characters/character-male-a.glb", player.transform.position, 0, 1.65f, false).transform.SetParent(avatar.transform, true);
+            CozyCharacters.DressPlayer(avatar.transform);
             movement.Model = avatar.transform;
-            var models = new[] { "character-female-a.glb", "character-male-a.glb", "character-female-a.glb", "character-female-c.glb" };
-            var actors = LifeCatalog.Load().npcs.Select((npc, index) => {
-                var actor = Model("mini-characters/" + models[index], npc.Position, 0, 1.65f, true);
+            var actors = LifeCatalog.Load().npcs.Select(npc => {
+                var actor = NpcCastCatalog.CreateNpc("LifeTown", npc.id, npc.Position);
                 actor.name = npc.id;
                 return actor.transform;
             }).ToArray();
@@ -84,7 +83,7 @@ namespace ContextSpeak.Editor
             runtime.Npcs = actors;
             runtime.Dinner = dinner;
             runtime.DrinkProp = drink;
-            WorldBuild.Configure(movement, actors);
+            WorldBuild.Configure(movement, actors, "LifeTown");
         }
         private static void Room(string title, Vector3 center, float width, float depth)
         {

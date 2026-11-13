@@ -13,6 +13,10 @@ it("keeps every historical non-gap task byte-for-byte apart from its archive fla
       (round) =>
         round.kind !== "gap-fill" &&
         !round.id.startsWith("game-") &&
+        // New reading packs and the newly downloaded full story were not in
+        // the frozen legacy catalog. Its count and digest remain unchanged.
+        !round.id.startsWith("open-reading-") &&
+        !round.id.startsWith("open-asp-0001-full-") &&
         !round.id.endsWith("-speak-v2"),
     )
     .sort((a, b) => (a.id < b.id ? -1 : 1))
@@ -23,12 +27,21 @@ it("keeps every historical non-gap task byte-for-byte apart from its archive fla
   ).toBe("1dfaa9f1fd4094e87a21fd3601350c91cd0aeaa80021f5134741655a0bb80dc4");
 });
 
-it("offers genuinely harder original tasks in all seven other modes at all ten levels", () => {
+it("offers genuinely harder original v3 tasks in the six original non-picture modes at all ten levels", () => {
   const originals = activeChallenges.filter(
-    (round) => round.kind !== "gap-fill" && !round.source,
+    (round) =>
+      round.kind !== "gap-fill" && !round.source && round.id.endsWith("-v3"),
   );
-  expect(originals).toHaveLength(90);
-  for (const mode of gameModes.filter((mode) => mode.kind !== "gap-fill")) {
+  expect(originals).toHaveLength(80);
+  const v3Kinds = [
+    "dictation",
+    "comprehension",
+    "response",
+    "riddle",
+    "puzzle",
+    "pk",
+  ];
+  for (const mode of gameModes.filter((mode) => v3Kinds.includes(mode.kind))) {
     for (let level = 1; level <= 10; level++) {
       const rounds = originals.filter(
         (round) => round.kind === mode.kind && round.level === level,
@@ -52,7 +65,11 @@ it("offers genuinely harder original tasks in all seven other modes at all ten l
   }
   const answer = (id: string) => originals.find((round) => round.id === id)!;
   expect(answer("game-comprehension-1-0-v3").answer).toBe("postpone");
-  expect(answer("game-picture-1-0-v3").answer).toBe("bridge");
+  // v3 picture rounds are archived unchanged so saved receipts keep their meaning.
+  const archived = challenges.find(
+    (round) => round.id === "game-picture-1-0-v3",
+  )!;
+  expect(archived).toMatchObject({ archived: true, answer: "bridge" });
   expect(answer("game-riddle-1-0-v3").answer).toBe("reservation");
   expect(
     new Set(
@@ -61,13 +78,6 @@ it("offers genuinely harder original tasks in all seven other modes at all ten l
         .map((round) => round.answer),
     ).size,
   ).toBe(10);
-  expect(
-    new Set(
-      originals
-        .filter((round) => round.kind === "picture")
-        .map((round) => round.answer),
-    ).size,
-  ).toBe(4);
 });
 
 it("archives foundational source rounds and versions news speaking with fair explicit requirements", () => {
@@ -99,22 +109,30 @@ it("archives foundational source rounds and versions news speaking with fair exp
   ).toBe(true);
 });
 
-it("requires revised-plan and multiple-constraint inference in advanced picture rounds", () => {
-  const byLevel = (level: number) =>
-    activeChallenges.find(
+it("grows picture rounds from 4 to 6 to a 3 × 3 grid with a new theme each level", () => {
+  const themes = new Set<string>();
+  for (let level = 1; level <= 10; level++) {
+    const rounds = activeChallenges.filter(
       (round) => round.kind === "picture" && round.level === level,
-    )!;
-  expect(byLevel(8)).toMatchObject({ answer: "book" });
-  expect(byLevel(8).audioText).toContain("It has since moved inside");
-  expect(byLevel(9).audioText).toContain("cannot operate those vehicles");
-  expect(byLevel(9).audioText).toContain("only a supporting measure");
-  expect(byLevel(10).audioText).toContain(
-    "funding rules now exclude construction and printed publicity",
-  );
-  for (const level of [8, 9, 10])
-    expect(
-      byLevel(level).audioText.split(/\s+/u).length,
-    ).toBeGreaterThanOrEqual(50);
+    );
+    expect(rounds, `picture Level ${level}`).toHaveLength(3);
+    const size = level <= 3 ? 4 : level <= 6 ? 6 : 9;
+    for (const round of rounds) {
+      expect(round.id).toMatch(/^game-picture-\d+-\d-v4$/);
+      expect(round.choices).toHaveLength(size);
+      expect(round.choices!.map((choice) => choice.id)).toContain(round.answer);
+      expect(
+        round.choices!.every((choice) => choice.picture === choice.id),
+      ).toBe(true);
+      expect(publicRound(round)).not.toHaveProperty("answer");
+      // Advanced grids need multi-constraint inference, not just a keyword.
+      if (level >= 8)
+        expect(round.audioText.split(/\s+/u).length).toBeGreaterThanOrEqual(45);
+    }
+    expect(new Set(rounds.map((round) => round.answer)).size).toBe(3);
+    themes.add(rounds[0].topic!);
+  }
+  expect(themes.size).toBe(10);
 });
 
 it("distinguishes original spoken scenarios from credited real news", () => {

@@ -2,6 +2,8 @@
 import { useEffect, useRef, useState } from "react";
 import {
   gameModes,
+  gameTracks,
+  gameTrackLabels,
   type GameCatalog,
   type GameTrack,
   type GameKind,
@@ -11,21 +13,15 @@ import {
 import { API, api, ApiError, type WebSession } from "../../src/api";
 import { GameSetup } from "./GameSetup";
 import { LevelResult } from "./LevelResult";
-import { GodotGameRoundView } from "./GodotGameRoundView";
+import { GameEffects } from "./GameEffects";
+import { GameLobby } from "./GameLobby";
 import { GameRoundView } from "./GameRoundView";
 import "../library/library.css";
 import "../practice/practice.css";
 import "./games.css";
 import { DifficultyGuide } from "./GameContext";
 import { GapFillResources } from "./GapFill";
-export function GamesPage({
-  renderer = "godot",
-  basePath = renderer === "godot" ? "/games" : "/games/web",
-}: {
-  renderer?: "web" | "godot";
-  basePath?: string;
-}) {
-  const RoundView = renderer === "godot" ? GodotGameRoundView : GameRoundView;
+export function GamesPage({ basePath = "/games" }: { basePath?: string }) {
   const [token, setToken] = useState("");
   const currentToken = useRef("");
   const [catalog, setCatalog] = useState<GameCatalog | null>(null);
@@ -172,7 +168,7 @@ export function GamesPage({
         expire();
       else
         setError(
-          "Your answer is saved, but progress could not refresh. Try Refresh progress.",
+          "Could not refresh the game catalog. Check your connection and try Refresh progress.",
         );
     }
   }
@@ -271,206 +267,178 @@ export function GamesPage({
   const mode = gameModes.find((mode) => mode.kind === kind);
   const unlocked = kind
     ? (catalog?.modeProgress?.[kind]?.level ??
-      catalog?.progress[track].level ??
+      catalog?.progress[track]?.level ??
       1)
     : 1;
   const recommendation = catalog?.recommendations?.[track];
   const frozen = locked || starting;
   return (
     <main className="page games-page">
-      <div className="page-head">
-        <div>
+      <GameEffects>
+        <div className="page-head">
           <h1>Games</h1>
-          <p className="page-lead">
-            Short listening and speaking challenges. Each level has up to three
-            questions — score 70 or more to unlock the next level.
-          </p>
-        </div>
-        <a className="secondary" href="/world">
-          3D cafe prototype →
-        </a>
-      </div>
-      <p>
-        <a
-          href={
-            (renderer === "godot" ? "/games/web" : "/games") +
-            (run ? "?run=" + run.id : "")
-          }
-        >
-          {renderer === "godot"
-            ? "Use web game controls"
-            : "Play Godot 2D games"}
-        </a>
-      </p>
-      {error && <p role="alert">{error}</p>}
-      {loading && <p role="status">Loading games…</p>}
-      {!token && !loading && (
-        <section className="connect-panel sign-in-panel">
-          <div>
-            <h2>Sign in to play</h2>
-            <p>Your levels are saved to your account.</p>
-          </div>
-          <a
-            className="primary"
-            href={API + "/auth/login?returnTo=" + basePath}
-          >
-            Sign in with Google
+          <a className="secondary" href="/world">
+            Life world ↗
           </a>
-        </section>
-      )}
-      {catalog && (
-        <>
-          {!run && (
-            <div
-              className="segmented game-tracks"
-              role="group"
-              aria-label="Game skill"
-            >
-              {(["listening", "speaking"] as const).map((value) => (
-                <button
-                  key={value}
-                  disabled={frozen}
-                  aria-pressed={track === value}
-                  onClick={() => {
-                    setTrack(value);
-                    setKind(null);
-                    setLevel(1);
-                    setTopic("all");
-                    setSource("all");
-                  }}
-                >
-                  {value === "listening" ? "Listening games" : "Speaking games"}
-                </button>
-              ))}
+        </div>
+        {error && <p role="alert">{error}</p>}
+        {loading && <p role="status">Loading games…</p>}
+        {!token && !loading && (
+          <section className="connect-panel sign-in-panel">
+            <div>
+              <h2>Sign in to play</h2>
+              <p>Your levels are saved to your account.</p>
             </div>
-          )}
-          {kind && (
-            <button
-              className="back-link game-back"
-              disabled={frozen}
-              onClick={() => {
-                leaveRun();
-                setKind(null);
-              }}
+            <a
+              className="primary"
+              href={API + "/auth/login?returnTo=" + basePath}
             >
-              All games
-            </button>
-          )}
-          {!kind ? (
-            <div className="game-grid" aria-label="Game modes">
-              {gameModes
-                .filter((value) => value.track === track)
-                .map((value) => (
+              Sign in with Google
+            </a>
+          </section>
+        )}
+        {catalog && (
+          <>
+            {!run && (
+              <div
+                className="segmented game-tracks"
+                role="group"
+                aria-label="Game skill"
+              >
+                {gameTracks.map((value) => (
                   <button
-                    className="game-tile"
-                    key={value.kind}
-                    aria-label={value.label}
+                    key={value}
+                    disabled={frozen}
+                    aria-pressed={track === value}
                     onClick={() => {
-                      setKind(value.kind);
+                      setTrack(value);
+                      setKind(null);
                       setLevel(1);
                       setTopic("all");
                       setSource("all");
                     }}
                   >
-                    <small
-                      className={
-                        "badge " + (value.track === "listening" ? "speak" : "")
-                      }
-                    >
-                      {value.track === "listening" ? "Listening" : "Speaking"}
-                    </small>
-                    <h2>{value.label}</h2>
-                    <p>{value.description}</p>
-                    {(() => {
-                      const reached =
-                        catalog.modeProgress?.[value.kind]?.level ??
-                        catalog.progress[value.track].level;
-                      return (
-                        <>
-                          <span className="game-level">
-                            Level {reached} of 10
-                          </span>
-                          <span className="meter" aria-hidden="true">
-                            <span style={{ width: `${reached * 10}%` }} />
-                          </span>
-                          <span className="game-play">Play →</span>
-                        </>
-                      );
-                    })()}
+                    {gameTrackLabels[value]}
                   </button>
                 ))}
-            </div>
-          ) : (
-            <>
-              <div className="section-head game-mode-head">
-                <h2>{mode!.label}</h2>
               </div>
-              <DifficultyGuide />
-              {kind === "gap-fill" && <GapFillResources />}
-              {run ? (
-                <>
-                  <button
-                    className="link-button"
-                    disabled={frozen}
-                    onClick={() => void refreshRun()}
-                  >
-                    Refresh level
-                  </button>
-                  {run.completed ? (
-                    <LevelResult
-                      run={run}
-                      busy={starting}
-                      onRetry={() => void startRun(run.level, true)}
-                      onNext={() => {
-                        if (run.nextLevel) void startRun(run.nextLevel, true);
-                      }}
-                    />
-                  ) : (
-                    <>
-                      <p className="game-progress" role="status">
-                        Level {run.level} · Question {question + 1} of{" "}
-                        {run.rounds.length}
-                      </p>
-                      <RoundView
-                        key={`${run.id}:${question}`}
-                        round={run.rounds[question]}
+            )}
+            {kind && (
+              <button
+                className="back-link game-back"
+                disabled={frozen}
+                onClick={() => {
+                  leaveRun();
+                  setKind(null);
+                }}
+              >
+                All games
+              </button>
+            )}
+            {!kind ? (
+              <GameLobby
+                catalog={catalog}
+                track={track}
+                onChoose={(value) => {
+                  setKind(value);
+                  setLevel(1);
+                  setTopic("all");
+                  setSource("all");
+                }}
+              />
+            ) : (
+              <>
+                {run ? (
+                  <>
+                    <div className="section-head game-mode-head">
+                      <h2>{mode!.label}</h2>
+                    </div>
+                    <details className="game-round-guide">
+                      <summary>Difficulty and resources</summary>
+                      <DifficultyGuide />
+                      {kind === "gap-fill" && <GapFillResources />}
+                    </details>
+                    <button
+                      className="link-button"
+                      disabled={frozen}
+                      onClick={() => void refreshRun()}
+                    >
+                      Refresh level
+                    </button>
+                    {run.completed ? (
+                      <LevelResult
+                        run={run}
                         token={token}
-                        levelSessionId={run.id}
-                        onSaved={async () => {
-                          await refreshRun();
-                        }}
-                        onLocked={setLocked}
-                        onExpired={expire}
-                        onLeave={leaveRun}
-                        onContinue={async () => {
-                          const saved = await refreshRun();
-                          if (saved && !saved.completed)
-                            setQuestion(saved.receipts.length);
+                        busy={starting}
+                        onRetry={() => void startRun(run.level, true)}
+                        onNext={() => {
+                          if (run.nextLevel) void startRun(run.nextLevel, true);
                         }}
                       />
-                    </>
-                  )}
-                </>
-              ) : (
-                <GameSetup
-                  rounds={catalog.rounds.filter((round) => round.kind === kind)}
-                  unlocked={unlocked}
-                  recommendation={recommendation}
-                  busy={frozen}
-                  settings={{ level, topic, source }}
-                  onChange={(value) => {
-                    setLevel(value.level);
-                    setTopic(value.topic);
-                    setSource(value.source);
-                  }}
-                  onStart={() => void startRun()}
-                  onRefresh={() => void refresh()}
-                />
-              )}
-            </>
-          )}
-        </>
-      )}
+                    ) : (
+                      <>
+                        <div
+                          className="game-session-meter"
+                          role="progressbar"
+                          aria-label="Level completion"
+                          aria-valuemin={0}
+                          aria-valuemax={run.rounds.length}
+                          aria-valuenow={question}
+                        >
+                          <span
+                            style={{
+                              width: `${(question / run.rounds.length) * 100}%`,
+                            }}
+                          />
+                        </div>
+                        <p className="game-progress" role="status">
+                          Level {run.level} · Question {question + 1} of{" "}
+                          {run.rounds.length}
+                        </p>
+                        <GameRoundView
+                          key={`${run.id}:${question}`}
+                          round={run.rounds[question]}
+                          token={token}
+                          levelSessionId={run.id}
+                          onSaved={async () => {
+                            await refreshRun();
+                          }}
+                          onLocked={setLocked}
+                          onExpired={expire}
+                          onLeave={leaveRun}
+                          onContinue={async () => {
+                            const saved = await refreshRun();
+                            if (saved && !saved.completed)
+                              setQuestion(saved.receipts.length);
+                          }}
+                        />
+                      </>
+                    )}
+                  </>
+                ) : (
+                  <GameSetup
+                    kind={kind}
+                    rounds={catalog.rounds.filter(
+                      (round) => round.kind === kind,
+                    )}
+                    unlocked={unlocked}
+                    recommendation={recommendation}
+                    busy={frozen}
+                    settings={{ level, topic, source }}
+                    onChange={(value) => {
+                      setLevel(value.level);
+                      setTopic(value.topic);
+                      setSource(value.source);
+                    }}
+                    onStart={() => void startRun()}
+                    onRefresh={() => void refresh()}
+                  />
+                )}
+              </>
+            )}
+          </>
+        )}
+      </GameEffects>
     </main>
   );
 }

@@ -17,20 +17,29 @@ namespace ContextSpeak.Editor
         private const string Generated = "Assets/Generated";
         private const string ScenePath = Generated + "/ForestCafe.unity";
         private const string LifePath = Generated + "/LifeTown.unity";
+        private const string SlicePath = Generated + "/ForestSlice.unity";
         private static string Root => Path.GetFullPath(Path.Combine(Application.dataPath, "../../.."));
         [MenuItem("ContextSpeak/Rebuild cafe scene")]
         public static void CreateScene()
         {
             ConfigurePipeline();
+            MeshyCharacters.BuildAssets();
+            WorldAssetBuilder.Build();
             // Imported materials depend on the pipeline selected before glTF import.
             AssetDatabase.ImportAsset("Assets/Art", ImportAssetOptions.ForceUpdate | ImportAssetOptions.ImportRecursive);
+            foreach (var export in Directory.GetFiles("Assets/_Game/Art/Blender", "*.glb"))
+                AssetDatabase.ImportAsset(export, ImportAssetOptions.ForceUpdate);
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             CafeScene.Create();
             EditorSceneManager.SaveScene(scene, ScenePath);
             scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             LifeScene.Create();
             EditorSceneManager.SaveScene(scene, LifePath);
-            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true), new EditorBuildSettingsScene(LifePath, true) };
+            scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            SliceScene.Create();
+            EditorSceneManager.SaveScene(scene, SlicePath);
+            CharacterCreationScene.Create();
+            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true), new EditorBuildSettingsScene(LifePath, true), new EditorBuildSettingsScene(SlicePath, true) };
             AssetDatabase.SaveAssets();
             WorldAddressables.Prepare();
             EditorSceneManager.OpenScene(ScenePath);
@@ -80,9 +89,18 @@ namespace ContextSpeak.Editor
         {
             CafeChecks.Verify();
             MicrophoneChecks.Verify();
+            GameAudioChecks.Verify();
             ArcadeChecks.Verify();
             LifeChecks.Verify();
+            SliceChecks.Verify();
             CreateScene();
+            MeshyChecks.Verify();
+            SuppliedMotionChecks.Verify();
+            RoomVisualChecks.Verify();
+            CharacterCreationChecks.Verify();
+            CharacterCreationChecks.VerifyNavigationQueue();
+            CharacterCreationChecks.VerifyScene();
+            WorldFrameworkChecks.VerifyNavigation("ForestCafe");
             var game = UnityEngine.Object.FindFirstObjectByType<CafeGame>();
             if (game == null || game.Player == null || game.Maya == null || game.Alex == null || game.Drinks == null)
                 throw new Exception("The native scene is missing a mission actor or reward.");
@@ -93,11 +111,21 @@ namespace ContextSpeak.Editor
             Physics.SyncTransforms();
             if (!Physics.Linecast(new Vector3(0, 1, 6), new Vector3(0, 1, 8)))
                 throw new Exception("The entrance boundary must prevent walking out of the cafe floor.");
+            NpcCastChecks.VerifyScene();
             Debug.Log("ContextSpeak Unity scene checks passed");
             EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             LifeScene.Create();
             LifeChecks.VerifyScene();
+            NpcCastChecks.VerifyScene();
             WorldFrameworkChecks.VerifyScene();
+            EditorSceneManager.OpenScene(SlicePath);
+            SliceSceneChecks.VerifyScene();
+            NpcCastChecks.VerifyScene();
+            CharacterCreationChecks.VerifyWorld();
+            WorldAssetChecks.Verify();
+            SceneryReviewChecks.Verify();
+            EnvironmentUpgradeChecks.Verify();
+            BuildingArtChecks.Verify();
         }
         public static void BuildWeb()
         {

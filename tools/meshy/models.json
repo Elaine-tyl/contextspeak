@@ -1,0 +1,371 @@
+[
+  {
+    "id": "Academy",
+    "folder": "academy",
+    "archive": "Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.zip",
+    "height": 1.7,
+    "animation": "Vault"
+  },
+  {
+    "id": "Elliot",
+    "folder": "elliot",
+    "archive": "Meshy_AI_Elliot_20261112_texture_fbx.zip",
+    "height": 1.7
+  },
+  {
+    "id": "Archeologist",
+    "folder": "archeologist",
+    "archive": "Meshy_AI_Pani_Archeolog_20260331_texture_fbx.zip",
+    "height": 1.7,
+    "relaxArms": true
+  },
+  {
+    "id": "Rose",
+    "folder": "rose",
+    "archive": "Meshy_AI_Rose_Petal_Maiden_20260825_texture_fbx.zip",
+    "height": 1.7
+  },
+  {
+    "id": "Schoolgirl",
+    "folder": "schoolgirl",
+    "archive": "Meshy_AI_T_Pose_Schoolgirl_in_Navy_Uniform_20260803_texture_fbx.zip",
+    "height": 1.7,
+    "relaxArms": true
+  },
+  {
+    "id": "Daydream",
+    "folder": "daydream",
+    "archive": "Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.zip",
+    "height": 1.7,
+    "animation": "Walk"
+  },
+  {
+    "id": "Autumn",
+    "folder": "autumn",
+    "archive": "Meshy_AI_Autumn_City_Chic_20260628_texture_fbx.zip",
+    "height": 1.7,
+    "locomotionRig": true
+  },
+  {
+    "id": "Urban",
+    "folder": "urban",
+    "archive": "Meshy_AI_Urban_Wanderer_20260924_texture_fbx.zip",
+    "height": 1.7,
+    "locomotionRig": true
+  },
+  {
+    "id": "TrenchElder",
+    "folder": "trenchelder",
+    "sourceHash": "81fedc64995f31dcaed2d0853c870f3fa6b937298876f4fb309a3173bba1f9bc",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "bakeSourcePose": true,
+    "locomotionRig": true
+  },
+  {
+    "id": "OldCardigan",
+    "folder": "oldcardigan",
+    "sourceHash": "64f9efaab6f0cb734a73aea131f5dcedc8789c6589d6198cb5fb422ea903d65f",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "bakeSourcePose": true,
+    "locomotionRig": true
+  },
+  {
+    "id": "Adrian",
+    "folder": "adrian",
+    "sourceHash": "0e7aeef926224c8fdb089ca6345b587e4f698e244ea807d334fa9818ef669131",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "locomotionRig": true
+  },
+  {
+    "id": "Ali",
+    "folder": "ali",
+    "sourceHash": "b42e5e0c421a9c20d239e07dd263ddfadb4be6ad2d8fffcdad9af777ebdb6070",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "Amael",
+    "folder": "amael",
+    "sourceHash": "def6698050a6d0948f8ae8973ce13ba48218dc5dc8f2ac66953d0c735b5fccfa",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "relaxArms": true
+  },
+  {
+    "id": "AnimeDetective",
+    "folder": "animedetective",
+    "sourceHash": "4029fd81cebd88a211a50639d42ab9b6da175361d24d850637eb2171b4c4ce4f",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "locomotionRig": true
+  },
+  {
+    "id": "BlueLace",
+    "folder": "bluelace",
+    "sourceHash": "8c4a2dc80f2bb7b67e536fef28dd3e8cc1bb10ab7724805da706e8cdcff222b1",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "ConfidentBoy",
+    "folder": "confidentboy",
+    "sourceHash": "58ede9614a2f259a972b1193cf2350d329acc239fe1714dd2c5cb96a1dbe4dfa",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "Contemplation",
+    "folder": "contemplation",
+    "sourceHash": "aff1f523170d4f535855f1d8f471829c364e86bf29d20e6c3fdef210b412222d",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "Dawn",
+    "folder": "dawn",
+    "sourceHash": "75801912f36a336038d84b83a67536b8545f5a1ffa0bb81be931d89ceb5c91c7",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "Executive",
+    "folder": "executive",
+    "sourceHash": "13b6d3d8016f075e1453139461a8492fee6932fd5aaac44b0c9f760867322562",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "locomotionRig": true
+  },
+  {
+    "id": "Hooded",
+    "folder": "hooded",
+    "sourceHash": "53e14adf0ba606b761e14a414221313804fc9f0ed7615c31f5928859273a9554",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "relaxArms": true
+  },
+  {
+    "id": "MaidStone",
+    "folder": "maidstone",
+    "sourceHash": "102a02e4603bf9de8457df62e759f22698e43fe09fc9f2d99c0778bc0ca8c8ef",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "locomotionRig": true
+  },
+  {
+    "id": "MaidHall",
+    "folder": "maidhall",
+    "sourceHash": "a9e7292fbcb37c0f72b9e0d6b63ea086c3ed49206d4b8024217b508838fd8ed2",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "MidnightLace",
+    "folder": "midnightlace",
+    "sourceHash": "ef9f03ea4d15b424b0a4ed1ee294787f083be09234376deea4ce82701a1d240f",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "OpenArms",
+    "folder": "openarms",
+    "sourceHash": "5ceb0f9fcda7da7c096c1b6f978e2841a84d378485b12ea72d421f2f4e1e2a0b",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "relaxArms": true
+  },
+  {
+    "id": "PeachGala",
+    "folder": "peachgala",
+    "sourceHash": "a0234034ed6a9563b4ee0b03272b6a9c3203162afcde7dc330bb01146f70a3d3",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "Plaid",
+    "folder": "plaid",
+    "sourceHash": "b2f869bf6f2944c1604e707ecca36e7b0586ce64e17d50f1c5ed91cd537bc679",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "locomotionRig": true
+  },
+  {
+    "id": "QuietMorning",
+    "folder": "quietmorning",
+    "sourceHash": "757588c163c6ea31346ad5fe6ca791086689fb6b03d84952d66c361cb79d7e8b",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "SchoolgirlCasual",
+    "folder": "schoolgirlcasual",
+    "sourceHash": "bffc18187bfb067abb34d60d550849c6f2c00237b26d2af1c87d51cff0638b36",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "SkateboardBoy",
+    "folder": "skateboardboy",
+    "sourceHash": "ae05e9734efcdd119ade7baa73e390709f4fbcfb0cafa57205017c2dfb52226e",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "SkaterBoy",
+    "folder": "skaterboy",
+    "sourceHash": "e1d9668925081dff626cea3d0897ad301bc83ff777dc499f6b4aa0adb56a2803",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "SmilingBoy",
+    "folder": "smilingboy",
+    "sourceHash": "6e95cd7ff9934fa027bfe0bae171ab92c438cfc9f356258e9d7bd32996aad6af",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "SoccerCaptain",
+    "folder": "soccercaptain",
+    "sourceHash": "fee22c6ce50d8ecbad6681b119c3b47049f0e85516e2fb0571e8fa45b95a0fe6",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "UrbanTrench",
+    "folder": "urbantrench",
+    "sourceHash": "3f5c9b9a015fdc76ca334fcff2d8c7272692fa51a96edc1a6a1686a06db4d570",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "WhispersPiano",
+    "folder": "whisperspiano",
+    "sourceHash": "174fb054f18e7416ba9f38e2c69c665e79a4f46e702b43276db0df7b51b5f82e",
+    "height": 1.25,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "VirtualGuide",
+    "folder": "virtualguide",
+    "sourceHash": "2509644520526cc8ee2d509ec7a730128bf7675ebb14e5609197ccf7224ae8ab",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "DrRavi",
+    "folder": "drravi",
+    "sourceHash": "cfa7a2bc1598bdc7b1e59f4b7162c827123ca8bb42493c32cf35f0c49a5d4e06",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "ProfessorReed",
+    "folder": "professorreed",
+    "sourceHash": "a0871f3e905f654e2d09556ae1549d75b98e461547822f919ca13289c8f35a54",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "relaxArms": true
+  },
+  {
+    "id": "OfficerJames",
+    "folder": "officerjames",
+    "sourceHash": "2159239f9f4be76211cf28804347e5e0ec1ecac38018e7ee9168821e1d448ab9",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "DrMorgan",
+    "folder": "drmorgan",
+    "sourceHash": "a563bc8c40d29ad8a520df1178ce727d86488def89d20642b6a3b6c3567e3cbd",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "DrChen",
+    "folder": "drchen",
+    "sourceHash": "bd14623339d1eea7ed661ccadd414e9601024a82947da516f43f9687877e004a",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "relaxArms": true
+  },
+  {
+    "id": "NurseLily",
+    "folder": "nurselily",
+    "sourceHash": "9b8b9ff9924a9a8aa40309730cacf5af4d46cb083133d4e1da778c7cf4960496",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "relaxArms": true
+  },
+  {
+    "id": "Secretary",
+    "folder": "secretary",
+    "sourceHash": "46a6dccfc72492287875ed51692183a170f29c50cc04ddd43a50dd4f459155bb",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  },
+  {
+    "id": "OfficerMason",
+    "folder": "officermason",
+    "sourceHash": "816fb69a4453c2b5da2474b063ee586f7a4b968c06f4ee48660eaaf8898bd0a6",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "bakeSourcePose": true,
+    "locomotionRig": true
+  },
+  {
+    "id": "OfficerTaylor",
+    "folder": "officertaylor",
+    "sourceHash": "5f00929bd837432090058cf39a8a409b55e99bf1a7592f1d572321287e08b487",
+    "height": 1.7,
+    "textureLimit": 1024,
+    "triangleBudget": 30000,
+    "bakeSourcePose": true,
+    "locomotionRig": true
+  },
+  {
+    "id": "Rider",
+    "folder": "rider",
+    "sourceHash": "0aef485afb6b9b33b229a2b5a9e20c4c2e556dc8504713694545c7d284cb69e2",
+    "height": 1.5,
+    "textureLimit": 1024,
+    "triangleBudget": 30000
+  }
+]

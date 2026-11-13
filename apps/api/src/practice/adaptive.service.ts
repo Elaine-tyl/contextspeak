@@ -69,21 +69,23 @@ export class AdaptiveService {
         take: independent ? challenges.length : 30,
       });
     const readPractice = (independent: boolean) =>
-      this.prisma.practiceAttempt.findMany({
-        where: {
-          userId,
-          createdAt: recent,
-          payload: { path: ["mode"], equals: track },
-          AND: [
-            ...practiceChecks,
-            ...(independent
-              ? [{ task: { path: ["independent"], equals: true } }]
-              : []),
-          ],
-        },
-        orderBy,
-        take: 30,
-      });
+      track === "vocabulary" || track === "reading"
+        ? Promise.resolve([])
+        : this.prisma.practiceAttempt.findMany({
+            where: {
+              userId,
+              createdAt: recent,
+              payload: { path: ["mode"], equals: track },
+              AND: [
+                ...practiceChecks,
+                ...(independent
+                  ? [{ task: { path: ["independent"], equals: true } }]
+                  : []),
+              ],
+            },
+            orderBy,
+            take: 30,
+          });
     // Select valid recent outcomes and independent evidence separately: repeats/noise cannot evict qualifications.
     const [recentGames, independentGames, recentPractice, independentPractice] =
       await Promise.all([

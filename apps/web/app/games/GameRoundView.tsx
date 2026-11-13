@@ -1,15 +1,26 @@
 "use client";
+import "./text-puzzles.css";
 import { useGameRound, type GameRoundProps } from "./useGameRound";
 import { RecordingPlayback } from "../practice/RecordingPlayback";
 import { SpeakingFeedback } from "../practice/SpeakingFeedback";
 import { DictationResult } from "../practice/DictationResult";
 import { EditionNotice, GameSourceCredit } from "./GameContext";
+import { GameCelebration } from "./GameEffects";
+import { GameStudio } from "./GameStudio";
+import type { StudioActivity } from "./studioThemes";
+import { Crossword } from "./Crossword";
+import { EvidenceHunt } from "./EvidenceHunt";
+import { ReadingRecall } from "./ReadingRecall";
+import { SceneWords, SceneWordNotebook } from "./SceneWords";
 import { Picture } from "./Picture";
 import { GapFillSentence, GapFillResult } from "./GapFill";
+import { QuickFireTimer, TileBuilder } from "./Tiles";
 export function GameRoundView(props: GameRoundProps) {
   const { round, onLeave } = props;
   const {
     speech,
+    requiresAudio,
+    canAnswer,
     recording,
     response,
     setResponse,
@@ -24,21 +35,118 @@ export function GameRoundView(props: GameRoundProps) {
     speaking,
     gapFill,
     gapsComplete,
+    tileKind,
+    quickFire,
+    placed,
+    setPlaced,
+    tileAnswer,
+    quickStart,
     recordingBusy,
     submit,
     nextQuestion,
     frozen,
     startRecording,
   } = useGameRound(props);
+  const activity: StudioActivity = result
+    ? "checked"
+    : busy
+      ? "checking"
+      : recordingBusy
+        ? "recording"
+        : speech.playing
+          ? "listening"
+          : canAnswer
+            ? "answering"
+            : "ready";
+  const count = gapFill
+    ? gapAnswers.filter((word) => word.trim()).length
+    : tileKind
+      ? placed.length
+      : response.trim()
+        ? response.trim().split(/\s+/u).length
+        : choice
+          ? 1
+          : 0;
+  const selectedWord = round.choices?.find((item) => item.id === choice)?.label;
   return (
-    <article className="game-round">
-      <p className="eyebrow">
-        Level {round.level} · {round.track} · {round.genre ?? round.kind}
-      </p>
-      <h2>{round.title}</h2>
+    <GameStudio
+      round={round}
+      activity={activity}
+      count={count}
+      action={
+        requiresAudio ? (
+          <button
+            className="primary studio-play"
+            disabled={
+              speech.playing ||
+              recordingBusy ||
+              busy ||
+              advancing ||
+              !speech.available ||
+              speech.plays >= 20
+            }
+            onClick={() => void speech.play()}
+          >
+            <span aria-hidden="true">{speech.playing ? "◖))" : "▶"}</span>{" "}
+            {round.recall
+              ? speech.completedPlays
+                ? "Replay audio"
+                : "Start"
+              : "Play challenge"}
+          </button>
+        ) : (
+          <span className="studio-text-badge">
+            {round.track === "vocabulary" ? "Word challenge" : "Read & explore"}
+          </span>
+        )
+      }
+    >
       <EditionNotice archived={round.archived} />
-      <GameSourceCredit source={round.source} />
-      <p>{round.instruction}</p>
+      <GameSourceCredit source={round.source} hasAudio={requiresAudio} />
+      {round.recall ? (
+        <ReadingRecall
+          round={round}
+          completed={speech.completedPlays > 0}
+          answers={gapAnswers}
+          disabled={frozen || !canAnswer}
+          onChange={setGapAnswers}
+          onSubmit={() => void submit()}
+        />
+      ) : round.kind === "evidence-hunt" ? (
+        <EvidenceHunt
+          passage={round.passage}
+          question={round.instruction}
+          choices={round.choices ?? []}
+          selected={choice}
+          disabled={frozen}
+          onSelect={setChoice}
+        />
+      ) : (
+        round.passage && (
+          <section
+            className={`text-game-passage passage-${round.kind}`}
+            aria-label={
+              round.track === "reading"
+                ? "Reading passage"
+                : "Vocabulary prompt"
+            }
+          >
+            {round.passage.split("\n\n").map((paragraph, index) => (
+              <p key={index}>
+                {round.kind === "word-context" ? (
+                  <>
+                    {paragraph.split("___")[0]}
+                    <mark className="context-gap">{selectedWord ?? "___"}</mark>
+                    {paragraph.split("___")[1]}
+                  </>
+                ) : (
+                  paragraph
+                )}
+              </p>
+            ))}
+          </section>
+        )
+      )}
       {!!round.criteria?.length && (
         <section aria-label="Answer requirements">
           <h3>Answer requirements</h3>
@@ -55,21 +163,21 @@ export function GameRoundView(props: GameRoundProps) {
           {round.opponentScore}/100. No other player is connected.
         </p>
       )}
-      <button
-        className="primary"
-        disabled={
-          speech.playing ||
-          recordingBusy ||
-          busy ||
-          advancing ||
-          speech.plays >= 20
-        }
-        onClick={() => void speech.play()}
-      >
-        Play challenge
-      </button>
+      {speech.playing && (
+        <div className="game-equalizer" aria-hidden="true">
+          {Array.from({ length: 8 }, (_, i) => (
+            <span key={i} style={{ animationDelay: `${i * 0.08}s` }} />
+          ))}
+        </div>
+      )}
       {speech.status && <p role="status">{speech.status}</p>}
       {speech.error && <p role="alert">{speech.error}</p>}
+      {round.recall && !speech.available && (
+        <p role="alert">
+          This passage cannot be read. Refresh the level or choose another
+          passage.
+        </p>
+      )}
       {speaking ? (
         <>
           <p className="game-prompt">
@@ -105,16 +213,56 @@ export function GameRoundView(props: GameRoundProps) {
           )}
           {recording.error && <p role="alert">{recording.error}</p>}
         </>
-      ) : gapFill ? (
-        <GapFillSentence
-          parts={round.gapText!}
+      ) : round.kind === "scene-words" ? (
+        <SceneWords
+          round={round}
+          value={gapAnswers[0] ?? ""}
+          disabled={frozen || !canAnswer}
+          activity={activity}
+          score={result?.score}
+          onChange={(value) => setGapAnswers([value])}
+          onSubmit={() => void submit()}
+        />
+      ) : round.kind === "mini-crossword" ? (
+        <Crossword
+          entries={round.crossword ?? []}
           answers={gapAnswers}
-          disabled={frozen || !speech.completedPlays}
+          disabled={frozen}
           onChange={setGapAnswers}
           onSubmit={() => void submit()}
         />
-      ) : round.kind === "dictation" ? (
-        <label className="practice-response">
+      ) : round.recall ? null : gapFill ? (
+        <GapFillSentence
+          parts={round.gapText!}
+          audioText={round.audioText}
+          answers={gapAnswers}
+          disabled={frozen || !canAnswer}
+          onChange={setGapAnswers}
+          onSubmit={() => void submit()}
+        />
+      ) : tileKind ? (
+        <TileBuilder
+          tiles={round.tiles ?? []}
+          placed={placed}
+          joiner={
+            round.kind === "spelling" || round.kind === "word-scramble"
+              ? ""
+              : " "
+          }
+          label={
+            round.kind === "spelling" || round.kind === "word-scramble"
+              ? "Build the word"
+              : round.kind === "reading-order"
+                ? "Order the paragraphs"
+                : round.kind === "sentence-puzzle"
+                  ? "Build the summary"
+                  : "Build the sentence"
+          }
+          disabled={frozen || !canAnswer}
+          onChange={setPlaced}
+        />
+      ) : round.kind === "evidence-hunt" ? null : round.kind === "dictation" ? (
+        <label className="practice-response studio-notebook">
           Type what you hear
           <textarea
             value={response}
@@ -122,47 +270,80 @@ export function GameRoundView(props: GameRoundProps) {
             disabled={frozen}
             onChange={(event) => setResponse(event.target.value)}
           />
+          <span className="studio-answer-count">
+            {count} {count === 1 ? "word" : "words"}
+          </span>
         </label>
       ) : (
-        <div className="game-choices" aria-label="Answer choices">
-          {round.choices?.map((item, index) => (
-            <button
-              key={item.id}
-              className={
-                choice === item.id ? "game-choice selected" : "game-choice"
-              }
-              disabled={frozen || !speech.completedPlays}
-              aria-pressed={choice === item.id}
-              aria-label={
-                item.picture
-                  ? `Choose ${item.label.toLowerCase()} picture`
-                  : item.label
-              }
-              onClick={() => setChoice(item.id)}
-            >
-              {item.picture ? (
-                <>
-                  <Picture kind={item.picture} />
-                  <span>Picture {index + 1}</span>
-                </>
-              ) : (
-                item.label
-              )}
-            </button>
-          ))}
-        </div>
+        <>
+          {quickFire && round.picture && (
+            <div className="quick-picture">
+              <Picture kind={round.picture} size="large" decorative={false} />
+            </div>
+          )}
+          {quickFire && (
+            <QuickFireTimer
+              key={quickStart ?? "idle"}
+              limit={round.timeLimit ?? 10}
+              startedAt={quickStart}
+              stopped={frozen}
+            />
+          )}
+          <div
+            className={`game-choices ${
+              round.choices?.some((item) => item.picture)
+                ? `pictures-${round.choices.length}`
+                : "words"
+            }`}
+            aria-label="Answer choices"
+          >
+            {round.choices?.map((item, index) => (
+              <button
+                key={item.id}
+                className={
+                  choice === item.id ? "game-choice selected" : "game-choice"
+                }
+                disabled={frozen || !canAnswer}
+                aria-pressed={choice === item.id}
+                aria-label={
+                  item.picture
+                    ? `Choose ${item.label.toLowerCase()} picture`
+                    : item.label
+                }
+                onClick={() => setChoice(item.id)}
+              >
+                {item.picture ? (
+                  <>
+                    <Picture kind={item.picture} />
+                    <span>Picture {index + 1}</span>
+                  </>
+                ) : (
+                  item.label
+                )}
+              </button>
+            ))}
+          </div>
+        </>
       )}
       {!speaking && !result && (
         <button
           className="primary"
           disabled={
             frozen ||
-            !speech.completedPlays ||
+            !canAnswer ||
             (gapFill
               ? !gapsComplete
               : round.kind === "dictation"
                 ? !/[\p{L}\p{N}]/u.test(response)
-                : !choice)
+                : tileKind
+                  ? [
+                      "reading-order",
+                      "word-scramble",
+                      "sentence-puzzle",
+                    ].includes(round.kind)
+                    ? placed.length !== round.tiles?.length
+                    : !/[\p{L}\p{N}]/u.test(tileAnswer)
+                  : !choice)
           }
           onClick={() => void submit()}
         >
@@ -190,7 +371,8 @@ export function GameRoundView(props: GameRoundProps) {
         </>
       )}
       {result && (
-        <section aria-label="Game result">
+        <section className="game-result-panel" aria-label="Game result">
+          <GameCelebration score={result.score} />
           <h3>
             {result.score === null
               ? "More audio evidence needed"
@@ -215,7 +397,16 @@ export function GameRoundView(props: GameRoundProps) {
             />
           )}
           {result.feedback.gapFill && (
-            <GapFillResult feedback={result.feedback.gapFill} />
+            <GapFillResult
+              feedback={result.feedback.gapFill}
+              crossword={round.kind === "mini-crossword"}
+            />
+          )}
+          {result.feedback.sceneWordNotes && (
+            <SceneWordNotebook
+              notes={result.feedback.sceneWordNotes}
+              token={props.token}
+            />
           )}
           {result.feedback.speaking && (
             <SpeakingFeedback result={result.feedback.speaking} />
@@ -242,6 +433,6 @@ export function GameRoundView(props: GameRoundProps) {
       <p className="section-copy">
         Game progress is separate from vocabulary recall and CEFR levels.
       </p>
-    </article>
+    </GameStudio>
   );
 }

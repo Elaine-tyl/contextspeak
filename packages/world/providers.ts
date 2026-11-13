@@ -25,6 +25,12 @@ import {
   lifeModelOutputFor,
 } from "./life";
 import {
+  reviewSlice,
+  sliceInput,
+  sliceInstruction,
+  sliceOutput,
+} from "./slice";
+import {
   conversationInput,
   conversationOutput,
   QUESTIONS,
@@ -165,6 +171,19 @@ export function localProviders(tools: string) {
         input.step.startsWith("friend_") ? 480 : 340,
       );
       return reviewLife(input, result);
+    },
+    async sliceReview(
+      input: z.infer<typeof sliceInput>,
+      external?: AbortSignal,
+    ) {
+      const result = await generateLocal(
+        sliceOutput,
+        sliceInstruction(input),
+        input.text,
+        external,
+        260,
+      );
+      return reviewSlice(input, result);
     },
     transcribe: (audio: Buffer, signal?: AbortSignal) =>
       transcribeLocal(audio, tools, undefined, signal),

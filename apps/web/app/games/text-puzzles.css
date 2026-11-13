@@ -1,0 +1,227 @@
+/* Native puzzle surfaces share the existing grading and motion preferences. */
+.crossword {
+  margin: 16px 0 24px;
+}
+.crossword-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--crossword-columns), minmax(0, 1fr));
+  gap: 3px;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 18px;
+  background: var(--studio-soft);
+  border-radius: 18px;
+}
+.crossword-cell {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-bottom-width: 3px;
+  border-radius: 4px;
+  background: white;
+  color: var(--text);
+  font:
+    650 clamp(0.65rem, 2vw, 1.2rem)/1 ui-monospace,
+    monospace;
+  text-transform: uppercase;
+  cursor: text;
+}
+.crossword-cell small {
+  position: absolute;
+  left: 2px;
+  top: 1px;
+  font: 450 0.5rem/1 sans-serif;
+}
+.crossword-cell.is-active {
+  border-color: var(--studio-accent);
+  background: color-mix(in srgb, var(--studio-soft) 50%, white);
+}
+.crossword-cell.is-conflict {
+  border-color: #be3540;
+  color: #a7232d;
+  background: #fff0f1;
+}
+.crossword > p {
+  text-align: center;
+  font-size: 0.8rem;
+}
+.crossword-conflict {
+  color: #a7232d;
+}
+.crossword-clues {
+  margin: 20px 0 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.crossword-clues legend {
+  padding: 0 0 12px;
+  font-weight: 650;
+}
+.crossword-clue {
+  padding: 16px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  min-width: 0;
+}
+.crossword-clue:focus-within {
+  border-color: var(--studio-accent);
+  background: var(--studio-soft);
+}
+.crossword-clue > strong {
+  color: var(--studio-accent);
+  font-size: 0.75rem;
+}
+.crossword-clue > p {
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.crossword-clues > p {
+  grid-column: 1 / -1;
+  font-size: 0.75rem;
+}
+.crossword-clue .gap-word {
+  margin-left: 0;
+}
+.evidence-story {
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: #fffef9;
+  margin-bottom: 24px;
+}
+.evidence-story h3 {
+  margin: 0 0 12px;
+  font: 650 1rem/1.4 sans-serif;
+}
+.evidence-choices {
+  min-width: 0;
+  margin: 24px 0;
+  padding: 0;
+  border: 0;
+}
+.evidence-choices legend {
+  padding: 0;
+  font-weight: 650;
+}
+.evidence-question {
+  font-weight: 600;
+  line-height: 1.6;
+}
+.evidence-choices .game-choice.evidence-line {
+  border: 1px solid var(--border);
+  background: white;
+  font: inherit;
+  line-height: 1.6;
+}
+.evidence-hint {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.75rem;
+  margin-bottom: 12px;
+}
+.game-studio .evidence-line {
+  flex-direction: row;
+  align-items: baseline;
+  text-align: left;
+  width: 100%;
+  margin: 0;
+  padding: 16px 12px;
+  gap: 16px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  box-shadow: none;
+  background: transparent;
+  font:
+    1.05rem/1.85 Georgia,
+    serif;
+  font-weight: 400;
+}
+.evidence-number {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font:
+    0.7rem/1 ui-monospace,
+    monospace;
+}
+.game-studio .evidence-line.selected {
+  border-color: var(--studio-accent);
+  background: var(--studio-soft);
+  transform: none;
+}
+.evidence-line.selected > span:last-child {
+  text-decoration: underline;
+  text-decoration-color: color-mix(
+    in srgb,
+    var(--studio-accent) 45%,
+    transparent
+  );
+  text-underline-offset: 4px;
+}
+.game-studio[data-kind="word-scramble"] .text-game-passage {
+  border-left: 4px solid var(--studio-accent);
+  font-size: 1.15rem;
+}
+.game-studio[data-kind="sentence-puzzle"] .tile-answer {
+  border-style: solid;
+  border-color: var(--studio-accent);
+  min-height: 80px;
+}
+@media (max-width: 650px) {
+  .crossword-clues {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .crossword-grid {
+    padding: 12px;
+    gap: 2px;
+  }
+  .evidence-story {
+    padding: 12px;
+  }
+  .game-studio .evidence-line {
+    padding: 12px 8px;
+    gap: 10px;
+    font-size: 1rem;
+  }
+}
+
+/* Keep the full passage during narration; the same positions become blanks. */
+.reading-recall .recall-preview,
+.reading-recall .gap-fill-sentence {
+  white-space: pre-wrap;
+}
+.recall-instruction {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.recall-keyword {
+  background: #fff0ad;
+  color: #4d3d0b;
+  border-bottom: 2px solid #bd8a22;
+  border-radius: 4px;
+  padding: 2px 4px;
+  font-weight: 650;
+  box-decoration-break: clone;
+}
+.recall-keyword sup {
+  margin-left: 3px;
+  font: 600 0.6rem/1 sans-serif;
+}
+.reading-recall .gap-fill {
+  background: var(--studio-soft);
+  border-color: var(--border);
+  padding: 20px;
+}
+@media (max-width: 560px) {
+  .reading-recall .gap-fill {
+    padding: 12px;
+  }
+}

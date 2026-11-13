@@ -1,10 +1,12 @@
+> Current website update (2026-11-12): `/games`, `/games/web` and `/games/arcade` use a lazy-loaded Three.js 0.187.0 level-selection world with native React exercise controls. Each of the twenty exercise modes has its own themed studio, a small reactive Three.js diorama, native inputs and an explicit keyboard-accessible instructions dialog. Animation pauses during recording, offscreen and under reduced-motion preferences. The miniature islands and props are original geometry, without downloaded art. A normal selector remains available when WebGL fails. Web Audio supplies optional original effects; lesson speech stays separate. Scores, authentication and saved runs still use the existing backend. Unity runs the 3D life world. Godot instructions below are historical archive notes.
+
 # Game engines
 
 **Unity 6000.3.28f1 LTS + C# + URP17.3.0** runs the 3D Life world and cafe in
-`games/unity`. **Godot 4.7.2 + GDScript** runs the eight 2D learning games in
-`games/arcade`. This split follows the latest user request and supersedes the
-earlier all-Unity arcade decision. Engine versions and dependencies are pinned.
-The historical Godot 3D world and Unity arcade source are retained for reference.
+`games/unity`. The twenty website learning games use React and Three.js.
+The former Godot project in `games/arcade` and its setup instructions below are
+retained as an archive; the current website does not load a Godot export.
+Engine versions and dependencies are pinned.
 
 The website/extension remain TypeScript. They own login, vocabulary, trusted
 assessment and account learning history. Migrating game rendering does not
@@ -40,6 +42,12 @@ http://127.0.0.1:4320/unity/?world=life directly. The companion root opens Life;
 `/unity/` opens the preserved original cafe. `/download/macos` serves the Unity
 ZIP. Build outputs, model downloads, private audio and Editor caches are ignored.
 
+The new forest café slice opens at `http://127.0.0.1:4320/unity/?world=slice`.
+It adds Rowan's menu/order/delivery loop, Hazel's fishing lesson, local saves and
+band-based speaking practice. See [the slice guide](FOREST-CAFE-SLICE.md) for controls
+and assessment limits. The four additional listening games are Spelling bee,
+Sentence builder, Sound detective and Quick fire.
+
 In Unity Hub, add `games/unity`. Run **ContextSpeak → Rebuild cafe scene**;
 open the generated ForestCafe or LifeTown scene and Play. Generated scenes and
 art are reproducible; edit their Editor builders rather than generated files.
@@ -59,7 +67,13 @@ Four NPCs and twelve spoken goals form the first complete loop:
    invitation with a time.
 
 Start with $20. Menus, wallet, bag and visible rewards reflect earned progress.
-WASD/arrows walk; E talks; right-drag looks; scroll zooms; Esc explores.
+WASD/arrows jog (7 m/s); Ctrl or Caps Lock walks (4.5 m/s); Shift sprints
+(9 m/s); Space jumps; C crouches; E or F talks; M opens the menu;
+right-drag looks; scroll zooms; Esc explores. The camera pulls in instead of
+clipping through walls. Every speed is editable on the `CafePlayer` component. The menu (M, or **Menu**) shows each
+shop's prices, a description and a phrase to say. **Pick this** plans a drink and
+shows what will be left in your wallet; only the spoken order buys it. An orange
+marker floats above the next person to talk to.
 **Walk to objective** follows a complete NavMesh route. Movement keys cancel it.
 Test-stage jumps are marked practice and cannot replace an earned save.
 
@@ -68,6 +82,18 @@ automatically. A real correction holds the current goal until a new correct
 spoken reply. Equivalent natural wording is accepted. Typed replies in Life
 are rehearsal. A transcription failure is retryable and does not lose progress.
 The original cafe mission retains its earlier typed-reply behavior.
+
+### Forest Café slice (IELTS-band difficulty)
+
+`ForestSlice` is the playable vertical slice from the Living World brief: a
+forest café with kitchen, terrace, pond, fishing pier, bridge, trail and picnic
+area; Rowan the waiter (menu, customisation, cart, checkout, payment, kitchen
+queue and table delivery); Hazel the fishing instructor; ambient customers;
+day/night, weather and wildlife; quests, a learning dashboard and JSON saves.
+Difficulty uses seven IELTS-inspired training targets from 3 to 9 and feedback is grouped by the four IELTS criteria. See
+[the milestone report](FOREST-CAFE-SLICE.md) for setup, controls, tests and
+limitations. Desktop builds open the slice; the web build keeps the original
+café unless the URL has `?world=slice`.
 
 On macOS, allow the microphone permission sheet when first recording. The game
 keeps the conversation open for that sheet; normal focus loss still cancels
@@ -101,17 +127,18 @@ saves. Transcript/grammar feedback is not an acoustic pronunciation grade.
 Animator states provide restrained idle/conversation motion, not full lip sync
 or autonomous daily schedules.
 
-The first district set is home/market/cafe. School, farming, try-on clothing,
+The first Life town district set is home/market/cafe. School, farming, try-on clothing,
 restaurants, fishing, amusement parks, apartments, civic services and international
-travel remain future content releases. Empty folders/scenes do not represent
+travel remain future Life town content releases; fishing is playable in the separate forest café slice. Empty folders/scenes do not represent
 finished features. See the [unification design](superpowers/specs/2026-11-11-unity-unification-design.md).
 
 ## Learning arcade
 
 Open http://127.0.0.1:3000/games and sign in. The real Godot 2D
-board presents the existing eight modes and ten-level catalog: dictation,
+board presents twelve modes and a ten-level catalog: dictation,
 missing words, picture choice, listening questions, spoken responses, puzzle,
-riddle and clearly labelled simulated AI PK.
+riddle, clearly labelled simulated AI PK, spelling, sentence building,
+sound discrimination and quick true/false listening.
 
 The website owns account I/O, audio and microphone recording. The frame receives
 only the current question, controls and result. Same-origin/exact-frame/current-round
@@ -142,7 +169,7 @@ Mac are required for that final pilot check. Current evidence and any pending
 checks are recorded in the unification implementation ledger; no public pilot or
 GitHub push is implied by a successful local build.
 
-Verification snapshot (2026-11-11): 567 source/database regressions, one build-tool
+Historical pre-slice verification (2026-11-11): 567 source/database regressions, one build-tool
 regression, C# mission/navigation/arcade checks and three native UI layout checks
 passed. Fourteen exported world journeys and sixteen Godot/HTML game journeys
 passed, covering eight modes,

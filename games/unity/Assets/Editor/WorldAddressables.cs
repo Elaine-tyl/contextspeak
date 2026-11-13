@@ -26,11 +26,12 @@ namespace ContextSpeak.Editor
             settings.BuildAddressablesWithPlayerBuild = AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer;
             var group = settings.FindGroup("Life districts") ?? settings.CreateGroup("Life districts", false, false, true, null,
                 typeof(BundledAssetGroupSchema), typeof(ContentUpdateGroupSchema));
-            foreach (var scene in new[] { "ForestCafe", "LifeTown" })
+            foreach (var scene in new[] { "ForestCafe", "LifeTown", "ForestSlice", "CharacterCreation" })
             {
                 var entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID("Assets/Generated/" + scene + ".unity"), group);
                 entry.address = scene;
             }
+            WorldAssetBuilder.Addressables();
             EditorUtility.SetDirty(settings);
             var bootstrap = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             new GameObject("ContextSpeak bootstrap").AddComponent<ContextSpeak.Cafe.WorldBootstrap>();

@@ -1,0 +1,9 @@
+# Applied environment and locomotion corrections
+
+Use the existing Unity/Blender pipeline. The user has delegated routine design and explicitly requests actual environment replacement, separate female walk/run, consistent NPC sizing, correct piano proportions and all newly completed FBXs applied. Do not create another unrelated game or change dialogue, missions, saves, audio or rooms.
+
+Freeze Downloads intake once for this task (289 file entries /284 distinct sources, 16 new). Preserve originals. Assign all new files in the existing catalog. Replace procedural forest tree visuals, visible meadow surfaces and village road visuals using suitable downloaded assets/materials; preserve safe colliders and navigation. Add natural patches and high-value contextual furniture instead of only a separate gallery. No suitable standalone road segment exists except the downloaded asphalt model; fit its visual to each existing walkable road without changing collision.
+
+Keep both protagonists. Reuse supplied Mixamo walk/run actions on the female skeleton through explicit bone mapping, preserving her bind translations/proportions; never use vault as idle/locomotion. Choose walk versus run from movement state, not one fixed threshold. Standard standing bodies are 1.70m; seated piano/rider composites retain seated proportions instead of becoming giant standing-height sculptures. Normalize visual children, not actor/controller roots. Piano furniture uses explicit dimensions rather than generic longest-edge furniture size.
+
+Acceptance: every current source hash covered; actual scene environment references imported models; no visible placeholder tree parts; ground and road use the intended materials; all NPC routes reachable; real female mesh deformation for both walk/run; state-specific motion browser tests for both looks; resource limits retained. Build Web/macOS and report any untested desktop input separately. No commit/push requested.

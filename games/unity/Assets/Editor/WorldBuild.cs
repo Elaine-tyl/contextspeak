@@ -13,7 +13,7 @@ namespace ContextSpeak.Editor
 {
     public static class WorldBuild
     {
-        public static void Configure(CafePlayer player, Transform[] actors)
+        public static void Configure(CafePlayer player, Transform[] actors, string district)
         {
             var folder = "Assets/Generated/Resources";
             Directory.CreateDirectory(folder);
@@ -26,14 +26,30 @@ namespace ContextSpeak.Editor
             }
             Camera(player);
             foreach (var actor in actors) ConfigureNpc(actor, folder);
-            var surface = new GameObject("Walkable neighborhood").AddComponent<NavMeshSurface>();
+            BakeNavigation(district);
+        }
+        public static void BakeNavigation(string district)
+        {
+            var surface = UnityEngine.Object.FindFirstObjectByType<NavMeshSurface>()
+                ?? new GameObject("Walkable neighborhood").AddComponent<NavMeshSurface>();
             surface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
             surface.overrideVoxelSize = true;
             surface.voxelSize = 0.08f;
             surface.BuildNavMesh();
-            var navPath = "Assets/Generated/Navigation-" + player.name + ".asset";
-            AssetDatabase.DeleteAsset(navPath);
-            AssetDatabase.CreateAsset(surface.navMeshData, navPath);
+            var navPath = "Assets/Generated/Navigation-" + district + ".asset";
+            var existing = AssetDatabase.LoadAssetAtPath<NavMeshData>(navPath);
+            if (existing == null) AssetDatabase.CreateAsset(surface.navMeshData, navPath);
+            else
+            {
+                // Retain the GUID so rebuilding another district cannot break saved scene references.
+                var built = surface.navMeshData;
+                surface.RemoveData();
+                EditorUtility.CopySerialized(built, existing);
+                UnityEngine.Object.DestroyImmediate(built);
+                surface.navMeshData = existing;
+                surface.AddData();
+                EditorUtility.SetDirty(existing);
+            }
         }
         private static void Camera(CafePlayer player)
         {

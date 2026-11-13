@@ -1,0 +1,2286 @@
+[
+  {
+    "id": "World39cf8281f5",
+    "sourceHash": "39cf8281f59656e30279059126a805a5c9569a85ada0080c21cf9f044cf97436",
+    "inputTriangles": 876969,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 2041796,
+    "extent": 0.9
+  },
+  {
+    "id": "Worldec2199483e",
+    "sourceHash": "ec2199483e1e7ed6fe668c52cdaf5dbedab5550aba4df4c26aee59ded8ffdbae",
+    "inputTriangles": 1044583,
+    "triangles": 15770,
+    "textureLimit": 512,
+    "bytes": 1956164,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldf412ab1c19",
+    "sourceHash": "f412ab1c197a3e17ee13f5d33e2fe6b4e159d21db01666bd15aaf4028c659c96",
+    "inputTriangles": 1816210,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1920080,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldce470abc08",
+    "sourceHash": "ce470abc0810e4f2870be7feebd58574b08bdb76462f4cafb210612ac2745c9d",
+    "inputTriangles": 1954184,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1573556,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "World7926f9e8dd",
+    "sourceHash": "7926f9e8dd976002480c02bbc084cdc90289f822d5252970eed910e3677f1560",
+    "inputTriangles": 986935,
+    "triangles": 15719,
+    "textureLimit": 512,
+    "bytes": 2431860,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World0903d331e8",
+    "sourceHash": "0903d331e8979ede58af9ac33c1d56252757f612457e5c7a99fe5b057b94885c",
+    "inputTriangles": 1416350,
+    "triangles": 15788,
+    "textureLimit": 512,
+    "bytes": 1853940,
+    "extent": 7.0
+  },
+  {
+    "id": "World232d397414",
+    "sourceHash": "232d3974146289a7a3e2ee781575450742385e11ef8c78e7d9ada5998b3ebb6d",
+    "inputTriangles": 908522,
+    "triangles": 15792,
+    "textureLimit": 512,
+    "bytes": 1144168,
+    "extent": 1.0
+  },
+  {
+    "id": "World319085d7cb",
+    "sourceHash": "319085d7cb9f18f2bb5ec57d83f4c5ea1347c710294b240e00acd2f9af59436b",
+    "inputTriangles": 4207,
+    "triangles": 4207,
+    "textureLimit": 512,
+    "bytes": 1387424,
+    "extent": 0.9
+  },
+  {
+    "id": "Worlded93a499ed",
+    "sourceHash": "ed93a499ed0a0f746b89638448dd6786ebcea213cf46a3f6e228983d77eb774a",
+    "inputTriangles": 220321,
+    "triangles": 15768,
+    "textureLimit": 512,
+    "bytes": 1413580,
+    "extent": 1.8
+  },
+  {
+    "id": "World809335ca37",
+    "sourceHash": "809335ca378e4e4f159d2c4b87c8cfa0470c15b184be61d51a62d940dd0f66a3",
+    "inputTriangles": 25699,
+    "triangles": 15797,
+    "textureLimit": 512,
+    "bytes": 1198612,
+    "extent": 1.8
+  },
+  {
+    "extent": 0.9,
+    "materialVersion": 1,
+    "id": "World35478dfa2b",
+    "sourceHash": "35478dfa2befaf301e1e251f9ad5f9d0479944bde28ad15c091be175f43d628f",
+    "inputTriangles": 105276,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 734596
+  },
+  {
+    "id": "World29057d1217",
+    "sourceHash": "29057d1217b06cdcf4090cb7a257e2287a1fdd6e0e4c112893c66802d5efc019",
+    "inputTriangles": 199810,
+    "triangles": 15794,
+    "textureLimit": 512,
+    "bytes": 1009952,
+    "extent": 1.8
+  },
+  {
+    "id": "Worlddd1e59bcb7",
+    "sourceHash": "dd1e59bcb7e5e6444b7e98c526cf750a1cc58923b56c9b963082e82689da6334",
+    "inputTriangles": 546983,
+    "triangles": 15790,
+    "textureLimit": 512,
+    "bytes": 1438288,
+    "extent": 0.9
+  },
+  {
+    "id": "World036f673739",
+    "sourceHash": "036f67373999aa737a67808b5a09b57bb56fd04db438d4a1bfd6e117dce25747",
+    "inputTriangles": 389889,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 926168,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldb32547cd57",
+    "sourceHash": "b32547cd574a947ad9f22cdaaa40e2b181eade6b1ed2c709cc64690adbb3529d",
+    "inputTriangles": 1610254,
+    "triangles": 15744,
+    "textureLimit": 512,
+    "bytes": 1351984,
+    "extent": 3.2
+  },
+  {
+    "id": "World8cd22863d5",
+    "sourceHash": "8cd22863d5f211faca5ec943efa757be952640ff622e16c1f194df26b11c27c7",
+    "inputTriangles": 272694,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1096568,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 1,
+    "id": "World1f29c45ae0",
+    "sourceHash": "1f29c45ae0014a49a4b19543100c1e754e6a22b8242b2bbdc010723087d3c695",
+    "inputTriangles": 225311,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 747088,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World58ff9749b7",
+    "sourceHash": "58ff9749b7187adc9db109149f6035f648517909a34ea146925f8cd22ed6688c",
+    "inputTriangles": 1247142,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1935944,
+    "extent": 3.2
+  },
+  {
+    "id": "World00f467d5f1",
+    "sourceHash": "00f467d5f1b0c5e0bc91afd6219ab0cb91f203f0c838564196548585868d00dc",
+    "inputTriangles": 716615,
+    "triangles": 15787,
+    "textureLimit": 512,
+    "bytes": 1927756,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldad9b42d69f",
+    "sourceHash": "ad9b42d69f8973b49fa98ba961a0608fb2630e21bba23c342983caf117f460f3",
+    "inputTriangles": 10000,
+    "triangles": 10000,
+    "textureLimit": 512,
+    "bytes": 766100,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "World5edf638f35",
+    "sourceHash": "5edf638f3510cc3335af2e78d372b90267485c504f135b6c16a0126fc99954b4",
+    "inputTriangles": 10000,
+    "triangles": 10000,
+    "textureLimit": 512,
+    "bytes": 732680,
+    "extent": 1.8
+  },
+  {
+    "id": "Worldafc7b82cee",
+    "sourceHash": "afc7b82cee32b26344972dc780b95173a460f64ee402656555d2bd98e998a9da",
+    "inputTriangles": 735848,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1540260,
+    "extent": 1.7
+  },
+  {
+    "id": "World55b50b8147",
+    "sourceHash": "55b50b814778b7bbc5f0694041d06f4aba25e66f0076620da01a52719cfdad5d",
+    "inputTriangles": 1376836,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1731268,
+    "extent": 1.7
+  },
+  {
+    "id": "World0092d6f1c0",
+    "sourceHash": "0092d6f1c0c3807647297afe3933c5911808c66ae1c4bdb3a9ae265cbfefc438",
+    "inputTriangles": 132262,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 985568,
+    "extent": 1.8
+  },
+  {
+    "extent": 8.0,
+    "materialVersion": 1,
+    "id": "World6087794185",
+    "sourceHash": "60877941856a582d8121c7a75d5b37a6442adc9f70665ac7039914dd58d4785f",
+    "inputTriangles": 86622,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 914480
+  },
+  {
+    "extent": 8.0,
+    "materialVersion": 1,
+    "id": "Worldd157a7d10a",
+    "sourceHash": "d157a7d10aa9b535f9fa840ba7bf2d22fa733d72d7dd4a622cfb4a5300052a96",
+    "inputTriangles": 90998,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 953728
+  },
+  {
+    "materialVersion": 2,
+    "id": "World7cf1a18178",
+    "sourceHash": "7cf1a181780b9055587fd5525d96eec01155e68437e0b8722ffd0cfb1383baab",
+    "inputTriangles": 1946381,
+    "triangles": 24025,
+    "textureLimit": 512,
+    "bytes": 2813120,
+    "extent": 0.9
+  },
+  {
+    "id": "World213ef09876",
+    "sourceHash": "213ef09876e1cefb0b9688ad21b32dcfac9799cd2324ef6ffa4fc1438f83be6f",
+    "inputTriangles": 9834,
+    "triangles": 9834,
+    "textureLimit": 512,
+    "bytes": 1583348,
+    "extent": 2.0
+  },
+  {
+    "id": "World5ec5331391",
+    "sourceHash": "5ec5331391e46c9fa74f061884047d17efe14be086808daf55bff16b50b71f00",
+    "inputTriangles": 33572,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1230240,
+    "extent": 2.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "World469a8db931",
+    "sourceHash": "469a8db9316dbd0c184090f909deef77163e71c04bfe33e1bd15fa531af7a495",
+    "inputTriangles": 988089,
+    "triangles": 15788,
+    "textureLimit": 512,
+    "bytes": 2055712,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldefca7be382",
+    "sourceHash": "efca7be382cfffb58031c9f1f96bc83381f867d3c8267e73f7d2f992da072e18",
+    "inputTriangles": 10916,
+    "triangles": 10916,
+    "textureLimit": 512,
+    "bytes": 1936104,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "World97c2bb4723",
+    "sourceHash": "97c2bb472370d28f59d32a1fd47ab6c5f49c7ebb55924ebcf8468bd8f6008082",
+    "inputTriangles": 1228774,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1635224,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World8b0ce93022",
+    "sourceHash": "8b0ce930223044a4b03928bb3089ce562f984dbe41d4dd276849c99f8815c158",
+    "inputTriangles": 442396,
+    "triangles": 15796,
+    "textureLimit": 512,
+    "bytes": 1750852,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "World7857f03cf8",
+    "sourceHash": "7857f03cf80cc356f937395573eb5952b002e02ca2ee12ac53c752f64fe7fc2f",
+    "inputTriangles": 969732,
+    "triangles": 15797,
+    "textureLimit": 512,
+    "bytes": 2038128,
+    "extent": 1.0
+  },
+  {
+    "id": "Worldeda907303e",
+    "sourceHash": "eda907303e8eac53b6db90e5ff1be1dd4173b16ff7e69ce00c7f899602ae8adc",
+    "inputTriangles": 869064,
+    "triangles": 15720,
+    "textureLimit": 512,
+    "bytes": 2029188,
+    "extent": 0.9
+  },
+  {
+    "extent": 8.0,
+    "materialVersion": 2,
+    "id": "World703ecaa43b",
+    "sourceHash": "703ecaa43bf4a6756e38e3021eb976dc9756e08d7d303ff11673180baea8a42b",
+    "inputTriangles": 149566,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1380456
+  },
+  {
+    "materialVersion": 2,
+    "id": "World48720e693c",
+    "sourceHash": "48720e693c66adb5b6fa9c09e156d53be6971a464f9750f602fe569831fa5a66",
+    "inputTriangles": 461244,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1372756,
+    "extent": 1.0
+  },
+  {
+    "extent": 7.0,
+    "materialVersion": 1,
+    "id": "World137e0654fe",
+    "sourceHash": "137e0654fe0de96ee15b6673b560f0569c222360f75c767f77e375a30e2e39bb",
+    "inputTriangles": 9331,
+    "triangles": 9331,
+    "textureLimit": 512,
+    "bytes": 825712
+  },
+  {
+    "id": "World77ed387cfb",
+    "sourceHash": "77ed387cfb2a69c9bcd5ab0e7b65b58bcfb4f340b3d60a1cc0875390cce9a0be",
+    "inputTriangles": 1668264,
+    "triangles": 15782,
+    "textureLimit": 512,
+    "bytes": 2234520,
+    "extent": 1.8
+  },
+  {
+    "id": "World550a78e9b6",
+    "sourceHash": "550a78e9b6d7a5c77c5a457fcba7acbf1a9b43f9d5b333d34d673509c0316578",
+    "inputTriangles": 130691,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 776320,
+    "extent": 0.9
+  },
+  {
+    "id": "Worlddd1c50b580",
+    "sourceHash": "dd1c50b5806b372a53f7b215674b146a8d31e9fce3e41dcaf0a2a2a746448fb2",
+    "inputTriangles": 351991,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1695160,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 1,
+    "id": "World76c9fe5e1e",
+    "sourceHash": "76c9fe5e1e42ba77790244efb3b659ca767e208f36687dc533ea097e78ca9487",
+    "inputTriangles": 379583,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1497980,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldeec2540eee",
+    "sourceHash": "eec2540eeed7ded7a1d6944a9b0beeeaf2f0764e3a46e4f7e8617e2afe8954b3",
+    "inputTriangles": 1952080,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 2035168,
+    "extent": 1.8
+  },
+  {
+    "extent": 7.0,
+    "materialVersion": 1,
+    "id": "World6402de282c",
+    "sourceHash": "6402de282cee2a3bd1c603c56ed55aa7fb637c591d31e224ab6b4d8ce1b84932",
+    "inputTriangles": 1797278,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 2056496
+  },
+  {
+    "materialVersion": 1,
+    "id": "World90827b67d0",
+    "sourceHash": "90827b67d0136e92b26313afe2c683e5e9394f7828da049cb4f6bdd3efa1a23b",
+    "inputTriangles": 1923966,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1543588,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worlde31deb29a7",
+    "sourceHash": "e31deb29a75c76f26771b6455b1972d0f81f24ebff03f728113f9fd195dbce53",
+    "inputTriangles": 746310,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 285196,
+    "extent": 1.8
+  },
+  {
+    "id": "Worldc51bb9d369",
+    "sourceHash": "c51bb9d3691b71898a91fcd1810238a7b2a849437f034e9f57127026d1705a4f",
+    "inputTriangles": 88856,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 758840,
+    "extent": 0.9
+  },
+  {
+    "id": "World41ddc5a566",
+    "sourceHash": "41ddc5a566495f0a145418c87c2e678f2b5b88919b899d1f7bbbc3bbc3876bd9",
+    "inputTriangles": 96660,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 991772,
+    "extent": 0.9
+  },
+  {
+    "id": "World5d33e7398e",
+    "sourceHash": "5d33e7398e2779d3571760aac1213921649f23072e8e55ffecb0299d9dc173fd",
+    "inputTriangles": 1935342,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 2120468,
+    "extent": 0.9
+  },
+  {
+    "id": "World66e1a41ff9",
+    "sourceHash": "66e1a41ff92f62c768f210a2a46da25053d0b936895c19efafdf7a6caa83d6ab",
+    "inputTriangles": 468694,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1412252,
+    "extent": 1.8
+  },
+  {
+    "id": "World1211888641",
+    "sourceHash": "1211888641e41a85b6552eb967445a14869d1b9893e74a093ecf33dec11a01a0",
+    "inputTriangles": 1560559,
+    "triangles": 15755,
+    "textureLimit": 512,
+    "bytes": 2571952,
+    "extent": 1.8
+  },
+  {
+    "id": "World6cf59f3fa5",
+    "sourceHash": "6cf59f3fa5b7aa242ffa0cfd43d3ad502fcaa242373a3e23d79389df30f9ab8d",
+    "inputTriangles": 1172482,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1833028,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldaa90aa5c09",
+    "sourceHash": "aa90aa5c09d9d08ee1ea8faddf6785e506ffe8fb65a05237da646483502c7e80",
+    "inputTriangles": 528864,
+    "triangles": 15792,
+    "textureLimit": 512,
+    "bytes": 2287700,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldd1bcc6966b",
+    "sourceHash": "d1bcc6966b66c29a90f0d8f51b5d7f82e02961a3958f9e30d0fd3e8799f1d722",
+    "inputTriangles": 478256,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1680488,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World9137831506",
+    "sourceHash": "91378315067234f9783fa61aafd4a35befb3d1c6b63fe0f6ef06fe0b6d1b49fa",
+    "inputTriangles": 704912,
+    "triangles": 15786,
+    "textureLimit": 512,
+    "bytes": 1912840,
+    "extent": 3.2
+  },
+  {
+    "id": "World555531756b",
+    "sourceHash": "555531756b36102669948eadce859f63dfd9d2ae7037c4a8c028b668199187a3",
+    "inputTriangles": 98226,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1682216,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "World64bff816a9",
+    "sourceHash": "64bff816a9e9cfb5246dc9d6de6c72bfa4ff6336b8c9a765d22492f1b92d1a0c",
+    "inputTriangles": 228444,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1228784,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World0a9bb4e2c3",
+    "sourceHash": "0a9bb4e2c39e0b38b252e10ff3f45151dbe0558211427e206a484b3383b3bd40",
+    "inputTriangles": 15028,
+    "triangles": 15028,
+    "textureLimit": 512,
+    "bytes": 1843580,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "World7708eef30f",
+    "sourceHash": "7708eef30f2dfde06fbae51f9079dba98725628abbfe8328d0fdea40d905ab7b",
+    "inputTriangles": 293333,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1602540,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldd3083043ca",
+    "sourceHash": "d3083043ca540eae496e6f98a4773aa47e629b6d62394772bbd4e4ced589d471",
+    "inputTriangles": 1978478,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1513852,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worlda4d6b76bda",
+    "sourceHash": "a4d6b76bdaedcb0a9a665a3e764241d3758db6b012927b7f03a4624164875845",
+    "inputTriangles": 4379,
+    "triangles": 4379,
+    "textureLimit": 512,
+    "bytes": 701932,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldba91fa76a8",
+    "sourceHash": "ba91fa76a8efeb54859e9c110dc0591374b26f1ac0d03be2cc1c280752e624f7",
+    "inputTriangles": 2384344,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1922976,
+    "extent": 1.8
+  },
+  {
+    "id": "World77e38b4a9a",
+    "sourceHash": "77e38b4a9acaa46d0f73e630b676267480d20802e298c4fcfb78481ec4c5ffc1",
+    "inputTriangles": 131749,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 827072,
+    "extent": 1.0
+  },
+  {
+    "id": "World0f5cb986e9",
+    "sourceHash": "0f5cb986e9d28376cf39a5f14c8ca9837e76579864c7cf5c4a3dc0e4dd400172",
+    "inputTriangles": 399086,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1501928,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldb36c9a5f03",
+    "sourceHash": "b36c9a5f037692a8393c9f7e5c7a19d61860bcdf59db260e92862ab0db776ef0",
+    "inputTriangles": 553292,
+    "triangles": 15789,
+    "textureLimit": 512,
+    "bytes": 1560312,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 2,
+    "id": "World2d0ed1f7b1",
+    "sourceHash": "2d0ed1f7b146771177effe50ca5de1bdbb30740e3369d58a54d2be8405ea47e4",
+    "inputTriangles": 1034806,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1938684,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "World49b24cf6bf",
+    "sourceHash": "49b24cf6bf2376dbc8f1a73fa4f40d338688e7ed44ee0292b09869c31ccacd7f",
+    "inputTriangles": 2514836,
+    "triangles": 70133,
+    "textureLimit": 512,
+    "bytes": 5571616,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World7f1f92cd97",
+    "sourceHash": "7f1f92cd97b1b8905e22d68c769694f2f207be2862527fe1591f1cef749a858d",
+    "inputTriangles": 549807,
+    "triangles": 15783,
+    "textureLimit": 512,
+    "bytes": 1154820,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 2,
+    "id": "World7296399367",
+    "sourceHash": "72963993670e92861197d5a15adbe26d473b711357d32bba394b83c55c257616",
+    "inputTriangles": 10001,
+    "triangles": 10001,
+    "textureLimit": 512,
+    "bytes": 1234504,
+    "extent": 1.8
+  },
+  {
+    "id": "World430c4074f1",
+    "sourceHash": "430c4074f1878d242fa9677035c9b3db746bad7db4aef2445eb56fe050345554",
+    "inputTriangles": 9998,
+    "triangles": 9998,
+    "textureLimit": 512,
+    "bytes": 893488,
+    "extent": 3.6
+  },
+  {
+    "id": "Worlde2fe1de289",
+    "sourceHash": "e2fe1de2891bc1c9ffada6d299575d687b57382ef54cdc944cda3362655c902a",
+    "inputTriangles": 10000,
+    "triangles": 10000,
+    "textureLimit": 512,
+    "bytes": 904092,
+    "extent": 3.6
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worlde068bf1f7d",
+    "sourceHash": "e068bf1f7d6ea7dc395ef9ae64bbe12addbf851e3db093509e598a64d61eee86",
+    "inputTriangles": 268503,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1437412,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "World9b12a9be41",
+    "sourceHash": "9b12a9be4137c48227fb19145fd737b6597ded4cef6c04037980f8359e3face1",
+    "inputTriangles": 294650,
+    "triangles": 15797,
+    "textureLimit": 512,
+    "bytes": 1029684,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldec5fff3a67",
+    "sourceHash": "ec5fff3a67b1342560345fb6d0fa0ee6e192d7b87c1c76677093e64f91e66c18",
+    "inputTriangles": 206188,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1307104,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World405a52fca6",
+    "sourceHash": "405a52fca6a4e90c1ee40f57c3291158ff26979118d4e6fc8f585bfe2433bbcc",
+    "inputTriangles": 237325,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1637692,
+    "extent": 1.0
+  },
+  {
+    "id": "World150e01e147",
+    "sourceHash": "150e01e1471f9b9a397432e06b88b13c3f91757cc4e74b5359c4ccd4c55332c9",
+    "inputTriangles": 9947,
+    "triangles": 9947,
+    "textureLimit": 512,
+    "bytes": 1439724,
+    "extent": 0.9
+  },
+  {
+    "id": "World5a91a92f49",
+    "sourceHash": "5a91a92f490ab593baf8fb1026de5148bdf6776a41b0c2352eac6dee19789aa3",
+    "inputTriangles": 9996,
+    "triangles": 9996,
+    "textureLimit": 512,
+    "bytes": 964932,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldaff9d14629",
+    "sourceHash": "aff9d146291448ab56f7b6acf6848994599b50ed78081dcbd8623e6f8f9ef2c8",
+    "inputTriangles": 4704177,
+    "triangles": 172787,
+    "textureLimit": 512,
+    "bytes": 14061004,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worlddd317d3e66",
+    "sourceHash": "dd317d3e66bba11b6a1104a4465a3e514baad50fb4810940702535a9f4f10ff8",
+    "inputTriangles": 4379,
+    "triangles": 4379,
+    "textureLimit": 512,
+    "bytes": 854876,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "World909a7efbdd",
+    "sourceHash": "909a7efbddeb750e8512eaa199b8ebecea3a36d0c72b225e80d16b3949410093",
+    "inputTriangles": 31194,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 968836,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World5af7178b03",
+    "sourceHash": "5af7178b03e02041d4f0516850dea2a6ef7f0242a24ef558d4f424ffc9036d66",
+    "inputTriangles": 884342,
+    "triangles": 15785,
+    "textureLimit": 512,
+    "bytes": 1571164,
+    "extent": 3.2
+  },
+  {
+    "id": "World8be865bef1",
+    "sourceHash": "8be865bef125aea7c07f5655a65a3669a0f0153c820d9ecb9d01c33b85d31b6f",
+    "inputTriangles": 3126,
+    "triangles": 3126,
+    "textureLimit": 512,
+    "bytes": 1494656,
+    "extent": 3.5
+  },
+  {
+    "id": "World0bfc70919a",
+    "sourceHash": "0bfc70919aad740950ced3f6530fa773128eb5bf1827788fcee552274e0d6b62",
+    "inputTriangles": 3881152,
+    "triangles": 15691,
+    "textureLimit": 512,
+    "bytes": 1792704,
+    "extent": 3.6
+  },
+  {
+    "extent": 4.0,
+    "materialVersion": 2,
+    "id": "World65b03a2587",
+    "sourceHash": "65b03a25872b56284b49b728a693ca9214a260fc0fd809a63bdeff78d747f6a4",
+    "inputTriangles": 197322,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1511740
+  },
+  {
+    "materialVersion": 1,
+    "id": "World808b24611b",
+    "sourceHash": "808b24611b32cd17ccb7bcabd2ac85456689fc58b12db7ea9622cf7c3a5b6aec",
+    "inputTriangles": 19703,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 803236,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World2df0fc9e70",
+    "sourceHash": "2df0fc9e705b1529256d3afe4dd7cb5bd198c3b346ea14e1fe7d54de761d5ebe",
+    "inputTriangles": 641617,
+    "triangles": 15790,
+    "textureLimit": 512,
+    "bytes": 1308752,
+    "extent": 1.2
+  },
+  {
+    "id": "World9c0eeb97c5",
+    "sourceHash": "9c0eeb97c50746cb85a23178c87ae322769adcd99d832a47f0026ed893640678",
+    "inputTriangles": 276677,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1597252,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldd432699be8",
+    "sourceHash": "d432699be8dd2262baa3fd4ff652006cb65f502d603e27373271d03d9dbb991a",
+    "inputTriangles": 186200,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1360088,
+    "extent": 3.5
+  },
+  {
+    "id": "World04748acddb",
+    "sourceHash": "04748acddbc779c66c02ee910ea5fd3a776d687b21abea578c60b40a27c44134",
+    "inputTriangles": 100000,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 952680,
+    "extent": 1.0
+  },
+  {
+    "id": "World369adfb684",
+    "sourceHash": "369adfb684b2f651f357e8a3f711151bf90d66f485c6a2f6dee87a30fad612e5",
+    "inputTriangles": 3097280,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1797408,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldc30a4c6960",
+    "sourceHash": "c30a4c69600665c3801b35134e9435c25734928dedf9729a22e549e0a98eb32e",
+    "inputTriangles": 1414062,
+    "triangles": 156806,
+    "textureLimit": 512,
+    "bytes": 12087304,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldbae8eb4856",
+    "sourceHash": "bae8eb485652d17f964986fbb3900704987e72f028be9200bc2856523ab3a8cd",
+    "inputTriangles": 1246618,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1764416,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldb19bd4a1c1",
+    "sourceHash": "b19bd4a1c16e30adebd657512918f351ad55f788f80ffc39256b039c3e20d5fb",
+    "inputTriangles": 42284,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 3036024,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 2,
+    "id": "World59b924bd65",
+    "sourceHash": "59b924bd652a346ae150116469166b1b384de23b73e8d38de4ca328996426480",
+    "inputTriangles": 600542,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1361544,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World78c45ed577",
+    "sourceHash": "78c45ed57766974b011c5525ae963caf9933defdf3df68baac3a7c72c8b3dbff",
+    "inputTriangles": 611108,
+    "triangles": 84737,
+    "textureLimit": 512,
+    "bytes": 7250072,
+    "extent": 3.5
+  },
+  {
+    "id": "World4a41e48958",
+    "sourceHash": "4a41e489588858bfd0744d94d5d8615308d757f41f1a2c4980ec729637b449a2",
+    "inputTriangles": 736224,
+    "triangles": 15755,
+    "textureLimit": 512,
+    "bytes": 2032948,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 1,
+    "id": "World5bb93c86ab",
+    "sourceHash": "5bb93c86ab59a4297dd91b884950770d11a42c220614a1edc32b30e1d7fcb0a0",
+    "inputTriangles": 9981,
+    "triangles": 9981,
+    "textureLimit": 512,
+    "bytes": 1471656,
+    "extent": 3.2
+  },
+  {
+    "id": "World14e0fe3b12",
+    "sourceHash": "14e0fe3b1246d7d1ded4bc8d2d6033706c44756c273a7e84d3f26bb34c1192e1",
+    "inputTriangles": 18413,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 965556,
+    "extent": 0.9
+  },
+  {
+    "id": "Worldd14086203c",
+    "sourceHash": "d14086203cecae9686660c0cad9b222d6b3e4734f76484af07c77a059aec928b",
+    "inputTriangles": 18612,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 775432,
+    "extent": 1.0
+  },
+  {
+    "id": "World057af7ee44",
+    "sourceHash": "057af7ee44b262c2814457edbc47f280f0a141a3765f54ed56530140afcd842e",
+    "inputTriangles": 2646721,
+    "triangles": 72557,
+    "textureLimit": 512,
+    "bytes": 5267732,
+    "extent": 1.8
+  },
+  {
+    "id": "Worldc49ef50c4b",
+    "sourceHash": "c49ef50c4b642278daf68a41b3a0dbd01b32d379deab87f89e8ca36221bac63c",
+    "inputTriangles": 2907772,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 2183180,
+    "extent": 7.0
+  },
+  {
+    "id": "Worlda96c51bc37",
+    "sourceHash": "a96c51bc3761cfc8fd836c0aaf85993e1aa0ff04bcaa8e39a7735cba0a11f70f",
+    "inputTriangles": 297266,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1062996,
+    "extent": 1.2
+  },
+  {
+    "id": "Worlda580a6fcfd",
+    "sourceHash": "a580a6fcfd8ac6c977254cd8d6d559b76b7dda4db731b62a5e588228a065a029",
+    "inputTriangles": 24332,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1782212,
+    "extent": 1.2
+  },
+  {
+    "id": "Worldc72cfa376a",
+    "sourceHash": "c72cfa376a27cfe600d7e6ecc2f365899d2a4b09b5c16399330b44b01dd9ff9b",
+    "inputTriangles": 23640,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1030144,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World7caf3306e2",
+    "sourceHash": "7caf3306e2b04bf0eb6f930cc23e85b4a6d7be08e97a6bfa089cfbd9d86fef38",
+    "inputTriangles": 317072,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1186752,
+    "extent": 0.9
+  },
+  {
+    "id": "World28d79c33af",
+    "sourceHash": "28d79c33af1cdf80c7adb91422d40eb83c8539dbabd64d21e8866d4eb2ef911e",
+    "inputTriangles": 184230,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 932940,
+    "extent": 1.0
+  },
+  {
+    "id": "Worldfb9380758e",
+    "sourceHash": "fb9380758e09f578f2e92b32b19c2338465f8831189a45d9e0b2e1fa896f7433",
+    "inputTriangles": 630566,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1296892,
+    "extent": 0.9
+  },
+  {
+    "id": "World78400ab10b",
+    "sourceHash": "78400ab10b0cdf418dbc772bd5e3cdcfa66cf99dd9241f271b086e428ea830aa",
+    "inputTriangles": 1288717,
+    "triangles": 15783,
+    "textureLimit": 512,
+    "bytes": 2639112,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 1,
+    "id": "World2348c14afe",
+    "sourceHash": "2348c14afe58e6f002c11eb111bb5db50dce40e2835914c563c637e7a0f6212c",
+    "inputTriangles": 1027958,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1702184,
+    "extent": 1.0
+  },
+  {
+    "id": "World6b48648a90",
+    "sourceHash": "6b48648a90a9bcca99696a4fbf25f296d3235149bd0fd47498649e776834fe2c",
+    "inputTriangles": 15758,
+    "triangles": 15758,
+    "textureLimit": 512,
+    "bytes": 716140,
+    "extent": 1.2
+  },
+  {
+    "id": "World5053414af6",
+    "sourceHash": "5053414af6a3e5b034367faffd158e78cd0ae2bc14a01a7f90efca50373510df",
+    "inputTriangles": 1011162,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1214756,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 1,
+    "id": "World755ce94ac5",
+    "sourceHash": "755ce94ac54d2788cf70d036e8128aa8ee50a4221068af8d295efb6a4d701604",
+    "inputTriangles": 22120,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1455324,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worlde693d06e6c",
+    "sourceHash": "e693d06e6c061d76fb25b58cbcf6ef19f0d1ec9bebf01fd64e999e3e95523a30",
+    "inputTriangles": 407138,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1739200,
+    "extent": 1.0
+  },
+  {
+    "id": "Worlded6f92e1a2",
+    "sourceHash": "ed6f92e1a2dac72ec0a8b720fab46a90de70a1742415537bf7583d4c6161e564",
+    "inputTriangles": 855642,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1943520,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worlda4706333a0",
+    "sourceHash": "a4706333a0c8ea852dc3bd72597e29915a89e836e240cc07a8c1459beb689b6f",
+    "inputTriangles": 1986996,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1561848,
+    "extent": 3.2
+  },
+  {
+    "extent": 0.9,
+    "materialVersion": 1,
+    "id": "World14f65fbe4c",
+    "sourceHash": "14f65fbe4c5551308ca0712aba2af5ba5e2e86d52a232f8a7a856252bdca48c2",
+    "inputTriangles": 1260132,
+    "triangles": 67301,
+    "textureLimit": 512,
+    "bytes": 5911104
+  },
+  {
+    "extent": 3.0,
+    "targetHeight": 1.35,
+    "materialVersion": 1,
+    "id": "World9209b63ea9",
+    "sourceHash": "9209b63ea9e924ff6658c4feacc381229eeba0b3c3f7e98c48c7456d3b541769",
+    "inputTriangles": 1020256,
+    "triangles": 15777,
+    "textureLimit": 512,
+    "bytes": 1487728
+  },
+  {
+    "materialVersion": 1,
+    "id": "World96f31ebb8c",
+    "sourceHash": "96f31ebb8cb28fa7ad7d83043f256d0376b8a5f44bc2040dd226896cd289527d",
+    "inputTriangles": 182598,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1024240,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "World7ed2274162",
+    "sourceHash": "7ed2274162c7f4e2a3ec4d57328172ada344406ae82d39f9291a93b1ea06d9dd",
+    "inputTriangles": 10000,
+    "triangles": 10000,
+    "textureLimit": 512,
+    "bytes": 801764,
+    "extent": 1.8
+  },
+  {
+    "id": "World019c916421",
+    "sourceHash": "019c9164210592c3ba945936ec9f71425ce31135f4dfff13cc0cb354310a1aed",
+    "inputTriangles": 192100,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1544012,
+    "extent": 1.8
+  },
+  {
+    "id": "Worldefeac8cefa",
+    "sourceHash": "efeac8cefaa93b2f70e8ade8fcfdb5b95c02d0da4e461cbfe607ddfd72205fd4",
+    "inputTriangles": 174816,
+    "triangles": 15563,
+    "textureLimit": 512,
+    "bytes": 1574164,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World0bd48f3765",
+    "sourceHash": "0bd48f37653d22f06b92a2af8ca536b7154241f83927dcf79794808f72c77498",
+    "inputTriangles": 731996,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1795836,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldec8ceb0ac2",
+    "sourceHash": "ec8ceb0ac260f1a18b5e824b2508c84dcc1116b5764b85eb489bb9e31075a20f",
+    "inputTriangles": 6428092,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 2121800,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldf59d8d9802",
+    "sourceHash": "f59d8d9802c52d3195a2ce2a6795e4777e2d0712016a277cbb9185d75431ff19",
+    "inputTriangles": 1350497,
+    "triangles": 15700,
+    "textureLimit": 512,
+    "bytes": 2497416,
+    "extent": 3.5
+  },
+  {
+    "extent": 8.0,
+    "materialVersion": 1,
+    "id": "World896711cf7e",
+    "sourceHash": "896711cf7eb51553511cea1b051af0e2d85dff294f3c0c316053404cff3ef6c7",
+    "inputTriangles": 186121,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1336304
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worlda660f918d4",
+    "sourceHash": "a660f918d46503395741f89bb7788d634ab77bb4e19710caaf70cb3d1d3da221",
+    "inputTriangles": 789761,
+    "triangles": 15791,
+    "textureLimit": 512,
+    "bytes": 2052396,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldf4e269d0f4",
+    "sourceHash": "f4e269d0f4ae23ab072e60e2ab067e1de7d4254066301d0dfaf40f9921cabe9f",
+    "inputTriangles": 5325386,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 2040628,
+    "extent": 7.0
+  },
+  {
+    "id": "Worlde17fa21b39",
+    "sourceHash": "e17fa21b396506abe30359f18668c62765b64846e90e01dff01536ad697264bf",
+    "inputTriangles": 3335714,
+    "triangles": 107379,
+    "textureLimit": 512,
+    "bytes": 9631756,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 2,
+    "id": "World8ee8934c46",
+    "sourceHash": "8ee8934c4692dd5b4f07aa156e57d996cf430b2c46bfe696b176cd58c2446e71",
+    "inputTriangles": 1209164,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 2024596,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldcbd4cbdfa9",
+    "sourceHash": "cbd4cbdfa9bcc8f79e62d4fd88b9c1ed505ab540b38270a15c999a94adc57e6c",
+    "inputTriangles": 788869,
+    "triangles": 15730,
+    "textureLimit": 512,
+    "bytes": 2163580,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World355988bb2f",
+    "sourceHash": "355988bb2f346da1e750888ca2c6d67cf9e99506b0f09c5b89930f983435dbbd",
+    "inputTriangles": 1631160,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 2039224,
+    "extent": 7.0
+  },
+  {
+    "id": "Worlda4a79d877f",
+    "sourceHash": "a4a79d877f8c345d50f667cb973be0d1cf57ffa37f899df7052c9af7178deb33",
+    "inputTriangles": 4101557,
+    "triangles": 63214,
+    "textureLimit": 512,
+    "bytes": 5911260,
+    "extent": 7.0
+  },
+  {
+    "id": "World4c51a835cd",
+    "sourceHash": "4c51a835cd586adde47d9cff8c360ce4228214bf5311d8dafa42c40d55b414c5",
+    "inputTriangles": 653311,
+    "triangles": 15797,
+    "textureLimit": 512,
+    "bytes": 1379248,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "World5ee40abd31",
+    "sourceHash": "5ee40abd31e0535bb6baee970a0a60dcf84fae7b6498c50ea302826f61123cf3",
+    "inputTriangles": 5421588,
+    "triangles": 96866,
+    "textureLimit": 512,
+    "bytes": 8710948,
+    "extent": 3.5
+  },
+  {
+    "id": "World153ee89daa",
+    "sourceHash": "153ee89daae0962cc0dce9b2b33154137ce1f887034e03384361dca5ad8c32aa",
+    "inputTriangles": 198265,
+    "triangles": 15793,
+    "textureLimit": 512,
+    "bytes": 976816,
+    "extent": 0.9
+  },
+  {
+    "extent": 8.0,
+    "materialVersion": 1,
+    "id": "World71de4b6b53",
+    "sourceHash": "71de4b6b536b5dbcb482e26246a0352bdf8ecda08364a45e23e4d614241fa88d",
+    "inputTriangles": 134988,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1761100
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldde4a86ce55",
+    "sourceHash": "de4a86ce55f7e0fabd8ce8a30e6e0fbf938a00c182dea2600e77c318dbd99379",
+    "inputTriangles": 461637,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1794148,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World9910d1884c",
+    "sourceHash": "9910d1884c82e82b7e0bc83063711f0f5fd033e1df365bef78e078759e9488b8",
+    "inputTriangles": 533889,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1812884,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worlda41ed4fc8c",
+    "sourceHash": "a41ed4fc8c57f8d3287cf6716a3dde85ad73e8e1644fc0a52e3e0ba51c949cd3",
+    "inputTriangles": 1344698,
+    "triangles": 15754,
+    "textureLimit": 512,
+    "bytes": 1546852,
+    "extent": 3.5
+  },
+  {
+    "id": "World4e02418df0",
+    "sourceHash": "4e02418df0ee4956922e566fcbdd7306679fa9f0f6dac032b71b674f4156d117",
+    "inputTriangles": 2269763,
+    "triangles": 15738,
+    "textureLimit": 512,
+    "bytes": 2213184,
+    "extent": 3.6
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worlda6733bd590",
+    "sourceHash": "a6733bd590762868723db85624787d2277221fbde9c00367d3e9785fd3ff3c43",
+    "inputTriangles": 3950,
+    "triangles": 3950,
+    "textureLimit": 512,
+    "bytes": 699056,
+    "extent": 1.2
+  },
+  {
+    "id": "Worldb0d3eb20d9",
+    "sourceHash": "b0d3eb20d96c0bf35847c4f264f937010e1e329898f0a4e84eaeda3d46bb59d5",
+    "inputTriangles": 279266,
+    "triangles": 15700,
+    "textureLimit": 512,
+    "bytes": 1891964,
+    "extent": 1.8
+  },
+  {
+    "id": "World9c6c533cbc",
+    "sourceHash": "9c6c533cbc0f280e16b51903a156bc5dbe52a98d3e8cf596f39cafc1c55afced",
+    "inputTriangles": 952792,
+    "triangles": 15772,
+    "textureLimit": 512,
+    "bytes": 1714876,
+    "extent": 3.5
+  },
+  {
+    "id": "World5c30d1d0d1",
+    "sourceHash": "5c30d1d0d1aba6c9fa9539bc481e5881fa9fbd2f4f708824b597b527b95a5606",
+    "inputTriangles": 1215741,
+    "triangles": 15771,
+    "textureLimit": 512,
+    "bytes": 1965496,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldc397bcc62b",
+    "sourceHash": "c397bcc62b857fddb9ff8a6e9180b92210e758eab41eaa681805572ac8b54e64",
+    "inputTriangles": 164851,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 929076,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "World8caa1534d3",
+    "sourceHash": "8caa1534d3dc86084ec92f8e2de081feb14fd041238417ef7b9f590536cf8f81",
+    "inputTriangles": 326686,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1534772,
+    "extent": 3.5
+  },
+  {
+    "extent": 7.0,
+    "materialVersion": 1,
+    "id": "Worldd415a7bf75",
+    "sourceHash": "d415a7bf7529e86e3f7239eedd47eef0a37f4f88bef191e0a25164284ecb7bbf",
+    "inputTriangles": 9714,
+    "triangles": 9714,
+    "textureLimit": 512,
+    "bytes": 838224
+  },
+  {
+    "id": "World9a2c4cefe5",
+    "sourceHash": "9a2c4cefe5337648525ed8a2dbfea01f3c6a0afdb6f7fa79825fa4d1d14838fc",
+    "inputTriangles": 499899,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1037792,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World5ff376c6ab",
+    "sourceHash": "5ff376c6ab5a43769ab5bb9c22c9861b62a46900ef4f23d7e1c7ffccac69ac59",
+    "inputTriangles": 267268,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1405992,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 2,
+    "id": "World627998ced3",
+    "sourceHash": "627998ced3735da93c488bb43f08e2797fe39fcd18ecebb90f4e0f0779d116ca",
+    "inputTriangles": 202839,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1067600,
+    "extent": 1.0
+  },
+  {
+    "extent": 7.0,
+    "materialVersion": 1,
+    "id": "World5280fc283a",
+    "sourceHash": "5280fc283a2717386553471447185cac8c5d551a019c15a101b5d1c0f02b3760",
+    "inputTriangles": 951425,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 835644
+  },
+  {
+    "extent": 7.0,
+    "materialVersion": 1,
+    "id": "Worldd4b0331077",
+    "sourceHash": "d4b03310774c318b8324c1ee0d8c5d5086c35ad1fb29aa40e0d7e616a8800ab2",
+    "inputTriangles": 184771,
+    "triangles": 15783,
+    "textureLimit": 512,
+    "bytes": 1184452
+  },
+  {
+    "extent": 7.0,
+    "materialVersion": 1,
+    "id": "Worlda31e64ec45",
+    "sourceHash": "a31e64ec45e29cb18d2740cb6e742fa40af85ae7725ab18d7ceda50a807fac41",
+    "inputTriangles": 1456886,
+    "triangles": 15705,
+    "textureLimit": 512,
+    "bytes": 2343756
+  },
+  {
+    "materialVersion": 2,
+    "id": "World3cb28a4b86",
+    "sourceHash": "3cb28a4b864fd7e571b9c53f0cc8239aa59eb96764a64d7c3a89124d74e0c4c9",
+    "inputTriangles": 1855370,
+    "triangles": 17097,
+    "textureLimit": 512,
+    "bytes": 2164496,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldd498f43d89",
+    "sourceHash": "d498f43d899a07afab72c30184e1e7c1e90c478cceb622329b0b559948bc52d1",
+    "inputTriangles": 821070,
+    "triangles": 15796,
+    "textureLimit": 512,
+    "bytes": 1504144,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World8131d62c08",
+    "sourceHash": "8131d62c0855b81564d884eea30bf20a2b3b483ebc5ed362bbabeb9493c68a9e",
+    "inputTriangles": 373910,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1610160,
+    "extent": 7.0
+  },
+  {
+    "id": "World1ad74144a0",
+    "sourceHash": "1ad74144a005dd761eef44a3fc21f9f65776f8caeb76714ac9c771ad1cc0e58c",
+    "inputTriangles": 5597458,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1981360,
+    "extent": 3.5
+  },
+  {
+    "extent": 3.5,
+    "materialVersion": 1,
+    "id": "World998f3a7934",
+    "sourceHash": "998f3a7934f6ce4beefe66a08f56b1477ff983c66c21f4234dcdd4c70ab644ab",
+    "inputTriangles": 2333072,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1911752
+  },
+  {
+    "materialVersion": 1,
+    "id": "World4ee7d5c97f",
+    "sourceHash": "4ee7d5c97f8543d56731fdd70aa0b2415679a03742f448ed17dfbc3bd601ce2d",
+    "inputTriangles": 1385253,
+    "triangles": 15722,
+    "textureLimit": 512,
+    "bytes": 2338544,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "World9de74db6b0",
+    "sourceHash": "9de74db6b05a5645287b66af6e2253bd4863abaa8ffa2042d6919c6110ffed0a",
+    "inputTriangles": 1385267,
+    "triangles": 15722,
+    "textureLimit": 512,
+    "bytes": 2254300,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "World2ed9edf51e",
+    "sourceHash": "2ed9edf51e18858e784dd821d7782df5bdad62c13694030159d76c29e53a3818",
+    "inputTriangles": 836,
+    "triangles": 836,
+    "textureLimit": 512,
+    "bytes": 1089076,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worlde1dbf59367",
+    "sourceHash": "e1dbf593676bcacf2475e295a65e6e9948ab848a79a869cb4afd3d8d59eda391",
+    "inputTriangles": 1735576,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 2080356,
+    "extent": 2.0
+  },
+  {
+    "id": "Worldbd0e362814",
+    "sourceHash": "bd0e362814c029ca5d4543ed2ed0bff004ad340128f47b09458b59b1044cb667",
+    "inputTriangles": 234453,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1040616,
+    "extent": 0.9
+  },
+  {
+    "id": "World334a09eb1f",
+    "sourceHash": "334a09eb1f8f7660df8319e945e09703b8d3956eee904459d322e57ee193fe5a",
+    "inputTriangles": 1797719,
+    "triangles": 153749,
+    "textureLimit": 512,
+    "bytes": 13624380,
+    "extent": 4.5
+  },
+  {
+    "materialVersion": 1,
+    "id": "World7c97a0bb95",
+    "sourceHash": "7c97a0bb953c41ff6ed171c52b1a92af171985991017398ae9f87440730bf361",
+    "inputTriangles": 1944442,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1955404,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "World1a269406ef",
+    "sourceHash": "1a269406efbf2f3b0b5dcb9c656eeef616eb970a2c53134c6af6937e7ae41b55",
+    "inputTriangles": 790213,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 742500,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 2,
+    "id": "World72bd7bfe04",
+    "sourceHash": "72bd7bfe04ae28e77c6d86f727d2b726929d785497c281569e6a81e95078e53f",
+    "inputTriangles": 459036,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1542764,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "World8017170c0c",
+    "sourceHash": "8017170c0c647caa7fb448cbfae033d7eba9b3c6f41376d9838ae7f26e008ce9",
+    "inputTriangles": 497464,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1587428,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldccb87cb38d",
+    "sourceHash": "ccb87cb38dae76c364d2df4339b2f48e73b673abdc14396d42bc7e17e591f911",
+    "inputTriangles": 495008,
+    "triangles": 15770,
+    "textureLimit": 512,
+    "bytes": 1083900,
+    "extent": 3.2
+  },
+  {
+    "id": "Worlde0d6173e45",
+    "sourceHash": "e0d6173e45c8a445506a8bd57965285bcdd9b45d5f396680364d067db5adbfc2",
+    "inputTriangles": 375087,
+    "triangles": 15796,
+    "textureLimit": 512,
+    "bytes": 1947380,
+    "extent": 0.9
+  },
+  {
+    "id": "Worldc9433b7e59",
+    "sourceHash": "c9433b7e59eb0f05e0b9c19336f22f6d68a9284a804c6041bab1281ab77b4ce2",
+    "inputTriangles": 48812,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1125256,
+    "extent": 0.9
+  },
+  {
+    "id": "World4875b583b6",
+    "sourceHash": "4875b583b632f5785f95f5b86d8c66364b4cffe1fbd01710aa928b4ca8dce9a6",
+    "inputTriangles": 26930,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1168736,
+    "extent": 0.9
+  },
+  {
+    "id": "World7187c880f9",
+    "sourceHash": "7187c880f9eb47e49bbd7e86e10721f7b2b3ed4b9187cd91c23cca798bb26bf2",
+    "inputTriangles": 30513,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1214548,
+    "extent": 0.9
+  },
+  {
+    "id": "World4b8eb00b90",
+    "sourceHash": "4b8eb00b90dbd1363841683e1d381816159583574d08a5409c780d5a42a4fb28",
+    "inputTriangles": 27844,
+    "triangles": 15797,
+    "textureLimit": 512,
+    "bytes": 1236340,
+    "extent": 0.9
+  },
+  {
+    "id": "Worldc07e5217c9",
+    "sourceHash": "c07e5217c98296184e36ed337b4ca6841a0aa3991da6792f2b2ed955d356e6bd",
+    "inputTriangles": 26356,
+    "triangles": 15797,
+    "textureLimit": 512,
+    "bytes": 1225328,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldecc10bb1b3",
+    "sourceHash": "ecc10bb1b34143c4713fac0a41e453c992b7e46fdfe9f189b333edc281ca9dbe",
+    "inputTriangles": 9997,
+    "triangles": 9997,
+    "textureLimit": 512,
+    "bytes": 704672,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World4f4d74ae4f",
+    "sourceHash": "4f4d74ae4f496af11f31b0824792e43e82097c4ddc1bd7ac5f93247634c94ecb",
+    "inputTriangles": 782110,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1659588,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "World852d149a91",
+    "sourceHash": "852d149a91055b85703b09862f3c047e78e731ea59e298eab0537962eda242d0",
+    "inputTriangles": 387902,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1312176,
+    "extent": 1.0
+  },
+  {
+    "id": "World9e0e48b1d9",
+    "sourceHash": "9e0e48b1d9886caad7cb5065611a643a0f5fed9737edd42ef1d9d57d9124797f",
+    "inputTriangles": 28536,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1016024,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 1,
+    "id": "World0cadc021f2",
+    "sourceHash": "0cadc021f241d38bdc7a0b2e3f7a168d58a80b1e729b8cf0e011dc969c7114ba",
+    "inputTriangles": 17853,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1326600,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World05cf2142ed",
+    "sourceHash": "05cf2142edaad138af6eb7487dc5ddf9d853f07d6a207d8b00a920f0a920ab5f",
+    "inputTriangles": 902805,
+    "triangles": 15778,
+    "textureLimit": 512,
+    "bytes": 1895456,
+    "extent": 3.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "World5d9361461c",
+    "sourceHash": "5d9361461c1e28c002da542c437c38387f66c635a02f02fc153441428d82ab75",
+    "inputTriangles": 6497531,
+    "triangles": 159759,
+    "textureLimit": 512,
+    "bytes": 13157488,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 2,
+    "id": "World4e88fa83c4",
+    "sourceHash": "4e88fa83c47041a5af03e395bd48d60bad501271737dd415e3ca5da9da2bfff6",
+    "inputTriangles": 2122,
+    "triangles": 2122,
+    "textureLimit": 512,
+    "bytes": 1226368,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldb346fc8b6c",
+    "sourceHash": "b346fc8b6c305cfd53ec72944b780ec9edf1e424fb6303a93baba4111f3455ae",
+    "inputTriangles": 2122,
+    "triangles": 2122,
+    "textureLimit": 512,
+    "bytes": 574352,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "World1836165998",
+    "sourceHash": "1836165998af798ea13bfc8036d1c301fec0a793693445a46a589b29e646835d",
+    "inputTriangles": 2122,
+    "triangles": 2122,
+    "textureLimit": 512,
+    "bytes": 1167108,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "World1438f1959f",
+    "sourceHash": "1438f1959f31db1b9d2af3e9150e9a3c065ed62c0a3baf4d2d84d423a445e6cb",
+    "inputTriangles": 2122,
+    "triangles": 2122,
+    "textureLimit": 512,
+    "bytes": 1053720,
+    "extent": 0.9
+  },
+  {
+    "id": "World32a2d6275e",
+    "sourceHash": "32a2d6275eff7190d90295346edd99dfdeb4dd3c032a253fc5ff2af1709e0714",
+    "inputTriangles": 286633,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1794788,
+    "extent": 1.8
+  },
+  {
+    "id": "World237fb57761",
+    "sourceHash": "237fb57761e4297f8d6877ac7a711aae73bf211ff21ed7c0887df48b54a29e54",
+    "inputTriangles": 3054760,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1691048,
+    "extent": 2.0
+  },
+  {
+    "id": "World6e9f4381dd",
+    "sourceHash": "6e9f4381dd9728de83cfd46ff15026ac23f428917108b89856127c5b6d23a40c",
+    "inputTriangles": 174832,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1459008,
+    "extent": 3.5
+  },
+  {
+    "id": "World627316ca36",
+    "sourceHash": "627316ca363256face218c2f3c9456d55cacdcf8f777c4c50a22624a9e2fc61d",
+    "inputTriangles": 82278,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 285436,
+    "extent": 1.8
+  },
+  {
+    "id": "Worldc96a7efd2d",
+    "sourceHash": "c96a7efd2d68b03735c6a48299557db1968a7c808d29d5cf9bcb86be8cb39281",
+    "inputTriangles": 82278,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1549372,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldf9edb98810",
+    "sourceHash": "f9edb98810a502fcc79de71028b36a87273503fe9a19a2e71e196bf57ffe2385",
+    "inputTriangles": 189908,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1409784,
+    "extent": 1.8
+  },
+  {
+    "id": "World930940d8f6",
+    "sourceHash": "930940d8f697953aecc1d025c8abc5ab581b73a6ccfb0f781b174f9f03f71db6",
+    "inputTriangles": 99616,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1595372,
+    "extent": 1.8
+  },
+  {
+    "id": "World7c0641f81a",
+    "sourceHash": "7c0641f81a7f1e27e0ad179df28175e4e78f50a0ff93121e40fd020fcf1ec92b",
+    "inputTriangles": 35196,
+    "triangles": 15784,
+    "textureLimit": 512,
+    "bytes": 2031388,
+    "extent": 3.5
+  },
+  {
+    "id": "Worldbf34a2147b",
+    "sourceHash": "bf34a2147b3454e1430e91001108404d5ee8c5cdcd03028b018ee16df232283d",
+    "inputTriangles": 1946056,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1915288,
+    "extent": 3.6
+  },
+  {
+    "id": "Worldf0059a3c34",
+    "sourceHash": "f0059a3c34c5d4264d36dfac614a1079b45354d066e12c2a5bfa62d2efd260ab",
+    "inputTriangles": 10000,
+    "triangles": 10000,
+    "textureLimit": 512,
+    "bytes": 850600,
+    "extent": 1.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldf6eae0a664",
+    "sourceHash": "f6eae0a664923ff1d889ea23a41cde8bd7d78dff77b84b0f3db288e333dd9d12",
+    "inputTriangles": 411534,
+    "triangles": 15794,
+    "textureLimit": 512,
+    "bytes": 1905208,
+    "extent": 3.2
+  },
+  {
+    "id": "Worldf0c25419e0",
+    "sourceHash": "f0c25419e0db342a2ae796e3c9db2e9de5acc1dd5eeca974a969a1c7aa241394",
+    "inputTriangles": 9829,
+    "triangles": 9829,
+    "textureLimit": 512,
+    "bytes": 1502160,
+    "extent": 2.0
+  },
+  {
+    "id": "World91344a2923",
+    "sourceHash": "91344a292300d375d8dd4dba06ea13ee0aae69ededce34ba4dfc35f0dc82c512",
+    "inputTriangles": 252239,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1507544,
+    "extent": 1.0
+  },
+  {
+    "id": "World6aa9007256",
+    "sourceHash": "6aa9007256506fad8240fa2abb9f02996a5aefddad5c46154c53803af11b2d3b",
+    "inputTriangles": 433021,
+    "triangles": 15784,
+    "textureLimit": 512,
+    "bytes": 2004728,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 2,
+    "id": "World039beb5c91",
+    "sourceHash": "039beb5c91211fc96aa365bcb09950921acc823b2617e1712431036dd2723aa4",
+    "inputTriangles": 2421649,
+    "triangles": 81653,
+    "textureLimit": 512,
+    "bytes": 6065864,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "World784ed44e61",
+    "sourceHash": "784ed44e611a985d9c13d89ddf452b5c480fda5891a958cb78c39cb06710d474",
+    "inputTriangles": 2615610,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 2014440,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "World6cccc38d17",
+    "sourceHash": "6cccc38d1734bd8fa0506f1ef9feaf746b102ee96035c7d9fe386cc39d2b678c",
+    "inputTriangles": 466814,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1699052,
+    "extent": 3.6
+  },
+  {
+    "extent": 0.9,
+    "materialVersion": 2,
+    "id": "World8012082742",
+    "sourceHash": "80120827421b314667da512cd11f5caa2a1112a7d314f46ecf8ad0629b2aa456",
+    "inputTriangles": 320571,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1883512
+  },
+  {
+    "materialVersion": 2,
+    "id": "World895cd8babc",
+    "sourceHash": "895cd8babcf0b3a4feaa3e0d37fb4d519da5eb32c67a3a1aa00a9a3c152626ae",
+    "inputTriangles": 200752,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1623096,
+    "extent": 2.0
+  },
+  {
+    "id": "Worlda753257cdf",
+    "sourceHash": "a753257cdf57a4172ebcac58a90f0f537393852c735db947287fdb16931664bc",
+    "inputTriangles": 1524467,
+    "triangles": 15745,
+    "textureLimit": 512,
+    "bytes": 2258484,
+    "extent": 1.0
+  },
+  {
+    "id": "World9e40e85f70",
+    "sourceHash": "9e40e85f70ee51017e5129bfdc49a4c53c942893d42de96f935e35477a40ae00",
+    "inputTriangles": 687816,
+    "triangles": 15790,
+    "textureLimit": 512,
+    "bytes": 1344828,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 2,
+    "id": "World3b20cbbf8c",
+    "sourceHash": "3b20cbbf8c47ee0332ae0ed04b2e556c5c170dbc287aeade4964b63be9198a24",
+    "inputTriangles": 1295332,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1911708,
+    "extent": 4.5
+  },
+  {
+    "id": "Worlda9acb2f2b5",
+    "sourceHash": "a9acb2f2b5949013d19ad5308596a5319fc26e58bb674d2ec191430ea899644a",
+    "inputTriangles": 260217,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1940064,
+    "extent": 1.8
+  },
+  {
+    "id": "Worldfc05d414a4",
+    "sourceHash": "fc05d414a4dd371623cf71ed452c8780dc41166100e5f01d70ce7a50869a2cfd",
+    "inputTriangles": 1744694,
+    "triangles": 15761,
+    "textureLimit": 512,
+    "bytes": 1550808,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worlde38470ce31",
+    "sourceHash": "e38470ce31b7b0ab8b8a67e0bf8f3f8f21c087e51ea5e759bab0065e478067ef",
+    "inputTriangles": 342519,
+    "triangles": 15798,
+    "textureLimit": 512,
+    "bytes": 1547608,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 2,
+    "id": "World4e0d38de4b",
+    "sourceHash": "4e0d38de4b642ba9e158001ef529b9b733cd4f655af131b5e6f07a10a0d73e2a",
+    "inputTriangles": 1620650,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1889624,
+    "extent": 1.2
+  },
+  {
+    "materialVersion": 1,
+    "id": "Worldc0abd5e85f",
+    "sourceHash": "c0abd5e85f63efe8f92612d5afa386c340e848e1a48fbdba744222ea9f3904fd",
+    "inputTriangles": 1004947,
+    "triangles": 15740,
+    "textureLimit": 512,
+    "bytes": 2165056,
+    "extent": 3.2
+  },
+  {
+    "extent": 4.5,
+    "targetHeight": 0,
+    "materialVersion": 2,
+    "id": "World73438ba0b7",
+    "sourceHash": "73438ba0b70f4667e6c9281dcb3561269d93bb10c5c9919a8fcb162ab3fbeb5a",
+    "inputTriangles": 938786,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1875904
+  },
+  {
+    "id": "World3c6878ccce",
+    "sourceHash": "3c6878ccce690c95e15134f81aeb80e196e06fd28d41257151e8de9c40ac93a7",
+    "inputTriangles": 1424955,
+    "triangles": 15687,
+    "textureLimit": 512,
+    "bytes": 2095204,
+    "extent": 3.5
+  },
+  {
+    "id": "Worldeb1977a5e5",
+    "sourceHash": "eb1977a5e5a6f29d40d9fd477fa0d39368f03a41514509ffc1af73537ef87e41",
+    "inputTriangles": 9995757,
+    "triangles": 133651,
+    "textureLimit": 512,
+    "bytes": 11685492,
+    "extent": 4.5
+  },
+  {
+    "id": "World03c68813dd",
+    "sourceHash": "03c68813ddeb42cb776cb9eb6137bf572c4fedb480e2cd626813d40edf51683a",
+    "inputTriangles": 98149,
+    "triangles": 15782,
+    "textureLimit": 512,
+    "bytes": 2120444,
+    "extent": 4.5
+  },
+  {
+    "id": "Worldd15bbc1f46",
+    "sourceHash": "d15bbc1f46364fa6266b7661e261b11365b70db813a2576f0522504890a8734b",
+    "inputTriangles": 1911668,
+    "triangles": 15788,
+    "textureLimit": 512,
+    "bytes": 1301204,
+    "extent": 0.9
+  },
+  {
+    "extent": 1.8,
+    "targetHeight": 0,
+    "materialVersion": 2,
+    "id": "World3a44117bae",
+    "sourceHash": "3a44117bae08cb514340f5346ee606411d4409607ed31b32acea725352d0ecf7",
+    "inputTriangles": 6060118,
+    "triangles": 102144,
+    "textureLimit": 512,
+    "bytes": 8550572
+  },
+  {
+    "extent": 1.8,
+    "materialVersion": 1,
+    "id": "World469c16c324",
+    "sourceHash": "469c16c324b50d421ce660ac9a00ca79aeab48c505cc1dea9c1c04b7047098ce",
+    "inputTriangles": 112345,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 937408
+  },
+  {
+    "materialVersion": 1,
+    "id": "World66b2712db4",
+    "sourceHash": "66b2712db4883f493e9d5e541272a3aab7ce4ff055abb2d310c19fccb283371f",
+    "inputTriangles": 21429,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 870336,
+    "extent": 1.2
+  },
+  {
+    "id": "World7ca63abc1e",
+    "sourceHash": "7ca63abc1ec740e21256791eb51d2e275022bd04bcbf02a8302fa2b738312b69",
+    "inputTriangles": 160966,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1036780,
+    "extent": 1.8
+  },
+  {
+    "id": "Worldf1b9975067",
+    "sourceHash": "f1b997506748d8c469585689e908061d57fadda461b3721fd188e201bd4b4cea",
+    "inputTriangles": 314294,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1772092,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldfe4fdca1c3",
+    "sourceHash": "fe4fdca1c3390be7e42c0740ec62be92d388bfd2664526eb5fad111a3b20d176",
+    "inputTriangles": 1282938,
+    "triangles": 26190,
+    "textureLimit": 512,
+    "bytes": 2796708,
+    "extent": 7.0
+  },
+  {
+    "materialVersion": 2,
+    "id": "World05569d27b2",
+    "sourceHash": "05569d27b22bc478452a4a5ea27910e5c10557bddc1e223fc9c41b3255dadb23",
+    "inputTriangles": 4902538,
+    "triangles": 104890,
+    "textureLimit": 512,
+    "bytes": 8760032,
+    "extent": 7.0
+  },
+  {
+    "id": "Worlda1b0addd9f",
+    "sourceHash": "a1b0addd9faf0f36f156e57d453b9560606006ffc6ab75bcbc134afc894c9ea8",
+    "inputTriangles": 3134792,
+    "triangles": 15759,
+    "textureLimit": 512,
+    "bytes": 1714260,
+    "extent": 1.2
+  },
+  {
+    "id": "World9639cbf96b",
+    "sourceHash": "9639cbf96b995cbf983654ac8177672d09c8bdf8cbac74067fd777db72c24db4",
+    "inputTriangles": 1407801,
+    "triangles": 15797,
+    "textureLimit": 512,
+    "bytes": 2178384,
+    "extent": 0.9
+  },
+  {
+    "materialVersion": 2,
+    "id": "Worldd97bec75de",
+    "sourceHash": "d97bec75de3040baf39163e187869f2486665c96794e11328ae2e4cec92d0368",
+    "inputTriangles": 581334,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1605068,
+    "extent": 2.0
+  },
+  {
+    "id": "Worldb8f4bf2c59",
+    "sourceHash": "b8f4bf2c5955f0e8d7a8266f7a18660b0447c058c8249e668efccb5d78952375",
+    "inputTriangles": 5336,
+    "triangles": 5336,
+    "textureLimit": 512,
+    "bytes": 1593276,
+    "extent": 3.5
+  },
+  {
+    "materialVersion": 2,
+    "id": "World354fd3cc9b",
+    "sourceHash": "354fd3cc9b415966e6d8166c0e5fb85385eecd8eccc4a72b8fc500770b2390cd",
+    "inputTriangles": 234270,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1426872,
+    "extent": 1.8
+  },
+  {
+    "id": "Worldaa82edc702",
+    "sourceHash": "aa82edc70230824f18105baf8e57ffb06e6c2ec15f85d55403566eddf051a673",
+    "inputTriangles": 2045,
+    "triangles": 2045,
+    "textureLimit": 512,
+    "bytes": 1144968,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "World11f82c914a",
+    "sourceHash": "11f82c914ae34e06e35f4fcd00d88b39168dac2b80d728ebeea3ed35b6a50007",
+    "inputTriangles": 583058,
+    "triangles": 16493,
+    "textureLimit": 512,
+    "bytes": 1537808,
+    "extent": 7.0
+  },
+  {
+    "extent": 3.0,
+    "targetHeight": 1.35,
+    "materialVersion": 1,
+    "id": "Worldfcb6bfff5e",
+    "sourceHash": "fcb6bfff5e375223c30a16f1e25923b7537e1c94e819fe4bf9a79d11829b9478",
+    "inputTriangles": 19634,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 828928
+  },
+  {
+    "extent": 3.0,
+    "materialVersion": 1,
+    "id": "Worldd602614007",
+    "sourceHash": "d602614007e335ef97284a8a57ab542de2f43322804008c4dbf5cb99ebd43864",
+    "inputTriangles": 827290,
+    "triangles": 15778,
+    "textureLimit": 512,
+    "bytes": 2104640
+  },
+  {
+    "id": "World255545dae5",
+    "sourceHash": "255545dae541abcc7df19a197a55f536b6067b9428677779a1daded8fde5b12a",
+    "inputTriangles": 528049,
+    "triangles": 15799,
+    "textureLimit": 512,
+    "bytes": 1832884,
+    "extent": 1.0
+  },
+  {
+    "extent": 7.0,
+    "materialVersion": 1,
+    "id": "World43ca06749a",
+    "sourceHash": "43ca06749a05599d7d5f6357be1ee369b5acf1b9080d84326b0d9859ceae5dac",
+    "inputTriangles": 182822,
+    "triangles": 15743,
+    "textureLimit": 512,
+    "bytes": 1279176
+  },
+  {
+    "materialVersion": 2,
+    "id": "World4ab9144127",
+    "sourceHash": "4ab9144127f269817a94b25ce52985fe65d3c86ed96ef62380a7ef5526fb1bf5",
+    "inputTriangles": 394170,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 1668636,
+    "extent": 1.8
+  },
+  {
+    "materialVersion": 1,
+    "id": "World9b9bde8b1c",
+    "sourceHash": "9b9bde8b1cffe80ee8b51fd85e4cfdc67d1ee4f4f9d0293350c23daf7170f641",
+    "inputTriangles": 134326,
+    "triangles": 15800,
+    "textureLimit": 512,
+    "bytes": 935156,
+    "extent": 1.8
+  }
+]

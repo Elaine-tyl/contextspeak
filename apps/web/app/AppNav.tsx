@@ -165,9 +165,6 @@ export function AppNav() {
           </li>
         ))}
       </ul>
-      <p className="app-nav-footer">
-        Look up words while you read. Review them here when they are due.
-      </p>
     </nav>
   );
 }

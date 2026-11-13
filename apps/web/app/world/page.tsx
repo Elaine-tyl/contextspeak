@@ -1,23 +1,6 @@
-"use client";
-import { useEffect, useState } from "react";
-
 const LOCAL = "http://127.0.0.1:4320";
 
 export default function WorldPage() {
-  const [ready, setReady] = useState(false);
-  const [checked, setChecked] = useState(false);
-  useEffect(() => {
-    const controller = new AbortController();
-    fetch(LOCAL + "/health", {
-      signal: AbortSignal.any([controller.signal, AbortSignal.timeout(3000)]),
-    })
-      .then((response) => setReady(response.ok))
-      .catch(() => {})
-      .finally(() => {
-        if (!controller.signal.aborted) setChecked(true);
-      });
-    return () => controller.abort();
-  }, []);
   return (
     <main className="page page-narrow">
       <a className="back-link" href="/games">
@@ -29,37 +12,26 @@ export default function WorldPage() {
         through spoken English.
       </p>
       <section className="panel">
-        <h2>Your first day</h2>
+        <h2>Forest café and fishing</h2>
         <p>
-          Help your family with dinner, walk to Green Market for groceries, then
-          order a drink and catch up with a friend. Menus, your bag and wallet
-          follow the conversation. Stop recording for automatic feedback. If
-          wording needs a correction, say it again before continuing; typing is
-          rehearsal only.
-        </p>
-        <p role="status">
-          {!checked
-            ? "Checking local launcher…"
-            : ready
-              ? "Local launcher is ready."
-              : "Start the local launcher, then refresh this page."}
+          Meet Rowan, browse the illustrated menu, customize your order and pay
+          before it arrives at your table. Explore the terrace and learn to fish
+          with Hazel. Choose an IELTS speaking practice band in Settings; the
+          feedback is learning guidance, not an official test score.
         </p>
         <div className="detail-actions">
           <a
             className="primary"
-            href={LOCAL + "/unity/?world=life"}
+            href={LOCAL + "/unity/?world=slice"}
             target="_blank"
             rel="noreferrer"
           >
-            Play Life town
+            Play Forest café
           </a>
           <a className="secondary" href={LOCAL + "/download/macos"}>
             Download macOS preview
           </a>
         </div>
-        <p className="badge">
-          Unity 3D · Local guest save · Family home, market and cafe
-        </p>
       </section>
       <section className="panel">
         <h2>More ways to practice</h2>
@@ -87,9 +59,10 @@ export default function WorldPage() {
           arcade with <code>pnpm arcade:build</code>.
         </p>
         <p>
-          WASD / arrows to walk, E to talk, right-drag to look, scroll to zoom,
-          Esc to explore. Walk to objective finds a route; movement keys cancel
-          it.
+          WASD / arrows to move, F to talk and E to use objects. The forest café
+          adds Ctrl to walk, Shift to sprint, C to crouch, M for the map, J for
+          the journal and Tab for your bag. In Life town, Walk to objective
+          finds a route; movement keys cancel it.
         </p>
         <p>
           Keep the local launcher, Ollama and installed speech models running.
@@ -99,9 +72,9 @@ export default function WorldPage() {
         </p>
       </details>
       <p className="section-copy">
-        School, farming, clothing, restaurants, fishing, amusement parks and
-        travel are planned districts. Task feedback is separate from acoustic
-        pronunciation assessment and vocabulary reviews.
+        School, farming, clothing, restaurants, amusement parks and travel are
+        planned districts. Task feedback is separate from acoustic pronunciation
+        assessment and vocabulary reviews.
       </p>
     </main>
   );

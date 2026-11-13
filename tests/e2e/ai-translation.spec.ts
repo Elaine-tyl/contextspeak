@@ -120,13 +120,16 @@ test("ai_automatically_generates_and_saves_the_same_learning_card", async () => 
     });
     expect(first.learningDetails.examples).toHaveLength(1);
     const card = library.getByTestId("lookup-card");
-    await expect(card.getByTestId("learning-notes")).toContainText(
-      first.learningDetails.definition,
-    );
-    await expect(card).toContainText(first.learningDetails.examples[0].source);
-    await expect(card).toContainText(
+    await card.locator(".card-link").click();
+    const notes = library.getByTestId("learning-notes");
+    await expect(notes).toContainText(first.learningDetails.definition);
+    await expect(notes).toContainText(first.learningDetails.examples[0].source);
+    await expect(notes).toContainText(
       first.learningDetails.examples[0].translation,
     );
+    await library
+      .getByRole("link", { name: "Back to library", exact: true })
+      .click();
     await expect(
       sample.locator("[data-learning-card] .example-translation"),
     ).toHaveText(first.learningDetails.examples[0].translation);

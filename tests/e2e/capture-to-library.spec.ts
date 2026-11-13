@@ -242,7 +242,7 @@ test("capture_to_library_is_owned_replay_safe_and_failure_tolerant", async () =>
   const failedLookup = library
     .getByTestId("lookup-card")
     .filter({ hasText: "unknown-fixture" });
-  await expect(failedLookup).toContainText("Your lookup is saved.");
+  await expect(failedLookup).toContainText("Lookup saved.");
   await expect(failedLookup.getByTitle("FIXTURE_NOT_FOUND")).toBeVisible();
   await expect(
     failedLookup.getByRole("button", { name: "Retry translation" }),

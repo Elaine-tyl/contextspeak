@@ -2,8 +2,21 @@
 import { resolve } from "node:path";
 import { createWorldServer } from "../packages/world/server";
 import { localProviders } from "../packages/world/providers";
+import { createRoomServer } from "../packages/world/room-server";
 
+const roomOrigin = process.env.CONTEXTSPEAK_ROOM_URL ?? "http://127.0.0.1:4330";
+const rooms =
+  roomOrigin === "http://127.0.0.1:4330" ? createRoomServer() : undefined;
+rooms?.listen(4330, "127.0.0.1", () =>
+  console.log("Local friend rooms ready on port 4330"),
+);
+rooms?.on("error", () =>
+  console.log(
+    "Room service port 4330 is already in use; create/join will check the existing service.",
+  ),
+);
 const server = createWorldServer({
+  roomOrigin,
   webRoot: resolve(".local/world-builds/web"),
   macArchive: resolve(
     ".local/world-builds/web/unity/ContextSpeak-Cafe-macOS.zip",
@@ -25,4 +38,9 @@ server.on("error", (error) => {
   process.exitCode = 1;
 });
 for (const signal of ["SIGINT", "SIGTERM"] as const)
-  process.once(signal, () => server.close(() => process.exit(0)));
+  process.once(signal, () =>
+    server.close(() => {
+      if (rooms?.listening) rooms.close(() => process.exit(0));
+      else process.exit(0);
+    }),
+  );

@@ -1,15 +1,19 @@
+import { GameCelebration } from "./GameEffects";
 import type { GameLevelRun } from "@contextspeak/contracts";
 import { DictationResult } from "../practice/DictationResult";
 import { SpeakingFeedback } from "../practice/SpeakingFeedback";
 import { EditionNotice, GameSourceCredit } from "./GameContext";
 import { GapFillResult } from "./GapFill";
+import { SceneWordNotebook } from "./SceneWords";
 export function LevelResult({
   run,
+  token,
   busy,
   onRetry,
   onNext,
 }: {
   run: GameLevelRun;
+  token: string;
   busy: boolean;
   onRetry(): void;
   onNext(): void;
@@ -17,6 +21,7 @@ export function LevelResult({
   const opponent = run.receipts[0]?.feedback.opponentScore;
   return (
     <section className="game-round" aria-label="Level result">
+      <GameCelebration score={run.score} complete />
       <h2>
         {run.score === null
           ? "No reliable level score"
@@ -86,12 +91,21 @@ export function LevelResult({
                 <SpeakingFeedback result={receipt.feedback.speaking} />
               )}
               {receipt.feedback.gapFill && (
-                <GapFillResult feedback={receipt.feedback.gapFill} />
+                <GapFillResult
+                  feedback={receipt.feedback.gapFill}
+                  crossword={run.kind === "mini-crossword"}
+                />
               )}
               {receipt.feedback.correctAnswer && (
                 <p>Correct answer: {receipt.feedback.correctAnswer}</p>
               )}
               <p>{receipt.feedback.explanation}</p>
+              {receipt.feedback.sceneWordNotes && (
+                <SceneWordNotebook
+                  notes={receipt.feedback.sceneWordNotes}
+                  token={token}
+                />
+              )}
             </section>
           );
         })}

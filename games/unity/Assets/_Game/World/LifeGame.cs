@@ -8,8 +8,10 @@ namespace ContextSpeak.Cafe
 {
     [Serializable] public class LifeSnapshot : CafeSnapshot
     {
-        public string mode = "life", owner = "LifeRuntime", wallet, bag, menu, repair, place;
+        public string mode = "life", owner = "LifeRuntime", wallet, bag, menu, repair, place, menuPlan;
         public int step;
+        public bool menuOpen;
+        public LifeMenuItem[] menuItems = new LifeMenuItem[0];
     }
     public sealed class LifeGame : MonoBehaviour
     {
@@ -24,7 +26,9 @@ namespace ContextSpeak.Cafe
         private LifeInterface ui;
         private NpcVoice voice;
         private int epoch, speakerIndex = -1;
-        private bool dialogue, working, quitting;
+        private bool dialogue, working, quitting, menuOpen;
+        private string planned = "";
+        private Transform marker;
         private string feedback = "", transcript = "", previewRepair = "", status = "Connecting local AI…";
         private float nextReport;
 #if UNITY_WEBGL && !UNITY_EDITOR
@@ -44,6 +48,7 @@ namespace ContextSpeak.Cafe
             recorder.Failed += Fail;
             recorder.Changed += Refresh;
             if (mission.Step > 0) Player.Place(mission.Destination.Stand);
+            CreateMarker();
             Refresh();
             Connect();
         }
@@ -70,7 +75,10 @@ namespace ContextSpeak.Cafe
         {
             if (mission == null) return;
             if (Player.Controls.Cancel && dialogue) Close();
-            if (Player.Controls.Interact && !dialogue && !working) Open();
+            if ((Player.Controls.Interact || Player.Controls.Talk) && !dialogue && !working) Open();
+            // M opens the printed menus while exploring; shop menus show automatically in conversations.
+            if (Player.Controls.Menu && !dialogue) ToggleMenu();
+            MoveMarker();
             if (Time.unscaledTime >= nextReport)
             {
                 nextReport = Time.unscaledTime + 0.15f;
@@ -169,6 +177,7 @@ namespace ContextSpeak.Cafe
             if (!new[] { "continue", "home", "market", "cafe", "friend" }.Contains(stage)) return;
             Close();
             mission = new LifeMission();
+            planned = "";
             if (stage == "continue") mission.Restore(PlayerPrefs.GetString(SaveKey, ""));
             else mission.StartPractice(stage);
             Player.Place(mission.Destination.Stand);
@@ -201,15 +210,74 @@ namespace ContextSpeak.Cafe
             status = error;
             Refresh();
         }
+        private NpcDefinition MenuOwner()
+        {
+            if (dialogue && speakerIndex >= 0) return Npcs[speakerIndex].GetComponent<NpcActor>()?.Definition;
+            if (!menuOpen) return null;
+            // Exploring: show the menu of whoever is nearby, otherwise the next destination's.
+            var near = Near();
+            var index = near >= 0 ? near : Array.FindIndex(catalog.npcs, npc => npc.id == mission.Destination.id);
+            return index >= 0 ? Npcs[index].GetComponent<NpcActor>()?.Definition : null;
+        }
         private string Menu()
         {
-            if (!dialogue || speakerIndex < 0) return "";
-            var definition = Npcs[speakerIndex].GetComponent<NpcActor>().Definition;
+            var definition = MenuOwner();
+            if (definition == null) return "";
             if (definition.Supports(NpcCapability.FamilyErrand)) return "FAMILY SHOPPING LIST\n3 apples · 2 carrots\n" + (mission.DinnerReady ? "Dinner ingredients delivered" : "Budget · $20");
-            if (definition.Supports(NpcCapability.BuyGroceries)) return "GREEN MARKET\nApples · $1 each\nCarrots · $2 each\n\nCart · " + mission.Cart;
-            if (!definition.Supports(NpcCapability.OrderDrink)) return "";
+            if (definition.Supports(NpcCapability.BuyGroceries)) return "GREEN MARKET · PRICE BOARD\nApples · $1 each\nCarrots · $2 each\n\nCart · " + mission.Cart;
+            if (!definition.Supports(NpcCapability.OrderDrink))
+                return menuOpen && !dialogue ? "TOWN GUIDE\nHome · Mom's shopping list\nGreen Market · fruit and vegetables\nForest Cafe · drinks\n\nWalk closer to a shop and press M to read its menu." : "";
+            var order = mission.Receipt != "" ? "\n\n" + mission.Receipt
+                : mission.Drink != "" ? "\n\nYour order · 1 " + mission.Drink
+                : planned != "" ? "\n\n" + LifeMenu.Plan(catalog, planned, mission.Balance) : "";
             return "FOREST CAFE MENU\n" + string.Join("\n", catalog.items.Where(item => item.category == "drink").Select(item => item.name + " · $" + (item.price / 100.0).ToString("F2")))
-                + (mission.Receipt != "" ? "\n\n" + mission.Receipt : mission.Drink == "" ? "" : "\n\nYour order · 1 " + mission.Drink);
+                + "\nHot or iced · for here or to go" + order;
+        }
+        private LifeMenuItem[] MenuItems()
+        {
+            var definition = MenuOwner();
+            if (definition == null) return new LifeMenuItem[0];
+            if (definition.Supports(NpcCapability.OrderDrink))
+            {
+                // Once a drink is ordered the plan is fixed; the receipt replaces the choices.
+                if (mission.Drink != "") return new LifeMenuItem[0];
+                return LifeMenu.Items(catalog, "drink", planned, mission.Balance);
+            }
+            if (definition.Supports(NpcCapability.BuyGroceries)) return LifeMenu.Items(catalog, "produce", "", mission.Balance);
+            return new LifeMenuItem[0];
+        }
+        private void ToggleMenu()
+        {
+            menuOpen = !menuOpen;
+            Refresh();
+        }
+        private void Plan(string id)
+        {
+            // A plan never changes the wallet; only the spoken, confirmed order does.
+            if (mission.Drink != "" || !catalog.items.Any(item => item.id == id && item.category == "drink")) return;
+            planned = planned == id ? "" : id;
+            Refresh();
+        }
+        private void CreateMarker()
+        {
+            // A floating diamond above the next person to talk to.
+            var gem = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            gem.name = "Objective marker";
+            Destroy(gem.GetComponent<Collider>());
+            gem.transform.localScale = Vector3.one * 0.32f;
+            var renderer = gem.GetComponent<Renderer>();
+            if (renderer != null) renderer.material.color = new Color(0.85f, 0.47f, 0.11f);
+            marker = gem.transform;
+        }
+        private void MoveMarker()
+        {
+            if (marker == null) return;
+            var index = mission.Complete || dialogue ? -1 : Array.FindIndex(catalog.npcs, npc => npc.id == mission.Destination.id);
+            marker.gameObject.SetActive(index >= 0 && index < Npcs.Length);
+            if (index < 0 || index >= Npcs.Length) return;
+            var bob = Mathf.Sin(Time.time * 2.4f) * 0.12f;
+            marker.position = Npcs[index].position + Vector3.up * (2.35f + bob);
+            marker.rotation = Quaternion.Euler(45, Time.time * 90f, 45);
         }
         private void Refresh()
         {
@@ -224,6 +292,7 @@ namespace ContextSpeak.Cafe
             var snapshot = new LifeSnapshot {
                 objective = (mission.Practice ? "PRACTICE · " : "") + mission.Objective,
                 wallet = "$" + (mission.Balance / 100.0).ToString("F2"), bag = mission.Bag, menu = Menu(),
+                menuOpen = menuOpen, menuItems = MenuItems(), menuPlan = mission.Drink == "" ? LifeMenu.Plan(catalog, planned, mission.Balance) : "",
                 repair = mission.Repair != "" ? mission.Repair : previewRepair,
                 place = mission.Destination.place, step = mission.Step, phase = "life", stage = mission.Current.id,
                 nearby = dialogue || near < 0 ? "" : "Talk to " + catalog.npcs[near].name + " · E",
@@ -263,9 +332,12 @@ namespace ContextSpeak.Cafe
                 case "close": Close(); break;
                 case "interact": if (!dialogue && !working) Open(); break;
                 case "walk": Walk(); break;
+                case "menu": if (!dialogue) ToggleMenu(); break;
+                case "plan": Plan(text); break;
                 case "stage": Stage(text); break;
                 case "connect": Connect(); break;
                 case "cafe": Close(); WorldScenes.Open("ForestCafe", Fail); break;
+                case "slice": Close(); WorldScenes.Open("ForestSlice", Fail); break;
             }
         }
         private void OnApplicationFocus(bool focus)
@@ -279,6 +351,7 @@ namespace ContextSpeak.Cafe
             if (recorder != null) { recorder.Changed -= Refresh; recorder.Cancel(); }
             if (client != null) client.Cancel();
             StopVoice();
+            if (marker != null) Destroy(marker.gameObject);
         }
     }
 }

@@ -259,19 +259,11 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
     card.getByRole("heading", { name: "Examples", exact: true }),
   ).toBeHidden();
   expect((await card.boundingBox())!.height).toBeLessThan(300);
-  await card.getByText("Show details", { exact: true }).click();
+  await expect(card.locator("details")).toHaveCount(0);
   await expect(
-    card.getByRole("heading", { name: "Examples", exact: true }),
-  ).toBeVisible();
-  await expect(
-    card.getByText("“Are you available for a quick call?”", { exact: true }),
-  ).toBeVisible();
+    card.getByText("Are you available for a quick call?", { exact: true }),
+  ).toHaveCount(0);
   await page.getByRole("button", { name: "Refresh", exact: true }).click();
-  await expect(
-    card.getByRole("heading", { name: "Examples", exact: true }),
-  ).toBeVisible();
-  await card.locator("summary").focus();
-  await page.keyboard.press("Enter");
   await expect(
     card.getByRole("heading", { name: "Examples", exact: true }),
   ).toBeHidden();
@@ -287,18 +279,15 @@ test("library_filters_reset_pagination_survive_polling_and_show_no_results", asy
   expect(long.height).toBe(small.height);
   // Fractional grid tracks can differ by a browser layout rounding unit.
   expect(Math.abs(long.width - small.width)).toBeLessThanOrEqual(1);
-  await cards.nth(1).getByText("Show details", { exact: true }).click();
-  expect((await cards.nth(1).boundingBox())!.height).toBe(small.height);
-  await cards.nth(1).getByText("Hide details", { exact: true }).click();
   await page
-    .locator(".cards")
+    .locator(".vocabulary-list")
     .first()
     .screenshot({ path: testInfo.outputPath("uniform-library-cards.png") });
   await page.setViewportSize({ width: 390, height: 844 });
   const mobileShort = (await cards.nth(0).boundingBox())!;
   const mobileLong = (await cards.nth(1).boundingBox())!;
-  expect(mobileShort.height).toBe(small.height);
-  expect(mobileLong.height).toBe(small.height);
+  expect(mobileShort.height).toBeLessThanOrEqual(104);
+  expect(mobileLong.height).toBe(mobileShort.height);
   expect(mobileLong.width).toBe(mobileShort.width);
   await page.setViewportSize({ width: 1280, height: 720 });
   await page
