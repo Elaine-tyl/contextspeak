@@ -3,7 +3,7 @@ import { mkdtemp, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 
-test("ai_automatically_generates_and_saves_the_same_learning_card", async () => {
+test("ai_automatically_generates_and_saves_the_same_learning_card", async ({}, testInfo) => {
   const profile = await mkdtemp(join(tmpdir(), "cs-real-translation-"));
   const extension = resolve("apps/extension/.output/chrome-mv3");
   const browser = await chromium.launchPersistentContext(profile, {
@@ -134,7 +134,7 @@ test("ai_automatically_generates_and_saves_the_same_learning_card", async () => 
       sample.locator("[data-learning-card] .example-translation"),
     ).toHaveText(first.learningDetails.examples[0].translation);
     await sample.screenshot({
-      path: "/private/tmp/contextspeak-ai-card.png",
+      path: testInfo.outputPath("contextspeak-ai-card.png"),
       fullPage: true,
     });
     await select("available");
@@ -163,11 +163,11 @@ test("ai_automatically_generates_and_saves_the_same_learning_card", async () => 
       word.learningDetails.examples[1].translation,
     );
     await sample.screenshot({
-      path: "/private/tmp/contextspeak-ai-word-card.png",
+      path: testInfo.outputPath("contextspeak-ai-word-card.png"),
       fullPage: true,
     });
     await library.screenshot({
-      path: "/private/tmp/contextspeak-ai-library.png",
+      path: testInfo.outputPath("contextspeak-ai-library.png"),
       fullPage: true,
     });
   } finally {

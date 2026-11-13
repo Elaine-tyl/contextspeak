@@ -87,7 +87,9 @@ test("library_list_rows_open_full_details_and_keep_review_actions", async ({
   await page
     .locator(".vocabulary-list")
     .first()
-    .screenshot({ path: "/private/tmp/contextspeak-vocabulary-list.png" });
+    .screenshot({
+      path: testInfo.outputPath("contextspeak-vocabulary-list.png"),
+    });
   await page.setViewportSize({ width: 390, height: 844 });
   expect((await card.boundingBox())!.height).toBe(
     (await cards.nth(1).boundingBox())!.height,

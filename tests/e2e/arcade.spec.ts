@@ -11,7 +11,7 @@ import type {
 
 test("depth styling keeps dashboard and library navigation usable", async ({
   page,
-}) => {
+}, testInfo) => {
   await page.route("**/auth/session", (route) =>
     route.fulfill({
       json: {
@@ -91,7 +91,7 @@ test("depth styling keeps dashboard and library navigation usable", async ({
   ).toBeVisible();
   await expect(page.locator(".learning-sculpture")).toBeVisible();
   await page.screenshot({
-    path: "/private/tmp/contextspeak-depth-progress.png",
+    path: testInfo.outputPath("contextspeak-depth-progress.png"),
     fullPage: true,
   });
   await page
@@ -107,7 +107,7 @@ test("depth styling keeps dashboard and library navigation usable", async ({
     /\/library\/item\/motion-candidate\?lookup=motion-lookup/,
   );
   await page.screenshot({
-    path: "/private/tmp/contextspeak-depth-library.png",
+    path: testInfo.outputPath("contextspeak-depth-library.png"),
     fullPage: true,
   });
   await expect(page.getByTestId("lookup-card").locator("details")).toHaveCount(
@@ -141,7 +141,7 @@ test("depth styling keeps dashboard and library navigation usable", async ({
     ),
   ).toBe(true);
   await page.screenshot({
-    path: "/private/tmp/contextspeak-depth-mobile.png",
+    path: testInfo.outputPath("contextspeak-depth-mobile.png"),
     fullPage: true,
   });
 });
@@ -209,7 +209,7 @@ test("3D effects reset cleanly and respect saved and system motion preferences",
 
 test("missing words supports keyboard typing without revealing or submitting unfinished answers", async ({
   page,
-}) => {
+}, testInfo) => {
   await installAudioFixtures(page);
   const round: GameRound = {
     id: "typing-gaps",
@@ -354,7 +354,7 @@ test("missing words supports keyboard typing without revealing or submitting unf
     ),
   ).toBe(1);
   await page.screenshot({
-    path: "/private/tmp/contextspeak-typing.png",
+    path: testInfo.outputPath("contextspeak-typing.png"),
     fullPage: true,
   });
   expect(
@@ -371,7 +371,7 @@ test("missing words supports keyboard typing without revealing or submitting unf
 
 test("browser games play, save feedback, resume and keep sound preferences without an engine", async ({
   page,
-}) => {
+}, testInfo) => {
   await installAudioFixtures(page);
   await page.addInitScript(() => {
     (window as any).gameToneCount = 0;
@@ -475,7 +475,7 @@ test("browser games play, save feedback, resume and keep sound preferences witho
     "100",
   );
   await page.screenshot({
-    path: "/private/tmp/contextspeak-browser-feedback.png",
+    path: testInfo.outputPath("contextspeak-browser-feedback.png"),
     fullPage: true,
   });
   await page
@@ -504,13 +504,13 @@ test("browser games play, save feedback, resume and keep sound preferences witho
     ),
   ).toBe(true);
   await page.screenshot({
-    path: "/private/tmp/contextspeak-browser-game-mobile.png",
+    path: testInfo.outputPath("contextspeak-browser-game-mobile.png"),
     fullPage: true,
   });
   await page.goto("http://127.0.0.1:3000/games");
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.screenshot({
-    path: "/private/tmp/contextspeak-browser-playground.png",
+    path: testInfo.outputPath("contextspeak-browser-playground.png"),
     fullPage: true,
   });
   await page.getByRole("button", { name: "Sound off", exact: true }).click();

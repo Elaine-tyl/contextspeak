@@ -26,7 +26,7 @@ test.beforeEach(async ({ page }) => {
 
 test("3D lobby renders a real world and preserves reached levels and game selection", async ({
   page,
-}) => {
+}, testInfo) => {
   await page.goto("http://127.0.0.1:3000/games");
   await expect(
     page.getByRole("img", { name: "3D game world", exact: true }),
@@ -44,16 +44,16 @@ test("3D lobby renders a real world and preserves reached levels and game select
     page.getByRole("button", { name: "Missing words", exact: true }),
   ).toContainText("Level 4 of 10");
   await page.screenshot({
-    path: "/private/tmp/contextspeak-3d-lobby.png",
+    path: testInfo.outputPath("contextspeak-3d-lobby.png"),
     fullPage: true,
   });
-  await page
-    .locator(".game-lobby")
-    .screenshot({ path: "/private/tmp/contextspeak-3d-game-interface.png" });
+  await page.locator(".game-lobby").screenshot({
+    path: testInfo.outputPath("contextspeak-3d-game-interface.png"),
+  });
   await page.getByRole("button", { name: "3D effects", exact: true }).click();
   const canvas = page.getByRole("img", { name: "3D game world", exact: true });
   const still = await canvas.screenshot({
-    path: "/private/tmp/lobby-still.png",
+    path: testInfo.outputPath("lobby-still.png"),
   });
   await page.evaluate(
     () =>
@@ -88,7 +88,7 @@ test("3D lobby renders a real world and preserves reached levels and game select
       ),
     );
   const resetImage = await canvas.screenshot({
-    path: "/private/tmp/lobby-reset.png",
+    path: testInfo.outputPath("lobby-reset.png"),
   });
   expect(resetImage.equals(still)).toBe(true);
   await dictation.focus();
@@ -160,7 +160,7 @@ test("3D lobby renders a real world and preserves reached levels and game select
     page.getByRole("button", { name: "Speaking questions", exact: true }),
   ).toBeInViewport();
   await page.screenshot({
-    path: "/private/tmp/contextspeak-3d-lobby-mobile.png",
+    path: testInfo.outputPath("contextspeak-3d-lobby-mobile.png"),
     fullPage: true,
   });
 });
