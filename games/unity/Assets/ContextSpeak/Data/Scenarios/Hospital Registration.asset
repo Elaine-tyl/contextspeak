@@ -1,0 +1,93 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Hospital Registration
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Hospital Registration
+  Location: Hospital
+  Steps:
+  - id: reason
+    speaker: receptionist
+    simple: Hello. How can I help you?
+    standard: Good morning, welcome to City Hospital. How can I help you today?
+    advanced: Good morning and welcome to City Hospital outpatients. What brings
+      you in today, and have you booked an appointment?
+    expert: 
+    goal: Say why you have come (you want to see a doctor).
+    meaning: doctor|appointment|see someone|sick|unwell|ill|pain|hurt|check|feel|fever|sore
+    model: Hello, I'd like to see a doctor, please. I don't have an appointment.
+    vocabulary: 'appointment: a booked time|walk-in: a visit without a booking|outpatients:
+      patients who go home the same day'
+    onComplete: 
+  - id: name
+    speaker: receptionist
+    simple: What is your name?
+    standard: Can I take your full name, please?
+    advanced: Could I take your full name, please, and could you spell your surname
+      for me?
+    expert: 
+    goal: Tell her your name.
+    meaning: i'?m|i am|it'?s|my name|name is|call me|this is
+    model: My name is Emma Lee. That's L-E-E.
+    vocabulary: 'surname: family name|spell: say each letter'
+    onComplete: 
+  - id: birth
+    speaker: receptionist
+    simple: When were you born?
+    standard: And your date of birth?
+    advanced: Thank you. And what's your date of birth? Day, month and year, please.
+    expert: 
+    goal: Say your date of birth (any practice date is fine).
+    meaning: \d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|zero|oh|twenty|thirty|january|february|march|april|may|june|july|august|september|october|november|december|born|birthday
+    model: It's the fourteenth of March, nineteen ninety-eight.
+    vocabulary: 'date of birth: the day you were born'
+    onComplete: 
+  - id: visit
+    speaker: receptionist
+    simple: Is this your first time here?
+    standard: Have you visited this hospital before?
+    advanced: Have you been treated here before, or will we need to create a new
+      patient record for you?
+    expert: 
+    goal: Say whether this is your first visit.
+    meaning: yes|yeah|yep|sure|of course|okay|ok|please|that'?s right|correct|no|nope|not|never|none|nothing|i
+      don'?t|first|before|new|been here|once
+    model: No, this is my first visit.
+    vocabulary: 'patient record: the hospital''s file about you'
+    onComplete: 
+  - id: phone
+    speaker: receptionist
+    simple: What is your phone number?
+    standard: Could I have a contact phone number?
+    advanced: Could I have a phone number we can reach you on in case the doctor
+      needs to follow up?
+    expert: 
+    goal: Give a contact number (make one up).
+    meaning: \d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|zero|oh|twenty|thirty|number|mobile|phone
+    model: Sure, it's oh-seven-seven, one-two-three, four-five-six.
+    vocabulary: 'contact number: a phone number to call you|follow up: contact you
+      later'
+    onComplete: 
+  - id: slot
+    speaker: receptionist
+    simple: Do you want to wait now or come back later?
+    standard: We can see you as a walk-in today, or I can book a time later. Which
+      would you prefer?
+    advanced: We have walk-in slots this morning, though the wait is around twenty
+      minutes, or I could book you a fixed time this afternoon. What would suit you
+      better?
+    expert: 
+    goal: 'Choose: wait now (walk-in) or book a time.'
+    meaning: wait|walk in|now|today|book|later|afternoon|time|o'?clock|\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|zero|oh|twenty|thirty|prefer|fine
+    model: I'll wait now, please. Twenty minutes is fine.
+    vocabulary: 'slot: a free time for an appointment|suit: be good for you'
+    onComplete: registration-form

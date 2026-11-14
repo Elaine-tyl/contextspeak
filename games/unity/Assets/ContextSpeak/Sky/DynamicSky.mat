@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: DynamicSky
+  m_Shader: {fileID: 4800000, guid: 349d3f874a2f443979ba9c8bb24733e2, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Hdri:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _CloudCover: 0.22
+    - _CloudDensity: 0.8
+    - _CloudScale: 0.9
+    - _Exposure: 1
+    - _HdriBlend: 0
+    - _HdriExposure: 1
+    - _HdriRotation: 0
+    - _MoonPhase: 0.82
+    - _MoonSize: 0.035
+    - _StarIntensity: 0
+    - _SunGlow: 0.9548
+    - _SunSize: 0.025
+    - _SunsetGlow: 0
+    m_Colors:
+    - _CloudLit: {r: 1.0263749, g: 1.0263749, b: 1.0263749, a: 1.0263749}
+    - _CloudOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _CloudShade: {r: 0.49749228, g: 0.55568564, b: 0.6192877, a: 0.8865925}
+    - _GroundColor: {r: 0.31733808, g: 0.29083776, b: 0.25979796, a: 0.8}
+    - _HorizonColor: {r: 0.7349971, g: 0.83354133, b: 0.928164, a: 1}
+    - _MoonColor: {r: 0.22, g: 0.23, b: 0.25, a: 0.25}
+    - _MoonDir: {r: 0.88398874, g: -0.386008, b: 0.26374504, a: 0}
+    - _SunColor: {r: 1, g: 0.8773155, b: 0.8093185, a: 1}
+    - _SunDir: {r: -0.8275547, g: 0.5609012, b: -0.023302339, a: 0}
+    - _ZenithColor: {r: 0.21415411, g: 0.42595434, b: 0.7659894, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

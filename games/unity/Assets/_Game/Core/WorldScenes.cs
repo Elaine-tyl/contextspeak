@@ -16,7 +16,11 @@ namespace ContextSpeak.Cafe
         private AsyncOperationHandle<SceneInstance>? current;
         public static void Open(string address, Action<string> failed = null)
         {
-            if (address != "ForestCafe" && address != "LifeTown" && address != "ForestSlice" && address != "CharacterCreation") return;
+            if (WorldSceneCatalog.Find(address) == null)
+            {
+                failed?.Invoke("This district is not available in this build.");
+                return;
+            }
             if (instance == null)
             {
                 instance = new GameObject("World scene loader").AddComponent<WorldScenes>();
@@ -36,6 +40,21 @@ namespace ContextSpeak.Cafe
         private IEnumerator Load(string address, Action<string> failed)
         {
             var previous = SceneManager.GetActiveScene();
+            if (!WorldSceneCatalog.Find(address).Streamed)
+            {
+                if (!Application.CanStreamedLevelBeLoaded(address))
+                {
+                    loading = false;
+                    failed?.Invoke(address + " is missing from this browser build.");
+                    yield break;
+                }
+                var operation = SceneManager.LoadSceneAsync(address, LoadSceneMode.Additive);
+                yield return operation;
+                SceneManager.SetActiveScene(SceneManager.GetSceneByName(address));
+                yield return UnloadPrevious(previous);
+                loading = false;
+                yield break;
+            }
             var request = Addressables.LoadSceneAsync(address, LoadSceneMode.Additive, false);
             yield return request;
             if (request.Status != AsyncOperationStatus.Succeeded)
@@ -47,10 +66,18 @@ namespace ContextSpeak.Cafe
             }
             yield return request.Result.ActivateAsync();
             SceneManager.SetActiveScene(request.Result.Scene);
-            if (current.HasValue) yield return Addressables.UnloadSceneAsync(current.Value);
-            else if (previous.IsValid()) yield return SceneManager.UnloadSceneAsync(previous);
+            yield return UnloadPrevious(previous);
             current = request;
             loading = false;
+        }
+        private IEnumerator UnloadPrevious(Scene previous)
+        {
+            // Normal Single loads may already have released the old Addressables scene.
+            if (current.HasValue && current.Value.IsValid() && current.Value.Result.Scene.isLoaded)
+                yield return Addressables.UnloadSceneAsync(current.Value);
+            else if (previous.IsValid() && previous.isLoaded)
+                yield return SceneManager.UnloadSceneAsync(previous);
+            current = null;
         }
         private void OnDestroy()
         {

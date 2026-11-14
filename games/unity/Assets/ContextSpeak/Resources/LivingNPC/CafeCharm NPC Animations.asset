@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: CafeCharm NPC Animations
+  m_EditorClassIdentifier: Assembly-CSharp:ContextSpeak.Life:NPCAnimationSet
+  ModelName: CafeCharm
+  Sit: {fileID: 7400000, guid: cd90fede21f2441fa8d25203f566054b, type: 2}
+  Wave: {fileID: 7400000, guid: 9834bd4732f09438fb6cc22fb96d6cad, type: 2}
+  Talk: {fileID: 7400000, guid: e6f8002d5789a420c876437134c66f3b, type: 2}
+  LookAround: {fileID: 7400000, guid: 24c38d6533507489d8aa4568534ebe7e, type: 2}
+  Dance: {fileID: 7400000, guid: 715edde6d913b47f3a8e749fb9367aca, type: 2}
+  WalkClipSpeed: 1.6546841
+  RunClipSpeed: 2.9225147
+  Notes: 'Authored: sit pose, wave, talk gesture, look-around (retargeted). TEMPORARY
+    procedural: phone, drink, eat, read, type, cook, wipe, machine, browse, pay,
+    point, shrug, nod, stretch, yawn, map, photo, lie down.'

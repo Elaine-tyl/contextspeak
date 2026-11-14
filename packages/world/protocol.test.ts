@@ -67,3 +67,9 @@ describe("local cafe protocol", () => {
     ).toEqual({ action: "order", items: [{ drink: "tea", quantity: 2 }] });
   });
 });
+
+it("allows a complete two-minute mono exam answer with an explicit safe bound", () => {
+  expect(normalizeWave(wave(16000, 1, 120), 120).length).toBe(3840044);
+  expect(() => normalizeWave(wave(16000, 1, 121), 120)).toThrow();
+  expect(() => normalizeWave(wave(16000, 1, 21))).toThrow();
+});

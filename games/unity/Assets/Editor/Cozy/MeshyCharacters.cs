@@ -84,6 +84,8 @@ namespace ContextSpeak.Editor
             var model = (GameObject)PrefabUtility.InstantiatePrefab(source);
             model.transform.SetParent(root.transform, false);
             NormalizeVisual(root, Specs.Single(spec => spec.id == name).height);
+            var turned = CharacterFacing.Align(root.transform, model.transform);
+            if (turned != 0) Debug.Log("Character " + name + ": turned " + turned + "° to face forward.");
             foreach (var animation in model.GetComponentsInChildren<Animation>())
             {
                 animation.playAutomatically = false;

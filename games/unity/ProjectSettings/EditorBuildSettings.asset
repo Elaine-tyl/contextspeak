@@ -14,6 +14,48 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Generated/ForestSlice.unity
     guid: 904b6db9641f449dd94127fd0c6a7c3a
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/WaterInteractionTestScene.unity
+    guid: cec9d26641ac0456a86c57dfa0d3317a
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/SwimmingTestScene.unity
+    guid: f8aa4bf2c7ccd4ccda71fed77908a20c
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/LivingNeighborhood.unity
+    guid: c23b8d8fab15f4a7d966bb75e880a2ab
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/LuxuryVilla.unity
+    guid: 2184bc3a2a704452ab8ac1abe9906998
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/TropicalBeach.unity
+    guid: b1043647f7e074f28a876b7b9ba775fd
+  - enabled: 1
+    path: Assets/Generated/LivingWorldDistrict.unity
+    guid: cfc2faefe07514b15901351be2530c58
+  - enabled: 1
+    path: Assets/Generated/MetroCity.unity
+    guid: c5e0d188bf9a3436797be17c01114962
+  - enabled: 1
+    path: Assets/Generated/Arcade.unity
+    guid: 092bc60a06ecc40459d803affcb3e9e7
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/Airport.unity
+    guid: a9ffa6e11d9f8406ba59051ff7921c20
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/AircraftCabin.unity
+    guid: 9e3785c11299e4d5eb3d1c58217ac998
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/ArrivalAirport.unity
+    guid: a4c8fabdaf70444eca77dd74d7b41015
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/Hospital.unity
+    guid: c040075d1902041c48cb789daf299a63
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/Restaurant.unity
+    guid: 119ace56a94a74c3494d2df1f2a755bf
+  - enabled: 1
+    path: Assets/ContextSpeak/Scenes/WildlifeZoo.unity
+    guid: 58427ea977f0c4d748be8d4d0e3ff0b3
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: db6e96fb5596b41fbab334478c17b042, type: 2}
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}

@@ -2,15 +2,24 @@
   {
     "id": "Academy",
     "folder": "academy",
-    "archive": "Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.zip",
+    "archive": "unitycomponent/\u5973\u4e3b.zip",
     "height": 1.7,
-    "animation": "Vault"
+    "animation": "Walking",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "fullAnimation": true,
+    "triangleBudget": 30000,
+    "textureLimit": 1024
   },
   {
     "id": "Elliot",
     "folder": "elliot",
-    "archive": "Meshy_AI_Elliot_20261112_texture_fbx.zip",
-    "height": 1.7
+    "archive": "unitycomponent/\u4e3bNPC1.zip",
+    "height": 1.7,
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "fullAnimation": true,
+    "animation": "Walking",
+    "triangleBudget": 30000,
+    "textureLimit": 1024
   },
   {
     "id": "Archeologist",
@@ -35,9 +44,13 @@
   {
     "id": "Daydream",
     "folder": "daydream",
-    "archive": "Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.zip",
+    "archive": "unitycomponent/\u7537\u4e3b.zip",
     "height": 1.7,
-    "animation": "Walk"
+    "animation": "Casual_Walk",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "fullAnimation": true,
+    "triangleBudget": 30000,
+    "textureLimit": 1024
   },
   {
     "id": "Autumn",
@@ -367,5 +380,27 @@
     "height": 1.5,
     "textureLimit": 1024,
     "triangleBudget": 30000
+  },
+  {
+    "id": "BraidedSchoolgirl",
+    "folder": "braidedschoolgirl",
+    "archive": "unitycomponent/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture_fbx.zip",
+    "sourceHash": "a065797b0d30fe94dcad0ef291fae220d956ed3a1d19f8b2e3da2588975b8d62",
+    "height": 1.7,
+    "triangleBudget": 30000,
+    "textureLimit": 1024,
+    "locomotionRig": true,
+    "relaxArms": true
+  },
+  {
+    "id": "CafeCharm",
+    "folder": "cafecharm",
+    "archive": "unitycomponent/\u4e3bNPC2.zip",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "height": 1.7,
+    "triangleBudget": 30000,
+    "textureLimit": 1024,
+    "fullAnimation": true,
+    "animation": "Walking"
   }
 ]

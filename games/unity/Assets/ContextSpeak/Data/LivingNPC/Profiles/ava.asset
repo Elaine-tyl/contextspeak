@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: ava
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: ava
+  DisplayName: Ava Patel
+  Age: 1
+  Occupation: High-school student
+  Home: riverside
+  Work: school
+  Model: Academy
+  Personality:
+    Sociability: 0.5
+    Shyness: 0.5
+    Patience: 0.6
+    Busyness: 0.4
+    Distraction: 0.5
+    CommunicationStyle: friendly
+  Friends:
+  - sophie
+  - jack
+  Family: []
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 7, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 7, \"endHour\": 7.8, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 7.8, \"endHour\":
+    15, \"activity\": \"School\", \"location\": \"school\" },\n  { \"startHour\":
+    15, \"endHour\": 16, \"activity\": \"Shop\", \"location\": \"supermarket\" },\n 
+    { \"startHour\": 16, \"endHour\": 22, \"activity\": \"Relax\", \"location\":
+    \"home\" },\n  { \"startHour\": 22, \"endHour\": 24, \"activity\": \"Sleep\",
+    \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 7
+  Voice:
+    Accent: 4
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Hi!
+  - Morning!
+  SmallTalk:
+  - I'm reading a great book.
+  - Library after school?
+  MemorySummary: 

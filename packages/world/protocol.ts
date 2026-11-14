@@ -35,7 +35,7 @@ export const replySchema = z.strictObject({
 });
 
 /** Accept only bounded PCM WAV, then resample locally; no ffmpeg or cloud upload. */
-export function normalizeWave(input: Buffer) {
+export function normalizeWave(input: Buffer, maxSeconds = 20) {
   const invalid = () => {
     throw new Error("Record up to 20 seconds as 16-bit PCM WAV.");
   };
@@ -85,7 +85,11 @@ export function normalizeWave(input: Buffer) {
     invalid();
   const source = pcm!;
   const frames = source.length / (channels * 2);
-  if (frames / rate > 20 || frames < rate / 10) invalid();
+  if (
+    frames / rate > Math.min(120, Math.max(1, maxSeconds)) ||
+    frames < rate / 10
+  )
+    invalid();
   const count = Math.floor((frames * 16000) / rate);
   const output = Buffer.alloc(44 + count * 2);
   output.write("RIFF");

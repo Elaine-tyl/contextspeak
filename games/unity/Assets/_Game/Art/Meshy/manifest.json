@@ -2,43 +2,116 @@
   {
     "id": "Academy",
     "folder": "academy",
-    "archive": "Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.zip",
+    "archive": "unitycomponent/女主.zip::Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
     "height": 1.7,
-    "animation": "Vault",
-    "sha256": "dd36a6b872e28882621ae1c75e38bcb7e60a70a8b68f0e49dcf84b754293adfd",
+    "animation": "Walking",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "fullAnimation": true,
+    "triangleBudget": 30000,
+    "textureLimit": 1024,
+    "sha256": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
     "fbx": "Model.fbx",
     "provenance": "User-provided Meshy archive; redistribution license not verified",
     "inputTriangles": 10152,
     "triangles": 10152,
     "rigged": true,
+    "rigSource": "supplied",
     "bones": 92,
-    "animations": ["SmartRigArmature|Unarmed_Vault|BaseLayer"],
-    "texturesMaxSize": 2048,
+    "animations": [
+      "SmartRigArmature|Agree_Gesture|BaseLayer",
+      "SmartRigArmature|Alert_Quick_Turn_Right|BaseLayer",
+      "SmartRigArmature|All_Night_Dance|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp_2|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp|BaseLayer",
+      "SmartRigArmature|Back_Jump|BaseLayer",
+      "SmartRigArmature|Backflip_Jump|BaseLayer",
+      "SmartRigArmature|Big_Wave_Hello|BaseLayer",
+      "SmartRigArmature|Run_02|BaseLayer",
+      "SmartRigArmature|Run_and_Jump|BaseLayer",
+      "SmartRigArmature|Run_and_Leap|BaseLayer",
+      "SmartRigArmature|RunFast|BaseLayer",
+      "SmartRigArmature|Running|BaseLayer",
+      "SmartRigArmature|Unarmed_Vault|BaseLayer",
+      "SmartRigArmature|Walking|BaseLayer"
+    ],
+    "sourceAnimations": [
+      "SmartRigArmature|Agree_Gesture|BaseLayer",
+      "SmartRigArmature|Alert_Quick_Turn_Right|BaseLayer",
+      "SmartRigArmature|All_Night_Dance|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp_2|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp|BaseLayer",
+      "SmartRigArmature|Back_Jump|BaseLayer",
+      "SmartRigArmature|Backflip_Jump|BaseLayer",
+      "SmartRigArmature|Big_Wave_Hello|BaseLayer",
+      "SmartRigArmature|Run_02|BaseLayer",
+      "SmartRigArmature|Run_and_Jump|BaseLayer",
+      "SmartRigArmature|Run_and_Leap|BaseLayer",
+      "SmartRigArmature|RunFast|BaseLayer",
+      "SmartRigArmature|Running|BaseLayer",
+      "SmartRigArmature|Unarmed_Vault|BaseLayer",
+      "SmartRigArmature|Walking|BaseLayer"
+    ],
+    "texturesMaxSize": 1024,
     "exportHeight": 1.7,
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
-    "bytes": 14363360,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"]
+    "bytes": 7866460
   },
   {
     "id": "Elliot",
     "folder": "elliot",
-    "archive": "Meshy_AI_Elliot_20261112_texture_fbx.zip",
+    "archive": "unitycomponent/主NPC1.zip::Meshy_AI_Elliot_20261112_animated_mixamo_All_animation/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
     "height": 1.7,
-    "sha256": "ee5cacf5dfcacbeb01f66a745e811ac06efb9afb7bd6b4a0f0c293047521a10c",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "fullAnimation": true,
+    "animation": "Walking",
+    "triangleBudget": 30000,
+    "textureLimit": 1024,
+    "sha256": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
     "fbx": "Model.fbx",
     "provenance": "User-provided Meshy archive; redistribution license not verified",
-    "inputTriangles": 512952,
-    "triangles": 59900,
-    "rigged": false,
-    "rigSource": "none",
-    "bones": 0,
-    "animations": [],
-    "sourceAnimations": [],
-    "texturesMaxSize": 2048,
+    "inputTriangles": 10370,
+    "triangles": 10370,
+    "rigged": true,
+    "rigSource": "supplied",
+    "bones": 66,
+    "animations": [
+      "SmartRigArmature|_360_Power_Spin_Jump|BaseLayer",
+      "SmartRigArmature|Agree_Gesture|BaseLayer",
+      "SmartRigArmature|air_squat|BaseLayer",
+      "SmartRigArmature|Alert_Quick_Turn_Right|BaseLayer",
+      "SmartRigArmature|Alert|BaseLayer",
+      "SmartRigArmature|All_Night_Dance|BaseLayer",
+      "SmartRigArmature|Running_Reload|BaseLayer",
+      "SmartRigArmature|Running|BaseLayer",
+      "SmartRigArmature|Walking|BaseLayer"
+    ],
+    "sourceAnimations": [
+      "SmartRigArmature|_360_Power_Spin_Jump|BaseLayer",
+      "SmartRigArmature|Agree_Gesture|BaseLayer",
+      "SmartRigArmature|air_squat|BaseLayer",
+      "SmartRigArmature|Alert_Quick_Turn_Right|BaseLayer",
+      "SmartRigArmature|Alert|BaseLayer",
+      "SmartRigArmature|All_Night_Dance|BaseLayer",
+      "SmartRigArmature|Running_Reload|BaseLayer",
+      "SmartRigArmature|Running|BaseLayer",
+      "SmartRigArmature|Walking|BaseLayer"
+    ],
+    "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
-    "bytes": 15968244
+    "bytes": 6575776
   },
   {
     "id": "Archeologist",
@@ -55,11 +128,17 @@
     "rigSource": "none",
     "bones": 0,
     "animations": [],
+    "sourceAnimations": [],
     "texturesMaxSize": 2048,
     "exportHeight": 1.7,
-    "floor": -0.0,
-    "bytes": 18434476,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"]
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
+    "floor": 0.0,
+    "bytes": 18434444
   },
   {
     "id": "Rose",
@@ -78,7 +157,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 2048,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 14873752
   },
@@ -100,17 +184,26 @@
     "sourceAnimations": [],
     "texturesMaxSize": 2048,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
-    "bytes": 18065824
+    "bytes": 18065828
   },
   {
     "id": "Daydream",
     "folder": "daydream",
-    "archive": "Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.zip",
+    "archive": "unitycomponent/男主.zip::Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
     "height": 1.7,
-    "animation": "Walk",
-    "sha256": "798b1bfd3caec686a17ccdf28da612aaba529c4070419266ab0caa3e80a28590",
+    "animation": "Casual_Walk",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "fullAnimation": true,
+    "triangleBudget": 30000,
+    "textureLimit": 1024,
+    "sha256": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
     "fbx": "Model.fbx",
     "provenance": "User-provided Meshy archive; redistribution license not verified",
     "inputTriangles": 10295,
@@ -118,13 +211,58 @@
     "rigged": true,
     "rigSource": "supplied",
     "bones": 66,
-    "animations": ["SmartRigArmature|Casual_Walk|BaseLayer"],
-    "sourceAnimations": ["SmartRigArmature|Casual_Walk|BaseLayer"],
-    "texturesMaxSize": 2048,
+    "animations": [
+      "SmartRigArmature|_360_Power_Spin_Jump|BaseLayer",
+      "SmartRigArmature|Agree_Gesture|BaseLayer",
+      "SmartRigArmature|air_squat|BaseLayer",
+      "SmartRigArmature|Alert_Quick_Turn_Right|BaseLayer",
+      "SmartRigArmature|Alert|BaseLayer",
+      "SmartRigArmature|All_Night_Dance|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp_1|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp_2|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp|BaseLayer",
+      "SmartRigArmature|Casual_Walk|BaseLayer",
+      "SmartRigArmature|Run_02|BaseLayer",
+      "SmartRigArmature|Run_03|BaseLayer",
+      "SmartRigArmature|RunFast|BaseLayer",
+      "SmartRigArmature|Running_Reload|BaseLayer",
+      "SmartRigArmature|Running|BaseLayer",
+      "SmartRigArmature|Spear_Walk|BaseLayer",
+      "SmartRigArmature|Walk_Backward_inplace|BaseLayer",
+      "SmartRigArmature|Walk_Backward_While_Shooting|BaseLayer",
+      "SmartRigArmature|Walking|BaseLayer"
+    ],
+    "sourceAnimations": [
+      "SmartRigArmature|_360_Power_Spin_Jump|BaseLayer",
+      "SmartRigArmature|Agree_Gesture|BaseLayer",
+      "SmartRigArmature|air_squat|BaseLayer",
+      "SmartRigArmature|Alert_Quick_Turn_Right|BaseLayer",
+      "SmartRigArmature|Alert|BaseLayer",
+      "SmartRigArmature|All_Night_Dance|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp_1|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp_2|BaseLayer",
+      "SmartRigArmature|Angry_Ground_Stomp|BaseLayer",
+      "SmartRigArmature|Casual_Walk|BaseLayer",
+      "SmartRigArmature|Run_02|BaseLayer",
+      "SmartRigArmature|Run_03|BaseLayer",
+      "SmartRigArmature|RunFast|BaseLayer",
+      "SmartRigArmature|Running_Reload|BaseLayer",
+      "SmartRigArmature|Running|BaseLayer",
+      "SmartRigArmature|Spear_Walk|BaseLayer",
+      "SmartRigArmature|Walk_Backward_inplace|BaseLayer",
+      "SmartRigArmature|Walk_Backward_While_Shooting|BaseLayer",
+      "SmartRigArmature|Walking|BaseLayer"
+    ],
+    "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
-    "bytes": 13848216
+    "bytes": 7386516
   },
   {
     "id": "Autumn",
@@ -145,7 +283,12 @@
     "exportHeight": 1.7,
     "floor": -0.0,
     "bytes": 18972868,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"]
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ]
   },
   {
     "id": "Urban",
@@ -165,7 +308,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 2048,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 16081012
   },
@@ -246,7 +394,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 4985708
   },
@@ -270,7 +423,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 4942456
   },
@@ -295,9 +453,14 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
-    "floor": -0.0,
-    "bytes": 5059256
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
+    "floor": 0.0,
+    "bytes": 5059288
   },
   {
     "id": "AnimeDetective",
@@ -320,7 +483,9 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor"],
+    "sourceChannels": [
+      "BaseColor"
+    ],
     "floor": 0.0,
     "bytes": 2593728
   },
@@ -344,7 +509,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 4869576
   },
@@ -368,7 +538,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 4073128
   },
@@ -392,7 +567,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 5352120
   },
@@ -416,7 +596,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 4636708
   },
@@ -441,7 +626,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 4999360
   },
@@ -466,8 +656,13 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
-    "floor": -0.0,
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
+    "floor": 0.0,
     "bytes": 4814012
   },
   {
@@ -491,7 +686,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 8318764
   },
@@ -515,7 +715,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 5141588
   },
@@ -540,7 +745,12 @@
     "exportHeight": 1.7,
     "floor": -0.0,
     "bytes": 5424020,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"]
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ]
   },
   {
     "id": "OpenArms",
@@ -560,11 +770,17 @@
     "rigSource": "none",
     "bones": 0,
     "animations": [],
+    "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
-    "bytes": 4504084,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"]
+    "bytes": 4504084
   },
   {
     "id": "PeachGala",
@@ -586,7 +802,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 4309244
   },
@@ -611,7 +832,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 5425120
   },
@@ -635,7 +861,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 4724348
   },
@@ -649,6 +880,7 @@
     "archive": "Meshy_AI_Schoolgirl_T_Pose_20260908_texture_fbx.zip::Meshy_AI_Schoolgirl_T_Pose_20260908_texture_fbx/Meshy_AI_Schoolgirl_T_Pose_20260908_texture.fbx",
     "sha256": "bffc18187bfb067abb34d60d550849c6f2c00237b26d2af1c87d51cff0638b36",
     "fbx": "Model.fbx",
+    "relaxArms": true,
     "provenance": "User-provided Meshy archive; redistribution license not verified",
     "inputTriangles": 1910196,
     "triangles": 29900,
@@ -659,7 +891,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 4060068
   },
@@ -683,7 +920,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 4851504
   },
@@ -707,7 +949,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 4533580
   },
@@ -731,7 +978,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 3235156
   },
@@ -755,7 +1007,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 4315628
   },
@@ -780,7 +1037,12 @@
     "exportHeight": 1.7,
     "floor": 0.0,
     "bytes": 5360340,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"]
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ]
   },
   {
     "id": "WhispersPiano",
@@ -802,7 +1064,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.25,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 4050728
   },
@@ -826,7 +1093,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": -0.0,
     "bytes": 5004840
   },
@@ -850,7 +1122,12 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor", "Normal", "Roughness", "Metallic"],
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
     "floor": 0.0,
     "bytes": 3556492
   },
@@ -862,7 +1139,7 @@
     "textureLimit": 1024,
     "triangleBudget": 30000,
     "relaxArms": true,
-    "archive": "Meshy_AI_elleri_t_pozisyonu_olan_bir_bilim_adam\u0131_20260225_texture_fbx.zip::Meshy_AI_elleri_t_pozisyonu_olan_bir_bilim_adam\u0131_20260225_texture_fbx/Meshy_AI_elleri_t_pozisyonu_olan_bir_bilim_adam\u0131_20260225_texture.fbx",
+    "archive": "Meshy_AI_elleri_t_pozisyonu_olan_bir_bilim_adamı_20260225_texture_fbx.zip::Meshy_AI_elleri_t_pozisyonu_olan_bir_bilim_adamı_20260225_texture_fbx/Meshy_AI_elleri_t_pozisyonu_olan_bir_bilim_adamı_20260225_texture.fbx",
     "sha256": "a0871f3e905f654e2d09556ae1549d75b98e461547822f919ca13289c8f35a54",
     "fbx": "Model.fbx",
     "provenance": "User-provided Meshy archive; redistribution license not verified",
@@ -875,9 +1152,11 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor"],
+    "sourceChannels": [
+      "BaseColor"
+    ],
     "floor": 0.0,
-    "bytes": 1958448
+    "bytes": 1958480
   },
   {
     "id": "OfficerJames",
@@ -899,7 +1178,9 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor"],
+    "sourceChannels": [
+      "BaseColor"
+    ],
     "floor": 0.0,
     "bytes": 2231032
   },
@@ -923,7 +1204,9 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor"],
+    "sourceChannels": [
+      "BaseColor"
+    ],
     "floor": 0.0,
     "bytes": 2256792
   },
@@ -948,9 +1231,11 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor"],
+    "sourceChannels": [
+      "BaseColor"
+    ],
     "floor": -0.0,
-    "bytes": 3029552
+    "bytes": 3028940
   },
   {
     "id": "NurseLily",
@@ -973,7 +1258,9 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor"],
+    "sourceChannels": [
+      "BaseColor"
+    ],
     "floor": 0.0,
     "bytes": 1526488
   },
@@ -984,7 +1271,7 @@
     "height": 1.7,
     "textureLimit": 1024,
     "triangleBudget": 30000,
-    "archive": "Meshy_AI_\u4e00\u500b\u64c1\u6709\u512a\u96c5\u6b50\u7f8e\u7279\u5fb5\u7684\u79d8\u66f83D\u6a21\u578b_\u5979\u8eab\u8457\u526a\u88c1\u5408\u8eab\u7684\u77ed\u88d9\u5236\u670d_\u5236\u670d\u6750\u8cea\u5149\u6ed1\u633a\u62ec_20250731_texture_fbx.zip::Meshy_AI_\u4e00\u500b\u64c1\u6709\u512a\u96c5\u6b50\u7f8e\u7279\u5fb5\u7684\u79d8\u66f83D\u6a21\u578b_\u5979\u8eab\u8457\u526a\u88c1\u5408\u8eab\u7684\u77ed\u88d9\u5236\u670d_\u5236\u670d\u6750\u8cea\u5149\u6ed1\u633a\u62ec_20250731_texture_fbx/Meshy_AI_\u4e00\u500b\u64c1\u6709\u512a\u96c5\u6b50\u7f8e\u7279\u5fb5\u7684\u79d8\u66f83D\u6a21\u578b_\u5979\u8eab\u8457\u526a\u88c1\u5408\u8eab\u7684\u77ed\u88d9\u5236\u670d_\u5236\u670d\u6750\u8cea\u5149\u6ed1\u633a\u62ec_20250731_texture.fbx",
+    "archive": "Meshy_AI_一個擁有優雅歐美特徵的秘書3D模型_她身著剪裁合身的短裙制服_制服材質光滑挺括_20250731_texture_fbx.zip::Meshy_AI_一個擁有優雅歐美特徵的秘書3D模型_她身著剪裁合身的短裙制服_制服材質光滑挺括_20250731_texture_fbx/Meshy_AI_一個擁有優雅歐美特徵的秘書3D模型_她身著剪裁合身的短裙制服_制服材質光滑挺括_20250731_texture.fbx",
     "sha256": "46a6dccfc72492287875ed51692183a170f29c50cc04ddd43a50dd4f459155bb",
     "fbx": "Model.fbx",
     "provenance": "User-provided Meshy archive; redistribution license not verified",
@@ -997,7 +1284,9 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.7,
-    "sourceChannels": ["BaseColor"],
+    "sourceChannels": [
+      "BaseColor"
+    ],
     "floor": -0.0,
     "bytes": 2165428
   },
@@ -1077,8 +1366,88 @@
     "sourceAnimations": [],
     "texturesMaxSize": 1024,
     "exportHeight": 1.5,
-    "sourceChannels": ["BaseColor"],
+    "sourceChannels": [
+      "BaseColor"
+    ],
     "floor": 0.0,
     "bytes": 2633524
+  },
+  {
+    "id": "BraidedSchoolgirl",
+    "folder": "braidedschoolgirl",
+    "archive": "unitycomponent/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture_fbx.zip::Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture_fbx/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture.fbx",
+    "sourceHash": "a065797b0d30fe94dcad0ef291fae220d956ed3a1d19f8b2e3da2588975b8d62",
+    "height": 1.7,
+    "triangleBudget": 30000,
+    "textureLimit": 1024,
+    "locomotionRig": true,
+    "relaxArms": true,
+    "sha256": "a065797b0d30fe94dcad0ef291fae220d956ed3a1d19f8b2e3da2588975b8d62",
+    "fbx": "Model.fbx",
+    "provenance": "User-provided Meshy archive; redistribution license not verified",
+    "inputTriangles": 3078174,
+    "triangles": 29900,
+    "rigged": true,
+    "rigSource": "generated-basic",
+    "bones": 7,
+    "animations": [],
+    "sourceAnimations": [],
+    "texturesMaxSize": 1024,
+    "exportHeight": 1.7,
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
+    "floor": 0.0,
+    "bytes": 3963944
+  },
+  {
+    "id": "CafeCharm",
+    "folder": "cafecharm",
+    "archive": "unitycomponent/主NPC2.zip::Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation/Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "height": 1.7,
+    "triangleBudget": 30000,
+    "textureLimit": 1024,
+    "fullAnimation": true,
+    "animation": "Walking",
+    "sha256": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "fbx": "Model.fbx",
+    "provenance": "User-provided Meshy archive; redistribution license not verified",
+    "inputTriangles": 10223,
+    "triangles": 10223,
+    "rigged": true,
+    "rigSource": "supplied",
+    "bones": 66,
+    "animations": [
+      "SmartRigArmature|Hello_Run|BaseLayer",
+      "SmartRigArmature|RunFast|BaseLayer",
+      "SmartRigArmature|Running|BaseLayer",
+      "SmartRigArmature|Sit_to_Stand_Transition_F|BaseLayer",
+      "SmartRigArmature|walking_2_inplace|BaseLayer",
+      "SmartRigArmature|walking_2|BaseLayer",
+      "SmartRigArmature|Walking|BaseLayer"
+    ],
+    "sourceAnimations": [
+      "SmartRigArmature|Hello_Run|BaseLayer",
+      "SmartRigArmature|RunFast|BaseLayer",
+      "SmartRigArmature|Running|BaseLayer",
+      "SmartRigArmature|Sit_to_Stand_Transition_F|BaseLayer",
+      "SmartRigArmature|walking_2_inplace|BaseLayer",
+      "SmartRigArmature|walking_2|BaseLayer",
+      "SmartRigArmature|Walking|BaseLayer"
+    ],
+    "texturesMaxSize": 1024,
+    "exportHeight": 1.7,
+    "sourceChannels": [
+      "BaseColor",
+      "Normal",
+      "Roughness",
+      "Metallic"
+    ],
+    "floor": -0.0,
+    "bytes": 6017728
   }
 ]

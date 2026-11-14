@@ -162,17 +162,17 @@ export function createWorldServer(options: Options) {
           if (path === "/transcribe") {
             let audio: Buffer;
             try {
-              audio = normalizeWave(input);
+              audio = normalizeWave(input, 120);
             } catch {
               throw new HttpFailure(
                 400,
-                "Use a 16-bit PCM WAV recording of up to 20 seconds.",
+                "Use a 16-bit PCM WAV recording of up to 120 seconds.",
               );
             }
             const text = (
               await options.transcribe(audio, controller.signal)
             ).trim();
-            if (!text || text.length > 1000 || /^\[.*\]$/.test(text))
+            if (!text || text.length > 2400 || /^\[.*\]$/.test(text))
               throw new HttpFailure(
                 422,
                 "No clear speech found. Please try again or type your reply.",

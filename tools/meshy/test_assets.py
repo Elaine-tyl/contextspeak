@@ -66,6 +66,11 @@ class CharacterAssets(unittest.TestCase):
             path = ASSETS / (model['id'] + '.glb')
             self.assertTrue(path.exists(), 'Missing converted character: ' + model['id'])
             doc, _ = glb(path)
+            if model.get('fullAnimation'):
+                registry = json.loads((ROOT / 'tools/meshy/replacements.json').read_text())
+                expected = {row['take'] for row in registry[model['id']]['bindings']}
+                actual = {row['name'].split('|')[-2] for row in doc['animations']}
+                self.assertEqual(actual, expected)
             if model.get('animation'):
                 self.assertGreaterEqual(len(doc['skins'][0]['joints']), 50)
                 self.assertTrue(any(model['animation'] in animation['name'] for animation in doc.get('animations', [])))

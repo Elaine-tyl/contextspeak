@@ -135,3 +135,9 @@ produce shopping, grocery delivery, cafe ordering and friend conversation. Stop
 recording for automatic feedback; repair wording in a new spoken answer before
 continuing. Menus, wallet, inventory and receipts follow the task. Open `/world`
 and choose **Play Life town**; see [setup and milestone limits](docs/GAME-ENGINES.md#first-playable-day).
+
+## Immersive Unity interface
+
+The Forest Café now has a minimal HUD, camera-rendered minimap, phone apps, compact subtitles with a separate speaking correction card, paper ordering and accessibility settings. Native Toolkit presentation also replaces the old runtime IMGUI presenters. Use **M / J / Tab** for Map / Journal / Bag and **Esc** to back through phone layers. The existing answer → feedback → spoken-repeat gate remains in place.
+
+In Unity, **ContextSpeak → UI → Capture UI Screenshots** produces labelled day/night Play-mode evidence. See [implementation, test evidence and remaining presentation work](docs/IMMERSIVE_UNITY_UI.md); the handheld phone animation, authored world-menu/payment close-ups and full gamepad/macOS QA are not complete.

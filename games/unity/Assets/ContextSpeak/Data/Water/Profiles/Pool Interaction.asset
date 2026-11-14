@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c638a009f7a4c2290c38086bd2bd1c, type: 3}
+  m_Name: Pool Interaction
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.WaterInteractionProfile
+  Kind: 0
+  PropagationSpeed: 1
+  DampingPerStep: 0.99
+  ReferenceStepHz: 60
+  RippleStrength: 0.85
+  AdvectWithFlow: 0
+  WallReflection: 1
+  WalkRippleRadius: {x: 0.12, y: 0.3}
+  RunRippleRadius: {x: 0.25, y: 0.5}
+  JumpRippleRadius: {x: 0.6, y: 1.5}
+  WalkSplash: {x: 0.15, y: 0.35}
+  RunSplash: {x: 0.4, y: 0.7}
+  JumpSplash: {x: 0.7, y: 1}
+  SplashScale: 0.85
+  ParticleScale: 1
+  FoamAmount: 0.25
+  BubbleIntensity: 1
+  WakeLength: 1
+  FootstepCooldown: {x: 0.15, y: 0.35}
+  BubbleLifetime: {x: 0.4, y: 2}
+  Drag: 1
+  DropletTint: {r: 0.9, g: 0.96, b: 1, a: 0.85}
+  FoamTint: {r: 0.95, g: 0.97, b: 0.97, a: 0.8}

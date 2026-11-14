@@ -16,7 +16,7 @@ namespace ContextSpeak.Slice
 
     /// Forest Café vertical slice runtime: talking to the waiter, ordering, paying, kitchen and delivery,
     /// seating, eating and drinking, fishing with an instructor, quests, progress and saving.
-    public sealed class SliceGame : MonoBehaviour
+    public sealed partial class SliceGame : MonoBehaviour
     {
         [Header("Scene references (set by the scene builder)")]
         public CafePlayer Player;
@@ -81,6 +81,8 @@ namespace ContextSpeak.Slice
         private string saveState = "";
 
         private BandProfile Profile => BandProfile.For(Save.Band);
+        public bool CanStartStory => Save != null && Talking == Partner.None && !working && panel == "" && !menuOpen && seat == null
+            && recorder != null && recorder.State != "recording" && recorder.State != "requesting";
         private bool SpeechAvailable => companion != null && companion.Available;
         public Vector3 OrderArrival => Counter.position - Counter.right * 1.8f + Counter.forward * 2.7f + Vector3.up * 0.1f;
         private string Speaker => Talking == Partner.Rowan ? "Rowan" : Talking == Partner.Hazel ? "Hazel" : Talking == Partner.Resident && resident != null ? resident.DisplayName : "";
@@ -114,6 +116,7 @@ namespace ContextSpeak.Slice
             guide = new FishingGuide { Band = Save.Band };
             fishing = new FishingSession(Environment.TickCount);
             Save.Waiter.Band = Save.Band;
+            InitializeAdaptive();
             ui.Command += Command;
             recorder.Finished += Transcribe;
             recorder.Failed += error => Status(error);
@@ -131,12 +134,15 @@ namespace ContextSpeak.Slice
         private void Connect()
         {
             StartCoroutine(client.Connect(error => {
-                status = error == "" ? "Voice and AI feedback connected." : "Offline mode: type your replies. Start pnpm world:dev for voice.";
+                status = error == "" ? "Voice and AI feedback connected." : "Voice is offline. Start the local companion, then reconnect voice in Settings.";
                 Render();
             }));
         }
 
         // ------------------------------------------------------------------ main loop
+        /// Detailed map of the Forest Café district (opened from the world map).
+        public void ShowAreaMap() { panel = "map"; Render(); }
+
         private void Update()
         {
             var dt = Time.deltaTime;
@@ -153,18 +159,19 @@ namespace ContextSpeak.Slice
 
         private void HandleInput()
         {
+            if (ContextSpeak.Proactive.ProactiveLifeDirector.OwnsInput) return;
             var controls = Player.Controls;
             var typing = ui != null && ui.Typing;
             controls.Suspended = typing || panel != "" || menuOpen && Talking == Partner.None;
             var exploring = Talking == Partner.None && panel == "" && !menuOpen;
-            controls.AlwaysLook = exploring && ui != null && ui.AlwaysLook && seat == null;
+            controls.AlwaysLook = exploring && ui != null && ui.AlwaysLook && seat == null && !ContextSpeak.Proactive.ProactiveLifeDirector.HasOverlay;
             Cursor.lockState = controls.AlwaysLook ? CursorLockMode.Locked : CursorLockMode.None;
             Cursor.visible = !controls.AlwaysLook;
-            if (typing) return;
+            if (typing && !controls.Cancel) return;
 
             if (controls.Cancel)
             {
-                if (panel != "") panel = "";
+                if (panel != "") panel = SliceUiPolicy.Parent(panel);
                 else if (menuOpen) menuOpen = false;
                 else if (Talking != Partner.None) EndConversation();
                 else if (fishing.State != FishingState.Idle) StopFishing();
@@ -174,7 +181,8 @@ namespace ContextSpeak.Slice
             }
             if (controls.Inventory) { panel = panel == "inventory" ? "" : "inventory"; Render(); }
             if (controls.Journal) { panel = panel == "journal" ? "" : "journal"; Render(); }
-            if (controls.Menu && Talking == Partner.None) { panel = panel == "map" ? "" : "map"; Render(); }
+            // M opens the one world map for every scene; its "Area map" button shows this district's detailed map.
+            if (controls.Menu && Talking == Partner.None) { if (panel == "map") { panel = ""; Render(); } else ContextSpeak.Life.WorldMap.Toggle(); }
             if (panel != "") return;
 
             if (controls.Talk && Talking == Partner.None && !working)
@@ -234,6 +242,7 @@ namespace ContextSpeak.Slice
                 lastInspected = thing.Id;
                 var item = scenery?.Entries.FirstOrDefault(entry => entry.id == thing.Id);
                 ShowToast(item == null ? thing.Prompt : item.Label + " · " + item.purpose);
+                ObserveLearningObject(item == null ? thing.Prompt : item.Label);
                 return;
             }
             if (thing != null && thing.Id == "timetable") { panel = "school"; Render(); return; }
@@ -245,7 +254,26 @@ namespace ContextSpeak.Slice
                 return;
             }
             var near = NearestSeat();
+            if (near != null && near.Outdoor && ContextSpeak.Life.SkyState.Raining)
+            {
+                ShowToast("It's raining — the terrace chairs are wet. Take a table inside the café.");
+                return;
+            }
             if (near != null) Sit(near);
+        }
+
+        private Transform HintAnchor()
+        {
+            if (Talking != Partner.None || panel != "") return null;
+            if (seat != null) return seat.transform;
+            if (fishing.State != FishingState.Idle || AtPier) return Pier != null ? Pier.Stand : null;
+            var partner = NearestPartner();
+            if (partner == Partner.Rowan) return Rowan;
+            if (partner == Partner.Hazel) return Hazel;
+            if (partner == Partner.Resident && resident != null) return resident.transform;
+            var item = NearestInteractable();
+            if (item != null) return item.transform;
+            return NearestSeat()?.transform;
         }
 
         private string Hint()
@@ -290,6 +318,7 @@ namespace ContextSpeak.Slice
             Player.ConversationPartner = partner == Partner.Rowan ? Rowan : partner == Partner.Hazel ? Hazel : resident.transform;
             if (partner == Partner.Resident)
             {
+                if (BeginAdaptiveResident()) return;
                 lesson = Save.Lessons.FirstOrDefault(item => item.SceneId == resident.SceneId && item.Band == Save.Band);
                 if (lesson == null)
                 {
@@ -314,6 +343,7 @@ namespace ContextSpeak.Slice
 
         private void EndConversation()
         {
+            EndAdaptive();
             epoch++;
             voice.Cancel();
             client.Cancel();
@@ -347,6 +377,7 @@ namespace ContextSpeak.Slice
         public void Submit(string text, bool spoken, bool uiAction = false, double? pronunciationScore = null)
         {
             text = (text ?? "").Trim();
+            if (Talking != Partner.None && SubmitAdaptive(text, spoken, uiAction, pronunciationScore)) return;
             if (Talking == Partner.None || working || text.Length == 0 || text.Length > 400) return;
             if (Talking != Partner.Resident || !SpeechAvailable || !spoken || uiAction)
             {
@@ -396,7 +427,6 @@ namespace ContextSpeak.Slice
             text = (text ?? "").Trim();
             if (Talking == Partner.None || working || text.Length == 0 || text.Length > 400) return;
             voice.Cancel();
-            ui.ClearInput();
             if (!uiAction) recognized = text;
 
             if (!uiAction && !spoken && SpeechAvailable)
@@ -441,7 +471,7 @@ namespace ContextSpeak.Slice
                 {
                     if (Talking == Partner.Resident && !string.IsNullOrWhiteSpace(semanticReview?.correction)) practiceTarget = semanticReview.correction;
                     var limit = Save.Strictness == Strictness.Challenge ? 3 : 2;
-                    gate = attempts >= limit ? Gate.ShowModelAndContinue : Gate.RequireRetry;
+                    gate = Save.Learner.Mode == ContextSpeak.Learning.GameMode.GuidedLearning ? Gate.RequireRetry : attempts >= limit ? Gate.ShowModelAndContinue : Gate.RequireRetry;
                     status = gate == Gate.ShowModelAndContinue ? "Here's the model — listen, then carry on." : SpeakingCoach.Hint(practiceTarget, attempts);
                     if (gate == Gate.ShowModelAndContinue) modelAnswer = practiceTarget;
                 }
@@ -471,7 +501,8 @@ namespace ContextSpeak.Slice
                     lastReview.SignificantError = true;
                 }
                 if (Talking == Partner.Resident && lastReview.Corrected != "") correctionQuestion = lesson.Prompt;
-                gate = SpeakingCoach.Decide(Save.Strictness, lastReview, taskMet ? 0 : attempts);
+                gate = Save.Learner.Mode == ContextSpeak.Learning.GameMode.FreeLife ? Gate.OfferRetry
+                    : lastReview.Corrected != "" ? Gate.RequireRetry : SpeakingCoach.Decide(Save.Strictness, lastReview, taskMet ? 0 : attempts);
                 attempts = taskMet ? 0 : attempts + 1;
                 if (taskMet && lastReview.Corrected != "" && gate == Gate.RequireRetry)
                 {
@@ -623,14 +654,19 @@ namespace ContextSpeak.Slice
             if (Talking == Partner.None || working) return;
             if (recorder.State == "recording") { recorder.Stop(); return; }
             if (recorder.State == "requesting") { recorder.Cancel(); return; }
-            if (!SpeechAvailable) { Status("Voice is offline. Type your reply, or start pnpm world:dev and press Reconnect."); return; }
+            if (!ContextSpeak.Learning.VoiceCoach.CanCapture(voice.Occupied, replaySource != null && replaySource.isPlaying, working)) { Status("Listen first. Speak when playback finishes."); return; }
+            if (!SpeechAvailable) { Status("Voice is offline. Start the local companion, then reconnect voice in Settings."); return; }
             voice.Cancel();
+            recorder.MaxSeconds = adaptiveActive && mockExam.Active ? 120 : 20;
+            client.MaxTranscriptCharacters = adaptiveActive && mockExam.Active ? 2400 : 400;
+            if (adaptiveActive && mockExam.Active) mockExam.StartRecording();
             recorder.Begin();
         }
 
         private void Transcribe(byte[] wave)
         {
             if (Talking == Partner.None) return;
+            if (adaptiveActive) CaptureAdaptiveAudio(wave);
             working = true;
             var current = epoch;
             status = "Recognising speech…";
@@ -644,7 +680,7 @@ namespace ContextSpeak.Slice
                     working = false;
                     Submit(text, true, false, score);
                 }));
-            }, error => { if (current == epoch) { working = false; Status(error + " You can retry or type."); } }));
+            }, error => { if (current == epoch) { working = false; Status(error + " Record your reply again to retry."); } }));
         }
 
         // ------------------------------------------------------------------ café service
@@ -841,6 +877,7 @@ namespace ContextSpeak.Slice
                 Status("Finish the corrected reply before changing your order.");
                 return;
             }
+            if (AdaptiveCommand(action, argument)) return;
             switch (action)
             {
                 case "send": Submit(argument, false); break;
@@ -849,9 +886,10 @@ namespace ContextSpeak.Slice
                     if (practiceTarget == "") { practiceTarget = lastReview?.Corrected ?? ""; attempts = 0; }
                     if (practiceTarget != "") Record();
                     break;
-                case "repeat": voice.Play(Profile.SpeechRate); break;
-                case "slower": voice.Play(Profile.SpeechRate * 0.78f); break;
+                case "repeat": if (recorder.State != "idle") break; voice.Play(Profile.SpeechRate); break;
+                case "slower": if (recorder.State != "idle") break; voice.Play(Profile.SpeechRate * 0.78f); break;
                 case "hear-correction":
+                    if (recorder.State != "idle") break;
                     var correction = practiceTarget != "" ? practiceTarget : lastReview?.Corrected ?? modelAnswer;
                     if (!string.IsNullOrEmpty(correction)) voice.Say(companion, correction, Profile.SpeechRate * 0.92f, error => Status(error));
                     break;
@@ -877,7 +915,13 @@ namespace ContextSpeak.Slice
                 case "option": SetOption(argument); break;
                 case "quantity": ChangeQuantity(argument); break;
                 case "checkout": if (Talking == Partner.Rowan && !working && Save.Cart.Ready) Submit("That's everything, thanks.", false, true); break;
-                case "panel": panel = panel == argument ? "" : argument; break;
+                case "panel": panel = panel == argument ? SliceUiPolicy.Parent(panel) : argument; break;
+                case "phone-back": panel = SliceUiPolicy.Parent(panel); break;
+                case "phone-home": panel = "phone"; break;
+                case "life-stories":
+                    panel = "";
+                    FindFirstObjectByType<ContextSpeak.LivingWorld.DynamicLifeEventManager>()?.OpenJournal();
+                    break;
                 case "visit": Visit(argument); break;
                 case "motion-preview": PreviewMotion(argument); break;
                 case "plan-route":
@@ -916,7 +960,7 @@ namespace ContextSpeak.Slice
                 case "connect": Connect(); break;
                 case "save": notifySave = true; Persist(); break;
                 case "reset": if (argument == "confirm") ResetGame(); break;
-                case "life": Persist(); WorldScenes.Open("LifeTown", error => Status(error)); break;
+                case "life": Persist(); WorldScenes.Open("LuxuryVilla", error => Status(error)); break;   // the old Life town was retired; home is the villa
             }
             Persist(false);
             Render();
@@ -1055,7 +1099,12 @@ namespace ContextSpeak.Slice
             {
                 if (File.Exists(SavePath)) return SliceSave.Sanitize(JsonUtility.FromJson<SliceSave>(File.ReadAllText(SavePath)));
             }
-            catch (Exception error) { Debug.LogWarning("Forest Café save could not be read; starting fresh. " + error.Message); }
+            catch (Exception error)
+            {
+                Debug.LogWarning("Forest Café save could not be read. Trying the previous backup. " + error.Message);
+                try { if (File.Exists(SavePath + ".bak")) return SliceSave.Sanitize(JsonUtility.FromJson<SliceSave>(File.ReadAllText(SavePath + ".bak"))); }
+                catch (Exception backupError) { Debug.LogWarning("Backup could not be read: " + backupError.Message); }
+            }
             return new SliceSave { Band = (IeltsBand)CharacterProfiles.Draft().Band };
         }
 
@@ -1076,10 +1125,7 @@ namespace ContextSpeak.Slice
             CapturePlayerPosition();
             try
             {
-                var temporary = SavePath + ".tmp";
-                File.WriteAllText(temporary, JsonUtility.ToJson(Save));
-                if (File.Exists(SavePath)) File.Delete(SavePath);
-                File.Move(temporary, SavePath);
+                ContextSpeak.Learning.LearningSaveFile.Write(SavePath, JsonUtility.ToJson(Save));
                 saveVersion++;
 #if UNITY_WEBGL && !UNITY_EDITOR
                 saveState = "saving";
@@ -1121,6 +1167,7 @@ namespace ContextSpeak.Slice
         // ------------------------------------------------------------------ view
         private void ShowToast(string message)
         {
+            ui?.QueueToast(message);
             Toast = message;
             toastUntil = Time.unscaledTime + 6;
         }
@@ -1138,6 +1185,13 @@ namespace ContextSpeak.Slice
             var trail = SpeakingTrail.Create(Save);
             var view = new SliceView
             {
+                Adaptive = adaptiveActive, LearningStage = learning?.Stage ?? ContextSpeak.Learning.LearningStage.IndependentAnswer,
+                LearningFeedback = learningFeedback, LearningStatus = adaptiveActive && !SpeechAvailable ? "MOCK / unassessed — speech and AI are offline. Reconnect in Settings; no learning credit is awarded." : learningStatus, LearningTarget = learning?.VisibleCorrection ?? "",
+                LearningComplete = adaptiveActive && (mockExam.Active ? mockExam.Complete : learning?.Stage == ContextSpeak.Learning.LearningStage.Complete),
+                LearningExam = adaptiveActive && mockExam.Active, CanReplayRecording = recordedReply != null,
+                Coaching = learning?.Scenario.StressTip ?? "",
+                LearningHints = ContextSpeak.Learning.VoiceCoach.Hints(learning?.Scenario, Save.Learner, learning?.Stage ?? ContextSpeak.Learning.LearningStage.IndependentAnswer, mockExam.Active),
+                LearningAssessment = learningAssessment, InputLevel = recorder.Level,
                 Room = room,
                 CharacterName = CharacterProfiles.Draft().Name,
                 Character = Player.Model.GetComponent<PlayerAppearance>()?.Selected ?? PlayerLook.Girl,
@@ -1147,11 +1201,11 @@ namespace ContextSpeak.Slice
                 Cash = CafeMenu.Money(Save.Wallet.Cash), Card = CafeMenu.Money(Save.Wallet.Card),
                 Band = Profile.Label, Strictness = Save.Strictness.ToString(), BandId = Save.Band.ToString(),
                 Energy = Save.Energy, Hunger = Save.Hunger, Thirst = Save.Thirst,
-                Hint = Hint(), Toast = Toast,
+                Hint = Hint(), HintAnchor = HintAnchor(), Toast = Toast,
                 Quest = quest, QuestEarned = Save.Earned.ToArray(),
                 Talking = Talking, Speaker = Speaker,
                 Role = Talking == Partner.Resident ? resident.DisplayRole : Talking == Partner.Rowan ? "Waiter · Forest Café" : "Fishing instructor",
-                Lesson = Talking == Partner.Resident ? lesson : null,
+                Lesson = Talking == Partner.Resident && !adaptiveActive ? lesson : null,
                 Line = npcLine, Glossary = Glossary.In(npcLine), Translation = Save.Translation, Subtitles = Save.Subtitles,
                 Mic = SpeechAvailable ? recorder.State : "offline", Recognized = recognized, Status = status, Busy = working,
                 History = history.ToArray(), Review = lastReview, Gate = gate, PracticeTarget = practiceTarget, ModelAnswer = modelAnswer, AiTip = aiTip,
@@ -1286,7 +1340,14 @@ namespace ContextSpeak.Slice
     /// Everything the interface needs for one frame. The UI never changes game state directly.
     public sealed class SliceView
     {
+        public bool Adaptive, LearningExam, LearningComplete, CanReplayRecording;
+        public float InputLevel;
+        public string[] LearningHints = Array.Empty<string>();
+        public ContextSpeak.Learning.AssessmentRecord LearningAssessment;
+        public ContextSpeak.Learning.LearningStage LearningStage;
+        public string LearningFeedback = "", LearningStatus = "", LearningTarget = "", Coaching = "";
         public string Place, Time, Weather, Cash, Card, Band, BandId, Strictness, Hint, Toast;
+        public Transform HintAnchor;
         public float Energy, Hunger, Thirst;
         public QuestDefinition Quest;
         public string[] QuestEarned;

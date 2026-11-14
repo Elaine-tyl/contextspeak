@@ -73,7 +73,7 @@ namespace ContextSpeak.Slice
             "to be honest", "actually", "sounds great", "that sounds", "right up my alley", "fair enough", "i'm in the mood for", "treat myself",
         };
 
-        public static SpeakingResult Review(string utterance, IeltsBand band, bool taskMet, bool spoken, double? pronunciationScore = null)
+        public static SpeakingResult Review(string utterance, IeltsBand band, bool taskMet, bool spoken, double? pronunciationScore = null, bool includePragmatics = true)
         {
             var original = (utterance ?? "").Trim();
             var corrected = original;
@@ -91,7 +91,7 @@ namespace ContextSpeak.Slice
             corrected = Capitalize(corrected);
 
             var pragmatic = false;
-            if (band >= IeltsBand.Band6)
+            if (includePragmatics && band >= IeltsBand.Band6)
                 foreach (var (pattern, better, why) in Pragmatics)
                     if (pattern.IsMatch(original))
                     {

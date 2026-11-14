@@ -33,6 +33,12 @@ namespace ContextSpeak.Editor
             Set(game, "fishing", new FishingSession(1));
             game.Player = host.AddComponent<CafePlayer>();
             game.Player.enabled = false;
+            // AddComponent invokes Awake in Play mode, but not from an Edit-mode executeMethod.
+            // Initialize the real controller's dependencies without starting the scene/game loop.
+            // Invoke only this component: SendMessage("Awake") would also awaken SliceGame.
+            if (game.Player.Controls == null)
+                typeof(CafePlayer).GetMethod("Awake", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(game.Player, null);
+            Check(game.Player.Controls == host.GetComponent<WorldInput>(), "The isolated player must have its actual WorldInput before exercising reset/back navigation.");
             game.Counter = game.Rowan = host.transform;
             game.Waiter = host.AddComponent<WaiterNpc>();
             game.Waiter.enabled = false;

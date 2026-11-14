@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfa873a7182448529975ab641c24d48, type: 3}
+  m_Name: shopping-mistake
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Proactive.ProactiveEventAsset
+  Definition:
+    Id: shopping-mistake
+    Title: The wrong size
+    Prompt: I think I bought the wrong size. Could you help me ask about an exchange?
+    Goal: Offer help with exchanging the wrong size or suggest checking the return
+      policy.
+    Model: Sure. Let's ask whether you can exchange it with the receipt.
+    Prop: 
+    Locations:
+    - mall
+    Kind: 2
+    Priority: 10
+  RelationshipReward: 4

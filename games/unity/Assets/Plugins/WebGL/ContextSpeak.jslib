@@ -1,6 +1,6 @@
 mergeInto(LibraryManager.library, {
-  CS_MicStart: function (owner, generation) {
-    window.ContextSpeakUnity.record(UTF8ToString(owner), generation);
+  CS_MicStart: function (owner, generation, maxSeconds) {
+    window.ContextSpeakUnity.record(UTF8ToString(owner), generation, maxSeconds);
   },
   CS_MicStop: function () { window.contextSpeakMicrophone.stop(); },
   CS_MicCancel: function () { window.contextSpeakMicrophone.cancel(); },

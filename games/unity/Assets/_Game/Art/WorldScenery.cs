@@ -12,10 +12,13 @@ namespace ContextSpeak.Cafe
     public sealed class SceneryEntry
     {
         public string id, name, sourceHash, usage, zone, purpose, model, motion;
+        public string[] motions;
         public float[] position;
         public float extent;
         public float targetHeight;
+        public float realSize;          // real-world largest dimension in metres; 0 keeps the exhibit size
         public int triangleBudget;
+        public float Size => realSize > 0 ? realSize : extent;
         public Vector3 Point => new Vector3(position[0], position[1], position[2]);
         public string Label => System.Text.RegularExpressions.Regex.Replace(name, @"_\d{8}.*$", "").Replace('_', ' ');
     }
@@ -95,9 +98,28 @@ namespace ContextSpeak.Cafe
                 load.Handle.Completed += result =>
                 {
                     load.Lease.Complete();
+                    if (result.Status == AsyncOperationStatus.Succeeded && result.Result != null) Fit(result.Result, entry);
                     if (closing || !wanted.Contains(entry.id) || result.Status != AsyncOperationStatus.Succeeded) Release(load);
                 };
             }
+        }
+        /// Real-world scale, standing on the ground: exports are normalised per category and keep the mesh's own pivot.
+        public static void Fit(GameObject item, SceneryEntry entry)
+        {
+            var renderers = item.GetComponentsInChildren<Renderer>();
+            if (renderers.Length == 0) return;
+            Bounds Measure()
+            {
+                var bounds = renderers[0].bounds;
+                foreach (var renderer in renderers) bounds.Encapsulate(renderer.bounds);
+                return bounds;
+            }
+            var size = Measure().size;
+            var largest = Mathf.Max(size.x, size.y, size.z);
+            if (entry.realSize > 0 && largest > 0.0001f) item.transform.localScale *= entry.realSize / largest;
+            var fitted = Measure();
+            var ground = entry.Point;
+            item.transform.position += new Vector3(ground.x - fitted.center.x, ground.y - fitted.min.y, ground.z - fitted.center.z);
         }
         private void Release(Load load)
         {

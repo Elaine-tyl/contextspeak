@@ -13,6 +13,8 @@ namespace ContextSpeak.Editor
 {
     public static class WorldBuild
     {
+        /// NavMesh voxel size; large outdoor scenes (the beach) raise it temporarily for a quicker bake.
+        public static float VoxelSize = 0.08f;
         public static void Configure(CafePlayer player, Transform[] actors, string district)
         {
             var folder = "Assets/Generated/Resources";
@@ -34,7 +36,7 @@ namespace ContextSpeak.Editor
                 ?? new GameObject("Walkable neighborhood").AddComponent<NavMeshSurface>();
             surface.useGeometry = NavMeshCollectGeometry.PhysicsColliders;
             surface.overrideVoxelSize = true;
-            surface.voxelSize = 0.08f;
+            surface.voxelSize = VoxelSize;
             surface.BuildNavMesh();
             var navPath = "Assets/Generated/Navigation-" + district + ".asset";
             var existing = AssetDatabase.LoadAssetAtPath<NavMeshData>(navPath);

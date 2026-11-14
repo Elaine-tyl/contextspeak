@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfa873a7182448529975ab641c24d48, type: 3}
+  m_Name: reach-item
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Proactive.ProactiveEventAsset
+  Definition:
+    Id: reach-item
+    Title: A little help
+    Prompt: Excuse me, could you help me reach that cereal on the shelf?
+    Goal: Respond safely to the request; offering to ask staff is also valid.
+    Model: Of course. If it's too high, we can ask a member of staff.
+    Prop: 
+    Locations:
+    - supermarket
+    Kind: 2
+    Priority: 10
+  RelationshipReward: 4

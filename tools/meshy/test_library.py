@@ -9,6 +9,32 @@ from tools.meshy import library
 
 
 class LibraryTests(unittest.TestCase):
+    def test_incremental_intake_preserves_models_no_longer_in_downloads(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            downloads, target = root / 'Downloads', root / 'Assets'
+            downloads.mkdir()
+            first = downloads / 'First.fbx'
+            first.write_bytes(b'first')
+            old = library.import_all(downloads, target)
+            first.unlink()
+            (downloads / 'Second.fbx').write_bytes(b'second')
+            records = library.import_all(downloads, target, merge=True)
+            self.assertEqual(len(records), 2)
+            self.assertIn(old[0], records)
+            self.assertEqual(records, library.import_all(downloads, target, merge=True))
+
+    def test_unrelated_invalid_zip_and_project_backup_do_not_block_meshy(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            (root / 'unrelated.zip').write_text('not a ZIP archive')
+            (root / 'New.fbx').write_bytes(b'new')
+            with zipfile.ZipFile(root / 'ContextSpeak-project-backup.zip', 'w') as pack:
+                pack.writestr('Assets/Old.fbx', b'old')
+            sources = library.discover(root)
+            self.assertEqual(len(sources), 1)
+            self.assertEqual(sources[0][0], (root / 'New.fbx', None))
+
     def test_all_fbx_sources_are_imported_without_a_brand_name(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

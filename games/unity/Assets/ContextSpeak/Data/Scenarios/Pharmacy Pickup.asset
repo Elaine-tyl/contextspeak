@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Pharmacy Pickup
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Pharmacy Pickup
+  Location: Hospital
+  Steps:
+  - id: prescription
+    speaker: pharmacist
+    simple: Hello. Do you have a prescription?
+    standard: Hi, are you collecting a prescription?
+    advanced: Hi there. Are you here to collect a prescription, or would you like
+      to buy something over the counter?
+    expert: 
+    goal: Say you are collecting a prescription.
+    meaning: yes|yeah|yep|sure|of course|okay|ok|please|that'?s right|correct|prescription|doctor|collect|pick
+      up|here|have|got
+    model: Yes, I'm collecting a prescription from Doctor Patel.
+    vocabulary: 'prescription: the doctor''s order for medicine|over the counter:
+      without a prescription'
+    onComplete: 
+  - id: identity
+    speaker: pharmacist
+    simple: What is your name and birthday?
+    standard: Can you confirm your name and date of birth?
+    advanced: Just to make sure I give this to the right person, can you confirm
+      your name and date of birth?
+    expert: 
+    goal: Confirm your name and date of birth.
+    meaning: i'?m|i am|it'?s|my name|name is|born|\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|zero|oh|twenty|thirty
+    model: Emma Lee, fourteenth of March, nineteen ninety-eight.
+    vocabulary: 
+    onComplete: 
+  - id: dosage
+    speaker: pharmacist
+    simple: One tablet, three times a day, after food. Can you say it back?
+    standard: Take one tablet three times a day after meals, for five days. Can you
+      tell me how you'll take it?
+    advanced: These are taken one tablet three times a day after meals, and please
+      finish the full five-day course even if you feel better. Could you repeat the
+      instructions back to me?
+    expert: 
+    goal: Repeat the instructions in your own words.
+    meaning: three times|3 times|after|meal|food|one tablet|1 tablet|a day|five days|5
+      days|course|finish
+    model: One tablet three times a day after meals, for five days.
+    vocabulary: 'tablet: a small pill|course: the full time you take a medicine'
+    onComplete: 
+  - id: pay
+    speaker: pharmacist
+    simple: That is eighteen fifty. Card or cash?
+    standard: That comes to eighteen dollars fifty. How would you like to pay?
+    advanced: Your total today is eighteen dollars fifty. Would you like to pay by
+      card or cash, and would you like a bag?
+    expert: 
+    goal: Say how you will pay.
+    meaning: card|cash|pay|credit|debit|phone|tap|bag|yes|yeah|yep|sure|of course|okay|ok|please|that'?s
+      right|correct
+    model: By card, please. And yes, a bag, thanks.
+    vocabulary: 'tap: pay by touching your card on the machine'
+    onComplete: pay

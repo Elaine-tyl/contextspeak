@@ -49,6 +49,8 @@ def discover(downloads):
     """Include renamed/unbranded FBXs and case-insensitive ZIP extensions."""
     sources = []
     for path in sorted(p for p in downloads.rglob('*') if p.is_file() and p.suffix.lower() == '.zip'):
+        if path.name.startswith('ContextSpeak') or not zipfile.is_zipfile(path):
+            continue
         with zipfile.ZipFile(path) as archive:
             files = [i.filename for i in archive.infolist() if not i.is_dir() and not i.filename.startswith('__MACOSX/')]
             models = [n for n in files if PurePosixPath(n).suffix.lower() == '.fbx']
@@ -60,6 +62,8 @@ def discover(downloads):
                     raise ValueError('Unsafe archive path: ' + entry.filename)
                 if entry.file_size > 2_000_000_000:
                     raise ValueError('Asset exceeds 2 GB: ' + entry.filename)
+            if any(model.endswith('_All_animation.fbx') for model in models):
+                models = [model for model in models if not model.endswith('_character_mixamo.fbx')]
             for model in models:
                 sources.append(((path, model), textures(PurePosixPath(model), files)))
     for path in sorted(downloads.rglob('*')):
@@ -118,15 +122,22 @@ def pack_surface(folder, maps):
     Image.merge('RGBA', (metallic, zero, zero, ImageOps.invert(roughness))).save(target)
 
 
-def import_all(downloads, destination, sources=None):
+def import_all(downloads, destination, sources=None, retired=None, merge=False):
+    if retired is None:
+        registry = Path(__file__).with_name('replacements.json')
+        replacements = json.loads(registry.read_text()) if registry.exists() else {}
+        retired = {sha for actor in replacements.values() for sha in actor['superseded']}
     discovered = discover(downloads) if sources is None else sources  # Validate paths before creating any asset files.
     manifest = destination / 'manifest.json'
     previous = json.loads(manifest.read_text())['models'] if manifest.exists() else []
     canonical = {record['sha256']: record for record in previous}
-    records = {}
+    records = {sha: {**record, 'textures': dict(record['textures']), 'sources': list(record['sources'])}
+               for sha, record in canonical.items() if sha not in retired} if merge else {}
     for source, images in discovered:
         path, member = source
         sha = digest(source)
+        if sha in retired:
+            continue
         name = Path(member or path.name).stem
         label = re.sub(r'^Meshy_AI_', '', name, flags=re.I)
         label = re.sub(r'[^\w.-]+', '_', label).strip('_')
@@ -136,7 +147,8 @@ def import_all(downloads, destination, sources=None):
             'fbx': existing.get('fbx', folder_name + '/' + name + '.fbx'),
             'textures': {}, 'sources': []})
         alias = path.relative_to(downloads).as_posix() + ('::' + member if member else '')
-        record['sources'].append(alias)
+        if alias not in record['sources']:
+            record['sources'].append(alias)
         folder = destination / Path(record['fbx']).parent
         copy_source(source, destination / record['fbx'])
         for channel, image in images.items():
@@ -160,6 +172,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--downloads', type=Path, default=Path.home() / 'Downloads')
     parser.add_argument('--destination', type=Path, default=DESTINATION)
+    parser.add_argument('--merge', action='store_true', help='Keep existing imports when adding new downloads')
     args = parser.parse_args()
-    records = import_all(args.downloads, args.destination)
+    records = import_all(args.downloads, args.destination, merge=args.merge)
     print(f'Prepared {len(records)} unique FBXs in {args.destination}')

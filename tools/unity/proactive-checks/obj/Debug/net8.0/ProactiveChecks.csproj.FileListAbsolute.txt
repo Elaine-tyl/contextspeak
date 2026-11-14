@@ -1,0 +1,15 @@
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ProactiveChecks.GeneratedMSBuildEditorConfig.editorconfig
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ProactiveChecks.AssemblyInfoInputs.cache
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ProactiveChecks.AssemblyInfo.cs
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ProactiveChecks.csproj.CoreCompileInputs.cache
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ProactiveChecks.sourcelink.json
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/bin/Debug/net8.0/ProactiveChecks
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/bin/Debug/net8.0/ProactiveChecks.deps.json
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/bin/Debug/net8.0/ProactiveChecks.runtimeconfig.json
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/bin/Debug/net8.0/ProactiveChecks.dll
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/bin/Debug/net8.0/ProactiveChecks.pdb
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ProactiveChecks.dll
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/refint/ProactiveChecks.dll
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ProactiveChecks.pdb
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ProactiveChecks.genruntimeconfig.cache
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/proactive-checks/obj/Debug/net8.0/ref/ProactiveChecks.dll

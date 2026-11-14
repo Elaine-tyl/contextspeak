@@ -1,4 +1,5 @@
 """Prepare supplied clips with native FBX skinning; source files stay intact."""
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -9,8 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 LIBRARY = ROOT / 'games/unity/Assets/_Game/Art/MeshyLibrary'
 OUTPUT = ROOT / 'games/unity/Assets/_Game/Art/Motion'
 BINDINGS = [
-    ('Academy', 'Vault', '74029dec02'), ('Daydream', 'Walk', '69bf1600ee'),
-    ('Daydream', 'Run', '65f2722621'), ('TrenchElder', 'Walk', '81fedc6499'),
+    ('TrenchElder', 'Walk', '81fedc6499'),
     ('OldCardigan', 'Walk', '64f9efaab6'),
     ('OfficerMason', 'Walk', '816fb69a44'), ('OfficerTaylor', 'Walk', '5f00929bd8'),
 ]
@@ -20,7 +20,13 @@ def prepare():
     OUTPUT.mkdir(parents=True, exist_ok=True)
     entries = []
     heights = {item['id']: item['height'] for item in json.loads(Path(__file__).with_name('models.json').read_text())}
-    for model, motion, prefix in BINDINGS:
+    registry_path = Path(__file__).with_name('replacements.json')
+    replacements = json.loads(registry_path.read_text()) if registry_path.exists() else {}
+    bindings = [(model, motion, prefix, None) for model, motion, prefix in BINDINGS]
+    for model, replacement in replacements.items():
+        bindings.extend((model, binding['motion'], replacement['sourceHash'], binding['take'])
+                        for binding in replacement['bindings'])
+    for model, motion, prefix, take in bindings:
         source = next(item for item in records if item['sha256'].startswith(prefix))
         folder = OUTPUT / 'Textures' / model
         folder.mkdir(parents=True, exist_ok=True)
@@ -41,7 +47,12 @@ def prepare():
             maps[channel] = target.relative_to(OUTPUT).as_posix()
         entries.append({'model': model, 'motion': motion, 'sourceHash': source['sha256'],
                         'source': source['fbx'], 'height': heights[model], 'textures': maps,
-                        'file': model + '-' + motion + '.fbx'})
+                        'file': model + ('-All' if take else '-' + motion) + '.fbx',
+                        **({'take': take, 'native': True} if take else {})})
+        if take:
+            target = OUTPUT / (model + '-All.fbx')
+            if not target.exists() or hashlib.sha256(target.read_bytes()).hexdigest() != source['sha256']:
+                shutil.copy2(LIBRARY / source['fbx'], target)
     (OUTPUT / 'manifest.json').write_text(json.dumps(entries, indent=2) + '\n')
     subprocess.run(['/Applications/Blender.app/Contents/MacOS/Blender', '--background', '--factory-startup',
                     '--python-exit-code', '1', '--python', str(Path(__file__).with_name('motion_export.py'))],

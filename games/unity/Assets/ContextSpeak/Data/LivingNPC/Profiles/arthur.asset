@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: arthur
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: arthur
+  DisplayName: Arthur Bell
+  Age: 4
+  Occupation: Retiree
+  Home: riverside
+  Work: 
+  Model: OldCardigan
+  Personality:
+    Sociability: 0.75
+    Shyness: 0.2
+    Patience: 0.9
+    Busyness: 0.1
+    Distraction: 0.1
+    CommunicationStyle: friendly
+  Friends:
+  - officer
+  - david
+  Family: []
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 6, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 6, \"endHour\": 8, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 8, \"endHour\":
+    10, \"activity\": \"Rest\", \"location\": \"street\" },\n  { \"startHour\": 10,
+    \"endHour\": 11, \"activity\": \"Coffee\", \"location\": \"Forest Caf\xE9\" },\n 
+    { \"startHour\": 11, \"endHour\": 12, \"activity\": \"Shop\", \"location\": \"supermarket\"
+    },\n  { \"startHour\": 12, \"endHour\": 16, \"activity\": \"Wander\", \"location\":
+    \"street\" },\n  { \"startHour\": 16, \"endHour\": 21, \"activity\": \"Relax\",
+    \"location\": \"home\" },\n  { \"startHour\": 21, \"endHour\": 24, \"activity\":
+    \"Sleep\", \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 8
+  Voice:
+    Accent: 1
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Morning, morning!
+  - Lovely day!
+  SmallTalk:
+  - In my day this street had a bakery.
+  - My knees don't like the cold.
+  MemorySummary: 

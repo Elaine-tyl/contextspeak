@@ -98,6 +98,8 @@ namespace ContextSpeak.Slice
         public Weather Weather = Weather.Clear;
         public float NextWeather = 30;
         public const float MinutesPerSecond = 1f; // one real second = one game minute
+        /// Set by the sky system (SkySystem.AllowNight). False keeps the old daytime-only loop.
+        public static bool AllowNight = true;
 
         public int MinuteOfDay => (int)Minute;
         public string Time => $"{(int)Minute / 60:00}:{(int)Minute % 60:00}";
@@ -115,7 +117,16 @@ namespace ContextSpeak.Slice
         public void Tick(float dt, Random random)
         {
             Minute += dt * MinutesPerSecond;
-            if (Minute >= 24 * 60) { Minute -= 24 * 60; Day++; }
+            if (AllowNight)
+            {
+                if (Minute >= 24 * 60) { Minute -= 24 * 60; Day++; }
+            }
+            else
+            {
+                // Daytime only: after 6 pm the next day starts at 8 am, so there is never a night.
+                if (Minute >= 18 * 60) { Minute = 8 * 60; Day++; }
+                if (Minute < 7 * 60) Minute = 8 * 60;
+            }
             NextWeather -= dt * MinutesPerSecond;
             if (NextWeather > 0) return;
             var roll = random.NextDouble();
@@ -129,6 +140,7 @@ namespace ContextSpeak.Slice
     public sealed class SliceSave
     {
         public int Version = 1;
+        public ContextSpeak.Learning.LearnerMemory Learner = new ContextSpeak.Learning.LearnerMemory();
         public IeltsBand Band = IeltsBand.Band3;
         public Strictness Strictness = Strictness.Guided;
         public bool Subtitles = true, Translation;
@@ -164,6 +176,7 @@ namespace ContextSpeak.Slice
         {
             if (save == null || save.Version != 1) return new SliceSave();
             if (!BandProfile.Valid(save.Band)) save.Band = IeltsBand.Band3;
+            save.Learner = ContextSpeak.Learning.LearningMemoryService.Sanitize(save.Learner);
             save.Wallet = save.Wallet ?? new Wallet();
             save.Cart = save.Cart ?? new OrderCart();
             save.Cart.Lines = (save.Cart.Lines ?? new List<CartLine>()).Where(line => line != null && CafeMenu.Find(line.Item) != null).ToList();

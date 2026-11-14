@@ -28,6 +28,13 @@ class EnvironmentTests(unittest.TestCase):
                     if any(channel in mat for mat in original['materials']):
                         self.assertTrue(any(channel in mat for mat in copy['materials']), channel)
 
+    def test_new_meshy_wildlife_and_vehicle_are_categorized_for_their_scenes(self):
+        for name in ['Amber_Octopus', 'Dolphin_in_Flight']:
+            self.assertEqual(category(name, '')[0], 'Aquarium')
+        for name in ['Elephant_with_Raised', 'Zoo_Elephant', 'Mud_Splashed_Rhino', 'Tiger_on_the_Prowl']:
+            self.assertEqual(category(name, '')[0], 'Animals')
+        self.assertEqual(category('Desert_Sentinel_Hummer', '')[0], 'Vehicles')
+
     def test_pianos_keep_instrument_scale(self):
         for name in ['grand_piano_with_beethoven', 'рояль_на_кру']:
             self.assertEqual(category(name, '')[2], 3.0)

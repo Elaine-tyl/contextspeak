@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Doctor Consultation
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Doctor Consultation
+  Location: Hospital
+  Steps:
+  - id: problem
+    speaker: doctor
+    simple: Hello. What is the problem?
+    standard: Hello, I'm Doctor Patel. What seems to be the problem today?
+    advanced: Good morning, I'm Doctor Patel. Tell me what's been going on and what
+      made you decide to come in today.
+    expert: 
+    goal: Describe your main symptom (use your practice case card).
+    meaning: sore|throat|fever|temperature|headache|head|cough|ankle|wrist|hurt|pain|ache|sick|dizzy|twist|swollen|cold|flu|stomach|tired|rash
+    model: I've had a sore throat and a high temperature.
+    vocabulary: 'symptom: a sign that you are ill|sore: painful|temperature: fever,
+      a hot body'
+    onComplete: 
+  - id: since
+    speaker: doctor
+    simple: When did it start?
+    standard: When did it start?
+    advanced: How long have you been feeling like this, and has it been getting better
+      or worse?
+    expert: 
+    goal: Say how long you have had it.
+    meaning: yesterday|ago|since|day|week|morning|night|last|today|start|began|for|hour|\d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|zero|oh|twenty|thirty
+    model: It started two days ago, and it's getting worse.
+    vocabulary: 'getting worse: becoming more serious'
+    onComplete: 
+  - id: severity
+    speaker: doctor
+    simple: Is it bad? One to ten?
+    standard: On a scale of one to ten, how bad is the pain?
+    advanced: If you had to rate it on a scale from one to ten, how severe is it,
+      and does anything make it better or worse?
+    expert: 
+    goal: Rate how bad it is.
+    meaning: \d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|zero|oh|twenty|thirty|bad|mild|terrible|awful|not
+      too|quite|very|really|worse|better|when
+    model: About six out of ten. It's worse when I swallow.
+    vocabulary: 'scale: a range of numbers|severe: very bad|swallow: move food down
+      your throat'
+    onComplete: 
+  - id: allergy
+    speaker: doctor
+    simple: Are you allergic to any medicine?
+    standard: Do you have any allergies to medication?
+    advanced: Before I prescribe anything, are you allergic to any medication, and
+      are you taking anything at the moment?
+    expert: 
+    goal: Answer about allergies and medicine.
+    meaning: allerg|no|nope|not|never|none|nothing|i don'?t|yes|penicillin|aspirin|ibuprofen|taking|medicine|medication|vitamin
+    model: No, I'm not allergic to anything, and I'm not taking any medicine.
+    vocabulary: 'allergic: your body reacts badly to something|prescribe: write an
+      order for medicine'
+    onComplete: 
+  - id: questions
+    speaker: doctor
+    simple: Rest and drink water. Any questions?
+    standard: It looks like a mild infection. Rest, drink plenty of water and take
+      the medicine I'm prescribing. Do you have any questions?
+    advanced: It looks like a mild throat infection. I'll prescribe something, but
+      rest and fluids matter most. If it isn't better in five days, come back. Is
+      there anything you'd like to ask me?
+    expert: 
+    goal: Ask one question, or say you have none and thank the doctor.
+    meaning: how|what|when|can i|should i|is it|will|do i|how long|work|school|no|nope|not|never|none|nothing|i
+      don'?t|thank|thanks|cheers|great|perfect|lovely|okay|ok|fine|bye|that'?s all|question
+    model: Can I go to work tomorrow?
+    vocabulary: 'infection: an illness caused by germs|fluids: drinks'
+    onComplete: consult-done

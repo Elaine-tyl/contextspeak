@@ -8,6 +8,8 @@ ROOT = Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / 'games/unity/Assets/_Game/Art/Motion'
 LIBRARY = ROOT / 'games/unity/Assets/_Game/Art/MeshyLibrary'
 for item in json.loads((OUTPUT / 'manifest.json').read_text()):
+    if item.get('native'):
+        continue
     bpy.ops.wm.read_factory_settings(use_empty=True)
     bpy.ops.import_scene.fbx(filepath=str(LIBRARY / item['source']))
     rigs = [obj for obj in bpy.data.objects if obj.type == 'ARMATURE']

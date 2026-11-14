@@ -34,12 +34,13 @@ class WorldAssetTests(unittest.TestCase):
         path = ART / 'WorldAssets/catalog.json'
         self.assertTrue(path.exists(), 'Supplied animation bindings are absent')
         catalog = json.loads(path.read_text())
-        motions = [item for item in catalog if item.get('motion')]
+        motions = [{**item, 'motion': role} for item in catalog
+                   for role in item.get('motions', [item['motion']] if item.get('motion') else [])]
         expected = json.loads((ART / 'Motion/manifest.json').read_text())
         self.assertEqual(len(motions), len(expected))
         self.assertEqual({(m['sourceHash'], m['model'], m['motion']) for m in motions},
                          {(m['sourceHash'], m['model'], m['motion']) for m in expected})
-        self.assertEqual({item['motion'] for item in motions}, {'Walk', 'Run', 'Vault'})
+        self.assertTrue({'Walk', 'Run', 'Vault'}.issubset({item['motion'] for item in motions}))
         self.assertTrue(all(item['model'] in {item['model'] for item in expected} for item in motions))
 
 if __name__ == '__main__':

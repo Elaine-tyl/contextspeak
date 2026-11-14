@@ -18,36 +18,40 @@ namespace ContextSpeak.Cafe
             var root = CafeInterface.CreateRoot(gameObject);
             var hud = new VisualElement { name = "hud" };
             root.Add(hud);
-            hud.Add(new Label("ContextSpeak Life"));
-            hud.Add(new Label("YOUR FIRST DAY"));
             objective = new Label();
             wallet = new Label();
             bag = new Label();
             hud.Add(objective);
-            hud.Add(wallet);
-            hud.Add(bag);
-            hud.Add(Button("Walk to objective", "walk"));
-            hud.Add(Button("Menu · M", "menu"));
+            var actions = new Foldout { text = "Your day · options", value = false };
+            actions.AddToClassList("context-actions");
+            hud.Add(actions);
+            actions.Add(wallet);
+            actions.Add(bag);
+            actions.Add(Button("Walk to objective", "walk"));
+            actions.Add(Button("Menu · M", "menu"));
             travelStatus = new Label { enableRichText = false };
             hud.Add(travelStatus);
-            hud.Add(new Label("Test stage · unearned practice"));
+            actions.Add(new Label("Test stage · unearned practice"));
             var stages = new DropdownField(new List<string> { "Continue saved day", "Home · practice", "Market · practice", "Cafe · practice", "Friend · practice" }, 0);
             var ids = new[] { "continue", "home", "market", "cafe", "friend" };
             stages.RegisterValueChangedCallback(change => Command?.Invoke("stage", ids[stages.index]));
-            hud.Add(stages);
-            hud.Add(Button("Reconnect local AI", "connect"));
-            hud.Add(Button("Original cafe", "cafe"));
-            hud.Add(Button("Forest Café (new)", "slice"));
+            actions.Add(stages);
+            actions.Add(Button("Reconnect local AI", "connect"));
+            actions.Add(Button("Original cafe", "cafe"));
+            actions.Add(Button("Forest Café (new)", "slice"));
             menuPanel = new VisualElement { name = "life-menu" };
             menu = new Label { enableRichText = false };
             menuPanel.Add(menu);
             menuRows = new VisualElement { name = "life-menu-items" };
             menuPanel.Add(menuRows);
+            menuPanel.AddToClassList("paper");
+            menuPanel.AddToClassList("receipt");
             root.Add(menuPanel);
             nearby = Button("Talk", "interact");
             nearby.AddToClassList("nearby");
             root.Add(nearby);
             dialogue = new ScrollView(ScrollViewMode.Vertical) { name = "dialogue" };
+            dialogue.AddToClassList("subtitle-card");
             root.Add(dialogue);
             speaker = new Label();
             speaker.AddToClassList("speaker");
@@ -60,6 +64,9 @@ namespace ContextSpeak.Cafe
             dialogue.Add(feedback);
             dialogue.Add(repair);
             dialogue.Add(transcript);
+            var practice = new Label("Speaking practice feedback · not an official IELTS score.") { enableRichText = false };
+            practice.AddToClassList("practice-note");
+            dialogue.Add(practice);
             reply = new TextField("Typed rehearsal") { maxLength = 400 };
             reply.RegisterCallback<KeyDownEvent>(ev => {
                 if (ev.keyCode != KeyCode.Return) return;
@@ -77,9 +84,7 @@ namespace ContextSpeak.Cafe
             dialogue.Add(buttons);
             status = new Label { enableRichText = false };
             dialogue.Add(status);
-            var controls = new Label("WASD / arrows to walk · Shift to run · Space to jump · E to talk · M for menu · Right-drag to look · Esc to explore");
-            controls.AddToClassList("controls");
-            root.Add(controls);
+
         }
         private Button Button(string text, string action)
         {
@@ -91,6 +96,7 @@ namespace ContextSpeak.Cafe
             wallet.text = "Wallet · " + state.wallet;
             bag.text = "Bag · " + state.bag;
             travelStatus.text = state.dialogue ? "" : state.status;
+            travelStatus.style.display = string.IsNullOrEmpty(travelStatus.text) ? DisplayStyle.None : DisplayStyle.Flex;
             nearby.text = state.nearby;
             nearby.style.display = state.nearby == "" ? DisplayStyle.None : DisplayStyle.Flex;
             menu.text = state.menu;

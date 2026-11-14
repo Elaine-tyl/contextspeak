@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Restaurant Order
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Restaurant Order
+  Location: Restaurant
+  Steps:
+  - id: order
+    speaker: waiter
+    simple: What would you like?
+    standard: Are you ready to order?
+    advanced: Have you had a chance to look at the menu? What can I get for you?
+    expert: 
+    goal: Say what you chose from the menu.
+    meaning: i'?d like|i will|i'?ll have|can i|could i|please|have|get
+    model: I'd like the soup to start, and then the fish, please.
+    vocabulary: 'to start: as the first course|main: the main dish'
+    onComplete: 
+  - id: allergy
+    speaker: waiter
+    simple: Any allergies?
+    standard: Do you have any allergies or dietary requirements?
+    advanced: Before I send that to the kitchen, does anyone have allergies or dietary
+      requirements I should let the chef know about?
+    expert: 
+    goal: Answer about allergies.
+    meaning: allerg|no|nope|not|never|none|nothing|i don'?t|yes|nut|peanut|gluten|dairy|milk|shellfish|egg|vegetarian|vegan|fine
+    model: No allergies, thank you.
+    vocabulary: 'dietary requirements: food you cannot or do not eat'
+    onComplete: 
+  - id: confirm
+    speaker: waiter
+    simple: Okay. Anything else?
+    standard: Lovely. Anything else for now?
+    advanced: Perfect, I'll put that through for you. Is there anything else I can
+      get while you wait?
+    expert: 
+    goal: Finish the order politely.
+    meaning: thank|thanks|cheers|great|perfect|lovely|okay|ok|fine|bye|that'?s all|no|nope|not|never|none|nothing|i
+      don'?t|yes|yeah|yep|sure|of course|okay|ok|please|that'?s right|correct|bread|water|that'?s
+      it|for now
+    model: No, that's everything for now, thanks.
+    vocabulary: 'put through: send the order'
+    onComplete: order-placed

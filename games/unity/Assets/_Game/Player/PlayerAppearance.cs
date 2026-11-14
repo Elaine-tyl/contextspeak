@@ -27,7 +27,7 @@ namespace ContextSpeak.Cafe
             Girl.SetActive(target == Girl);
             Boy.SetActive(target == Boy);
             if (!motion.Preview(role)) { Restore(); return false; }
-            var clip = role == "Vault" ? motion.Vault : role == "Run" ? motion.Run : motion.Walk;
+            var clip = motion.Find(role);
             if (Application.isPlaying) preview = StartCoroutine(RestoreAfter(Mathf.Max(clip.length, 2) + 0.1f));
             else Restore();
             return true;

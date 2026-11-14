@@ -126,7 +126,8 @@ namespace ContextSpeak.Editor
             var sliceVisible = slicePanel.worldBound.width > 100 && slicePanel.worldBound.width <= 640
                 && slicePanel.worldBound.yMin >= sliceRoot.worldBound.yMin
                 && slicePanel.worldBound.yMax <= sliceRoot.worldBound.yMax
-                && sliceRoot.Q<TextField>().worldBound.height >= 30
+                && slicePanel.Query<TextField>().ToList().Count == 0
+                && slicePanel.Query<Button>().ToList().Any(button => button.ClassListContains("mic") && button.enabledSelf)
                 && sliceRoot.Query<Label>().ToList().Any(label => label.text.StartsWith("ContextSpeak"));
             sliceSnapshot.Panel = "map";
             sliceView.Render(sliceSnapshot);

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: ben
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: ben
+  DisplayName: Ben Taylor
+  Age: 2
+  Occupation: Personal trainer
+  Home: riverside
+  Work: street
+  Model: Daydream
+  Personality:
+    Sociability: 0.65
+    Shyness: 0.2
+    Patience: 0.6
+    Busyness: 0.7
+    Distraction: 0.2
+    CommunicationStyle: friendly
+  Friends:
+  - jack
+  Family: []
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 6, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 6, \"endHour\": 7, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 7, \"endHour\":
+    11, \"activity\": \"Wander\", \"location\": \"street\" },\n  { \"startHour\":
+    11, \"endHour\": 12, \"activity\": \"Coffee\", \"location\": \"caf\xE9\" },\n 
+    { \"startHour\": 12, \"endHour\": 16, \"activity\": \"Wander\", \"location\":
+    \"street\" },\n  { \"startHour\": 16, \"endHour\": 22, \"activity\": \"Relax\",
+    \"location\": \"home\" },\n  { \"startHour\": 22, \"endHour\": 24, \"activity\":
+    \"Sleep\", \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 6
+  Voice:
+    Accent: 0
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Hey!
+  - How's it going?
+  SmallTalk:
+  - Just finished a 10k!
+  - Staying hydrated?
+  MemorySummary: 

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Restaurant Delivery
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Restaurant Delivery
+  Location: Restaurant
+  Steps:
+  - id: serve
+    speaker: waiter
+    simple: Here is your food. Enjoy!
+    standard: Here you are. Can I get you anything else?
+    advanced: Here we are. Careful, the plate's hot. Can I bring you any sauces or
+      anything else?
+    expert: 
+    goal: Thank the waiter, or ask for something.
+    meaning: thank|thanks|cheers|great|perfect|lovely|okay|ok|fine|bye|that'?s all|no|nope|not|never|none|nothing|i
+      don'?t|yes|yeah|yep|sure|of course|okay|ok|please|that'?s right|correct|sauce|ketchup|pepper|salt|napkin|water|looks|smells
+    model: Thank you, it looks delicious.
+    vocabulary: 
+    onComplete: served

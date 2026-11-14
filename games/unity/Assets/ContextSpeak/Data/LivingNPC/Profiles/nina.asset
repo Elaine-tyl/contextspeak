@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: nina
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: nina
+  DisplayName: Nina Kowalski
+  Age: 3
+  Occupation: Nurse
+  Home: riverside
+  Work: tram_east
+  Model: CafeCharm
+  Personality:
+    Sociability: 0.4
+    Shyness: 0.4
+    Patience: 0.6
+    Busyness: 0.8
+    Distraction: 0.5
+    CommunicationStyle: friendly
+  Friends:
+  - zoe
+  Family: []
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 7, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 7, \"endHour\": 8, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 8, \"endHour\":
+    9, \"activity\": \"Commute\", \"location\": \"tram\" },\n  { \"startHour\": 9,
+    \"endHour\": 17, \"activity\": \"Wander\", \"location\": \"street\" },\n  { \"startHour\":
+    17, \"endHour\": 18, \"activity\": \"Coffee\", \"location\": \"caf\xE9\" },\n 
+    { \"startHour\": 18, \"endHour\": 23, \"activity\": \"Relax\", \"location\":
+    \"home\" },\n  { \"startHour\": 23, \"endHour\": 24, \"activity\": \"Sleep\",
+    \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 7
+  Voice:
+    Accent: 7
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Hi!
+  SmallTalk:
+  - "Long night shift\u2026"
+  - I need a coffee!
+  MemorySummary: 

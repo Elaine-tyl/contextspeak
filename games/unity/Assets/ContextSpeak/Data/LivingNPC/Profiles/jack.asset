@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: jack
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: jack
+  DisplayName: Jack Wilson
+  Age: 1
+  Occupation: High-school student
+  Home: riverside
+  Work: school
+  Model: Daydream
+  Personality:
+    Sociability: 0.65
+    Shyness: 0.3
+    Patience: 0.6
+    Busyness: 0.4
+    Distraction: 0.6
+    CommunicationStyle: friendly
+  Friends:
+  - sophie
+  - ava
+  Family: []
+  Coworkers: []
+  WalkWith: sophie
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 7, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 7, \"endHour\": 7.8, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 7.8, \"endHour\":
+    15, \"activity\": \"School\", \"location\": \"school\" },\n  { \"startHour\":
+    15, \"endHour\": 17, \"activity\": \"Socialize\", \"location\": \"caf\xE9\" },\n 
+    { \"startHour\": 17, \"endHour\": 22.5, \"activity\": \"Relax\", \"location\":
+    \"home\" },\n  { \"startHour\": 22.5, \"endHour\": 24, \"activity\": \"Sleep\",
+    \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 5
+  Voice:
+    Accent: 0
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Hey!
+  - Yo!
+  SmallTalk:
+  - I'm so tired today.
+  - Did you watch the game?
+  - Let's walk together!
+  MemorySummary: 

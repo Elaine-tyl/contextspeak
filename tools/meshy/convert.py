@@ -6,7 +6,7 @@ import sys
 import bpy
 sys.path.insert(0, str(Path(__file__).parent))
 from locomotion import rig_relaxed_character
-from pose import relaxed_arm
+from pose import relaxed_arm, pose_arms
 from mathutils import Vector
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -116,12 +116,8 @@ def convert(record, staging, render_preview=True):
     root.location = Vector((-(upper.x + lower.x) / 2, -(upper.y + lower.y) / 2, -lower.z)) * scale
     bpy.context.view_layer.update()
     if record.get('relaxArms') and not rigs:
-        for obj in meshes:
-            inverse = obj.matrix_world.inverted()
-            for vertex in obj.data.vertices:
-                point = obj.matrix_world @ vertex.co
-                vertex.co = inverse @ Vector(relaxed_arm(point, record['height']))
-            obj.data.update()
+        # Skinned two-bone arm pose (rigid hands) — replaces the old per-vertex bend that warped hands.
+        pose_arms(meshes, record['height'])
         bpy.context.view_layer.update()
     lower, upper = bounds(meshes)
     if record.get('locomotionRig') and not rigs:

@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: villa_daughter
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: villa_daughter
+  DisplayName: Chloe Lee
+  Age: 1
+  Occupation: High-school student
+  Home: villa
+  Work: villa_city
+  Model: Academy
+  Personality:
+    Sociability: 0.7
+    Shyness: 0.2
+    Patience: 0.8
+    Busyness: 0.4
+    Distraction: 0.3
+    CommunicationStyle: friendly
+  Friends: []
+  Family:
+  - villa_dad
+  - villa_mum
+  - villa_grandpa
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Relax
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 7, \"activity\": \"Sleep\",
+    \"location\": \"villa\" },\n  { \"startHour\": 7, \"endHour\": 7.75, \"activity\":
+    \"Breakfast\", \"location\": \"villa\" },\n  { \"startHour\": 7.75, \"endHour\":
+    8.25, \"activity\": \"Commute\", \"location\": \"villa_city\" },\n  { \"startHour\":
+    8.25, \"endHour\": 15.5, \"activity\": \"Work\", \"location\": \"villa_city\"
+    },\n  { \"startHour\": 15.5, \"endHour\": 17, \"activity\": \"Wander\", \"location\":
+    \"villa_garden\" },\n  { \"startHour\": 17, \"endHour\": 18, \"activity\": \"Relax\",
+    \"location\": \"villa\" },\n  { \"startHour\": 18, \"endHour\": 19.5, \"activity\":
+    \"Dinner\", \"location\": \"villa\" },\n  { \"startHour\": 19.5, \"endHour\":
+    22.5, \"activity\": \"Relax\", \"location\": \"villa\" },\n  { \"startHour\":
+    22.5, \"endHour\": 24, \"activity\": \"Sleep\", \"location\": \"villa\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: family
+  EnglishBand: 7
+  Voice:
+    Accent: 0
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Hey!
+  - Oh, hi!
+  SmallTalk:
+  - Can we go swimming later?
+  - I've got so much homework.
+  MemorySummary: 

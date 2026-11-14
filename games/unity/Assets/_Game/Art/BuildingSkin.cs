@@ -11,7 +11,17 @@ namespace ContextSpeak.Cafe
         public Renderer[] Interior = new Renderer[0];
         public bool IsInside { get; private set; }
         private CafePlayer player;
-        private bool initialized;
+        private bool initialized, interiorVisible;
+        [SerializeField] private bool interiorOnly;
+        public bool UsesAuthoredInterior => interiorOnly;
+
+        /// Keep the authored room visible from both sides; an inactive shell also stays hidden from LOD updates.
+        public void UseAuthoredInterior()
+        {
+            interiorOnly = true;
+            initialized = false;
+            ApplyVisibility(true);
+        }
 
         private void Start()
         {
@@ -26,13 +36,18 @@ namespace ContextSpeak.Cafe
         public void Refresh(Vector3 viewer)
         {
             if (Kind != "room" || Exterior == null) return;
-            var inside = Plot.Contains(viewer);
-            if (initialized && inside == IsInside) return;
+            IsInside = Plot.Contains(viewer);
+            ApplyVisibility(interiorOnly || IsInside);
+        }
+
+        private void ApplyVisibility(bool visible)
+        {
+            if (Exterior == null || initialized && visible == interiorVisible) return;
             initialized = true;
-            IsInside = inside;
-            Exterior.SetActive(!inside);
+            interiorVisible = visible;
+            Exterior.SetActive(!visible);
             foreach (var renderer in Interior)
-                if (renderer != null) renderer.enabled = inside;
+                if (renderer != null) renderer.enabled = visible;
         }
     }
 }

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Restaurant Complaint
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Restaurant Complaint
+  Location: Restaurant
+  Steps:
+  - id: problem
+    speaker: manager
+    simple: Hello. Is something wrong?
+    standard: Hi, I'm the manager. Is everything all right with your meal?
+    advanced: Good evening, I'm the duty manager. I noticed you called me over. Is
+      there a problem with your meal?
+    expert: 
+    goal: Politely explain a problem (cold, wrong dish, too salty...).
+    meaning: cold|wrong|salty|late|not|ordered|hair|raw|burnt|too|problem|sorry|afraid|actually|mistake|long
+    model: I'm sorry, but my soup is cold.
+    vocabulary: 'I''m afraid...: a polite way to start bad news'
+    onComplete: 
+  - id: fix
+    speaker: manager
+    simple: Sorry. New dish or money back?
+    standard: I'm so sorry about that. Would you like a new one, or a refund?
+    advanced: I do apologise. I can have the kitchen prepare a fresh one right away,
+      or remove it from your bill as a refund. Which would you prefer?
+    expert: 
+    goal: Choose a replacement or a refund.
+    meaning: new|another|fresh|replace|refund|money|remove|bill|prefer|please|either
+    model: A fresh one would be great, thank you.
+    vocabulary: 'refund: money given back|replacement: a new one instead'
+    onComplete: complaint-solved

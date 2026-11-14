@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: TomatoPlant-TomatoPlant
+  m_Shader: {fileID: 4800000, guid: 14be7bd335dcd483e83d0a20d5b69ef4, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords:
+  - _USEROUGHNESSMAP_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: -8989489118105358035, guid: 9182b241ab0534114830b834d7f90fbd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: -7601698619549986681, guid: 9182b241ab0534114830b834d7f90fbd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RoughnessMap:
+        m_Texture: {fileID: 1417637780470831649, guid: 9182b241ab0534114830b834d7f90fbd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _BumpScale: 1
+    - _Cull: 0
+    - _Flex: 0.8
+    - _GrassWave: 0
+    - _HueVariation: 0.1
+    - _LeafMask: 1
+    - _ObjectHeight: 0.9997404
+    - _Porosity: 0.35
+    - _Smoothness: 0.25
+    - _Translucency: 0.5
+    - _UseRoughnessMap: 1
+    - _WindResponse: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TranslucencyColor: {r: 0.75, g: 0.9, b: 0.34999996, a: 1}
+  m_BuildTextureStacks: []
+  m_AllowLocking: 1

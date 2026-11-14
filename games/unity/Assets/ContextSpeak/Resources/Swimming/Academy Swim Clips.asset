@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6766dbad3484b4a5d9e329ec49a133d4, type: 3}
+  m_Name: Academy Swim Clips
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.SwimClipSet
+  ModelName: Academy
+  Swim: {fileID: 7400000, guid: 9b8482a4901454375b49c0b9a8a1f3bc, type: 2}
+  EdgeReach: {fileID: 7400000, guid: b585f9fbbc16b4d17bca7c9861a39c63, type: 2}
+  TreadWater: {fileID: 0}
+  BackFloat: {fileID: 0}
+  UnderwaterSwim: {fileID: 0}
+  ClimbLadder: {fileID: 7400000, guid: 6a70aab35e66b4d39b814750fa7b1a29, type: 2}
+  PullOut: {fileID: 7400000, guid: e31614b1cf90d47689bd77725745e209, type: 2}
+  SwimYaw: 7.979614
+  SwimBodyPitch: 6.9479136
+  ClimbRise: 0.82625955
+  ClimbAuthoredDown: 1
+  Notes: 'Missing authored clips (temporary procedural/substitute used): TreadWater,
+    BackFloat, UnderwaterSwim (swim cycle + pitch used).
+
+    Add FBX files named
+    Academy-TreadWater.fbx, -BackFloat.fbx, -UnderwaterSwim.fbx, -ClimbLadder.fbx,
+    -PullOut.fbx to Assets/_Game/Art/Motion/Swim/ and run Import Swimming Animations.'

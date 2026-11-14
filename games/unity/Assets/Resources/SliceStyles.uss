@@ -57,11 +57,11 @@
 .dot.pier { background-color: #6d4c32; border-radius: 2px; }
 .dot.seat { width: 6px; height: 6px; margin-left: -3px; margin-top: -3px; background-color: #b9c7bd; }
 .dot.target { border-width: 3px; border-color: #ffcf6e; }
-.dot-label { position: absolute; left: 12px; top: -6px; font-size: 11px; color: #243c33; white-space: nowrap; }
+.dot-label { position: absolute; left: 12px; top: -6px; font-size: 13px; color: #243c33; white-space: nowrap; }
 
 .slice-hint { position: absolute; bottom: 34%; align-self: center; background-color: rgba(23, 49, 40, 0.88); color: white; padding: 10px 16px; border-radius: 10px; font-size: 17px; -unity-font-style: bold; }
 .slice-toast { position: absolute; top: 18px; align-self: center; max-width: 560px; background-color: #17694f; color: white; padding: 10px 16px; border-radius: 12px; -unity-text-align: middle-center; }
-.slice-controls { position: absolute; bottom: 8px; left: 18px; font-size: 12px; color: rgba(255, 255, 255, 0.9); background-color: rgba(23, 49, 40, 0.6); padding: 5px 10px; border-radius: 8px; }
+.slice-controls { position: absolute; bottom: 8px; left: 18px; font-size: 13px; color: rgba(255, 255, 255, 0.9); background-color: rgba(23, 49, 40, 0.6); padding: 5px 10px; border-radius: 8px; }
 
 #slice-dialogue { position: absolute; bottom: 36px; left: 50%; translate: -50% 0; width: 620px; max-width: 96%; max-height: 62%; }
 .dialogue-header { margin-bottom: 6px; flex-wrap: wrap; }
@@ -75,11 +75,11 @@
 .glossary-chip { font-size: 13px; background-color: #fdf0e1; color: #a35a12; padding: 3px 8px; border-radius: 8px; margin: 2px 4px 2px 0; }
 .you-said { color: #2f55c4; font-size: 16px; -unity-font-style: italic; }
 #slice-correction { background-color: #f5f8ff; border-left-width: 4px; border-color: #2f55c4; border-radius: 10px; padding: 10px 12px; margin: 6px 0; }
-.correction-title { font-size: 12px; -unity-font-style: bold; color: #2f55c4; letter-spacing: 1px; }
+.correction-title { font-size: 13px; -unity-font-style: bold; color: #2f55c4; letter-spacing: 1px; }
 .original { color: #8b3428; }
 .corrected { color: #17694f; font-size: 17px; -unity-font-style: bold; }
 .explanation { color: #3b5249; font-size: 14px; }
-.criterion { font-size: 12px; padding: 2px 8px; border-radius: 8px; margin: 2px 4px 2px 0; background-color: #eef1ef; }
+.criterion { font-size: 13px; padding: 2px 8px; border-radius: 8px; margin: 2px 4px 2px 0; background-color: #eef1ef; }
 .criterion.level-developing { background-color: #fdf0e1; color: #a35a12; }
 .criterion.level-ontarget { background-color: #e5f2ec; color: #17694f; }
 .criterion.level-abovetarget { background-color: #d6efe3; color: #0f5a40; -unity-font-style: bold; }
@@ -91,8 +91,6 @@
 .history-you { color: #2f55c4; font-size: 14px; }
 .history-npc { color: #243c33; font-size: 14px; }
 .dialogue-controls { margin-top: 4px; }
-.slice .reply { margin-top: 6px; font-size: 14px; }
-.slice .reply > .unity-text-field__input { background-color: white; padding: 8px; border-radius: 8px; font-size: 16px; }
 
 #slice-menu { position: absolute; top: 18px; right: 244px; width: 560px; max-height: 92%; }
 .menu-title { font-size: 18px; -unity-font-style: bold; color: #17694f; letter-spacing: 1px; }
@@ -104,12 +102,12 @@
 .menu-card.selected { border-color: #17694f; background-color: #eef7f2; }
 .menu-card-text { flex-grow: 1; flex-shrink: 1; margin-left: 8px; }
 .menu-name { font-size: 15px; -unity-font-style: bold; margin: 0; }
-.menu-desc { font-size: 12px; color: #5b6f66; margin: 0; }
+.menu-desc { font-size: 13px; color: #5b6f66; margin: 0; }
 .menu-price { color: #a35a12; -unity-font-style: bold; margin-left: 6px; }
 #menu-detail { width: 50%; padding-left: 10px; overflow: hidden; }
 .detail-title { font-size: 17px; -unity-font-style: bold; }
 .allergens { color: #8b3428; font-size: 14px; }
-.option-label { font-size: 12px; -unity-font-style: bold; color: #5b6f66; margin-top: 6px; margin-bottom: 0; }
+.option-label { font-size: 13px; -unity-font-style: bold; color: #5b6f66; margin-top: 6px; margin-bottom: 0; }
 .say-it { color: #2f55c4; -unity-font-style: italic; margin-top: 6px; }
 .picture { border-radius: 10px; -unity-background-scale-mode: scale-to-fit; background-color: #f3efe4; justify-content: center; align-items: center; }
 .picture.thumb { width: 56px; height: 56px; flex-shrink: 0; }
@@ -122,7 +120,7 @@
 #cart-rows { max-height: 140px; overflow: hidden; }
 .cart-row { border-bottom-width: 1px; border-color: #eceee9; padding: 4px 0; }
 .cart-name { -unity-font-style: bold; margin: 0; }
-.cart-missing { font-size: 12px; color: #a35a12; margin: 0; }
+.cart-missing { font-size: 13px; color: #a35a12; margin: 0; }
 .cart-price { color: #a35a12; -unity-font-style: bold; }
 .cart-total { font-size: 17px; -unity-font-style: bold; color: #a35a12; margin-top: 6px; }
 
@@ -140,3 +138,88 @@
 .receipt-head { -unity-font-style: bold; font-size: 14px; }
 .receipt-line { font-size: 13px; color: #3b5249; margin: 0; }
 .receipt-total { -unity-font-style: bold; color: #a35a12; }
+
+/* Immersive life UI: the world stays visible; apps, money and feedback are contextual. */
+.slice.immersive { color: #1F2A26; font-size: 15px; }
+.slice.immersive Label { white-space: normal; }
+.slice.immersive #slice-hud { top: 24px; left: 24px; width: 440px; padding: 0; background-color: transparent; }
+.slice.immersive .hud-brand { color: #F7F3EA; font-size: 13px; -unity-font-style: bold; -unity-text-outline-width: 1px; -unity-text-outline-color: #1F2A26; }
+.slice.immersive .hud-objective { color: #F7F3EA; font-size: 15px; margin-top: 8px; background-color: rgba(15, 26, 22, 0.88); padding: 8px 12px; border-radius: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.slice.immersive .context-needs { position: absolute; bottom: 32px; left: 24px; width: 280px; background-color: rgba(247,243,234,.94); border-radius: 10px; padding: 12px; }
+.slice.immersive #slice-map { top: 24px; right: 24px; width: 168px; height: 168px; padding: 6px; background-color: rgba(247,243,234,.86); border-radius: 999px; overflow: hidden; }
+.slice.immersive #map-area { width: 156px; height: 156px; margin: 0; padding: 0; border-radius: 999px; overflow: hidden; }
+.minimap-surface { width: 100%; height: 100%; overflow: hidden; border-radius: 999px; background-color: #CFD7CA; }
+.phone-map-surface { width: 100%; height: 390px; overflow: hidden; border-radius: 8px; background-color: #CFD7CA; }
+.map-pin { position: absolute; width: 9px; height: 9px; margin-left: -4px; margin-top: -4px; border-radius: 999px; background-color: #2E5E45; border-width: 1px; border-color: #F7F3EA; }
+.map-pin.player { background-color: #1F2A26; width: 12px; height: 12px; border-width: 2px; }
+.map-pin.target { background-color: #C47A2C; border-width: 2px; }
+.map-pin-label { position: absolute; font-size: 15px; background-color: #F7F3EA; padding: 2px 5px; border-radius: 4px; color: #1F2A26; }
+.map-north { position: absolute; top: 4px; left: 76px; font-size: 13px; color: #1F2A26; background-color: #F7F3EA; border-radius: 999px; padding: 1px 4px; }
+.slice.immersive #slice-dialogue { position: absolute; left: 18%; right: 18%; bottom: 32px; width: auto; max-height: 76%; max-width: 1240px; padding: 16px 24px; border-radius: 10px; background-color: rgba(15,26,22,.94); border-width: 0; color: #F7F3EA; }
+.slice.immersive #slice-dialogue .npc-line { font-size: 24px; color: #F7F3EA; margin: 10px 0; }
+.slice.immersive #slice-dialogue .speaker { font-size: 18px; color: #F7F3EA; }
+.slice.immersive #slice-dialogue .hud-muted, .slice.immersive #slice-dialogue .practice-note, .slice.immersive #slice-dialogue .status { color: #D9E3DB; font-size: 13px; }
+.slice.immersive #slice-dialogue .portrait { display: none; }
+.slice.immersive #slice-correction { background-color: #F7F3EA; color: #1F2A26; padding: 12px 16px; border-radius: 8px; margin: 8px 0; }
+.slice.immersive #slice-correction .corrected { color: #2E5E45; font-size: 18px; }
+.slice.immersive #slice-correction .explanation { color: #1F2A26; font-size: 15px; }
+.slice.immersive #slice-dialogue .you-said { font-size: 15px; color: #E0E8E0; }
+.slice.immersive #slice-dialogue .suggestion { font-size: 13px; color: #D9E3DB; }
+#letterbox-top, #letterbox-bottom { position: absolute; left: 0; right: 0; height: 24px; background-color: rgba(0,0,0,.55); }
+#letterbox-top { top: 0; } #letterbox-bottom { bottom: 0; }
+.slice.immersive #slice-modal { position: absolute; left: 0; top: 0; right: 0; bottom: 0; align-items: flex-end; justify-content: center; background-color: rgba(6,15,11,.12); padding: 24px; }
+.slice.immersive #phone { width: 580px; max-width: 94%; height: 94%; max-height: 1000px; padding: 16px; background-color: rgba(247,243,234,.94); border-width: 6px; border-color: #1F2A26; border-radius: 24px; }
+.phone-status { flex-direction: row; justify-content: space-between; margin: 4px 8px 12px 8px; font-size: 13px; }
+.phone-header { border-bottom-width: 1px; border-bottom-color: #C9D1C9; padding-bottom: 12px; margin-bottom: 12px; }
+.phone-title { font-size: 18px; -unity-font-style: bold; margin-left: 12px; }
+.phone-clock { font-size: 32px; margin: 24px 0 8px 0; }
+.phone-apps { flex-direction: row; flex-wrap: wrap; margin-top: 24px; }
+.slice.immersive Button.phone-app { width: 45%; height: 80px; margin: 8px; background-color: rgba(46,94,69,.1); color: #1F2A26; border-radius: 10px; }
+.slice.immersive Button { background-color: #2E5E45; color: #F7F3EA; border-radius: 8px; font-size: 15px; }
+.slice.immersive Button.secondary, .slice.immersive Button.tab { background-color: #E2EAE3; color: #1F2A26; }
+.slice.immersive Button.ghost { color: #2E5E45; background-color: transparent; }
+.slice.immersive Button:focus { border-color: #C47A2C; border-width: 2px; }
+.slice.immersive Button.selected { border-width: 2px; border-color: #2E5E45; background-color: #DBE8DE; color: #1F2A26; }
+.phone-map-paper { padding: 8px; margin: 12px 0; border-radius: 10px; }
+.wallet-balance { font-size: 32px; margin: 4px 0 16px 0; }
+.message-you, .message-npc { padding: 12px; margin-bottom: 12px; border-radius: 8px; font-size: 15px; background-color: #E2EAE3; }
+.message-you { margin-left: 32px; } .message-npc { margin-right: 32px; }
+.slice.immersive #slice-menu { position: absolute; top: 14%; left: 12%; right: 12%; bottom: 5%; width: auto; max-width: 1460px; background-color: #F7F3EA; padding: 24px; border-radius: 10px; }
+.slice.immersive .menu-body { flex-grow: 1; min-height: 160px; }
+.slice.immersive #slice-fishing { left: 35%; right: 35%; bottom: 42px; width: auto; padding: 16px; }
+.slice.immersive .slice-controls, .slice.immersive .slice-hint, .slice.immersive .slice-toast { display: none; }
+.slice.immersive .hud-quest { font-size: 15px; }
+.slice.immersive .modal-body { flex-grow: 1; min-height: 0; }
+.slice.immersive .receipt { background-color: #F7F3EA; }
+
+/* Override the previous centred-card transform; these insets now own subtitle placement. */
+.slice.immersive #slice-dialogue { translate: 0 0; }
+.slice.immersive #slice-hud > .ui-chip { align-self: flex-start; border-radius: 10px; }
+.slice.immersive #phone .phone-status Label,
+.slice.immersive #phone .phone-header Label,
+.slice.immersive #phone .phone-clock { color: #1F2A26; }
+.slice.immersive #slice-dialogue Button.ghost { color: #E1EADF; border-color: #718076; }
+.slice.immersive #slice-dialogue Button.ghost.selected { background-color: #365845; border-color: #9eb59f; color: #f5f1e6; }
+.slice.immersive #slice-dialogue .glossary-chip, .slice.immersive #slice-dialogue .suggestion { background-color: #304337; color: #dfe8d9; }
+.slice.immersive #slice-correction Label { color: #1F2A26; }
+.slice.immersive #slice-correction .original { color: #963F31; }
+.slice.immersive #slice-correction .corrected { color: #2E5E45; }
+.slice.immersive Button.menu-card { background-color: #F7F3EA; color: #1F2A26; }
+.slice.immersive Button.menu-card.selected { background-color: #DDE8DD; }
+/* Feedback sits beside subtitles; long assessments scroll without growing over the world. */
+.slice.immersive #slice-dialogue { left: 30%; right: 30%; }
+.slice.immersive.has-speaking-feedback #slice-dialogue { left: 460px; right: 40px; max-width: 1100px; }
+.slice.immersive #slice-correction { position: absolute; left: 40px; bottom: 32px; width: 380px; max-height: 68%; margin: 0; }
+.slice.immersive #slice-correction .corrected { margin: 12px 0; }
+.slice.immersive #slice-menu { top: 7%; bottom: 5%; }
+.slice.immersive #slice-menu .menu-body { min-height: 150px; }
+.slice.immersive #phone .unity-scroll-view__content-container { padding-bottom: 16px; }
+
+/* V7 learning uses the existing compact subtitle card, with opt-in detailed feedback. */
+#learning-v7 { margin-top: 8px; max-height: 230px; }
+#learning-v7 Label { white-space: normal; }
+#learning-v7 .section-title { color: rgb(224, 233, 217); font-size: 12px; }
+#learning-v7 .corrected { color: rgb(220, 238, 208); font-size: 14px; }
+#learning-v7 Foldout { color: rgb(223, 232, 217); }
+/* Phone body text must override the world HUD's inherited light foreground. */
+.slice.immersive #phone .modal-body Label { color: #263b31; }

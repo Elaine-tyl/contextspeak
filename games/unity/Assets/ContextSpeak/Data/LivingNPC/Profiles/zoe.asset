@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: zoe
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: zoe
+  DisplayName: Zoe Chen
+  Age: 2
+  Occupation: University student
+  Home: riverside
+  Work: 
+  Model: Academy
+  Personality:
+    Sociability: 0.4
+    Shyness: 0.6
+    Patience: 0.6
+    Busyness: 0.6
+    Distraction: 0.7
+    CommunicationStyle: friendly
+  Friends:
+  - sam
+  - nina
+  Family: []
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 8, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 8, \"endHour\": 9, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 9, \"endHour\":
+    14, \"activity\": \"Coffee\", \"location\": \"Forest Caf\xE9\" },\n  { \"startHour\":
+    14, \"endHour\": 15, \"activity\": \"Shop\", \"location\": \"supermarket\" },\n 
+    { \"startHour\": 15, \"endHour\": 23, \"activity\": \"Relax\", \"location\":
+    \"home\" },\n  { \"startHour\": 23, \"endHour\": 24, \"activity\": \"Sleep\",
+    \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 8
+  Voice:
+    Accent: 2
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Oh, hi!
+  SmallTalk:
+  - "Essay due tomorrow\u2026"
+  - "This caf\xE9 has the best wifi."
+  MemorySummary: 

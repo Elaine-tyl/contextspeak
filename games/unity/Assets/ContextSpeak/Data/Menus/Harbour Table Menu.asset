@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da921e371b16e416b82bbd5893c2eb99, type: 3}
+  m_Name: Harbour Table Menu
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.MenuCatalog
+  Title: "Harbour Table \u2014 Dinner Menu"
+  Categories:
+  - Appetizers
+  - Main Courses
+  - Desserts
+  - Drinks
+  Items:
+  - id: tomato-soup
+    name: Tomato & Basil Soup
+    category: Appetizers
+    description: Roasted tomato soup with fresh basil and warm bread.
+    cents: 750
+    allergens: gluten (bread)
+    icon: SOUP
+    colour: {r: 0.85, g: 0.3, b: 0.2, a: 1}
+    options: Bread:With bread/No bread
+  - id: calamari
+    name: Crispy Calamari
+    category: Appetizers
+    description: Lightly fried squid with lemon and garlic mayonnaise.
+    cents: 950
+    allergens: shellfish, egg, gluten
+    icon: SQUID
+    colour: {r: 0.9, g: 0.75, b: 0.45, a: 1}
+    options: 
+  - id: garden-salad
+    name: Garden Salad
+    category: Appetizers
+    description: Mixed leaves, cucumber, cherry tomatoes, lemon dressing.
+    cents: 800
+    allergens: 
+    icon: SALAD
+    colour: {r: 0.45, g: 0.75, b: 0.35, a: 1}
+    options: Add:Nothing/Chicken+300/Halloumi+350
+  - id: fish-chips
+    name: Fish & Chips
+    category: Main Courses
+    description: Beer-battered cod, chips, mushy peas and tartare sauce.
+    cents: 1850
+    allergens: fish, gluten, egg
+    icon: FISH
+    colour: {r: 0.95, g: 0.8, b: 0.4, a: 1}
+    options: Side:Mushy peas/Side salad
+  - id: steak
+    name: Sirloin Steak
+    category: Main Courses
+    description: 250 g sirloin with peppercorn sauce and fries.
+    cents: 2600
+    allergens: dairy (sauce)
+    icon: STEAK
+    colour: {r: 0.55, g: 0.3, b: 0.2, a: 1}
+    options: 'Cooked:Medium/Rare/Medium-rare/Well done
+
+      Sauce:Peppercorn/Garlic
+      butter/No sauce'
+  - id: risotto
+    name: Mushroom Risotto
+    category: Main Courses
+    description: Creamy arborio rice with wild mushrooms and parmesan. Vegetarian.
+    cents: 1700
+    allergens: dairy
+    icon: RICE
+    colour: {r: 0.85, g: 0.8, b: 0.65, a: 1}
+    options: Cheese:Parmesan/No cheese (vegan)
+  - id: burger
+    name: Harbour Burger
+    category: Main Courses
+    description: Beef burger, cheddar, lettuce, tomato, house sauce, fries.
+    cents: 1650
+    allergens: gluten, dairy, egg
+    icon: BURGER
+    colour: {r: 0.7, g: 0.45, b: 0.25, a: 1}
+    options: 'Cheese:Cheddar/No cheese
+
+      Bun:Brioche/Gluten-free+150'
+  - id: brownie
+    name: Chocolate Brownie
+    category: Desserts
+    description: Warm brownie with vanilla ice cream.
+    cents: 750
+    allergens: gluten, dairy, egg, nuts
+    icon: CAKE
+    colour: {r: 0.35, g: 0.2, b: 0.12, a: 1}
+    options: 
+  - id: sorbet
+    name: Lemon Sorbet
+    category: Desserts
+    description: Two scoops of lemon sorbet. Dairy-free.
+    cents: 600
+    allergens: 
+    icon: ICE
+    colour: {r: 0.95, g: 0.92, b: 0.5, a: 1}
+    options: 
+  - id: water
+    name: Sparkling Water
+    category: Drinks
+    description: 500 ml bottle.
+    cents: 300
+    allergens: 
+    icon: H2O
+    colour: {r: 0.5, g: 0.75, b: 0.95, a: 1}
+    options: Size:Small/Large+200
+  - id: lemonade
+    name: Homemade Lemonade
+    category: Drinks
+    description: Fresh lemons, mint, a little sugar.
+    cents: 450
+    allergens: 
+    icon: LEMON
+    colour: {r: 0.95, g: 0.9, b: 0.45, a: 1}
+    options: Ice:With ice/No ice
+  - id: cola
+    name: Cola
+    category: Drinks
+    description: Classic or zero sugar.
+    cents: 350
+    allergens: 
+    icon: COLA
+    colour: {r: 0.3, g: 0.12, b: 0.08, a: 1}
+    options: Type:Classic/Zero sugar

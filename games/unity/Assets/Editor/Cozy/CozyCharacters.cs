@@ -13,6 +13,9 @@ namespace ContextSpeak.Editor
             appearance.Boy = MeshyCharacters.Create("Daydream", avatar.position);
             appearance.Girl.transform.SetParent(avatar, true);
             appearance.Boy.transform.SetParent(avatar, true);
+            // Visuals face the Avatar's +Z; never inherit the spawn yaw (that made the player walk backwards).
+            appearance.Girl.transform.localRotation = Quaternion.identity;
+            appearance.Boy.transform.localRotation = Quaternion.identity;
             appearance.Boy.SetActive(false);
         }
     }

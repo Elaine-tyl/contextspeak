@@ -19,11 +19,13 @@ namespace ContextSpeak.Editor
         [Serializable] private sealed class Catalog { public SceneryEntry[] items; }
         public static SceneryEntry[] Read() => JsonUtility.FromJson<Catalog>("{\"items\":" + File.ReadAllText(Source + "catalog.json") + "}").items;
 
-        public static void Build()
+        public static void Build() => BuildEntries(Read());
+
+        public static void BuildEntries(IEnumerable<SceneryEntry> entries)
         {
             Directory.CreateDirectory(Folder);
             AssetDatabase.Refresh();
-            foreach (var entry in Read().Where(entry => entry.usage == "world"))
+            foreach (var entry in entries.Where(entry => entry.usage == "world"))
             {
                 var path = Source + entry.id + ".glb";
                 AssetDatabase.ImportAsset(path, ImportAssetOptions.ForceUpdate);
@@ -69,9 +71,9 @@ namespace ContextSpeak.Editor
             };
             // Evaluate empty ground against existing geometry, keeping NPC approaches and roads clear.
             Physics.SyncTransforms();
-            foreach (var entry in catalog.Where(entry => entry.usage == "world").OrderByDescending(entry => entry.extent))
+            foreach (var entry in catalog.Where(entry => entry.usage == "world").OrderByDescending(entry => entry.Size))
             {
-                var radius = entry.extent / 2 + 0.35f;
+                var radius = entry.Size / 2 + 0.35f;
                 var candidates = new List<Vector3>();
                 for (var x = -65f; x <= 65; x += 3)
                     for (var z = -65f; z <= 77; z += 3)
@@ -105,11 +107,11 @@ namespace ContextSpeak.Editor
                 arrivalPoint.localPosition = Vector3.back * (radius + 1.2f);
                 interactable.Arrival = arrivalPoint;
                 // Flowers/grass have no collision. Larger objects have a small central solid proxy.
-                if (entry.extent > 1.5f && entry.zone != "Roads")
+                if (entry.Size > 1.5f && entry.zone != "Roads")
                 {
                     var collider = anchor.AddComponent<BoxCollider>();
                     collider.center = Vector3.up * 0.55f;
-                    collider.size = new Vector3(entry.extent * 0.65f, 1.1f, entry.extent * 0.65f);
+                    collider.size = new Vector3(entry.Size * 0.65f, 1.1f, entry.Size * 0.65f);
                 }
             }
             // Preserve all metadata when updating only the editor-computed placements.

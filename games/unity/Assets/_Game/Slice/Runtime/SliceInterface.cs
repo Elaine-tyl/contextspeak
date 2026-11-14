@@ -9,23 +9,19 @@ namespace ContextSpeak.Slice
 {
     /// Native UI Toolkit interface for the Forest Café slice: HUD, mini-map, dialogue with corrections,
     /// menu with cart, fishing gauge, inventory, journal (quests + learning dashboard), map and settings.
-    public sealed class SliceInterface : MonoBehaviour
+    public sealed partial class SliceInterface : MonoBehaviour
     {
         public event Action<string, string> Command;
         public bool Typing { get; private set; }
         public bool AlwaysLook = true;
 
-        // World bounds for the mini-map (metres): x from -22 to 22, z from -16 to 34.
-        private const float MinX = -52, MaxX = 52, MinZ = -60, MaxZ = 72;
-
         private ScrollView history;
         private VisualElement root, dialogue, correction, menu, menuItems, menuDetail, cartRows, fishingPanel, modal, mapDots, glossaryRow, criteriaRow, suggestions, questList, needs;
-        private Label place, clock, money, band, questTitle, hint, toast, speaker, role, portrait, line, recognized, status, aiTip, original, corrected, explanation, menuTitle, cartTotal, fishingMessage, fishingLevel;
+        private Label overallBand, correctedZh, explanationZh, correctionTitle, place, clock, money, band, questTitle, hint, toast, speaker, role, portrait, line, recognized, status, aiTip, original, corrected, explanation, menuTitle, cartTotal, fishingMessage, fishingLevel;
         private Label trailHint;
-        private Button mic, repeat, slower, menuToggle, checkout, translate, historyToggle, hearCorrection, practise, carryOn, useModel;
-        private TextField reply;
+        private Button mic, menuMic, repeat, slower, menuToggle, checkout, translate, historyToggle, hearCorrection, practise, carryOn, useModel;
         private VisualElement tension, tensionFill, progressFill;
-        private string questSignature, menuSignature, detailSignature, cartSignature, historySignature, modalSignature, glossarySignature, criteriaSignature, mapSignature;
+        private string menuSignature, detailSignature, cartSignature, historySignature, modalSignature, glossarySignature, criteriaSignature;
         private readonly Dictionary<string, Dictionary<OptionGroup, string>> pending = new Dictionary<string, Dictionary<OptionGroup, string>>();
         private SliceView last;
         private bool showHistory;
@@ -39,13 +35,12 @@ namespace ContextSpeak.Slice
         {
             root = CafeInterface.CreateRoot(gameObject);
             root.style.display = DisplayStyle.Flex; // this slice uses native UI on every platform
-            // OS font with CJK fallback so the Chinese glossary renders on desktop builds.
-            var font = Font.CreateDynamicFontFromOSFont(new[] { "Segoe UI", "Helvetica Neue", "Arial", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", "Noto Sans CJK SC" }, 18);
-            if (font != null) root.style.unityFont = font;
             var styles = Resources.Load<StyleSheet>("SliceStyles");
             if (styles != null) root.styleSheets.Add(styles);
             root.AddToClassList("slice");
+            root.AddToClassList("immersive");
             BuildHud();
+            InitializeImmersive();
             BuildDialogue();
             BuildMenu();
             BuildFishing();
@@ -76,63 +71,74 @@ namespace ContextSpeak.Slice
             parent.Add(button);
             return button;
         }
-        private static void Show(VisualElement element, bool visible) => element.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+        private static void Show(VisualElement element, bool visible)
+        {
+            if (element.name == "slice-modal" || element.name == "slice-dialogue")
+                ContextSpeak.Cafe.UI.PanelVisibility.Set(element, visible);
+            else element.style.display = visible ? DisplayStyle.Flex : DisplayStyle.None;
+        }
 
         private void BuildHud()
         {
-            var hud = Add(root, "slice-hud", "card");
-            place = Text(hud, "", "hud-place");
-            clock = Text(hud, "", "hud-muted");
-            money = Text(hud, "", "hud-money");
-            band = Text(hud, "", "chip", "chip-blue");
-            trailHint = Text(hud, "", "hud-muted");
-            needs = Add(hud, "needs");
-            questTitle = Text(hud, "", "hud-quest");
-            questList = Add(hud, "quest-list");
-            var row = Add(hud, null, "row");
-            Action(row, "Journal · J", "panel", "journal", "ghost");
-            Action(row, "Bag · Tab", "panel", "inventory", "ghost");
-            Action(row, "Settings · Esc", "panel", "pause", "ghost");
-            var social = Add(hud, null, "row", "wrap");
-            Action(social, "Friends", "panel", "friends", "ghost");
-            soundToggle = Action(social, "Sound on", "toggle-mute", "", "ghost");
-            socialStatus = Text(hud, "Solo play", "hud-muted");
-            var map = Add(root, "slice-map", "card");
-            Text(map, "Forest Café", "map-title");
+            var hud = Add(root, "slice-hud");
+            place = Text(hud, "ContextSpeak Life", "hud-brand");
+            clock = Text(hud, "", "ui-chip");
+            questTitle = Text(hud, "", "hud-objective");
+            var details = Add(hud, "hud-details");
+            money = Text(details); band = Text(details); trailHint = Text(details);
+            questList = Add(details, "quest-list");
+            needs = Add(root, "needs", "context-needs");
+            var map = Add(root, "slice-map");
             mapDots = Add(map, "map-area");
+            Text(map, "N", "map-north");
             hint = Text(root, "", "slice-hint");
             toast = Text(root, "", "slice-toast");
-            Text(root, "WASD move · Shift sprint · Ctrl/Caps walk · Space jump · C crouch · F talk · E use · M map · J journal · Tab bag · Esc settings", "slice-controls");
+            Show(hint, false); Show(toast, false);
+            // Legacy fields stay bound for shared snapshots; actions live in the phone now.
+            soundToggle = new Button(); socialStatus = new Label();
         }
 
         private void BuildDialogue()
         {
-            dialogue = Add(root, "slice-dialogue", "card");
+            dialogue = Add(root, "slice-dialogue", "subtitle-card");
+            Text(dialogue, "Practice feedback · not an official IELTS score", "practice-note");
             var header = Add(dialogue, null, "row", "dialogue-header");
             portrait = Text(header, "", "portrait");
             var names = Add(header, null, "names");
             speaker = Text(names, "", "speaker");
             role = Text(names, "", "hud-muted");
             var tools = Add(header, null, "row", "push-right");
-            translate = Action(tools, "中文 glossary", "translation", "", "ghost");
-            historyToggle = new Button(() => { showHistory = !showHistory; if (last != null) Render(last); }) { text = "History" };
+            translate = Action(tools, "Aa", "translation", "", "ghost");
+            translate.tooltip = "Show Chinese glossary";
+            historyToggle = new Button(() => { showHistory = !showHistory; if (last != null) Render(last); }) { text = "Log", tooltip = "Conversation history" };
             historyToggle.AddToClassList("ghost");
             tools.Add(historyToggle);
-            Action(tools, "Close · Esc", "close", "", "ghost");
+            Action(tools, "×", "close", "", "ghost").tooltip = "Close conversation (Esc)";
             line = Text(dialogue, "", "npc-line");
             glossaryRow = Add(dialogue, "glossary", "row", "wrap");
             recognized = Text(dialogue, "", "you-said");
-            correction = Add(dialogue, "slice-correction");
-            Text(correction, "A more natural way to say it", "correction-title");
-            original = Text(correction, "", "original");
-            corrected = Text(correction, "", "corrected");
-            explanation = Text(correction, "", "explanation");
-            criteriaRow = Add(correction, "criteria", "row", "wrap");
-            var correctionButtons = Add(correction, null, "row", "wrap");
-            hearCorrection = Action(correctionButtons, "Hear it", "hear-correction", "", "secondary");
-            practise = Action(correctionButtons, "● Practise again", "practice", "", "speak");
-            carryOn = Action(correctionButtons, "Continue", "continue", "", "ghost");
-            useModel = Action(correctionButtons, "Use this answer", "use-model", "", "ghost");
+            correction = Add(root, "slice-correction");
+            var correctionBody = new ScrollView(ScrollViewMode.Vertical);
+            correction.Add(correctionBody);
+            Text(correctionBody, "练习反馈 · 非官方雅思成绩  ·  Practice feedback, not an official IELTS score", "practice-note");
+            overallBand = Text(correctionBody, "", "overall-band");
+            overallBand.style.fontSize = 22; overallBand.style.unityFontStyleAndWeight = FontStyle.Bold;
+            overallBand.style.color = new Color(0.16f, 0.36f, 0.27f); overallBand.style.marginBottom = 4;
+            correctionTitle = Text(correctionBody, "A more natural way to say it", "correction-title");
+            original = Text(correctionBody, "", "original");
+            corrected = Text(correctionBody, "", "corrected");
+            correctedZh = Text(correctionBody, "", "corrected-zh");
+            correctedZh.style.fontSize = 17; correctedZh.style.color = new Color(0.3f, 0.36f, 0.33f); correctedZh.style.marginTop = -2; correctedZh.style.marginBottom = 6;
+            explanation = Text(correctionBody, "", "explanation");
+            explanationZh = Text(correctionBody, "", "explanation-zh");
+            explanationZh.style.fontSize = 15; explanationZh.style.color = new Color(0.35f, 0.38f, 0.36f); explanationZh.style.whiteSpace = WhiteSpace.Normal;
+            criteriaRow = Add(correctionBody, "criteria", "row", "wrap");
+            criteriaRow.style.flexDirection = FlexDirection.Column; criteriaRow.style.alignItems = Align.FlexStart;
+            var correctionButtons = Add(correctionBody, null, "row", "wrap");
+            hearCorrection = Action(correctionButtons, "听示范 Hear it", "hear-correction", "", "secondary");
+            practise = Action(correctionButtons, "● 跟读一次 Practise again", "practice", "", "speak");
+            carryOn = Action(correctionButtons, "继续 Continue", "continue", "", "ghost");
+            useModel = Action(correctionButtons, "用这句继续 Use this answer", "use-model", "", "ghost");
             aiTip = Text(dialogue, "", "ai-tip");
             status = Text(dialogue, "", "status");
             suggestions = Add(dialogue, "suggestions", "row", "wrap");
@@ -144,23 +150,13 @@ namespace ContextSpeak.Slice
             slower = Action(controls, "Slower", "slower", "", "secondary");
             menuToggle = Action(controls, "Menu", "menu", "", "secondary");
             checkout = Action(controls, "Checkout", "checkout", "", "review");
-            reply = new TextField("Rehearse by typing (Enter)") { maxLength = 400 };
-            reply.AddToClassList("reply");
-            reply.RegisterCallback<FocusInEvent>(_ => Typing = true);
-            reply.RegisterCallback<FocusOutEvent>(_ => Typing = false);
-            reply.RegisterCallback<KeyDownEvent>(evt =>
-            {
-                if (evt.keyCode != KeyCode.Return && evt.keyCode != KeyCode.KeypadEnter) return;
-                Command?.Invoke("send", reply.value);
-                evt.StopPropagation();
-            }, TrickleDown.TrickleDown);
-            dialogue.Add(reply);
+            BuildLearningCard();
             Show(dialogue, false);
         }
 
         private void BuildMenu()
         {
-            menu = Add(root, "slice-menu", "card");
+            menu = Add(root, "slice-menu", "card", "paper", "receipt");
             var header = Add(menu, null, "row");
             menuTitle = Text(header, "FOREST CAFÉ · MENU", "menu-title");
             Action(header, "×", "menu", "", "ghost", "push-right");
@@ -175,6 +171,11 @@ namespace ContextSpeak.Slice
             Text(menu, "YOUR ORDER", "section-title");
             cartRows = Add(menu, "cart-rows");
             cartTotal = Text(menu, "", "cart-total");
+            var voiceActions = Add(menu, null, "row", "wrap");
+            menuMic = Action(voiceActions, "● Speak order", "record", "", "speak");
+            Action(voiceActions, "Hear waiter", "repeat", "", "secondary");
+            Action(voiceActions, "Back to conversation", "menu", "", "ghost");
+            Text(menu, "Speaking practice · orders still require your spoken reply. Close the menu to see feedback.", "practice-note");
             Show(menu, false);
         }
 
@@ -194,11 +195,6 @@ namespace ContextSpeak.Slice
         }
 
         // ------------------------------------------------------------------ public API
-        public void ClearInput()
-        {
-            if (reply != null) reply.value = "";
-        }
-
         /// Options picked on the detail card before pressing "Add to order".
         public IEnumerable<KeyValuePair<OptionGroup, string>> PendingChoices(string item)
         {
@@ -224,14 +220,15 @@ namespace ContextSpeak.Slice
             RenderNeeds(view);
             RenderQuest(view);
             RenderMap(view);
-            hint.text = view.Hint;
-            Show(hint, view.Hint != "");
-            toast.text = view.Toast;
-            Show(toast, view.Toast != "");
+            RenderContext(view);
 
             // Dialogue
             var talking = view.Talking != Partner.None;
-            Show(dialogue, talking);
+            Show(dialogue, talking && !view.MenuOpen);
+            Show(correction, false);
+            root.EnableInClassList("has-speaking-feedback", false);
+            Show(letterboxTop, talking); Show(letterboxBottom, talking);
+            root.EnableInClassList("conversation-open", talking);
             if (talking) RenderDialogue(view);
             Show(menu, view.MenuOpen);
             if (view.MenuOpen) RenderMenu(view);
@@ -240,59 +237,38 @@ namespace ContextSpeak.Slice
             RenderModal(view);
         }
 
-        private string needsSignature;
         private void RenderNeeds(SliceView view)
         {
-            var signature = $"{view.Energy:0.00}{view.Hunger:0.00}{view.Thirst:0.00}";
-            if (signature == needsSignature) return;
-            needsSignature = signature;
-            needs.Clear();
-            foreach (var (label, value, inverse) in new[] { ("Energy", view.Energy, false), ("Hunger", view.Hunger, true), ("Thirst", view.Thirst, true) })
+            if (needFills == null)
             {
-                var row = Add(needs, null, "need");
-                Text(row, label, "need-label");
-                var bar = Add(row, null, "bar", "small");
-                var fill = Add(bar, null, "bar-fill");
-                fill.style.width = Length.Percent((inverse ? 1 - value : value) * 100);
-                if (inverse && value > 0.75f) fill.AddToClassList("warn");
+                needFills = new VisualElement[3];
+                var labels = new[] { "Energy", "Hunger", "Thirst" };
+                for (var i = 0; i < 3; i++)
+                {
+                    var row = Add(needs, null, "need"); Text(row, labels[i], "need-label");
+                    needFills[i] = Add(Add(row, null, "bar"), null, "bar-fill");
+                }
             }
+            needFills[0].style.width = Length.Percent(view.Energy * 100);
+            needFills[1].style.width = Length.Percent((1 - view.Hunger) * 100);
+            needFills[2].style.width = Length.Percent((1 - view.Thirst) * 100);
+            Show(needs, contextNeeds.Visible(view.Energy, view.Hunger, view.Thirst, Time.unscaledTime)
+                && ContextSpeak.Cafe.UI.UiPreferences.Current.Hud != ContextSpeak.Cafe.UI.HudMode.Off);
         }
 
         private void RenderQuest(SliceView view)
         {
-            var signature = (view.Quest?.Id ?? "none") + string.Join(",", view.QuestEarned);
-            if (signature == questSignature) return;
-            questSignature = signature;
-            questList.Clear();
-            if (view.Quest == null) { questTitle.text = "All café quests complete — explore freely!"; return; }
-            questTitle.text = "QUEST · " + view.Quest.Title;
-            for (var i = 0; i < view.Quest.Objectives.Length; i++)
-            {
-                var done = view.QuestEarned.Contains(view.Quest.Objectives[i]);
-                Text(questList, (done ? "■ " : "□ ") + view.Quest.ObjectiveLabels[i], done ? "objective-done" : "objective");
-            }
+            var objective = "Explore the neighbourhood";
+            if (view.Quest != null)
+                for (var i = 0; i < view.Quest.Objectives.Length; i++)
+                    if (Array.IndexOf(view.QuestEarned, view.Quest.Objectives[i]) < 0) { objective = view.Quest.ObjectiveLabels[i]; break; }
+            questTitle.text = objective;
         }
 
         private void RenderMap(SliceView view)
         {
-            var signature = $"{view.PlayerX:0.0},{view.PlayerZ:0.0}|" + string.Join("|", view.Markers.Select(marker => marker.ToString("F1")));
-            if (signature == mapSignature) return;
-            mapSignature = signature;
-            mapDots.Clear();
-            void Dot(float x, float z, string kind, string label = "", bool target = false)
-            {
-                var dot = Add(mapDots, null, "dot", kind);
-                dot.EnableInClassList("target", target);
-                dot.style.left = Length.Percent(Mathf.InverseLerp(MinX, MaxX, x) * 100);
-                dot.style.top = Length.Percent((1 - Mathf.InverseLerp(MinZ, MaxZ, z)) * 100);
-                if (label != "") Text(dot, label, "dot-label");
-            }
-            foreach (var marker in view.Markers)
-            {
-                var kind = marker.z == 0 ? "rowan" : marker.z == 1 ? "hazel" : marker.z == 2 ? "pier" : marker.z == 4 ? "rowan" : "seat";
-                Dot(marker.x, marker.y, kind, marker.z == 0 ? "Rowan" : marker.z == 1 ? "Hazel" : marker.z == 2 ? "Pier" : "", marker.w > 0);
-            }
-            Dot(view.PlayerX, view.PlayerZ, "player", "You");
+            minimap?.Refresh(view);
+            phoneMap?.Refresh(view);
         }
 
         private void RenderDialogue(SliceView view)
@@ -302,7 +278,8 @@ namespace ContextSpeak.Slice
             speaker.text = view.Speaker;
             role.text = view.Role + " · training target " + view.Band;
             line.text = view.Subtitles ? view.Line : "(Subtitles off — press Repeat to listen again)";
-            translate.text = view.Translation ? "Hide 中文" : "中文 glossary";
+            translate.tooltip = view.Translation ? "Hide Chinese glossary" : "Show Chinese glossary";
+            translate.EnableInClassList("selected", view.Translation);
 
             var glossary = string.Join("|", view.Glossary.Select(entry => entry.Phrase)) + view.Translation;
             if (glossary != glossarySignature)
@@ -316,24 +293,60 @@ namespace ContextSpeak.Slice
             Show(recognized, view.Recognized != "");
 
             var review = view.Review;
-            var hasCorrection = review != null && (review.Corrected != "" || view.PracticeTarget != "" || (view.ModelAnswer != "" && (view.Gate == Gate.ShowModelAndContinue || view.Attempts >= 2)));
-            Show(correction, hasCorrection || review != null && review.Criteria.Length > 0);
+            // An answer that does not answer the question is never "clear and natural": say so and show what to say.
+            var offTopic = review != null && !review.TaskMet && view.PracticeTarget == "" && review.Corrected == "";
+            var hasCorrection = review != null && (review.Corrected != "" || view.PracticeTarget != "" || (view.ModelAnswer != "" && (offTopic || view.Gate == Gate.ShowModelAndContinue || view.Attempts >= 2)));
+            var showFeedback = !view.MenuOpen && (hasCorrection || review != null && review.Criteria.Length > 0);
+            Show(correction, showFeedback);
+            root.EnableInClassList("has-speaking-feedback", showFeedback);
             if (review != null)
             {
-                original.text = hasCorrection ? "You: " + review.Original : "";
+                original.text = hasCorrection ? "你说 You: " + review.Original : "";
                 var natural = view.PracticeTarget != "" ? view.PracticeTarget : review.Corrected != "" ? review.Corrected : view.ModelAnswer;
-                corrected.text = hasCorrection && natural != "" ? "Natural: " + natural : review.GoodLanguage.Length > 0 ? "Nice phrase: “" + review.GoodLanguage[0] + "”" : "Clear and natural.";
+                // A correct but very short answer (e.g. just "Hello") gets a fuller model to aim for next time.
+                var brief = !offTopic && !hasCorrection && review.TaskMet && view.ModelAnswer != ""
+                    && review.Original.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Length <= 3;
+                correctionTitle.text = offTopic ? "没有回答" + view.Speaker + "的问题 · That didn't answer " + view.Speaker + "'s question"
+                    : hasCorrection ? "更自然的说法 · A more natural way to say it"
+                    : brief ? "答对了，再多说一点 · Correct — now say a bit more" : "做得好 · What went well";
+                var shown = offTopic ? view.ModelAnswer : hasCorrection ? natural : brief ? view.ModelAnswer : "";
+                corrected.text = offTopic
+                    ? (view.ModelAnswer != "" ? "试试 Try: " + view.ModelAnswer : "请回答问题 Answer the question: “" + view.Line + "”")
+                    : hasCorrection && natural != "" ? "正确说法 Corrected: " + natural
+                    : brief ? "更好的表达 Better expression: " + view.ModelAnswer
+                    : review.GoodLanguage.Length > 0 ? "好表达 Nice phrase: “" + review.GoodLanguage[0] + "”"
+                    : review.TaskMet ? "清楚自然 · Clear and natural." : "";
+                Show(corrected, corrected.text != "");
+                var zh = ContextSpeak.Life.FeedbackZh.Sentence(shown);
+                correctedZh.text = zh != "" ? "中文：" + zh : "";
+                Show(correctedZh, zh != "");
                 explanation.text = review.Explanation;
+                var whyZh = ContextSpeak.Life.FeedbackZh.Explanation(review.Explanation);
+                explanationZh.text = offTopic && whyZh == "" ? "这句话和对方的问题无关。先听清问题，再用一句完整的话回答。" : whyZh;
                 Show(original, hasCorrection);
                 Show(explanation, review.Explanation != "");
-                var criteria = string.Join(",", review.Criteria.Select(note => note.Level));
-                if (criteria + review.Original != criteriaSignature)
+                Show(explanationZh, explanationZh.text != "");
+                // IELTS-style practice bands: each criterion relative to the training target, overall = mean rounded to .5.
+                // An answer that misses the question cannot score above "developing" for fluency & coherence.
+                var target = ContextSpeak.Life.FeedbackZh.TargetFrom(view.Band);
+                int LevelOf(CriterionNote note) => note.Criterion == SpeakingCriterion.FluencyCoherence && !review.TaskMet && (int)note.Level > 1 ? 1 : (int)note.Level;
+                var overall = ContextSpeak.Life.FeedbackZh.Overall(review.Criteria.Select(note => ContextSpeak.Life.FeedbackZh.CriterionBand(LevelOf(note), target)));
+                overallBand.text = overall.HasValue ? "练习评分 Practice band " + overall.Value.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) + "  ·  目标 target " + view.Band.Replace("IELTS ", "") : "";
+                Show(overallBand, overall.HasValue);
+                var criteria = string.Join(",", review.Criteria.Select(note => LevelOf(note)));
+                if (criteria + review.Original + view.Band != criteriaSignature)
                 {
-                    criteriaSignature = criteria + review.Original;
+                    criteriaSignature = criteria + review.Original + view.Band;
                     criteriaRow.Clear();
                     foreach (var note in review.Criteria)
                     {
-                        var chip = Text(criteriaRow, BandProfile.CriterionName(note.Criterion) + ": " + Level(note.Level), "criterion", "level-" + note.Level.ToString().ToLowerInvariant());
+                        var level = LevelOf(note);
+                        var name = BandProfile.CriterionName(note.Criterion);
+                        var bandOf = ContextSpeak.Life.FeedbackZh.CriterionBand(level, target);
+                        var score = bandOf.HasValue ? bandOf.Value.ToString("0.0", System.Globalization.CultureInfo.InvariantCulture) : "—";
+                        var chip = Text(criteriaRow, ContextSpeak.Life.FeedbackZh.Criterion(name) + " " + name + "  " + score + " · " + ContextSpeak.Life.FeedbackZh.LevelZh(level) + " " + Level((CriterionLevel)level)
+                            + (level == 0 && note.Criterion == SpeakingCriterion.Pronunciation ? "（需要音频分析 needs audio analysis）" : ""),
+                            "criterion", "level-" + ((CriterionLevel)level).ToString().ToLowerInvariant());
                         chip.tooltip = note.Note;
                     }
                 }
@@ -341,7 +354,7 @@ namespace ContextSpeak.Slice
             Show(hearCorrection, hasCorrection);
             Show(practise, view.PracticeTarget != "" || view.Gate == Gate.OfferRetry);
             Show(carryOn, view.PracticeTarget != "" && view.Gate != Gate.RequireRetry || view.Gate == Gate.OfferRetry);
-            Show(useModel, view.ModelAnswer != "" && (view.Gate == Gate.ShowModelAndContinue || view.PracticeTarget == "" && view.Attempts >= 2));
+            Show(useModel, view.ModelAnswer != "" && (view.Gate == Gate.ShowModelAndContinue || offTopic || view.PracticeTarget == "" && view.Attempts >= 2));
             aiTip.text = view.AiTip;
             Show(aiTip, view.AiTip != "");
             status.text = view.Status;
@@ -351,12 +364,13 @@ namespace ContextSpeak.Slice
 
             mic.text = view.Mic == "recording" ? "■ Stop & send" : view.Mic == "requesting" ? "Allow microphone…" : view.Mic == "offline" ? "Voice offline" : view.PracticeTarget != "" ? "● Say it again" : "● Speak";
             mic.SetEnabled(!view.Busy && view.Mic != "offline" && view.Lesson?.Complete != true);
+            menuMic.text = mic.text;
+            menuMic.SetEnabled(mic.enabledSelf);
             mic.EnableInClassList("recording", view.Mic == "recording");
             repeat.SetEnabled(view.CanReplay);
             slower.SetEnabled(view.CanReplay);
             Show(menuToggle, view.Talking == Partner.Rowan);
             Show(checkout, view.Talking == Partner.Rowan && view.Cart.Ready && view.Cart.Editable);
-            reply.label = view.Mic == "offline" ? "Type your reply (Enter) — voice is offline" : "Rehearse by typing (Enter), then say it";
 
             var historyKey = view.History.Length + "" + showHistory;
             if (historyKey != historySignature)
@@ -368,7 +382,9 @@ namespace ContextSpeak.Slice
                 history.scrollOffset = new Vector2(0, 99999);
             }
             Show(history, showHistory);
-            historyToggle.text = showHistory ? "Hide history" : "History";
+            RenderLearning(view);
+            historyToggle.tooltip = showHistory ? "Hide conversation history" : "Show conversation history";
+            historyToggle.EnableInClassList("selected", showHistory);
         }
 
         private static string Level(CriterionLevel level) => level == CriterionLevel.NotAssessed ? "not scored" : level == CriterionLevel.Developing ? "developing" : level == CriterionLevel.OnTarget ? "on target" : "above target";
@@ -417,6 +433,7 @@ namespace ContextSpeak.Slice
                     menuItems.Add(card);
                 }
             }
+            menuTitle.text = "FOREST CAFÉ · Cash " + view.Cash + " · Card " + view.Card;
             RenderDetail(view);
             RenderCart(view);
         }
@@ -511,25 +528,29 @@ namespace ContextSpeak.Slice
             Show(modal, view.Panel != "");
             if (view.Panel == "") { modalSignature = ""; return; }
             var save = view.Save;
-            var signature = view.Panel + save.Inventory.Count + save.Receipts.Count + save.QuestsDone.Count + save.Earned.Count + save.Progress.Turns.Count + save.Band + save.Strictness + save.Translation + save.Subtitles + save.MouseSensitivity + AlwaysLook + GameAudio.Muted + view.Character + view.CharacterName + save.FocusVocabulary + save.PracticeNeed;
+            var signature = view.Panel + save.Learner.Mode + save.Learner.History.Count + save.Learner.Exams.Count + save.Learner.Items.Count + save.Inventory.Count + save.Receipts.Count + save.QuestsDone.Count + save.Earned.Count + save.Progress.Turns.Count + save.Band + save.Strictness + save.Translation + save.Subtitles + save.MouseSensitivity + AlwaysLook + GameAudio.Muted + view.Character + view.CharacterName + save.FocusVocabulary + save.PracticeNeed;
             if (view.Panel == "friends") signature = "friends";
             if (signature == modalSignature) { if (view.Panel == "friends") RefreshFriends(view.Room); return; }
             modalSignature = signature;
             modal.Clear();
-            var card = Add(modal, null, "card", "modal-card");
-            var header = Add(card, null, "row");
-            Text(header, view.Panel == "inventory" ? "BAG" : view.Panel == "journal" ? "JOURNAL" : view.Panel == "map" ? "MAP" : view.Panel == "friends" ? "FRIENDS" : view.Panel == "scenery" ? "SCENERY" : "SETTINGS", "menu-title");
-            Action(header, "Close · Esc", "panel", view.Panel, "ghost", "push-right");
+            phoneMap = null;
+            var card = Add(modal, "phone", "phone", "modal-card");
+            BuildPhoneHeader(card, view);
             var body = new ScrollView(ScrollViewMode.Vertical);
-            body.AddToClassList("modal-body");
-            card.Add(body);
+            body.AddToClassList("modal-body"); card.Add(body);
             switch (view.Panel)
             {
                 case "scenery": Scenery(body); break;
                 case "friends": Friends(body, view.Room); break;
                 case "inventory": Inventory(body, save); break;
                 case "journal": Journal(body, view); break;
-                case "map": Map(body); break;
+                case "learning": LearningPage(body, view); break;
+                case "phone": PhoneHome(body); break;
+                case "map": PhoneMap(body, view); break;
+                case "speaking": MapTabs(body, "speaking"); SpeakingPlan(body); break;
+                case "places": MapTabs(body, "places"); LifePlaces(body); break;
+                case "wallet": Wallet(body, save); break;
+                case "messages": Messages(body, view); break;
                 case "school":
                     Text(body, "CONVERSATION CLUB · CLASS TIMETABLE", "section-title");
                     Text(body, "09:00 · Warm-up: familiar subjects and learning habits\n10:00 · Story time: describe an experience\n11:00 · Discussion: explain and defend your opinion", "hud-muted");
@@ -605,7 +626,7 @@ namespace ContextSpeak.Slice
                 Text(body, "“" + turn.Utterance + "” → “" + turn.Corrected + "”", "hud-muted");
         }
 
-        private void Map(VisualElement body)
+        private void SpeakingPlan(VisualElement body)
         {
             Action(body, "Explore downloaded scenery", "panel", "scenery", "secondary");
             var save = last.Save;
@@ -629,6 +650,10 @@ namespace ContextSpeak.Slice
             var next = trail.Next(save);
             if (next != null) Action(body, "Next stop → " + next.Name, "visit", next.Id, "secondary");
             else Text(body, "Trail complete! Try another target or retry a conversation below.", "say-it");
+        }
+
+        private void LifePlaces(VisualElement body)
+        {
             Text(body, "LIFE SCENES · choose a place to practise", "section-title");
             Action(body, "Order at the café counter · Rowan", "visit", "counter", "secondary");
             foreach (var place in LifeCurriculum.Places)
@@ -722,7 +747,9 @@ namespace ContextSpeak.Slice
 
         private void Settings(VisualElement body, SliceView view)
         {
+            ContextSpeak.Cafe.UI.UiPreferences.AddControls(body);
             var save = view.Save;
+            Action(body, "Learning modes & progress", "panel", "learning", "secondary");
             Action(body, "Play with friends", "panel", "friends", "secondary");
             Text(body, "SOUND", "section-title");
             var mute = new Toggle("Mute all sound") { value = GameAudio.Muted, name = "master-mute" };
@@ -743,7 +770,7 @@ namespace ContextSpeak.Slice
             Text(body, "SUPPLIED ANIMATIONS", "section-title");
             var scenery = FindFirstObjectByType<WorldScenery>();
             foreach (var motion in (scenery != null ? scenery.Entries : Array.Empty<SceneryEntry>()).Where(entry => !string.IsNullOrEmpty(entry.motion))
-                .Select(entry => entry.model + "|" + entry.motion))
+                .SelectMany(entry => (entry.motions ?? new[] { entry.motion }).Select(role => entry.model + "|" + role)).Distinct())
                 Action(body, motion.Replace("|", " · "), "motion-preview", motion, "secondary");
             Text(body, "Vault is an in-place animation preview; it does not bypass world collisions.", "hud-muted");
             Text(body, "TRAINING TARGET · IELTS 3–9", "section-title");
@@ -777,7 +804,7 @@ namespace ContextSpeak.Slice
             Action(row, "Save now", "save", "", "secondary");
             Action(row, "Back to Life town", "life", "", "secondary");
             Action(row, "New game", "reset", "confirm", "ghost");
-            Text(body, "Voice uses the local companion (pnpm world:dev). Without it you can type, and pronunciation is not scored — it needs a dedicated pronunciation provider.", "hud-muted");
+            Text(body, "Voice replies need the local companion. Reconnect above if voice is offline. Acoustic pronunciation scores require a dedicated pronunciation provider.", "hud-muted");
         }
     }
 }

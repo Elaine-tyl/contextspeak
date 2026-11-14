@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cfa873a7182448529975ab641c24d48, type: 3}
+  m_Name: school-help
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Proactive.ProactiveEventAsset
+  Definition:
+    Id: school-help
+    Title: Homework catch-up
+    Prompt: Hey, did you catch what we're supposed to do for tomorrow?
+    Goal: Explain what you understood or ask to check the homework instructions together.
+    Model: I'm not completely sure. Shall we check the instructions together?
+    Prop: 
+    Locations:
+    - school
+    Kind: 2
+    Priority: 10
+  RelationshipReward: 4

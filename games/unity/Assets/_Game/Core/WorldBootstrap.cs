@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -9,10 +8,8 @@ namespace ContextSpeak.Cafe
     {
         private void Start()
         {
-            var query = Uri.TryCreate(Application.absoluteURL, UriKind.Absolute, out var url) ? url.Query.TrimStart('?').Split('&') : new string[0];
-            // Desktop builds open the Forest Café slice; the web keeps the original café unless ?world= says otherwise.
-            var address = query.Contains("world=life") ? "LifeTown" : query.Contains("world=slice") ? "ForestSlice"
-                : query.Contains("world=cafe") || Application.platform == RuntimePlatform.WebGLPlayer ? "ForestCafe" : "ForestSlice";
+            var query = Uri.TryCreate(Application.absoluteURL, UriKind.Absolute, out var url) ? url.Query : "";
+            var address = WorldSceneCatalog.Resolve(query, Application.platform == RuntimePlatform.WebGLPlayer);
             CharacterCreationController.ReturnWorld = address;
             if (!CharacterProfiles.Exists) address = "CharacterCreation";
             var root = CafeInterface.CreateRoot(gameObject);

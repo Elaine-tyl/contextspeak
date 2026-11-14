@@ -3,9 +3,9 @@ import { z } from "zod";
 
 export const poseSchema = z
   .object({
-    x: z.number().min(-70).max(70),
+    x: z.number().min(-130).max(130),
     y: z.number().min(-5).max(20),
-    z: z.number().min(-70).max(90),
+    z: z.number().min(-130).max(130),
     yaw: z.number().min(-360).max(360),
     moving: z.boolean(),
     activity: z.enum(["exploring", "talking", "recording"]),
@@ -24,7 +24,7 @@ export const playerSchema = z
       .max(24)
       .regex(/^[^<>\p{Cc}]+$/u),
     look: z.enum(["Girl", "Boy"]),
-    world: z.literal("ForestSlice"),
+    world: z.enum(["ForestSlice", "MetroCity"]),
     pose: poseSchema,
   })
   .strict();

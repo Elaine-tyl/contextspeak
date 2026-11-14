@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: david
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: david
+  DisplayName: David Tan
+  Age: 3
+  Occupation: Supermarket cashier
+  Home: house_tan
+  Work: supermarket
+  Model: OldCardigan
+  Personality:
+    Sociability: 0.45
+    Shyness: 0.35
+    Patience: 0.6
+    Busyness: 0.55
+    Distraction: 0.4
+    CommunicationStyle: friendly
+  Friends:
+  - arthur
+  Family:
+  - mei
+  - sophie
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 6.5, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 6.5, \"endHour\": 7.75, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 7.75, \"endHour\":
+    8.75, \"activity\": \"Commute\", \"location\": \"\u57CE\u5E02 / Tram\" },\n 
+    { \"startHour\": 8.75, \"endHour\": 17, \"activity\": \"Work\", \"location\":
+    \"supermarket\" },\n  { \"startHour\": 17, \"endHour\": 18, \"activity\": \"LeaveWork\",
+    \"location\": \"\u57CE\u5E02\" },\n  { \"startHour\": 18, \"endHour\": 19, \"activity\":
+    \"Dinner\", \"location\": \"home\" },\n  { \"startHour\": 19, \"endHour\": 22.5,
+    \"activity\": \"Relax\", \"location\": \"home\" },\n  { \"startHour\": 22.5,
+    \"endHour\": 24, \"activity\": \"Sleep\", \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 6
+  Voice:
+    Accent: 3
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Morning!
+  - Hello!
+  SmallTalk:
+  - Did you see the specials today?
+  - The tram was packed this morning.
+  MemorySummary: 

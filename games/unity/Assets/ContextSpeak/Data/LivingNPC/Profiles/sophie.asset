@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: sophie
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: sophie
+  DisplayName: Sophie Tan
+  Age: 1
+  Occupation: High-school student
+  Home: house_tan
+  Work: school
+  Model: Academy
+  Personality:
+    Sociability: 0.7
+    Shyness: 0.25
+    Patience: 0.6
+    Busyness: 0.4
+    Distraction: 0.7
+    CommunicationStyle: friendly
+  Friends:
+  - jack
+  - ava
+  Family:
+  - david
+  - mei
+  Coworkers: []
+  WalkWith: jack
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 7, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 7, \"endHour\": 8, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 8, \"endHour\":
+    15, \"activity\": \"School\", \"location\": \"school\" },\n  { \"startHour\":
+    15, \"endHour\": 16.5, \"activity\": \"Coffee\", \"location\": \"Forest Caf\xE9\"
+    },\n  { \"startHour\": 16.5, \"endHour\": 22, \"activity\": \"Relax\", \"location\":
+    \"home\" },\n  { \"startHour\": 22, \"endHour\": 24, \"activity\": \"Sleep\",
+    \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 6
+  Voice:
+    Accent: 0
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Hi!
+  - Heyyy!
+  SmallTalk:
+  - Did you finish the maths homework?
+  - We have a test on Friday!
+  - Want to get bubble tea later?
+  MemorySummary: 

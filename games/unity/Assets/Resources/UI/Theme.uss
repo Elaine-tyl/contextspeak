@@ -1,0 +1,153 @@
+/* ContextSpeak warm modern-life theme. Runtime panels all share this sheet.
+   Unity UI Toolkit has no background-filter. Glass uses a readable opaque-tint fallback;
+   FrostedGlass accepts a pre-rendered world texture for genuine GPU blur where supplied. */
+:root {
+    --paper: #F7F3EA;
+    --ink: #1F2A26;
+    --forest: #2E5E45;
+    --amber: #C47A2C;
+    --error: #B54A3A;
+    --success: #3F7D52;
+    --glass: rgba(247, 243, 234, 0.94);
+    --muted: #526158;
+    --stroke: #718076;
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 12px;
+    --space-lg: 16px;
+    --space-xl: 24px;
+    --space-xxl: 32px;
+    --font-small: 13px;
+    --font-body: 15px;
+    --font-large: 18px;
+    --font-title: 24px;
+    --font-display: 32px;
+    color: var(--ink);
+    font-size: 15px;
+    -unity-font: resource("UI/SourceSans3");
+}
+.game-ui { color: var(--ink); font-size: 15px; }
+Label { white-space: normal; margin: 0; -unity-text-align: middle-left; }
+Button, .unity-button {
+    background-color: var(--forest); color: var(--paper); background-image: none;
+    border-width: 2px; border-color: transparent; border-radius: 8px;
+    padding: 8px 16px; margin: 4px; min-height: 40px; font-size: 15px;
+    transition-property: background-color, border-color, opacity;
+    transition-duration: 180ms; transition-timing-function: ease-out;
+}
+Button:hover, .unity-button:hover { background-color: #224B35; }
+Button:active, .unity-button:active { background-color: #1F2A26; }
+Button:focus, .unity-button:focus { border-color: var(--paper); border-bottom-color: #C47A2C; }
+Button:disabled, .unity-button:disabled { color: #526158; background-color: #D9DED6; border-color: #A6B0A7; }
+.unity-base-field { margin: 8px 4px; min-height: 40px; flex-shrink: 0; }
+.unity-base-field__label { min-width: 148px; font-size: 15px; color: var(--ink); white-space: normal; margin-right: 12px; }
+.unity-base-field__input { min-height: 40px; flex-grow: 1; }
+TextField, IntegerField, FloatField { color: var(--ink); font-size: 15px; }
+.unity-text-field__input, .unity-base-text-field__input, .unity-integer-field__input, .unity-float-field__input {
+    background-image: none; background-color: #FFFDFA; color: var(--ink);
+    border-width: 1px; border-color: var(--stroke); border-radius: 8px;
+    padding: 8px 12px; min-height: 40px; font-size: 15px;
+    --unity-selection-color: #C8DCCB; --unity-cursor-color: var(--ink);
+}
+.unity-text-field__input:focus, .unity-base-text-field__input:focus,
+.unity-integer-field__input:focus, .unity-float-field__input:focus { border-width: 2px; border-color: var(--forest); }
+.unity-base-popup-field__input, .unity-popup-field__input, .unity-dropdown-field__input {
+    background-image: none; background-color: #FFFDFA; color: var(--ink);
+    border-width: 1px; border-color: var(--stroke); border-radius: 8px; padding: 8px 12px; min-height: 40px;
+}
+.unity-base-popup-field__text, .unity-popup-field__text { color: var(--ink); font-size: 15px; }
+.unity-base-popup-field__arrow { -unity-background-image-tint-color: var(--forest); width: 14px; height: 14px; }
+.unity-base-popup-field:focus > .unity-base-popup-field__input { border-width: 2px; border-color: var(--forest); }
+.unity-base-dropdown, .unity-base-dropdown__container, .unity-base-dropdown__content, .unity-popup-field__menu {
+    background-color: var(--paper); color: var(--ink); border-color: var(--stroke); border-width: 1px; border-radius: 8px; padding: 4px;
+}
+.unity-base-dropdown__item { min-height: 40px; padding: 8px 12px; color: var(--ink); font-size: 15px; background-color: var(--paper); }
+.unity-base-dropdown__item:hover, .unity-base-dropdown__item:focus, .unity-base-dropdown__item--selected { background-color: var(--forest); color: var(--paper); }
+Toggle { min-height: 40px; color: var(--ink); }
+.unity-toggle__input { background-color: transparent; background-image: none; }
+.unity-toggle__checkmark {
+    min-width: 24px; min-height: 24px; width: 24px; height: 24px; margin-right: 12px;
+    border-width: 2px; border-color: var(--forest); border-radius: 4px; background-color: #FFFDFA;
+    -unity-background-image-tint-color: var(--paper);
+}
+.unity-toggle:checked .unity-toggle__checkmark, .unity-toggle__input:checked .unity-toggle__checkmark { background-color: var(--forest); }
+.unity-toggle:focus .unity-toggle__checkmark { border-color: var(--amber); border-width: 3px; }
+.unity-toggle__text { font-size: 15px; color: var(--ink); white-space: normal; }
+Slider, SliderInt { min-height: 40px; }
+.unity-base-slider__tracker { height: 4px; border-radius: 999px; background-color: #718076; border-width: 0; }
+.unity-base-slider__dragger, .unity-base-slider__dragger-border {
+    width: 20px; height: 20px; border-radius: 999px; background-color: var(--forest); border-width: 2px; border-color: var(--paper);
+}
+.unity-base-slider:focus .unity-base-slider__dragger-border { border-color: var(--amber); border-width: 3px; }
+.unity-base-slider__input { flex-grow: 1; min-width: 100px; font-size: 15px; }
+.unity-base-slider__text-field { width: 64px; min-width: 64px; flex-grow: 0; }
+.unity-base-slider__tracker, .unity-base-slider__dragger, .unity-base-slider__dragger-border { background-image: none; }
+ScrollView { flex-shrink: 1; min-height: 0; }
+.unity-scroller { background-color: transparent; border-width: 0; opacity: 0; transition-property: opacity; transition-duration: 180ms; }
+.unity-scroll-view:hover .unity-scroller, .unity-scroll-view:focus .unity-scroller { opacity: 1; }
+.unity-scroller--vertical { width: 8px; min-width: 8px; }
+.unity-scroller--horizontal { height: 8px; min-height: 8px; }
+.unity-scroller .unity-slider { margin: 0; min-width: 8px; min-height: 8px; }
+.unity-scroller .unity-base-slider__dragger, .unity-scroller .unity-base-slider__dragger-border { min-width: 6px; min-height: 24px; border-width: 0; background-color: var(--forest); border-radius: 999px; }
+.unity-scroller .unity-base-slider__tracker { background-color: #D9DED6; border-radius: 999px; }
+.unity-scroller__low-button, .unity-scroller__high-button { display: none; }
+.unity-tab-view__header-container { background-color: transparent; border-bottom-width: 1px; border-bottom-color: var(--stroke); }
+.unity-tab { background-color: transparent; color: var(--ink); padding: 8px 12px; min-height: 40px; border-radius: 8px; }
+.unity-tab--checked, .unity-tab:hover, .unity-tab:focus { background-color: var(--forest); color: var(--paper); }
+.unity-tab__header-label { color: var(--ink); font-size: 15px; }
+.unity-tab--checked .unity-tab__header-label { color: var(--paper); }
+.phone {
+    background-color: #17211D; color: var(--paper); border-width: 3px; border-color: #49574E;
+    border-radius: 32px; padding: 24px; width: 620px; max-width: 94%; max-height: 92%;
+    position: absolute; right: 32px; top: 4%;
+    transition-property: opacity, translate; transition-duration: 200ms; transition-timing-function: ease-out;
+}
+.phone-header { flex-direction: row; justify-content: space-between; padding-bottom: 16px; color: var(--paper); font-size: 24px; }
+.phone-apps { flex-direction: row; flex-wrap: wrap; margin-bottom: 16px; }
+.phone-apps Button { flex-grow: 1; margin: 4px; background-color: #F7F3EA; color: var(--ink); }
+.phone-apps Button:focus, .phone-apps Button:hover { border-color: var(--amber); }
+.phone-screen { background-color: var(--paper); color: var(--ink); border-radius: 10px; padding: 16px; flex-grow: 1; flex-shrink: 1; min-height: 0; }
+.glass { background-color: var(--glass); border-width: 1px; border-color: rgba(247,243,234,0.9); border-radius: 10px; padding: 16px; }
+.paper, .receipt { -unity-font: url("SourceSerif4.ttf"); background-color: var(--paper); color: var(--ink); background-image: url("Paper.png"); border-radius: 4px; border-width: 1px; border-color: #CFC7B7; padding: 24px; }
+.receipt { width: 440px; max-width: 90%; }
+.ui-chip { background-color: rgba(31,42,38,0.92); color: var(--paper); border-radius: 999px; padding: 8px 12px; font-size: 15px; }
+.subtitle-card { background-color: rgba(17,25,21,0.96); color: var(--paper); border-radius: 10px; padding: 16px 24px; font-size: 24px; }
+.subtitle-card Label, .subtitle-line { color: var(--paper); white-space: normal; }
+.practice-note { font-size: 13px; color: #526158; white-space: normal; margin-top: 8px; }
+.subtitle-card .practice-note, .phone > .practice-note { color: #E4E8DE; }
+.toast-stack { position: absolute; left: 30%; right: 30%; top: 24px; align-items: center; }
+.toast { color: var(--paper); background-color: rgba(31,42,38,0.97); border-radius: 10px; border-left-width: 4px; border-left-color: #C47A2C; padding: 12px 16px; margin-bottom: 8px; font-size: 15px; max-width: 100%; white-space: normal; }
+.toast-success { border-left-color: #80BB8E; }
+.toast-error { border-left-color: #F1A48E; }
+.world-prompt { position: absolute; max-width: 320px; padding: 8px 12px; border-radius: 8px; background-color: rgba(17,25,21,0.96); color: var(--paper); font-size: 15px; white-space: normal; }
+.hud-off .contextual-hud, .hud-off .ui-hud { display: none; }
+.colour-blind { --amber: #8C520C; --error: #8F392C; --success: #255B78; --forest: #255B78; }
+.colour-blind .toast-success { border-left-color: #8AC5E8; }
+.colour-blind .toast-error { border-left-color: #F2C36C; }
+.reduce-motion *, .reduce-motion { transition-duration: 0s; transition-delay: 0s; }
+.subtitle-size-18 .subtitle-line, .subtitle-size-18 .subtitle-card { font-size: 18px; }
+.subtitle-size-19 .subtitle-line, .subtitle-size-19 .subtitle-card { font-size: 19px; }
+.subtitle-size-20 .subtitle-line, .subtitle-size-20 .subtitle-card { font-size: 20px; }
+.subtitle-size-21 .subtitle-line, .subtitle-size-21 .subtitle-card { font-size: 21px; }
+.subtitle-size-22 .subtitle-line, .subtitle-size-22 .subtitle-card { font-size: 22px; }
+.subtitle-size-23 .subtitle-line, .subtitle-size-23 .subtitle-card { font-size: 23px; }
+.subtitle-size-24 .subtitle-line, .subtitle-size-24 .subtitle-card { font-size: 24px; }
+.subtitle-size-25 .subtitle-line, .subtitle-size-25 .subtitle-card { font-size: 25px; }
+.subtitle-size-26 .subtitle-line, .subtitle-size-26 .subtitle-card { font-size: 26px; }
+.subtitle-size-27 .subtitle-line, .subtitle-size-27 .subtitle-card { font-size: 27px; }
+.subtitle-size-28 .subtitle-line, .subtitle-size-28 .subtitle-card { font-size: 28px; }
+.subtitle-size-29 .subtitle-line, .subtitle-size-29 .subtitle-card { font-size: 29px; }
+.subtitle-size-30 .subtitle-line, .subtitle-size-30 .subtitle-card { font-size: 30px; }
+.subtitle-size-31 .subtitle-line, .subtitle-size-31 .subtitle-card { font-size: 31px; }
+.subtitle-size-32 .subtitle-line, .subtitle-size-32 .subtitle-card { font-size: 32px; }
+/* Unity's native horizontal slider uses ID selectors; match their specificity so no grey skin leaks through. */
+.game-ui .unity-base-slider #unity-tracker {
+    height: 4px; border-width: 0; border-radius: 2px; background-image: none; background-color: #718076;
+}
+.game-ui .unity-base-slider #unity-dragger,
+.game-ui .unity-base-slider #unity-dragger-border {
+    width: 20px; height: 20px; border-radius: 10px; border-width: 2px;
+    border-color: #F7F3EA; background-color: #2E5E45; background-image: none;
+}
+.fade-surface { transition-property: opacity; transition-duration: 180ms; transition-timing-function: ease-out; }
+.reduce-motion .fade-surface { transition-duration: 0s; }

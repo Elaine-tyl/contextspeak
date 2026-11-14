@@ -20,7 +20,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-26.0, 0.05, 67.0],
+    "position": [
+      -17.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -46,10 +50,15 @@
     "extent": 3.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [52.0, 0.05, -65.0],
+    "position": [
+      34.0,
+      0.05,
+      -62.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 5.3
   },
   {
     "id": "Worldf412ab1c19",
@@ -73,10 +82,15 @@
     "extent": 3.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [64.0, 0.05, -65.0],
+    "position": [
+      55.0,
+      0.05,
+      -35.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 5.0
   },
   {
     "id": "Worldce470abc08",
@@ -102,8 +116,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [43.0, 0.05, -50.0],
-    "targetHeight": 0
+    "position": [
+      28.0,
+      0.05,
+      -47.0
+    ],
+    "targetHeight": 0,
+    "realSize": 4.9
   },
   {
     "id": "World7926f9e8dd",
@@ -128,8 +147,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [46.0, 0.05, -44.0],
-    "targetHeight": 0
+    "position": [
+      64.0,
+      0.05,
+      -50.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.4
   },
   {
     "id": "World0903d331e8",
@@ -153,7 +177,11 @@
     "extent": 7.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-59.0, 0.05, -56.0],
+    "position": [
+      -59.0,
+      0.05,
+      -56.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -179,7 +207,11 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [22.0, 0.05, 70.0],
+    "position": [
+      13.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -205,10 +237,15 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-26.0, 0.05, 64.0],
+    "position": [
+      -17.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.6
   },
   {
     "id": "Worlded93a499ed",
@@ -227,10 +264,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-59.0, 0.05, 73.0],
+    "position": [
+      -41.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.0
   },
   {
     "id": "World809335ca37",
@@ -249,10 +291,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-56.0, 0.05, 76.0],
+    "position": [
+      -65.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.8
   },
   {
     "id": "World35478dfa2b",
@@ -273,8 +320,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [37.0, 0.05, 61.0],
-    "targetHeight": 0
+    "position": [
+      34.0,
+      0.05,
+      58.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.6
   },
   {
     "id": "World81fedc6499",
@@ -287,8 +339,11 @@
     ],
     "usage": "character",
     "model": "TrenchElder",
-    "purpose": "Supplied walk clip on TrenchElder",
-    "motion": "Walk"
+    "purpose": "Supplied animations on TrenchElder",
+    "motion": "Walk",
+    "motions": [
+      "Walk"
+    ]
   },
   {
     "id": "World29057d1217",
@@ -307,7 +362,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-65.0, 0.05, 76.0],
+    "position": [
+      -59.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -352,7 +411,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [40.0, 0.05, 61.0],
+    "position": [
+      43.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -374,10 +437,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-62.0, 0.05, 70.0],
+    "position": [
+      -50.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.1
   },
   {
     "id": "Worldb32547cd57",
@@ -398,8 +466,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [40.0, 0.05, -65.0],
-    "targetHeight": 0
+    "position": [
+      28.0,
+      0.05,
+      -38.0
+    ],
+    "targetHeight": 0,
+    "realSize": 4.8
   },
   {
     "id": "World8cd22863d5",
@@ -418,10 +491,15 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [58.0, 0.05, 49.0],
+    "position": [
+      58.0,
+      0.05,
+      31.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 3.0
   },
   {
     "id": "World1f29c45ae0",
@@ -442,7 +520,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [61.0, 0.05, -2.0],
+    "position": [
+      64.0,
+      0.05,
+      -5.0
+    ],
     "targetHeight": 0
   },
   {
@@ -467,10 +549,15 @@
     "extent": 3.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [37.0, 0.05, -50.0],
+    "position": [
+      37.0,
+      0.05,
+      -38.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 5.3
   },
   {
     "id": "World00f467d5f1",
@@ -493,10 +580,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-56.0, 0.05, 70.0],
+    "position": [
+      -53.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.6
   },
   {
     "id": "Worldad9b42d69f",
@@ -517,8 +609,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [13.0, 0.05, -41.0],
-    "targetHeight": 0
+    "position": [
+      13.0,
+      0.05,
+      -35.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.4
   },
   {
     "id": "World5edf638f35",
@@ -539,121 +636,91 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [19.0, 0.05, -35.0],
-    "targetHeight": 0
+    "position": [
+      19.0,
+      0.05,
+      -32.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.4
   },
   {
-    "id": "World69bf1600ee",
-    "name": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk",
-    "sourceHash": "69bf1600ee27c43afe25d2fd4e297c8c1331881a83966b4a6363412f2b75c254",
-    "source": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk_69bf1600ee/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.fbx",
+    "id": "Worldb6c02bff38",
+    "name": "Academy_Daydream_20261112_animated_mixamo_All_animation",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
     "textures": {
-      "baseColor": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk_69bf1600ee/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.png",
-      "metallic": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk_69bf1600ee/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk_metallic.png",
-      "normal": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk_69bf1600ee/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk_normal.png",
-      "roughness": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk_69bf1600ee/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk_roughness.png",
-      "surface": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk_69bf1600ee/MetallicSmoothness.png"
+      "baseColor": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.png",
+      "metallic": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation_metallic.png",
+      "normal": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation_normal.png",
+      "roughness": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation_roughness.png",
+      "surface": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/MetallicSmoothness.png"
     },
     "sources": [
-      "Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.zip::Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.fbx"
+      "unitycomponent/男主.zip::Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx"
     ],
     "usage": "character",
     "model": "Daydream",
-    "purpose": "Supplied walk clip on Daydream",
-    "motion": "Walk"
-  },
-  {
-    "id": "World65f2722621",
-    "name": "Academy_Daydream_20261112_animated_mixamo_RunFast",
-    "sourceHash": "65f272262156a5acf7f83c3625619fccdac7b8502f23b5ae58180b0c2a61fca9",
-    "source": "Academy_Daydream_20261112_animated_mixamo_RunFast_65f2722621/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast.fbx",
-    "textures": {
-      "baseColor": "Academy_Daydream_20261112_animated_mixamo_RunFast_65f2722621/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast.png",
-      "metallic": "Academy_Daydream_20261112_animated_mixamo_RunFast_65f2722621/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast_metallic.png",
-      "normal": "Academy_Daydream_20261112_animated_mixamo_RunFast_65f2722621/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast_normal.png",
-      "roughness": "Academy_Daydream_20261112_animated_mixamo_RunFast_65f2722621/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast_roughness.png",
-      "surface": "Academy_Daydream_20261112_animated_mixamo_RunFast_65f2722621/MetallicSmoothness.png"
-    },
-    "sources": [
-      "Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast.zip::Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast.fbx"
+    "motion": "_360_Power_Spin_Jump",
+    "motions": [
+      "_360_Power_Spin_Jump",
+      "Agree_Gesture",
+      "air_squat",
+      "Alert_Quick_Turn_Right",
+      "Alert",
+      "All_Night_Dance",
+      "Angry_Ground_Stomp_1",
+      "Angry_Ground_Stomp_2",
+      "Angry_Ground_Stomp",
+      "Walk",
+      "Run_02",
+      "Run_03",
+      "RunFast",
+      "Running_Reload",
+      "Run",
+      "Spear_Walk",
+      "Walk_Backward_inplace",
+      "Walk_Backward_While_Shooting",
+      "Walking"
     ],
-    "usage": "animation",
-    "model": "Daydream",
-    "purpose": "Supplied run clip on Daydream",
-    "motion": "Run"
+    "purpose": "Supplied animations on Daydream"
   },
   {
-    "id": "Worldafc7b82cee",
-    "name": "Academy_Daydream_20261112_texture",
-    "sourceHash": "afc7b82cee32b26344972dc780b95173a460f64ee402656555d2bd98e998a9da",
-    "source": "Academy_Daydream_20261112_texture_afc7b82cee/Meshy_AI_Academy_Daydream_20261112_texture.fbx",
+    "id": "Worldbaa95b91fb",
+    "name": "Academy_Elegance_20261112_animated_mixamo_All_animation",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
     "textures": {
-      "baseColor": "Academy_Daydream_20261112_texture_afc7b82cee/Meshy_AI_Academy_Daydream_20261112_texture.png",
-      "metallic": "Academy_Daydream_20261112_texture_afc7b82cee/Meshy_AI_Academy_Daydream_20261112_texture_metallic.png",
-      "normal": "Academy_Daydream_20261112_texture_afc7b82cee/Meshy_AI_Academy_Daydream_20261112_texture_normal.png",
-      "roughness": "Academy_Daydream_20261112_texture_afc7b82cee/Meshy_AI_Academy_Daydream_20261112_texture_roughness.png",
-      "surface": "Academy_Daydream_20261112_texture_afc7b82cee/MetallicSmoothness.png"
+      "baseColor": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.png",
+      "metallic": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation_metallic.png",
+      "normal": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation_normal.png",
+      "roughness": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation_roughness.png",
+      "surface": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/MetallicSmoothness.png"
     },
     "sources": [
-      "Meshy_AI_Academy_Daydream_20261112_texture_fbx.zip::Meshy_AI_Academy_Daydream_20261112_texture_fbx/Meshy_AI_Academy_Daydream_20261112_texture.fbx"
-    ],
-    "usage": "world",
-    "zone": "Wardrobe",
-    "purpose": "Uniform display",
-    "extent": 1.7,
-    "triangleBudget": 16000,
-    "textureLimit": 512,
-    "position": [-17.0, 0.05, -44.0],
-    "cutout": false,
-    "materialVersion": 1,
-    "targetHeight": 0
-  },
-  {
-    "id": "World74029dec02",
-    "name": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault",
-    "sourceHash": "74029dec0228fd44be003e69bf9894a565a02f00b665fc21033bbc5297381b4f",
-    "source": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_74029dec02/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.fbx",
-    "textures": {
-      "baseColor": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_74029dec02/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.png",
-      "metallic": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_74029dec02/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_metallic.png",
-      "normal": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_74029dec02/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_normal.png",
-      "roughness": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_74029dec02/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_roughness.png",
-      "surface": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_74029dec02/MetallicSmoothness.png"
-    },
-    "sources": [
-      "Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.zip::Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.fbx"
+      "unitycomponent/女主.zip::Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx"
     ],
     "usage": "character",
     "model": "Academy",
-    "purpose": "Supplied vault clip on Academy",
-    "motion": "Vault"
-  },
-  {
-    "id": "World55b50b8147",
-    "name": "Academy_Elegance_20261112_texture",
-    "sourceHash": "55b50b814778b7bbc5f0694041d06f4aba25e66f0076620da01a52719cfdad5d",
-    "source": "Academy_Elegance_20261112_texture_55b50b8147/Meshy_AI_Academy_Elegance_20261112_texture.fbx",
-    "textures": {
-      "baseColor": "Academy_Elegance_20261112_texture_55b50b8147/Meshy_AI_Academy_Elegance_20261112_texture.png",
-      "metallic": "Academy_Elegance_20261112_texture_55b50b8147/Meshy_AI_Academy_Elegance_20261112_texture_metallic.png",
-      "normal": "Academy_Elegance_20261112_texture_55b50b8147/Meshy_AI_Academy_Elegance_20261112_texture_normal.png",
-      "roughness": "Academy_Elegance_20261112_texture_55b50b8147/Meshy_AI_Academy_Elegance_20261112_texture_roughness.png",
-      "surface": "Academy_Elegance_20261112_texture_55b50b8147/MetallicSmoothness.png"
-    },
-    "sources": [
-      "Meshy_AI_Academy_Elegance_20261112_texture_fbx.zip::Meshy_AI_Academy_Elegance_20261112_texture_fbx/Meshy_AI_Academy_Elegance_20261112_texture.fbx",
-      "Meshy_AI_Academy_Elegance_20261112_texture_fbx/Meshy_AI_Academy_Elegance_20261112_texture.fbx"
+    "motion": "Agree_Gesture",
+    "motions": [
+      "Agree_Gesture",
+      "Alert_Quick_Turn_Right",
+      "All_Night_Dance",
+      "Angry_Ground_Stomp_2",
+      "Angry_Ground_Stomp",
+      "Back_Jump",
+      "Backflip_Jump",
+      "Big_Wave_Hello",
+      "Run_02",
+      "Run_and_Jump",
+      "Run_and_Leap",
+      "RunFast",
+      "Run",
+      "Vault",
+      "Walk"
     ],
-    "usage": "world",
-    "zone": "Wardrobe",
-    "purpose": "Uniform display",
-    "extent": 1.7,
-    "triangleBudget": 16000,
-    "textureLimit": 512,
-    "position": [-32.0, 0.05, -62.0],
-    "cutout": false,
-    "materialVersion": 1,
-    "targetHeight": 0
+    "purpose": "Supplied animations on Academy"
   },
   {
     "id": "World0e7aeef926",
@@ -692,7 +759,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-53.0, 0.05, 73.0],
+    "position": [
+      -56.0,
+      0.05,
+      76.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -716,7 +787,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [58.0, 0.05, -59.0],
+    "position": [
+      46.0,
+      0.05,
+      -50.0
+    ],
     "targetHeight": 0
   },
   {
@@ -738,7 +813,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [52.0, 0.05, -50.0],
+    "position": [
+      58.0,
+      0.05,
+      -44.0
+    ],
     "targetHeight": 0
   },
   {
@@ -782,10 +861,15 @@
     "extent": 0.9,
     "triangleBudget": 24025,
     "textureLimit": 512,
-    "position": [-29.0, 0.05, 67.0],
+    "position": [
+      -11.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.6
   },
   {
     "id": "Worlddef6698050",
@@ -808,6 +892,38 @@
     "purpose": "Distinct talking resident"
   },
   {
+    "id": "Worldc24fab61cf",
+    "name": "Amber_Octopus_20260801_texture",
+    "sourceHash": "c24fab61cff6332d1b3a079e15f32210b0a5bc19153ffa9b97c219ac23613a2d",
+    "source": "Amber_Octopus_20260801_texture_c24fab61cf/Meshy_AI_Amber_Octopus_20260801_texture.fbx",
+    "textures": {
+      "baseColor": "Amber_Octopus_20260801_texture_c24fab61cf/Meshy_AI_Amber_Octopus_20260801_texture.png",
+      "emission": "Amber_Octopus_20260801_texture_c24fab61cf/Meshy_AI_Amber_Octopus_20260801_texture_emission.png",
+      "metallic": "Amber_Octopus_20260801_texture_c24fab61cf/Meshy_AI_Amber_Octopus_20260801_texture_metallic.png",
+      "normal": "Amber_Octopus_20260801_texture_c24fab61cf/Meshy_AI_Amber_Octopus_20260801_texture_normal.png",
+      "roughness": "Amber_Octopus_20260801_texture_c24fab61cf/Meshy_AI_Amber_Octopus_20260801_texture_roughness.png",
+      "surface": "Amber_Octopus_20260801_texture_c24fab61cf/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/Meshy_AI_Amber_Octopus_20260801_texture_fbx.zip::Meshy_AI_Amber_Octopus_20260801_texture_fbx/Meshy_AI_Amber_Octopus_20260801_texture.fbx"
+    ],
+    "usage": "world",
+    "zone": "Aquarium",
+    "purpose": "Aquarium sculpture trail",
+    "extent": 0.9,
+    "triangleBudget": 16000,
+    "textureLimit": 512,
+    "targetHeight": 0,
+    "cutout": false,
+    "materialVersion": 2,
+    "position": [
+      37.0,
+      0.05,
+      67.0
+    ],
+    "realSize": 1.2
+  },
+  {
     "id": "World213ef09876",
     "name": "Anatomy_Wardrobe_20250906_texture",
     "sourceHash": "213ef09876e1cefb0b9688ad21b32dcfac9799cd2324ef6ffa4fc1438f83be6f",
@@ -828,10 +944,15 @@
     "extent": 2.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-20.0, 0.05, -62.0],
+    "position": [
+      -23.0,
+      0.05,
+      -59.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.0
   },
   {
     "id": "World4029fd81ce",
@@ -869,10 +990,15 @@
     "extent": 2.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-23.0, 0.05, -59.0],
+    "position": [
+      -8.0,
+      0.05,
+      -62.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.1
   },
   {
     "id": "World469a8db931",
@@ -898,8 +1024,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [64.0, 0.05, -5.0],
-    "targetHeight": 0
+    "position": [
+      55.0,
+      0.05,
+      -5.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.35
   },
   {
     "id": "Worldefca7be382",
@@ -923,7 +1054,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-20.0, 0.05, 61.0],
+    "position": [
+      -5.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -952,8 +1087,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [40.0, 0.05, -44.0],
-    "targetHeight": 0
+    "position": [
+      25.0,
+      0.05,
+      -65.0
+    ],
+    "targetHeight": 0,
+    "realSize": 4.9
   },
   {
     "id": "World8b0ce93022",
@@ -977,7 +1117,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-23.0, 0.05, 61.0],
+    "position": [
+      -38.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -1026,8 +1170,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [25.0, 0.05, 67.0],
-    "targetHeight": 0
+    "position": [
+      19.0,
+      0.05,
+      64.0
+    ],
+    "targetHeight": 0,
+    "realSize": 1.5
   },
   {
     "id": "Worldeda907303e",
@@ -1050,7 +1199,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [40.0, 0.05, 64.0],
+    "position": [
+      34.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -1079,7 +1232,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [64.0, 0.05, -50.0],
+    "position": [
+      43.0,
+      0.05,
+      -62.0
+    ],
     "targetHeight": 0
   },
   {
@@ -1104,7 +1261,11 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [25.0, 0.05, 73.0],
+    "position": [
+      37.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -1128,7 +1289,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-62.0, 0.05, -47.0],
+    "position": [
+      -62.0,
+      0.05,
+      -47.0
+    ],
     "targetHeight": 0
   },
   {
@@ -1152,7 +1317,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-59.0, 0.05, 67.0],
+    "position": [
+      -65.0,
+      0.05,
+      76.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -1174,7 +1343,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-17.0, 0.05, 61.0],
+    "position": [
+      -2.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -1220,7 +1393,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-29.0, 0.05, 64.0],
+    "position": [
+      -2.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -1248,8 +1425,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [19.0, 0.05, 67.0],
-    "targetHeight": 0
+    "position": [
+      31.0,
+      0.05,
+      76.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.4
   },
   {
     "id": "Worldeec2540eee",
@@ -1273,10 +1455,34 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [10.0, 0.05, -38.0],
+    "position": [
+      10.0,
+      0.05,
+      -53.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.6
+  },
+  {
+    "id": "Worlda065797b0d",
+    "name": "Braided_Schoolgirl_Figure_20260901_texture",
+    "sourceHash": "a065797b0d30fe94dcad0ef291fae220d956ed3a1d19f8b2e3da2588975b8d62",
+    "source": "Braided_Schoolgirl_Figure_20260901_texture_a065797b0d/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture.fbx",
+    "textures": {
+      "baseColor": "Braided_Schoolgirl_Figure_20260901_texture_a065797b0d/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture.png",
+      "metallic": "Braided_Schoolgirl_Figure_20260901_texture_a065797b0d/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture_metallic.png",
+      "normal": "Braided_Schoolgirl_Figure_20260901_texture_a065797b0d/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture_normal.png",
+      "roughness": "Braided_Schoolgirl_Figure_20260901_texture_a065797b0d/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture_roughness.png",
+      "surface": "Braided_Schoolgirl_Figure_20260901_texture_a065797b0d/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture_fbx.zip::Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture_fbx/Meshy_AI_Braided_Schoolgirl_Figure_20260901_texture.fbx"
+    ],
+    "usage": "character",
+    "model": "BraidedSchoolgirl",
+    "purpose": "Distinct talking resident"
   },
   {
     "id": "World6402de282c",
@@ -1301,7 +1507,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-62.0, 0.05, -65.0],
+    "position": [
+      -62.0,
+      0.05,
+      -65.0
+    ],
     "targetHeight": 0
   },
   {
@@ -1327,8 +1537,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [46.0, 0.05, -38.0],
-    "targetHeight": 0
+    "position": [
+      28.0,
+      0.05,
+      -56.0
+    ],
+    "targetHeight": 0,
+    "realSize": 5.0
   },
   {
     "id": "Worlde31deb29a7",
@@ -1336,7 +1551,9 @@
     "sourceHash": "e31deb29a75c76f26771b6455b1972d0f81f24ebff03f728113f9fd195dbce53",
     "source": "Burgundy_Tufted_Leather_Sofa_20261006_generate_e31deb29a7/Meshy_AI_Burgundy_Tufted_Leather_Sofa_20261006_generate.fbx",
     "textures": {},
-    "sources": ["Meshy_AI_Burgundy_Tufted_Leather_Sofa_20261006_generate.fbx"],
+    "sources": [
+      "Meshy_AI_Burgundy_Tufted_Leather_Sofa_20261006_generate.fbx"
+    ],
     "usage": "world",
     "zone": "Furniture",
     "purpose": "Furniture and music garden",
@@ -1345,8 +1562,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [16.0, 0.05, -62.0],
-    "targetHeight": 0
+    "position": [
+      1.0,
+      0.05,
+      -56.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.1
   },
   {
     "id": "Worldc51bb9d369",
@@ -1365,7 +1587,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-8.0, 0.05, 70.0],
+    "position": [
+      -41.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -1387,7 +1613,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-26.0, 0.05, 61.0],
+    "position": [
+      1.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -1413,10 +1643,43 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-14.0, 0.05, 61.0],
+    "position": [
+      -41.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
+  },
+  {
+    "id": "Worldd823ae6e3b",
+    "name": "Café_Charm_20261113_animated_mixamo_All_animation",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "source": "Café_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "textures": {
+      "baseColor": "Café_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation.png",
+      "metallic": "Café_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation_metallic.png",
+      "normal": "Café_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation_normal.png",
+      "roughness": "Café_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation_roughness.png",
+      "surface": "Café_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/主NPC2.zip::Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation/Meshy_AI_Café_Charm_20261113_animated_mixamo_All_animation.fbx"
+    ],
+    "usage": "character",
+    "model": "CafeCharm",
+    "purpose": "Supplied animations on CafeCharm",
+    "motion": "Hello_Run",
+    "motions": [
+      "Hello_Run",
+      "RunFast",
+      "Run",
+      "Sit_to_Stand_Transition_F",
+      "walking_2_inplace",
+      "walking_2",
+      "Walk"
+    ]
   },
   {
     "id": "World66e1a41ff9",
@@ -1439,7 +1702,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-50.0, 0.05, 76.0],
+    "position": [
+      -62.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -1465,10 +1732,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-65.0, 0.05, 67.0],
+    "position": [
+      -53.0,
+      0.05,
+      58.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.0
   },
   {
     "id": "World6cf59f3fa5",
@@ -1491,10 +1763,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [7.0, 0.05, -41.0],
+    "position": [
+      -5.0,
+      0.05,
+      -47.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.9
   },
   {
     "id": "Worldaa90aa5c09",
@@ -1519,8 +1796,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [52.0, 0.05, -35.0],
-    "targetHeight": 0
+    "position": [
+      19.0,
+      0.05,
+      -47.0
+    ],
+    "targetHeight": 0,
+    "realSize": 4.5
   },
   {
     "id": "Worldd1bcc6966b",
@@ -1544,10 +1826,15 @@
     "extent": 3.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [34.0, 0.05, -65.0],
+    "position": [
+      16.0,
+      0.05,
+      -65.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 4.5
   },
   {
     "id": "World9137831506",
@@ -1571,10 +1858,15 @@
     "extent": 3.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [64.0, 0.05, -35.0],
+    "position": [
+      19.0,
+      0.05,
+      -38.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 4.5
   },
   {
     "id": "World555531756b",
@@ -1597,10 +1889,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [19.0, 0.05, 73.0],
+    "position": [
+      10.0,
+      0.05,
+      76.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.12
   },
   {
     "id": "World64bff816a9",
@@ -1624,10 +1921,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [28.0, 0.05, 70.0],
+    "position": [
+      40.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.45
   },
   {
     "id": "World0a9bb4e2c3",
@@ -1652,8 +1954,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [40.0, 0.05, -38.0],
-    "targetHeight": 0
+    "position": [
+      52.0,
+      0.05,
+      -47.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.12
   },
   {
     "id": "World7708eef30f",
@@ -1678,7 +1985,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [13.0, 0.05, -35.0],
+    "position": [
+      22.0,
+      0.05,
+      -56.0
+    ],
     "targetHeight": 0
   },
   {
@@ -1704,8 +2015,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [22.0, 0.05, -32.0],
-    "targetHeight": 0
+    "position": [
+      4.0,
+      0.05,
+      -32.0
+    ],
+    "targetHeight": 0,
+    "realSize": 1.0
   },
   {
     "id": "Worlda4d6b76bda",
@@ -1726,8 +2042,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [64.0, 0.05, 1.0],
-    "targetHeight": 0
+    "position": [
+      55.0,
+      0.05,
+      1.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.35
   },
   {
     "id": "Worldba91fa76a8",
@@ -1752,8 +2073,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [4.0, 0.05, -44.0],
-    "targetHeight": 0
+    "position": [
+      4.0,
+      0.05,
+      -62.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.1
   },
   {
     "id": "World77e38b4a9a",
@@ -1772,10 +2098,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [22.0, 0.05, 76.0],
+    "position": [
+      19.0,
+      0.05,
+      58.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.2
   },
   {
     "id": "World0f5cb986e9",
@@ -1798,10 +2129,15 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [37.0, 0.05, 58.0],
+    "position": [
+      40.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.3
   },
   {
     "id": "World58ede9614a",
@@ -1865,8 +2201,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [16.0, 0.05, -32.0],
-    "targetHeight": 0
+    "position": [
+      10.0,
+      0.05,
+      -41.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.8
   },
   {
     "id": "World2d0ed1f7b1",
@@ -1890,7 +2231,11 @@
     "extent": 7.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-50.0, 0.05, -53.0],
+    "position": [
+      -50.0,
+      0.05,
+      -53.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -1917,7 +2262,11 @@
     "extent": 7.0,
     "triangleBudget": 70133,
     "textureLimit": 512,
-    "position": [-53.0, 0.05, -44.0],
+    "position": [
+      -53.0,
+      0.05,
+      -44.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -1941,8 +2290,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [4.0, 0.05, -53.0],
-    "targetHeight": 0
+    "position": [
+      10.0,
+      0.05,
+      -32.0
+    ],
+    "targetHeight": 0,
+    "realSize": 1.5
   },
   {
     "id": "World7296399367",
@@ -1968,8 +2322,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [10.0, 0.05, -62.0],
-    "targetHeight": 0
+    "position": [
+      19.0,
+      0.05,
+      -26.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.1
   },
   {
     "id": "World430c4074f1",
@@ -1988,7 +2347,11 @@
     "extent": 3.6,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-56.0, 0.05, 4.0],
+    "position": [
+      -56.0,
+      0.05,
+      4.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2010,7 +2373,11 @@
     "extent": 3.6,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-50.0, 0.05, 4.0],
+    "position": [
+      -50.0,
+      0.05,
+      4.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2037,7 +2404,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-53.0, 0.05, 67.0],
+    "position": [
+      -56.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -2065,8 +2436,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [28.0, 0.05, -32.0],
-    "targetHeight": 0
+    "position": [
+      4.0,
+      0.05,
+      -44.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.4
   },
   {
     "id": "Worldec5fff3a67",
@@ -2091,8 +2467,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [58.0, 0.05, -5.0],
-    "targetHeight": 0
+    "position": [
+      55.0,
+      0.05,
+      -8.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.25
   },
   {
     "id": "World405a52fca6",
@@ -2116,10 +2497,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [16.0, 0.05, 70.0],
+    "position": [
+      10.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.5
   },
   {
     "id": "World150e01e147",
@@ -2142,7 +2528,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-32.0, 0.05, 67.0],
+    "position": [
+      1.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2164,7 +2554,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-20.0, 0.05, 58.0],
+    "position": [
+      -41.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2191,10 +2585,15 @@
     "extent": 0.9,
     "triangleBudget": 172787,
     "textureLimit": 512,
-    "position": [-29.0, 0.05, 61.0],
+    "position": [
+      -14.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.0
   },
   {
     "id": "Worlddd317d3e66",
@@ -2218,10 +2617,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [7.0, 0.05, -35.0],
+    "position": [
+      22.0,
+      0.05,
+      -23.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.9
   },
   {
     "id": "World75801912f3",
@@ -2262,8 +2666,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [28.0, 0.05, 64.0],
-    "targetHeight": 0
+    "position": [
+      25.0,
+      0.05,
+      58.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.0
   },
   {
     "id": "World5af7178b03",
@@ -2288,8 +2697,45 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [34.0, 0.05, -44.0],
-    "targetHeight": 0
+    "position": [
+      25.0,
+      0.05,
+      -29.0
+    ],
+    "targetHeight": 0,
+    "realSize": 4.5
+  },
+  {
+    "id": "World0a9f786f02",
+    "name": "Desert_Sentinel_Hummer_20260507_texture",
+    "sourceHash": "0a9f786f02212f0d94aa3f4117c37ba42fe789b73088888b4ac2fe9c4cc11715",
+    "source": "Desert_Sentinel_Hummer_20260507_texture_0a9f786f02/Meshy_AI_Desert_Sentinel_Hummer_20260507_texture.fbx",
+    "textures": {
+      "baseColor": "Desert_Sentinel_Hummer_20260507_texture_0a9f786f02/Meshy_AI_Desert_Sentinel_Hummer_20260507_texture.png",
+      "emission": "Desert_Sentinel_Hummer_20260507_texture_0a9f786f02/Meshy_AI_Desert_Sentinel_Hummer_20260507_texture_emission.png",
+      "metallic": "Desert_Sentinel_Hummer_20260507_texture_0a9f786f02/Meshy_AI_Desert_Sentinel_Hummer_20260507_texture_metallic.png",
+      "normal": "Desert_Sentinel_Hummer_20260507_texture_0a9f786f02/Meshy_AI_Desert_Sentinel_Hummer_20260507_texture_normal.png",
+      "roughness": "Desert_Sentinel_Hummer_20260507_texture_0a9f786f02/Meshy_AI_Desert_Sentinel_Hummer_20260507_texture_roughness.png",
+      "surface": "Desert_Sentinel_Hummer_20260507_texture_0a9f786f02/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/Meshy_AI_Desert_Sentinel_Hummer_20260507_texture_fbx.zip::Meshy_AI_Desert_Sentinel_Hummer_20260507_texture_fbx/Meshy_AI_Desert_Sentinel_Hummer_20260507_texture.fbx"
+    ],
+    "usage": "world",
+    "zone": "Vehicles",
+    "purpose": "Town transport exhibit",
+    "extent": 3.2,
+    "triangleBudget": 27707,
+    "textureLimit": 512,
+    "targetHeight": 0,
+    "cutout": false,
+    "materialVersion": 2,
+    "position": [
+      34.0,
+      0.05,
+      -29.0
+    ],
+    "realSize": 4.8
   },
   {
     "id": "World8be865bef1",
@@ -2312,7 +2758,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [58.0, 0.05, 55.0],
+    "position": [
+      64.0,
+      0.05,
+      52.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2339,7 +2789,11 @@
     "extent": 3.6,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-56.0, 0.05, 10.0],
+    "position": [
+      -56.0,
+      0.05,
+      10.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2364,6 +2818,38 @@
     "purpose": "Distinct talking resident"
   },
   {
+    "id": "World1e7a737dd8",
+    "name": "Dolphin_in_Flight_20260528_texture",
+    "sourceHash": "1e7a737dd889b778e0994a212b1ad68ceadedcfd07ef5d21656189892fb9337d",
+    "source": "Dolphin_in_Flight_20260528_texture_1e7a737dd8/Meshy_AI_Dolphin_in_Flight_20260528_texture.fbx",
+    "textures": {
+      "baseColor": "Dolphin_in_Flight_20260528_texture_1e7a737dd8/Meshy_AI_Dolphin_in_Flight_20260528_texture.png",
+      "emission": "Dolphin_in_Flight_20260528_texture_1e7a737dd8/Meshy_AI_Dolphin_in_Flight_20260528_texture_emission.png",
+      "metallic": "Dolphin_in_Flight_20260528_texture_1e7a737dd8/Meshy_AI_Dolphin_in_Flight_20260528_texture_metallic.png",
+      "normal": "Dolphin_in_Flight_20260528_texture_1e7a737dd8/Meshy_AI_Dolphin_in_Flight_20260528_texture_normal.png",
+      "roughness": "Dolphin_in_Flight_20260528_texture_1e7a737dd8/Meshy_AI_Dolphin_in_Flight_20260528_texture_roughness.png",
+      "surface": "Dolphin_in_Flight_20260528_texture_1e7a737dd8/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/Meshy_AI_Dolphin_in_Flight_20260528_texture_fbx.zip::Meshy_AI_Dolphin_in_Flight_20260528_texture_fbx/Meshy_AI_Dolphin_in_Flight_20260528_texture.fbx"
+    ],
+    "usage": "world",
+    "zone": "Aquarium",
+    "purpose": "Aquarium sculpture trail",
+    "extent": 0.9,
+    "triangleBudget": 16000,
+    "textureLimit": 512,
+    "targetHeight": 0,
+    "cutout": false,
+    "materialVersion": 2,
+    "position": [
+      37.0,
+      0.05,
+      61.0
+    ],
+    "realSize": 2.4
+  },
+  {
     "id": "World65b03a2587",
     "name": "Double_Yellow_Lines_on_Asphalt_20260628_texture",
     "sourceHash": "65b03a25872b56284b49b728a693ca9214a260fc0fd809a63bdeff78d747f6a4",
@@ -2385,7 +2871,11 @@
     "extent": 4.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [31.0, 0.05, -59.0],
+    "position": [
+      10.0,
+      0.05,
+      -62.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -2409,8 +2899,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [28.0, 0.05, 76.0],
-    "targetHeight": 0
+    "position": [
+      40.0,
+      0.05,
+      76.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.25
   },
   {
     "id": "World2df0fc9e70",
@@ -2431,8 +2926,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [58.0, 0.05, 1.0],
-    "targetHeight": 0
+    "position": [
+      61.0,
+      0.05,
+      7.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.3
   },
   {
     "id": "World9c0eeb97c5",
@@ -2455,10 +2955,15 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [40.0, 0.05, 58.0],
+    "position": [
+      40.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.5
   },
   {
     "id": "Worldd432699be8",
@@ -2482,7 +2987,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [52.0, 0.05, 49.0],
+    "position": [
+      52.0,
+      0.05,
+      46.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -2504,10 +3013,46 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [31.0, 0.05, 67.0],
+    "position": [
+      16.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.4
+  },
+  {
+    "id": "World397e17ee5a",
+    "name": "Elephant_with_Raised__1113080508_texture",
+    "sourceHash": "397e17ee5aca5f3352a01ecb03b0072c06e8919a4045cd6e1f1e0d6cfc8df492",
+    "source": "Elephant_with_Raised__1113080508_texture_397e17ee5a/Meshy_AI_Elephant_with_Raised__1113080508_texture.fbx",
+    "textures": {
+      "baseColor": "Elephant_with_Raised__1113080508_texture_397e17ee5a/Meshy_AI_Elephant_with_Raised__1113080508_texture.png",
+      "metallic": "Elephant_with_Raised__1113080508_texture_397e17ee5a/Meshy_AI_Elephant_with_Raised__1113080508_texture_metallic.png",
+      "normal": "Elephant_with_Raised__1113080508_texture_397e17ee5a/Meshy_AI_Elephant_with_Raised__1113080508_texture_normal.png",
+      "roughness": "Elephant_with_Raised__1113080508_texture_397e17ee5a/Meshy_AI_Elephant_with_Raised__1113080508_texture_roughness.png",
+      "surface": "Elephant_with_Raised__1113080508_texture_397e17ee5a/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/Meshy_AI_Elephant_with_Raised__1113080508_texture_fbx.zip::Meshy_AI_Elephant_with_Raised__1113080508_texture_fbx/Meshy_AI_Elephant_with_Raised__1113080508_texture.fbx"
+    ],
+    "usage": "world",
+    "zone": "Animals",
+    "purpose": "Animal garden",
+    "extent": 1.0,
+    "triangleBudget": 16000,
+    "textureLimit": 512,
+    "targetHeight": 0,
+    "cutout": false,
+    "materialVersion": 1,
+    "position": [
+      22.0,
+      0.05,
+      70.0
+    ],
+    "realSize": 5.0
   },
   {
     "id": "Worlda0871f3e90",
@@ -2525,23 +3070,35 @@
     "purpose": "Distinct talking resident"
   },
   {
-    "id": "Worldb2b2f45e57",
-    "name": "Elliot_20261112_texture",
-    "sourceHash": "b2b2f45e5708b2ad3551add498998b35cec4def666cfae58ee1ec4f1bcaf72bd",
-    "source": "Elliot_20261112_texture_b2b2f45e57/Meshy_AI_Elliot_20261112_texture.fbx",
+    "id": "World8a06984698",
+    "name": "Elliot_20261112_animated_mixamo_All_animation",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
     "textures": {
-      "baseColor": "Elliot_20261112_texture_b2b2f45e57/Meshy_AI_Elliot_20261112_texture.png",
-      "metallic": "Elliot_20261112_texture_b2b2f45e57/Meshy_AI_Elliot_20261112_texture_metallic.png",
-      "normal": "Elliot_20261112_texture_b2b2f45e57/Meshy_AI_Elliot_20261112_texture_normal.png",
-      "roughness": "Elliot_20261112_texture_b2b2f45e57/Meshy_AI_Elliot_20261112_texture_roughness.png",
-      "surface": "Elliot_20261112_texture_b2b2f45e57/MetallicSmoothness.png"
+      "baseColor": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.png",
+      "metallic": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation_metallic.png",
+      "normal": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation_normal.png",
+      "roughness": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation_roughness.png",
+      "surface": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/MetallicSmoothness.png"
     },
     "sources": [
-      "Meshy_AI_Elliot_20261112_texture_fbx.zip::Meshy_AI_Elliot_20261112_texture_fbx/Meshy_AI_Elliot_20261112_texture.fbx"
+      "unitycomponent/主NPC1.zip::Meshy_AI_Elliot_20261112_animated_mixamo_All_animation/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx"
     ],
     "usage": "character",
     "model": "Elliot",
-    "purpose": "Distinct talking resident"
+    "motion": "_360_Power_Spin_Jump",
+    "motions": [
+      "_360_Power_Spin_Jump",
+      "Agree_Gesture",
+      "air_squat",
+      "Alert_Quick_Turn_Right",
+      "Alert",
+      "All_Night_Dance",
+      "Running_Reload",
+      "Run",
+      "Walk"
+    ],
+    "purpose": "Supplied animations on Elliot"
   },
   {
     "id": "World369adfb684",
@@ -2564,7 +3121,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [64.0, 0.05, 49.0],
+    "position": [
+      64.0,
+      0.05,
+      46.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2591,10 +3152,15 @@
     "extent": 0.9,
     "triangleBudget": 156806,
     "textureLimit": 512,
-    "position": [-11.0, 0.05, 61.0],
+    "position": [
+      -5.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.6
   },
   {
     "id": "Worldbae8eb4856",
@@ -2619,7 +3185,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [58.0, 0.05, 43.0],
+    "position": [
+      61.0,
+      0.05,
+      58.0
+    ],
     "targetHeight": 0
   },
   {
@@ -2664,7 +3234,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-62.0, 0.05, 64.0],
+    "position": [
+      -53.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -2691,10 +3265,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [31.0, 0.05, 73.0],
+    "position": [
+      31.0,
+      0.05,
+      58.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.0
   },
   {
     "id": "World78c45ed577",
@@ -2715,7 +3294,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [52.0, 0.05, 55.0],
+    "position": [
+      58.0,
+      0.05,
+      40.0
+    ],
     "targetHeight": 0
   },
   {
@@ -2739,7 +3322,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [64.0, 0.05, 55.0],
+    "position": [
+      52.0,
+      0.05,
+      40.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2767,8 +3354,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [31.0, 0.05, -50.0],
-    "targetHeight": 0
+    "position": [
+      58.0,
+      0.05,
+      -14.0
+    ],
+    "targetHeight": 0,
+    "realSize": 4.5
   },
   {
     "id": "World14e0fe3b12",
@@ -2787,10 +3379,15 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [34.0, 0.05, 58.0],
+    "position": [
+      43.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.4
   },
   {
     "id": "Worldd14086203c",
@@ -2809,10 +3406,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [16.0, 0.05, 76.0],
+    "position": [
+      13.0,
+      0.05,
+      76.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.4
   },
   {
     "id": "World057af7ee44",
@@ -2831,7 +3433,11 @@
     "extent": 1.8,
     "triangleBudget": 72557,
     "textureLimit": 512,
-    "position": [-59.0, 0.05, 61.0],
+    "position": [
+      -59.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2857,7 +3463,11 @@
     "extent": 7.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-50.0, 0.05, -65.0],
+    "position": [
+      -50.0,
+      0.05,
+      -65.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2879,10 +3489,15 @@
     "extent": 1.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [61.0, 0.05, -8.0],
+    "position": [
+      61.0,
+      0.05,
+      -8.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.5
   },
   {
     "id": "Worlda580a6fcfd",
@@ -2905,7 +3520,11 @@
     "extent": 1.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [61.0, 0.05, 4.0],
+    "position": [
+      64.0,
+      0.05,
+      1.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2927,7 +3546,11 @@
     "extent": 1.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [55.0, 0.05, -2.0],
+    "position": [
+      58.0,
+      0.05,
+      -5.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -2954,10 +3577,15 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [37.0, 0.05, 55.0],
+    "position": [
+      46.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.4
   },
   {
     "id": "World28d79c33af",
@@ -2976,10 +3604,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [13.0, 0.05, 73.0],
+    "position": [
+      40.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.45
   },
   {
     "id": "Worldfb9380758e",
@@ -2998,7 +3631,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-23.0, 0.05, 58.0],
+    "position": [
+      1.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3024,7 +3661,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-17.0, 0.05, 58.0],
+    "position": [
+      4.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3052,8 +3693,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [34.0, 0.05, 70.0],
-    "targetHeight": 0
+    "position": [
+      37.0,
+      0.05,
+      76.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.3
   },
   {
     "id": "World6b48648a90",
@@ -3072,10 +3718,15 @@
     "extent": 1.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [55.0, 0.05, -8.0],
+    "position": [
+      52.0,
+      0.05,
+      -5.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.03
   },
   {
     "id": "World5053414af6",
@@ -3094,7 +3745,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-32.0, 0.05, 64.0],
+    "position": [
+      4.0,
+      0.05,
+      76.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3122,8 +3777,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [52.0, 0.05, 43.0],
-    "targetHeight": 0
+    "position": [
+      40.0,
+      0.05,
+      43.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.4
   },
   {
     "id": "Worlde693d06e6c",
@@ -3147,10 +3807,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [16.0, 0.05, 61.0],
+    "position": [
+      19.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.5
   },
   {
     "id": "Worlded6f92e1a2",
@@ -3173,10 +3838,15 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-35.0, 0.05, 73.0],
+    "position": [
+      -14.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.8
   },
   {
     "id": "Worlda4706333a0",
@@ -3200,10 +3870,15 @@
     "extent": 3.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [61.0, 0.05, -29.0],
+    "position": [
+      34.0,
+      0.05,
+      -20.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 4.5
   },
   {
     "id": "World14f65fbe4c",
@@ -3228,8 +3903,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-5.0, 0.05, 73.0],
-    "targetHeight": 0
+    "position": [
+      -23.0,
+      0.05,
+      76.0
+    ],
+    "targetHeight": 0,
+    "realSize": 1.2
   },
   {
     "id": "World9209b63ea9",
@@ -3252,10 +3932,15 @@
     "extent": 3.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [19.0, 0.05, -47.0],
+    "position": [
+      7.0,
+      0.05,
+      -35.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 1.35
+    "targetHeight": 1.35,
+    "realSize": 2.2
   },
   {
     "id": "World96f31ebb8c",
@@ -3276,8 +3961,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [28.0, 0.05, -65.0],
-    "targetHeight": 0
+    "position": [
+      58.0,
+      0.05,
+      -59.0
+    ],
+    "targetHeight": 0,
+    "realSize": 15.0
   },
   {
     "id": "World7ed2274162",
@@ -3298,8 +3988,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [13.0, 0.05, -65.0],
-    "targetHeight": 0
+    "position": [
+      1.0,
+      0.05,
+      -35.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.1
   },
   {
     "id": "World019c916421",
@@ -3322,10 +4017,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [4.0, 0.05, -38.0],
+    "position": [
+      10.0,
+      0.05,
+      -26.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.95
   },
   {
     "id": "Worldefeac8cefa",
@@ -3344,7 +4044,11 @@
     "extent": 1.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [55.0, 0.05, 4.0],
+    "position": [
+      58.0,
+      0.05,
+      1.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3373,7 +4077,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [-41.0, 0.05, -56.0],
+    "position": [
+      -41.0,
+      0.05,
+      -56.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3399,7 +4107,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-44.0, 0.05, -41.0],
+    "position": [
+      -44.0,
+      0.05,
+      -41.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3425,7 +4137,11 @@
     "textureLimit": 512,
     "cutout": true,
     "materialVersion": 2,
-    "position": [64.0, 0.05, 43.0],
+    "position": [
+      64.0,
+      0.05,
+      40.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3451,7 +4167,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [46.0, 0.05, -59.0],
+    "position": [
+      46.0,
+      0.05,
+      -38.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3478,7 +4198,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [-38.0, 0.05, -65.0],
+    "position": [
+      -38.0,
+      0.05,
+      -65.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3504,7 +4228,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-35.0, 0.05, -47.0],
+    "position": [
+      -35.0,
+      0.05,
+      -47.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3528,7 +4256,11 @@
     "extent": 1.8,
     "triangleBudget": 107379,
     "textureLimit": 512,
-    "position": [-44.0, 0.05, 76.0],
+    "position": [
+      -50.0,
+      0.05,
+      76.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3576,7 +4308,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [-29.0, 0.05, -56.0],
+    "position": [
+      -29.0,
+      0.05,
+      -56.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3601,10 +4337,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [31.0, 0.05, 61.0],
+    "position": [
+      34.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.4
   },
   {
     "id": "World355988bb2f",
@@ -3629,7 +4370,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-32.0, 0.05, -38.0],
+    "position": [
+      -26.0,
+      0.05,
+      -65.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3653,7 +4398,11 @@
     "extent": 7.0,
     "triangleBudget": 63214,
     "textureLimit": 512,
-    "position": [-26.0, 0.05, -65.0],
+    "position": [
+      -23.0,
+      0.05,
+      -47.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3675,7 +4424,11 @@
     "extent": 7.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-23.0, 0.05, -47.0],
+    "position": [
+      -26.0,
+      0.05,
+      -35.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3702,7 +4455,11 @@
     "extent": 3.5,
     "triangleBudget": 96866,
     "textureLimit": 512,
-    "position": [58.0, 0.05, 61.0],
+    "position": [
+      46.0,
+      0.05,
+      49.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -3724,7 +4481,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-35.0, 0.05, 70.0],
+    "position": [
+      4.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3752,7 +4513,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [58.0, 0.05, -41.0],
+    "position": [
+      64.0,
+      0.05,
+      -35.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3779,8 +4544,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [25.0, 0.05, 58.0],
-    "targetHeight": 0
+    "position": [
+      22.0,
+      0.05,
+      52.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.3
   },
   {
     "id": "World9910d1884c",
@@ -3805,8 +4575,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [64.0, 0.05, -11.0],
-    "targetHeight": 0
+    "position": [
+      64.0,
+      0.05,
+      4.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.5
   },
   {
     "id": "Worlda41ed4fc8c",
@@ -3831,7 +4606,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [46.0, 0.05, 49.0],
+    "position": [
+      52.0,
+      0.05,
+      61.0
+    ],
     "targetHeight": 0
   },
   {
@@ -3855,7 +4634,11 @@
     "extent": 3.6,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-44.0, 0.05, -2.0],
+    "position": [
+      -62.0,
+      0.05,
+      13.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3882,10 +4665,15 @@
     "extent": 1.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [64.0, 0.05, 7.0],
+    "position": [
+      55.0,
+      0.05,
+      4.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.12
   },
   {
     "id": "Worldb0d3eb20d9",
@@ -3908,7 +4696,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-65.0, 0.05, 61.0],
+    "position": [
+      -65.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3934,7 +4726,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [52.0, 0.05, 61.0],
+    "position": [
+      46.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -3960,10 +4756,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [34.0, 0.05, 64.0],
+    "position": [
+      28.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.5
   },
   {
     "id": "Worldc397bcc62b",
@@ -3984,7 +4785,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-56.0, 0.05, -14.0],
+    "position": [
+      -56.0,
+      0.05,
+      -14.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4009,7 +4814,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [64.0, 0.05, 61.0],
+    "position": [
+      46.0,
+      0.05,
+      43.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -4033,7 +4842,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-23.0, 0.05, -35.0],
+    "position": [
+      -35.0,
+      0.05,
+      -20.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4091,10 +4904,15 @@
     "extent": 1.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [58.0, 0.05, -11.0],
+    "position": [
+      61.0,
+      0.05,
+      -2.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 3.0
   },
   {
     "id": "World5ff376c6ab",
@@ -4118,10 +4936,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [10.0, 0.05, -32.0],
+    "position": [
+      16.0,
+      0.05,
+      -23.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.85
   },
   {
     "id": "World627998ced3",
@@ -4140,7 +4963,11 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [34.0, 0.05, 76.0],
+    "position": [
+      22.0,
+      0.05,
+      55.0
+    ],
     "cutout": true,
     "materialVersion": 2,
     "targetHeight": 0
@@ -4184,7 +5011,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-35.0, 0.05, -20.0],
+    "position": [
+      -17.0,
+      0.05,
+      -56.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4206,7 +5037,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-17.0, 0.05, -56.0],
+    "position": [
+      -65.0,
+      0.05,
+      -11.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4232,7 +5067,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-65.0, 0.05, -11.0],
+    "position": [
+      -17.0,
+      0.05,
+      -38.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4257,7 +5096,11 @@
     "extent": 7.0,
     "triangleBudget": 17097,
     "textureLimit": 512,
-    "position": [-26.0, 0.05, -26.0],
+    "position": [
+      -26.0,
+      0.05,
+      -23.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -4281,7 +5124,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-44.0, 0.05, -11.0],
+    "position": [
+      -44.0,
+      0.05,
+      -11.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4307,7 +5154,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-14.0, 0.05, -65.0],
+    "position": [
+      -14.0,
+      0.05,
+      -65.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4332,7 +5183,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [46.0, 0.05, 55.0],
+    "position": [
+      58.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -4360,7 +5215,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [58.0, 0.05, 37.0],
+    "position": [
+      64.0,
+      0.05,
+      64.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4386,8 +5245,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [34.0, 0.05, -38.0],
-    "targetHeight": 0
+    "position": [
+      46.0,
+      0.05,
+      -26.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.3
   },
   {
     "id": "World9de74db6b0",
@@ -4412,8 +5276,45 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [25.0, 0.05, -59.0],
-    "targetHeight": 0
+    "position": [
+      64.0,
+      0.05,
+      -14.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.3
+  },
+  {
+    "id": "World30f46e7aaf",
+    "name": "Mud_Splashed_Rhino_20260628_texture",
+    "sourceHash": "30f46e7aaff10a68871f9b7955c1390bfb4f58a5a8988c6513a4a2bbefe9637e",
+    "source": "Mud_Splashed_Rhino_20260628_texture_30f46e7aaf/Meshy_AI_Mud_Splashed_Rhino_20260628_texture.fbx",
+    "textures": {
+      "baseColor": "Mud_Splashed_Rhino_20260628_texture_30f46e7aaf/Meshy_AI_Mud_Splashed_Rhino_20260628_texture.png",
+      "emission": "Mud_Splashed_Rhino_20260628_texture_30f46e7aaf/Meshy_AI_Mud_Splashed_Rhino_20260628_texture_emission.png",
+      "metallic": "Mud_Splashed_Rhino_20260628_texture_30f46e7aaf/Meshy_AI_Mud_Splashed_Rhino_20260628_texture_metallic.png",
+      "normal": "Mud_Splashed_Rhino_20260628_texture_30f46e7aaf/Meshy_AI_Mud_Splashed_Rhino_20260628_texture_normal.png",
+      "roughness": "Mud_Splashed_Rhino_20260628_texture_30f46e7aaf/Meshy_AI_Mud_Splashed_Rhino_20260628_texture_roughness.png",
+      "surface": "Mud_Splashed_Rhino_20260628_texture_30f46e7aaf/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/Meshy_AI_Mud_Splashed_Rhino_20260628_texture_fbx.zip::Meshy_AI_Mud_Splashed_Rhino_20260628_texture_fbx/Meshy_AI_Mud_Splashed_Rhino_20260628_texture.fbx"
+    ],
+    "usage": "world",
+    "zone": "Animals",
+    "purpose": "Animal garden",
+    "extent": 1.0,
+    "triangleBudget": 16000,
+    "textureLimit": 512,
+    "targetHeight": 0,
+    "cutout": false,
+    "materialVersion": 2,
+    "position": [
+      28.0,
+      0.05,
+      73.0
+    ],
+    "realSize": 3.6
   },
   {
     "id": "World2ed9edf51e",
@@ -4438,8 +5339,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [58.0, 0.05, 7.0],
-    "targetHeight": 0
+    "position": [
+      64.0,
+      0.05,
+      7.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.1
   },
   {
     "id": "Worlde1dbf59367",
@@ -4463,10 +5369,15 @@
     "extent": 2.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-8.0, 0.05, -62.0],
+    "position": [
+      -5.0,
+      0.05,
+      -65.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.0
   },
   {
     "id": "Worldbd0e362814",
@@ -4485,7 +5396,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-5.0, 0.05, 70.0],
+    "position": [
+      1.0,
+      0.05,
+      58.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -4526,10 +5441,15 @@
     "extent": 4.5,
     "triangleBudget": 153749,
     "textureLimit": 512,
-    "position": [-17.0, 0.05, 73.0],
+    "position": [
+      -32.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 12.0
   },
   {
     "id": "World64f9efaab6",
@@ -4542,8 +5462,11 @@
     ],
     "usage": "character",
     "model": "OldCardigan",
-    "purpose": "Supplied walk clip on OldCardigan",
-    "motion": "Walk"
+    "purpose": "Supplied animations on OldCardigan",
+    "motion": "Walk",
+    "motions": [
+      "Walk"
+    ]
   },
   {
     "id": "World5ceb0f9fcd",
@@ -4588,8 +5511,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [28.0, 0.05, -44.0],
-    "targetHeight": 0
+    "position": [
+      43.0,
+      0.05,
+      -14.0
+    ],
+    "targetHeight": 0,
+    "realSize": 1.75
   },
   {
     "id": "World1a269406ef",
@@ -4610,7 +5538,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [19.0, 0.05, -29.0],
+    "position": [
+      4.0,
+      0.05,
+      -53.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4635,7 +5567,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-26.0, 0.05, 58.0],
+    "position": [
+      -20.0,
+      0.05,
+      46.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -4681,10 +5617,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [19.0, 0.05, 58.0],
+    "position": [
+      16.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.5
   },
   {
     "id": "Worlda0234034ed",
@@ -4744,8 +5685,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [25.0, 0.05, -53.0],
-    "targetHeight": 0
+    "position": [
+      64.0,
+      0.05,
+      -26.0
+    ],
+    "targetHeight": 0,
+    "realSize": 4.9
   },
   {
     "id": "Worlde0d6173e45",
@@ -4768,7 +5714,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-14.0, 0.05, 58.0],
+    "position": [
+      -17.0,
+      0.05,
+      46.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -4810,7 +5760,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-5.0, 0.05, 76.0],
+    "position": [
+      7.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -4832,7 +5786,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-35.0, 0.05, 67.0],
+    "position": [
+      -44.0,
+      0.05,
+      58.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -4854,7 +5812,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-5.0, 0.05, 67.0],
+    "position": [
+      -20.0,
+      0.05,
+      43.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -4876,7 +5838,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-32.0, 0.05, 61.0],
+    "position": [
+      -23.0,
+      0.05,
+      43.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -4898,7 +5864,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-29.0, 0.05, 58.0],
+    "position": [
+      -17.0,
+      0.05,
+      43.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -4922,7 +5892,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [34.0, 0.05, -32.0],
+    "position": [
+      61.0,
+      0.05,
+      -20.0
+    ],
     "targetHeight": 0
   },
   {
@@ -4947,7 +5921,11 @@
     "extent": 7.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-14.0, 0.05, -38.0],
+    "position": [
+      -53.0,
+      0.05,
+      -5.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -4974,10 +5952,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [37.0, 0.05, 67.0],
+    "position": [
+      13.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.45
   },
   {
     "id": "World9e0e48b1d9",
@@ -4996,10 +5979,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [37.0, 0.05, 73.0],
+    "position": [
+      16.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.4
   },
   {
     "id": "World0cadc021f2",
@@ -5024,8 +6012,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [52.0, 0.05, -5.0],
-    "targetHeight": 0
+    "position": [
+      58.0,
+      0.05,
+      7.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.08
   },
   {
     "id": "World05cf2142ed",
@@ -5051,8 +6044,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [28.0, 0.05, -38.0],
-    "targetHeight": 0
+    "position": [
+      37.0,
+      0.05,
+      -47.0
+    ],
+    "targetHeight": 0,
+    "realSize": 6.0
   },
   {
     "id": "World0aef485afb",
@@ -5092,7 +6090,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [46.0, 0.05, 43.0],
+    "position": [
+      46.0,
+      0.05,
+      61.0
+    ],
     "targetHeight": 0
   },
   {
@@ -5117,7 +6119,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-11.0, 0.05, 58.0],
+    "position": [
+      -44.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -5139,7 +6145,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-35.0, 0.05, 64.0],
+    "position": [
+      -14.0,
+      0.05,
+      43.0
+    ],
     "cutout": true,
     "materialVersion": 2,
     "targetHeight": 0
@@ -5166,7 +6176,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-20.0, 0.05, 55.0],
+    "position": [
+      -38.0,
+      0.05,
+      46.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -5193,7 +6207,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-23.0, 0.05, 55.0],
+    "position": [
+      -35.0,
+      0.05,
+      43.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -5238,10 +6256,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [25.0, 0.05, -29.0],
+    "position": [
+      16.0,
+      0.05,
+      -59.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.1
   },
   {
     "id": "World237fb57761",
@@ -5264,10 +6287,15 @@
     "extent": 2.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-14.0, 0.05, -50.0],
+    "position": [
+      -14.0,
+      0.05,
+      -50.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.1
   },
   {
     "id": "World6e9f4381dd",
@@ -5290,7 +6318,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [52.0, 0.05, 37.0],
+    "position": [
+      46.0,
+      0.05,
+      37.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -5301,17 +6333,24 @@
     "sourceHash": "627316ca363256face218c2f3c9456d55cacdcf8f777c4c50a22624a9e2fc61d",
     "source": "Rustic_Round_Pedestal_Table_20261112_generate_627316ca36/Meshy_AI_Rustic_Round_Pedestal_Table_20261112_generate.fbx",
     "textures": {},
-    "sources": ["Meshy_AI_Rustic_Round_Pedestal_Table_20261112_generate.fbx"],
+    "sources": [
+      "Meshy_AI_Rustic_Round_Pedestal_Table_20261112_generate.fbx"
+    ],
     "usage": "world",
     "zone": "Furniture",
     "purpose": "Furniture and music garden",
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [13.0, 0.05, -29.0],
+    "position": [
+      7.0,
+      0.05,
+      -29.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.0
   },
   {
     "id": "Worldc96a7efd2d",
@@ -5334,10 +6373,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [37.0, 0.05, -59.0],
+    "position": [
+      -2.0,
+      0.05,
+      -41.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.0
   },
   {
     "id": "Worldf9edb98810",
@@ -5361,10 +6405,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [1.0, 0.05, -56.0],
+    "position": [
+      7.0,
+      0.05,
+      -50.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.1
   },
   {
     "id": "World930940d8f6",
@@ -5387,10 +6436,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [4.0, 0.05, -62.0],
+    "position": [
+      40.0,
+      0.05,
+      -53.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.1
   },
   {
     "id": "World7c0641f81a",
@@ -5413,7 +6467,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [64.0, 0.05, 37.0],
+    "position": [
+      40.0,
+      0.05,
+      49.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -5439,7 +6497,11 @@
     "extent": 3.6,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-62.0, 0.05, 13.0],
+    "position": [
+      -50.0,
+      0.05,
+      10.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -5495,10 +6557,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [22.0, 0.05, 55.0],
+    "position": [
+      34.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.4
   },
   {
     "id": "Worldf6eae0a664",
@@ -5524,7 +6591,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [61.0, 0.05, -23.0],
+    "position": [
+      52.0,
+      0.05,
+      -14.0
+    ],
     "targetHeight": 0
   },
   {
@@ -5586,10 +6657,15 @@
     "extent": 2.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-5.0, 0.05, -65.0],
+    "position": [
+      -11.0,
+      0.05,
+      -47.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.0
   },
   {
     "id": "World6e95cd7ff9",
@@ -5631,10 +6707,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [13.0, 0.05, 58.0],
+    "position": [
+      31.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.5
   },
   {
     "id": "Worldfee22c6ce5",
@@ -5677,7 +6758,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [46.0, 0.05, 61.0],
+    "position": [
+      52.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -5704,7 +6789,11 @@
     "extent": 1.8,
     "triangleBudget": 81653,
     "textureLimit": 512,
-    "position": [-44.0, 0.05, 70.0],
+    "position": [
+      -53.0,
+      0.05,
+      67.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -5733,7 +6822,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-53.0, 0.05, -5.0],
+    "position": [
+      -8.0,
+      0.05,
+      -53.0
+    ],
     "targetHeight": 0
   },
   {
@@ -5758,7 +6851,11 @@
     "extent": 3.6,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-50.0, 0.05, 10.0],
+    "position": [
+      -44.0,
+      0.05,
+      7.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -5822,8 +6919,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [43.0, 0.05, 67.0],
-    "targetHeight": 0
+    "position": [
+      43.0,
+      0.05,
+      58.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.6
   },
   {
     "id": "World895cd8babc",
@@ -5847,10 +6949,15 @@
     "extent": 2.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-11.0, 0.05, -47.0],
+    "position": [
+      -20.0,
+      0.05,
+      -62.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 2.2
   },
   {
     "id": "Worlda753257cdf",
@@ -5873,7 +6980,11 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [28.0, 0.05, 55.0],
+    "position": [
+      13.0,
+      0.05,
+      58.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -5899,10 +7010,15 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [58.0, 0.05, 67.0],
+    "position": [
+      58.0,
+      0.05,
+      49.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 4.5
   },
   {
     "id": "World3b20cbbf8c",
@@ -5926,10 +7042,47 @@
     "extent": 4.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-23.0, 0.05, 76.0],
+    "position": [
+      -2.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 8.0
+  },
+  {
+    "id": "World87323d7a75",
+    "name": "Tiger_on_the_Prowl_20260712_texture",
+    "sourceHash": "87323d7a756f399fc4f949a0ac8a50bd48635e0d7a2b0a76e9694e181e0ab1f5",
+    "source": "Tiger_on_the_Prowl_20260712_texture_87323d7a75/Meshy_AI_Tiger_on_the_Prowl_20260712_texture.fbx",
+    "textures": {
+      "baseColor": "Tiger_on_the_Prowl_20260712_texture_87323d7a75/Meshy_AI_Tiger_on_the_Prowl_20260712_texture.png",
+      "emission": "Tiger_on_the_Prowl_20260712_texture_87323d7a75/Meshy_AI_Tiger_on_the_Prowl_20260712_texture_emission.png",
+      "metallic": "Tiger_on_the_Prowl_20260712_texture_87323d7a75/Meshy_AI_Tiger_on_the_Prowl_20260712_texture_metallic.png",
+      "normal": "Tiger_on_the_Prowl_20260712_texture_87323d7a75/Meshy_AI_Tiger_on_the_Prowl_20260712_texture_normal.png",
+      "roughness": "Tiger_on_the_Prowl_20260712_texture_87323d7a75/Meshy_AI_Tiger_on_the_Prowl_20260712_texture_roughness.png",
+      "surface": "Tiger_on_the_Prowl_20260712_texture_87323d7a75/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/Meshy_AI_Tiger_on_the_Prowl_20260712_texture_fbx.zip::Meshy_AI_Tiger_on_the_Prowl_20260712_texture_fbx/Meshy_AI_Tiger_on_the_Prowl_20260712_texture.fbx"
+    ],
+    "usage": "world",
+    "zone": "Animals",
+    "purpose": "Animal garden",
+    "extent": 1.0,
+    "triangleBudget": 16000,
+    "textureLimit": 512,
+    "targetHeight": 0,
+    "cutout": false,
+    "materialVersion": 2,
+    "position": [
+      22.0,
+      0.05,
+      76.0
+    ],
+    "realSize": 2.5
   },
   {
     "id": "Worlda9acb2f2b5",
@@ -5952,7 +7105,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-62.0, 0.05, 58.0],
+    "position": [
+      -62.0,
+      0.05,
+      64.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -5978,10 +7135,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-41.0, 0.05, 73.0],
+    "position": [
+      -62.0,
+      0.05,
+      58.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.6
   },
   {
     "id": "Worlde38470ce31",
@@ -6006,8 +7168,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [52.0, 0.05, 1.0],
-    "targetHeight": 0
+    "position": [
+      52.0,
+      0.05,
+      -2.0
+    ],
+    "targetHeight": 0,
+    "realSize": 0.08
   },
   {
     "id": "World4e0d38de4b",
@@ -6033,8 +7200,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [61.0, 0.05, -14.0],
-    "targetHeight": 0
+    "position": [
+      55.0,
+      0.05,
+      -2.0
+    ],
+    "targetHeight": 0,
+    "realSize": 1.0
   },
   {
     "id": "Worldc0abd5e85f",
@@ -6059,8 +7231,13 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [22.0, 0.05, -65.0],
-    "targetHeight": 0
+    "position": [
+      28.0,
+      0.05,
+      -23.0
+    ],
+    "targetHeight": 0,
+    "realSize": 4.5
   },
   {
     "id": "World73438ba0b7",
@@ -6084,10 +7261,15 @@
     "extent": 4.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-14.0, 0.05, 67.0],
+    "position": [
+      -29.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 20.0
   },
   {
     "id": "World3c6878ccce",
@@ -6110,7 +7292,11 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [46.0, 0.05, 37.0],
+    "position": [
+      40.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -6132,10 +7318,15 @@
     "extent": 4.5,
     "triangleBudget": 133651,
     "textureLimit": 512,
-    "position": [-29.0, 0.05, 73.0],
+    "position": [
+      -14.0,
+      0.05,
+      73.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 10.0
   },
   {
     "id": "World03c68813dd",
@@ -6158,10 +7349,15 @@
     "extent": 4.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-11.0, 0.05, 76.0],
+    "position": [
+      -8.0,
+      0.05,
+      52.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 14.0
   },
   {
     "id": "Worldd15bbc1f46",
@@ -6180,7 +7376,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-17.0, 0.05, 55.0],
+    "position": [
+      -29.0,
+      0.05,
+      40.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -6208,7 +7408,11 @@
     "extent": 1.8,
     "triangleBudget": 102144,
     "textureLimit": 512,
-    "position": [-53.0, 0.05, 58.0],
+    "position": [
+      -59.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -6232,7 +7436,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-41.0, 0.05, 67.0],
+    "position": [
+      -44.0,
+      0.05,
+      76.0
+    ],
     "targetHeight": 0
   },
   {
@@ -6246,8 +7454,11 @@
     ],
     "usage": "character",
     "model": "OfficerMason",
-    "purpose": "Supplied walk clip on OfficerMason",
-    "motion": "Walk"
+    "purpose": "Supplied animations on OfficerMason",
+    "motion": "Walk",
+    "motions": [
+      "Walk"
+    ]
   },
   {
     "id": "World66b2712db4",
@@ -6268,7 +7479,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [61.0, 0.05, 10.0],
+    "position": [
+      61.0,
+      0.05,
+      4.0
+    ],
     "targetHeight": 0
   },
   {
@@ -6288,7 +7503,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-38.0, 0.05, 76.0],
+    "position": [
+      -65.0,
+      0.05,
+      61.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -6319,8 +7538,11 @@
     ],
     "usage": "character",
     "model": "OfficerTaylor",
-    "purpose": "Supplied walk clip on OfficerTaylor",
-    "motion": "Walk"
+    "purpose": "Supplied animations on OfficerTaylor",
+    "motion": "Walk",
+    "motions": [
+      "Walk"
+    ]
   },
   {
     "id": "World3f5c9b9a01",
@@ -6382,7 +7604,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-26.0, 0.05, 55.0],
+    "position": [
+      4.0,
+      0.05,
+      49.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -6411,7 +7637,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [-8.0, 0.05, -53.0],
+    "position": [
+      -32.0,
+      0.05,
+      -11.0
+    ],
     "targetHeight": 0
   },
   {
@@ -6438,7 +7668,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 2,
-    "position": [-32.0, 0.05, -11.0],
+    "position": [
+      -14.0,
+      0.05,
+      -29.0
+    ],
     "targetHeight": 0
   },
   {
@@ -6462,10 +7696,15 @@
     "extent": 1.2,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [52.0, 0.05, -11.0],
+    "position": [
+      58.0,
+      0.05,
+      4.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.45
   },
   {
     "id": "World9639cbf96b",
@@ -6488,7 +7727,11 @@
     "extent": 0.9,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-14.0, 0.05, 55.0],
+    "position": [
+      1.0,
+      0.05,
+      46.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -6515,7 +7758,11 @@
     "extent": 2.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-2.0, 0.05, -62.0],
+    "position": [
+      -2.0,
+      0.05,
+      -62.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -6560,10 +7807,15 @@
     "extent": 3.5,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [40.0, 0.05, 49.0],
+    "position": [
+      55.0,
+      0.05,
+      55.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 4.5
   },
   {
     "id": "World354fd3cc9b",
@@ -6587,10 +7839,15 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [7.0, 0.05, -65.0],
+    "position": [
+      -5.0,
+      0.05,
+      -44.0
+    ],
     "cutout": false,
     "materialVersion": 2,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 0.9
   },
   {
     "id": "Worldaa82edc702",
@@ -6613,10 +7870,46 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [22.0, 0.05, -26.0],
+    "position": [
+      43.0,
+      0.05,
+      -44.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.0
+  },
+  {
+    "id": "World7065610baa",
+    "name": "Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri",
+    "sourceHash": "7065610baab50c2ceb33bc3f47cd7157e98996b3fdb5a544e917bd3b7ce8898a",
+    "source": "Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_7065610baa/Meshy_AI_Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri.fbx",
+    "textures": {
+      "baseColor": "Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_7065610baa/Meshy_AI_Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri.png",
+      "metallic": "Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_7065610baa/Meshy_AI_Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_metallic.png",
+      "normal": "Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_7065610baa/Meshy_AI_Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_normal.png",
+      "roughness": "Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_7065610baa/Meshy_AI_Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_roughness.png",
+      "surface": "Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_7065610baa/MetallicSmoothness.png"
+    },
+    "sources": [
+      "unitycomponent/Meshy_AI_Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_fbx.zip::Meshy_AI_Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri_fbx/Meshy_AI_Zoo_Elephant_20261113_image-to-3d-texture_remesh_tri.fbx"
+    ],
+    "usage": "world",
+    "zone": "Animals",
+    "purpose": "Animal garden",
+    "extent": 1.0,
+    "triangleBudget": 16000,
+    "textureLimit": 512,
+    "targetHeight": 0,
+    "cutout": false,
+    "materialVersion": 1,
+    "position": [
+      28.0,
+      0.05,
+      64.0
+    ],
+    "realSize": 5.0
   },
   {
     "id": "World11f82c914a",
@@ -6637,7 +7930,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-62.0, 0.05, -2.0],
+    "position": [
+      -62.0,
+      0.05,
+      -2.0
+    ],
     "targetHeight": 0
   },
   {
@@ -6657,10 +7954,15 @@
     "extent": 3.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [19.0, 0.05, -41.0],
+    "position": [
+      4.0,
+      0.05,
+      -38.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 1.35
+    "targetHeight": 1.35,
+    "realSize": 2.0
   },
   {
     "id": "Worldd602614007",
@@ -6683,7 +7985,11 @@
     "extent": 3.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [10.0, 0.05, -47.0],
+    "position": [
+      10.0,
+      0.05,
+      -47.0
+    ],
     "cutout": false,
     "materialVersion": 1,
     "targetHeight": 0
@@ -6724,10 +8030,15 @@
     "extent": 1.0,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [7.0, 0.05, 67.0],
+    "position": [
+      34.0,
+      0.05,
+      76.0
+    ],
     "cutout": false,
     "materialVersion": 1,
-    "targetHeight": 0
+    "targetHeight": 0,
+    "realSize": 1.4
   },
   {
     "id": "World43ca06749a",
@@ -6748,7 +8059,11 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [-11.0, 0.05, -29.0],
+    "position": [
+      -41.0,
+      0.05,
+      -2.0
+    ],
     "targetHeight": 0
   },
   {
@@ -6773,7 +8088,11 @@
     "extent": 1.8,
     "triangleBudget": 16000,
     "textureLimit": 512,
-    "position": [-65.0, 0.05, 55.0],
+    "position": [
+      -44.0,
+      0.05,
+      70.0
+    ],
     "cutout": false,
     "materialVersion": 2,
     "targetHeight": 0
@@ -6797,7 +8116,12 @@
     "textureLimit": 512,
     "cutout": false,
     "materialVersion": 1,
-    "position": [16.0, 0.05, -26.0],
-    "targetHeight": 0
+    "position": [
+      13.0,
+      0.05,
+      -29.0
+    ],
+    "targetHeight": 0,
+    "realSize": 2.2
   }
 ]

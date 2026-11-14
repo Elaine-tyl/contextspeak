@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e985fb59ad8b46e997a680ddce62d90, type: 3}
+  m_Name: Weather-Overcast
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.WeatherProfile
+  Weather: 3
+  CloudCover: 0.88
+  CloudDensity: 1.1
+  CloudDarkness: 0.45
+  SunIntensity: 0.35
+  SkyDesaturation: 0.6
+  FogMultiplier: 2
+  Rain: 0
+  WindMultiplier: 1.2
+  StarVisibility: 0.05
+  ExposureOffset: 0.2

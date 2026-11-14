@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: villa_grandpa
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: villa_grandpa
+  DisplayName: Henry Lee
+  Age: 4
+  Occupation: Retired teacher
+  Home: villa
+  Work: 
+  Model: OldCardigan
+  Personality:
+    Sociability: 0.7
+    Shyness: 0.2
+    Patience: 0.8
+    Busyness: 0.4
+    Distraction: 0.3
+    CommunicationStyle: friendly
+  Friends: []
+  Family:
+  - villa_dad
+  - villa_mum
+  - villa_daughter
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Relax
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 6, \"activity\": \"Sleep\",
+    \"location\": \"villa\" },\n  { \"startHour\": 6, \"endHour\": 7.5, \"activity\":
+    \"Breakfast\", \"location\": \"villa\" },\n  { \"startHour\": 7.5, \"endHour\":
+    11, \"activity\": \"Wander\", \"location\": \"villa_garden\" },\n  { \"startHour\":
+    11, \"endHour\": 12.5, \"activity\": \"Relax\", \"location\": \"villa\" },\n 
+    { \"startHour\": 12.5, \"endHour\": 13.5, \"activity\": \"Lunch\", \"location\":
+    \"villa\" },\n  { \"startHour\": 13.5, \"endHour\": 16, \"activity\": \"Rest\",
+    \"location\": \"villa\" },\n  { \"startHour\": 16, \"endHour\": 18, \"activity\":
+    \"Wander\", \"location\": \"villa_garden\" },\n  { \"startHour\": 18, \"endHour\":
+    19.5, \"activity\": \"Dinner\", \"location\": \"villa\" },\n  { \"startHour\":
+    19.5, \"endHour\": 21.5, \"activity\": \"Relax\", \"location\": \"villa\" },\n 
+    { \"startHour\": 21.5, \"endHour\": 24, \"activity\": \"Sleep\", \"location\":
+    \"villa\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: family
+  EnglishBand: 8
+  Voice:
+    Accent: 1
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Ah, there you are!
+  - Good to see you.
+  SmallTalk:
+  - The roses are coming along nicely.
+  - In my day we didn't have a pool!
+  MemorySummary: 

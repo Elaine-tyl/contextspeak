@@ -1,0 +1,15 @@
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/VoiceCoachChecks.GeneratedMSBuildEditorConfig.editorconfig
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/VoiceCoachChecks.AssemblyInfoInputs.cache
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/VoiceCoachChecks.AssemblyInfo.cs
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/VoiceCoachChecks.csproj.CoreCompileInputs.cache
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/VoiceCoachChecks.sourcelink.json
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/bin/Debug/net8.0/VoiceCoachChecks
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/bin/Debug/net8.0/VoiceCoachChecks.deps.json
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/bin/Debug/net8.0/VoiceCoachChecks.runtimeconfig.json
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/bin/Debug/net8.0/VoiceCoachChecks.dll
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/bin/Debug/net8.0/VoiceCoachChecks.pdb
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/VoiceCoachChecks.dll
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/refint/VoiceCoachChecks.dll
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/VoiceCoachChecks.pdb
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/VoiceCoachChecks.genruntimeconfig.cache
+/Users/elaineting/.codex/worktrees/capture-to-library/eng learning/tools/unity/voice-coach-checks/obj/Debug/net8.0/ref/VoiceCoachChecks.dll

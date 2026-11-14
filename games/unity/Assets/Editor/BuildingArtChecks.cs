@@ -55,8 +55,10 @@ namespace ContextSpeak.Editor
                     Require(blockers.Length == 0, "Doorway capsule blocked: " + entry.Id + " " + string.Join(",", blockers.Select(item => item.name)));
                 }
                 room.Refresh(room.Plot.center + Vector3.up * 100);
-                Require(exterior.activeSelf && room.Interior.Length > 0 && room.Interior.All(renderer => !renderer.enabled),
-                    "Outside view does not replace old interior: " + room.Scene);
+                Require(!room.IsInside && (room.UsesAuthoredInterior
+                    ? !exterior.activeSelf
+                    : exterior.activeSelf && room.Interior.Length > 0 && room.Interior.All(renderer => !renderer.enabled)),
+                    "Outside visibility does not match the authored room mode: " + room.Scene);
                 room.Refresh(new Vector3(room.Plot.center.x, .1f, room.Plot.center.z));
                 Require(!exterior.activeSelf && room.Interior.All(renderer => renderer.enabled) && room.gameObject.activeSelf,
                     "Cutaway must reveal interior without disabling gameplay: " + room.Scene);

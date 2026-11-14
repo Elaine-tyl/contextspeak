@@ -1,0 +1,65 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: liam
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: liam
+  DisplayName: Liam Nguyen
+  Age: 3
+  Occupation: Barista
+  Home: riverside
+  Work: forest_cafe
+  Model: Elliot
+  Personality:
+    Sociability: 0.8
+    Shyness: 0.1
+    Patience: 0.6
+    Busyness: 0.6
+    Distraction: 0.4
+    CommunicationStyle: friendly
+  Friends:
+  - emma
+  - sam
+  Family: []
+  Coworkers:
+  - emma
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 6, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 6, \"endHour\": 7, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 7, \"endHour\":
+    12, \"activity\": \"ServeCustomers\", \"location\": \"forest_cafe\" },\n  { \"startHour\":
+    12, \"endHour\": 12.5, \"activity\": \"Break\", \"location\": \"staff\" },\n 
+    { \"startHour\": 12.5, \"endHour\": 15, \"activity\": \"Work\", \"location\":
+    \"forest_cafe\" },\n  { \"startHour\": 15, \"endHour\": 18, \"activity\": \"Socialize\",
+    \"location\": \"caf\xE9\" },\n  { \"startHour\": 18, \"endHour\": 22, \"activity\":
+    \"Relax\", \"location\": \"home\" },\n  { \"startHour\": 22, \"endHour\": 24,
+    \"activity\": \"Sleep\", \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 6
+  Voice:
+    Accent: 0
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - G'day!
+  - Hey mate!
+  - What can I get you?
+  SmallTalk:
+  - Footy on the weekend?
+  - Big order just came in.
+  - Coffee's on me later!
+  MemorySummary: 

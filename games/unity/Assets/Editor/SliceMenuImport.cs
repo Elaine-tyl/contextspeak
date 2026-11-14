@@ -3,12 +3,13 @@ using UnityEngine;
 
 namespace ContextSpeak.Editor
 {
-    // Menu illustrations are flat UI images; never infer a cubemap from minimal metadata.
+    // Menu illustrations and UI paper are flat images; never infer a cubemap from minimal metadata.
     public sealed class SliceMenuImport : AssetPostprocessor
     {
         private void OnPreprocessTexture()
         {
-            if (!assetPath.StartsWith("Assets/Resources/SliceMenu/", System.StringComparison.Ordinal))
+            if (!assetPath.StartsWith("Assets/Resources/SliceMenu/", System.StringComparison.Ordinal)
+                && !assetPath.StartsWith("Assets/Resources/UI/", System.StringComparison.Ordinal))
                 return;
 
             var texture = (TextureImporter)assetImporter;

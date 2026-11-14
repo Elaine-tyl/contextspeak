@@ -11,6 +11,8 @@ namespace ContextSpeak.Slice
         private AudioSource source;
         private float[] lastSamples;
         private int lastRate, generation;
+        public bool Pending { get; private set; }
+        public bool Occupied => Pending || Playing;
         public bool Playing => source != null && source.isPlaying;
         public bool HasLine => lastSamples != null;
 
@@ -25,8 +27,10 @@ namespace ContextSpeak.Slice
             Cancel();
             if (tts == null || !tts.Available || string.IsNullOrWhiteSpace(text)) { lastSamples = null; return; } // subtitles only
             var current = generation;
+            Pending = true;
             StartCoroutine(tts.Speak(text, clip => {
                 if (current != generation || !isActiveAndEnabled) { Destroy(clip); return; }
+                Pending = false;
                 var samples = new float[clip.samples * clip.channels];
                 clip.GetData(samples, 0);
                 lastRate = clip.frequency;
@@ -34,7 +38,7 @@ namespace ContextSpeak.Slice
                 Destroy(clip);
                 Play(rate);
                 started?.Invoke();
-            }, error => { if (current == generation) failed?.Invoke(error); }));
+            }, error => { if (current == generation) { Pending = false; failed?.Invoke(error); } }));
         }
 
         /// Replays the last line, optionally slower. Pitch is preserved.
@@ -53,6 +57,7 @@ namespace ContextSpeak.Slice
         public void Cancel()
         {
             generation++;
+            Pending = false;
             if (source == null) return;
             source.Stop();
         }

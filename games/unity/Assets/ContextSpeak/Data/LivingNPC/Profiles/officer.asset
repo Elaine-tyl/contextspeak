@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: officer
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: officer
+  DisplayName: Officer Rosa Diaz
+  Age: 3
+  Occupation: Police officer
+  Home: riverside
+  Work: street
+  Model: OfficerTaylor
+  Personality:
+    Sociability: 0.5
+    Shyness: 0.2
+    Patience: 0.6
+    Busyness: 0.5
+    Distraction: 0.4
+    CommunicationStyle: friendly
+  Friends:
+  - arthur
+  Family: []
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 7, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 7, \"endHour\": 8, \"activity\":
+    \"Breakfast\", \"location\": \"home\" },\n  { \"startHour\": 8, \"endHour\":
+    12, \"activity\": \"Wander\", \"location\": \"street\" },\n  { \"startHour\":
+    12, \"endHour\": 13, \"activity\": \"Coffee\", \"location\": \"Forest Caf\xE9\"
+    },\n  { \"startHour\": 13, \"endHour\": 18, \"activity\": \"Wander\", \"location\":
+    \"street\" },\n  { \"startHour\": 18, \"endHour\": 23, \"activity\": \"Relax\",
+    \"location\": \"home\" },\n  { \"startHour\": 23, \"endHour\": 24, \"activity\":
+    \"Sleep\", \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 7
+  Voice:
+    Accent: 2
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Morning.
+  - Have a good one!
+  SmallTalk:
+  - All quiet today.
+  - Watch the crossing lights.
+  MemorySummary: 

@@ -22,49 +22,31 @@ namespace ContextSpeak.Cafe
         }
         public static VisualElement CreateRoot(GameObject owner)
         {
-            // Input System needs an explicit persistent UI event router. Keep it across
-            // additive district unloads, or the next scene's buttons lose their input.
-            if (UnityEngine.Object.FindFirstObjectByType<EventSystem>() == null)
-            {
-                var events = new GameObject("ContextSpeak UI input");
-                events.AddComponent<EventSystem>();
-                events.AddComponent<InputSystemUIInputModule>().AssignDefaultActions();
-                if (Application.isPlaying) DontDestroyOnLoad(events);
-            }
-            var document = owner.AddComponent<UIDocument>();
-            var settings = ScriptableObject.CreateInstance<PanelSettings>();
-            settings.scaleMode = PanelScaleMode.ScaleWithScreenSize;
-            settings.referenceResolution = new Vector2Int(1440, 900);
-            settings.screenMatchMode = PanelScreenMatchMode.MatchWidthOrHeight;
-            settings.match = 0.5f;
-            settings.themeStyleSheet = Resources.Load<ThemeStyleSheet>("CafeTheme");
-            document.panelSettings = settings;
-            var root = document.rootVisualElement;
-            // All children are positioned overlays, so the document must fill the panel explicitly.
-            root.style.position = Position.Absolute;
-            root.style.left = root.style.right = root.style.top = root.style.bottom = 0;
-            root.styleSheets.Add(Resources.Load<StyleSheet>("CafeStyles"));
-            root.style.unityFont = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
-            if (Application.platform == RuntimePlatform.WebGLPlayer) root.style.display = DisplayStyle.None;
+            var root = ContextSpeak.Cafe.UI.GameUiRoot.Attach(owner);
+            var styles = Resources.Load<StyleSheet>("CafeStyles");
+            if (styles != null && !root.styleSheets.Contains(styles)) root.styleSheets.Add(styles);
             return root;
         }
         private void Build(VisualElement root)
         {
             var hud = new VisualElement { name = "hud" };
             root.Add(hud);
-            hud.Add(new Label("ContextSpeak  /  Forest Cafe"));
             objective = new Label();
             hud.Add(objective);
+            var actions = new Foldout { text = "Café · options", value = false };
+            actions.AddToClassList("context-actions");
+            hud.Add(actions);
             var stages = new DropdownField("Test stage", new System.Collections.Generic.List<string> { "Continue saved task", "Counter · practice", "Friend chat · practice" }, 0);
             stages.RegisterValueChangedCallback(change => StageSelected?.Invoke(stages.index == 1 ? "counter" : stages.index == 2 ? "friend" : "continue"));
-            hud.Add(stages);
-            hud.Add(new Button(() => Reconnect?.Invoke()) { text = "Reconnect local AI" });
-            hud.Add(new Button(() => Reset?.Invoke()) { text = "New task" });
-            hud.Add(new Button(() => Life?.Invoke()) { text = "Explore Life town" });
+            actions.Add(stages);
+            actions.Add(new Button(() => Reconnect?.Invoke()) { text = "Reconnect local AI" });
+            actions.Add(new Button(() => Reset?.Invoke()) { text = "New task" });
+            actions.Add(new Button(() => Life?.Invoke()) { text = "Explore Life town" });
             nearby = new Label();
             nearby.AddToClassList("nearby");
             root.Add(nearby);
             dialogue = new ScrollView(ScrollViewMode.Vertical) { name = "dialogue" };
+            dialogue.AddToClassList("subtitle-card");
             root.Add(dialogue);
             speaker = new Label();
             speaker.AddToClassList("speaker");
@@ -75,6 +57,9 @@ namespace ContextSpeak.Cafe
             dialogue.Add(line);
             dialogue.Add(feedback);
             dialogue.Add(transcript);
+            var practice = new Label("Speaking practice feedback · not an official IELTS score.") { enableRichText = false };
+            practice.AddToClassList("practice-note");
+            dialogue.Add(practice);
             input = new TextField { maxLength = 400, multiline = false };
             input.label = "Your reply";
             input.RegisterCallback<KeyDownEvent>(ev => {
@@ -94,14 +79,13 @@ namespace ContextSpeak.Cafe
             dialogue.Add(buttons);
             status = new Label();
             dialogue.Add(status);
-            var controls = new Label("WASD / arrows · E to talk · Right-drag to look · Scroll to zoom · Esc to explore");
-            controls.AddToClassList("controls");
-            root.Add(controls);
+
         }
         public void Refresh(CafeSnapshot state)
         {
             objective.text = state.objective;
             nearby.text = state.nearby;
+            nearby.style.display = string.IsNullOrEmpty(state.nearby) ? DisplayStyle.None : DisplayStyle.Flex;
             dialogue.style.display = state.dialogue ? DisplayStyle.Flex : DisplayStyle.None;
             speaker.text = state.speaker;
             line.text = state.line;

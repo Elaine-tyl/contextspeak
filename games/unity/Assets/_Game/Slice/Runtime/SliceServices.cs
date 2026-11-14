@@ -20,9 +20,22 @@ namespace ContextSpeak.Slice
         IEnumerator Speak(string text, Action<AudioClip> success, Action<string> failure);
     }
 
-    [Serializable] public sealed class SliceReviewRequest { public string band, npc, task, npcLine, text, goal; }
+    [Serializable] public sealed class SliceReviewRequest { public string band, npc, task, npcLine, text, goal; public string reference = ""; public string[] history = Array.Empty<string>(); }
 
-    [Serializable] public sealed class SliceReviewReply { public string correction = "", explanation = "", lexicalTip = "", acknowledgement = ""; public bool relevant = true, assessedGoal, goalMet; }
+    [Serializable] public sealed class TranscriptPracticeScores
+    {
+        public int coherence, lexical, grammar;
+        public string evidence = "";
+    }
+
+    [Serializable] public sealed class SliceReviewReply { public TranscriptPracticeScores languageScores; public string correction = "", explanation = "", lexicalTip = "", acknowledgement = ""; public bool relevant = true, assessedGoal, goalMet;
+        public ContextSpeak.Learning.UtteranceEvidence Evidence(string text) => new ContextSpeak.Learning.UtteranceEvidence {
+            Text = text, Spoken = true, ProviderAvailable = true, GoalAssessed = assessedGoal, Relevant = relevant, GoalMet = goalMet,
+            Correction = correction ?? "", Explanation = explanation ?? "", ImprovedExpression = lexicalTip ?? "",
+            LanguageScoresAssessed = languageScores != null, ScoreEvidence = languageScores?.evidence ?? "",
+            CoherenceScore = languageScores?.coherence ?? 0, LexicalScore = languageScores?.lexical ?? 0, GrammarScore = languageScores?.grammar ?? 0,
+        };
+    }
 
     /// Optional language reviewer. It can only add feedback; it never changes the order, money or progress.
     public interface IConversationReviewer

@@ -1,0 +1,243 @@
+{
+  "Daydream": {
+    "archive": "unitycomponent/\u7537\u4e3b.zip",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "bindings": [
+      {
+        "motion": "_360_Power_Spin_Jump",
+        "take": "_360_Power_Spin_Jump"
+      },
+      {
+        "motion": "Agree_Gesture",
+        "take": "Agree_Gesture"
+      },
+      {
+        "motion": "air_squat",
+        "take": "air_squat"
+      },
+      {
+        "motion": "Alert_Quick_Turn_Right",
+        "take": "Alert_Quick_Turn_Right"
+      },
+      {
+        "motion": "Alert",
+        "take": "Alert"
+      },
+      {
+        "motion": "All_Night_Dance",
+        "take": "All_Night_Dance"
+      },
+      {
+        "motion": "Angry_Ground_Stomp_1",
+        "take": "Angry_Ground_Stomp_1"
+      },
+      {
+        "motion": "Angry_Ground_Stomp_2",
+        "take": "Angry_Ground_Stomp_2"
+      },
+      {
+        "motion": "Angry_Ground_Stomp",
+        "take": "Angry_Ground_Stomp"
+      },
+      {
+        "motion": "Walk",
+        "take": "Casual_Walk"
+      },
+      {
+        "motion": "Run_02",
+        "take": "Run_02"
+      },
+      {
+        "motion": "Run_03",
+        "take": "Run_03"
+      },
+      {
+        "motion": "RunFast",
+        "take": "RunFast"
+      },
+      {
+        "motion": "Running_Reload",
+        "take": "Running_Reload"
+      },
+      {
+        "motion": "Run",
+        "take": "Running"
+      },
+      {
+        "motion": "Spear_Walk",
+        "take": "Spear_Walk"
+      },
+      {
+        "motion": "Walk_Backward_inplace",
+        "take": "Walk_Backward_inplace"
+      },
+      {
+        "motion": "Walk_Backward_While_Shooting",
+        "take": "Walk_Backward_While_Shooting"
+      },
+      {
+        "motion": "Walking",
+        "take": "Walking"
+      }
+    ],
+    "superseded": [
+      "65f272262156a5acf7f83c3625619fccdac7b8502f23b5ae58180b0c2a61fca9",
+      "69bf1600ee27c43afe25d2fd4e297c8c1331881a83966b4a6363412f2b75c254",
+      "afc7b82cee32b26344972dc780b95173a460f64ee402656555d2bd98e998a9da"
+    ],
+    "member": "Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx"
+  },
+  "Academy": {
+    "archive": "unitycomponent/\u5973\u4e3b.zip",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "bindings": [
+      {
+        "motion": "Agree_Gesture",
+        "take": "Agree_Gesture"
+      },
+      {
+        "motion": "Alert_Quick_Turn_Right",
+        "take": "Alert_Quick_Turn_Right"
+      },
+      {
+        "motion": "All_Night_Dance",
+        "take": "All_Night_Dance"
+      },
+      {
+        "motion": "Angry_Ground_Stomp_2",
+        "take": "Angry_Ground_Stomp_2"
+      },
+      {
+        "motion": "Angry_Ground_Stomp",
+        "take": "Angry_Ground_Stomp"
+      },
+      {
+        "motion": "Back_Jump",
+        "take": "Back_Jump"
+      },
+      {
+        "motion": "Backflip_Jump",
+        "take": "Backflip_Jump"
+      },
+      {
+        "motion": "Big_Wave_Hello",
+        "take": "Big_Wave_Hello"
+      },
+      {
+        "motion": "Run_02",
+        "take": "Run_02"
+      },
+      {
+        "motion": "Run_and_Jump",
+        "take": "Run_and_Jump"
+      },
+      {
+        "motion": "Run_and_Leap",
+        "take": "Run_and_Leap"
+      },
+      {
+        "motion": "RunFast",
+        "take": "RunFast"
+      },
+      {
+        "motion": "Run",
+        "take": "Running"
+      },
+      {
+        "motion": "Vault",
+        "take": "Unarmed_Vault"
+      },
+      {
+        "motion": "Walk",
+        "take": "Walking"
+      }
+    ],
+    "superseded": [
+      "55b50b814778b7bbc5f0694041d06f4aba25e66f0076620da01a52719cfdad5d",
+      "74029dec0228fd44be003e69bf9894a565a02f00b665fc21033bbc5297381b4f"
+    ],
+    "member": "Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx"
+  },
+  "Elliot": {
+    "archive": "unitycomponent/\u4e3bNPC1.zip",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "bindings": [
+      {
+        "motion": "_360_Power_Spin_Jump",
+        "take": "_360_Power_Spin_Jump"
+      },
+      {
+        "motion": "Agree_Gesture",
+        "take": "Agree_Gesture"
+      },
+      {
+        "motion": "air_squat",
+        "take": "air_squat"
+      },
+      {
+        "motion": "Alert_Quick_Turn_Right",
+        "take": "Alert_Quick_Turn_Right"
+      },
+      {
+        "motion": "Alert",
+        "take": "Alert"
+      },
+      {
+        "motion": "All_Night_Dance",
+        "take": "All_Night_Dance"
+      },
+      {
+        "motion": "Running_Reload",
+        "take": "Running_Reload"
+      },
+      {
+        "motion": "Run",
+        "take": "Running"
+      },
+      {
+        "motion": "Walk",
+        "take": "Walking"
+      }
+    ],
+    "superseded": [
+      "b2b2f45e5708b2ad3551add498998b35cec4def666cfae58ee1ec4f1bcaf72bd"
+    ],
+    "member": "Meshy_AI_Elliot_20261112_animated_mixamo_All_animation/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx"
+  },
+  "CafeCharm": {
+    "archive": "unitycomponent/\u4e3bNPC2.zip",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "member": "Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation/Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "bindings": [
+      {
+        "motion": "Hello_Run",
+        "take": "Hello_Run"
+      },
+      {
+        "motion": "RunFast",
+        "take": "RunFast"
+      },
+      {
+        "motion": "Run",
+        "take": "Running"
+      },
+      {
+        "motion": "Sit_to_Stand_Transition_F",
+        "take": "Sit_to_Stand_Transition_F"
+      },
+      {
+        "motion": "walking_2_inplace",
+        "take": "walking_2_inplace"
+      },
+      {
+        "motion": "walking_2",
+        "take": "walking_2"
+      },
+      {
+        "motion": "Walk",
+        "take": "Walking"
+      }
+    ],
+    "superseded": []
+  }
+}

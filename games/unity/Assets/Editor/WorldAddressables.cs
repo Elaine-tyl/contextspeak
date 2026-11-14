@@ -26,7 +26,15 @@ namespace ContextSpeak.Editor
             settings.BuildAddressablesWithPlayerBuild = AddressableAssetSettings.PlayerBuildOption.DoNotBuildWithPlayer;
             var group = settings.FindGroup("Life districts") ?? settings.CreateGroup("Life districts", false, false, true, null,
                 typeof(BundledAssetGroupSchema), typeof(ContentUpdateGroupSchema));
-            foreach (var scene in new[] { "ForestCafe", "LifeTown", "ForestSlice", "CharacterCreation" })
+            // A browser must not download every world just to enter the cafe.
+            group.GetSchema<BundledAssetGroupSchema>().BundleMode = BundledAssetGroupSchema.BundlePackingMode.PackSeparately;
+            // The old Forest Café and Life town were retired (duplicates of the Forest Café world and the villa home).
+            foreach (var retired in new[] { "ForestCafe", "LifeTown" })
+            {
+                var guid = AssetDatabase.AssetPathToGUID("Assets/Generated/" + retired + ".unity");
+                if (!string.IsNullOrEmpty(guid) && settings.FindAssetEntry(guid) != null) settings.RemoveAssetEntry(guid);
+            }
+            foreach (var scene in new[] { "ForestSlice", "CharacterCreation" })
             {
                 var entry = settings.CreateOrMoveEntry(AssetDatabase.AssetPathToGUID("Assets/Generated/" + scene + ".unity"), group);
                 entry.address = scene;

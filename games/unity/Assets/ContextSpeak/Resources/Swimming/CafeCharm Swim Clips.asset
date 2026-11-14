@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6766dbad3484b4a5d9e329ec49a133d4, type: 3}
+  m_Name: CafeCharm Swim Clips
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.SwimClipSet
+  ModelName: CafeCharm
+  Swim: {fileID: 0}
+  EdgeReach: {fileID: 0}
+  TreadWater: {fileID: 0}
+  BackFloat: {fileID: 0}
+  UnderwaterSwim: {fileID: 0}
+  ClimbLadder: {fileID: 7400000, guid: 642a4d4244c4347219a5b538ec34bfba, type: 2}
+  PullOut: {fileID: 7400000, guid: b1df99bfa0c1c40838102893120df0e8, type: 2}
+  SwimYaw: 0
+  SwimBodyPitch: 0
+  ClimbRise: 0.88003695
+  ClimbAuthoredDown: 1
+  Notes: 'Missing authored clips (temporary procedural/substitute used): TreadWater,
+    BackFloat, UnderwaterSwim (swim cycle + pitch used).
+
+    Add FBX files named
+    CafeCharm-TreadWater.fbx, -BackFloat.fbx, -UnderwaterSwim.fbx, -ClimbLadder.fbx,
+    -PullOut.fbx to Assets/_Game/Art/Motion/Swim/ and run Import Swimming Animations.'

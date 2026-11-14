@@ -26,7 +26,7 @@ namespace ContextSpeak.Editor
                     if (skin == null || skin.bones.Length < 20) throw new Exception("Supplied skin/bones were lost: " + name);
                     foreach (var role in MotionAssets.Roles(name))
                     {
-                        var clip = (AnimationClip)type.GetField(role).GetValue(motion);
+                        var clip = ((AuthoredMotion)motion).Find(role);
                         if (clip == null || !clip.legacy || clip.length <= 0.1f) throw new Exception("Missing supplied clip: " + name + "/" + role);
                         if (AnimationUtility.GetCurveBindings(clip).Any(binding => animation.transform.Find(binding.path) == null))
                             throw new Exception("Clip has an unresolved bone path: " + name + "/" + role);
@@ -47,7 +47,7 @@ namespace ContextSpeak.Editor
                                 var bottom = points.Min(point => point.y);
                                 var height = points.Max(point => point.y) - bottom;
                                 if (bottom < -0.2f || bottom > 0.3f || height < 1.3f || height > 2.1f)
-                                    throw new Exception("Female retarget distorted scale/floor: " + role + " bottom " + bottom + " height " + height);
+                                    throw new Exception("Female motion distorted scale/floor: " + role + " bottom " + bottom + " height " + height);
                             }
                         }
                         finally { UnityEngine.Object.DestroyImmediate(a); UnityEngine.Object.DestroyImmediate(b); }

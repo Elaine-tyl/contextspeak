@@ -28,6 +28,7 @@ namespace ContextSpeak.Cafe
         private int sessionGeneration;
         private UnityWebRequest sessionRequest;
         private readonly HashSet<UnityWebRequest> active = new HashSet<UnityWebRequest>();
+        public int MaxTranscriptCharacters = 400;
         public bool Connected => token != "";
         public IEnumerator Connect(Action<string> done)
         {
@@ -57,17 +58,17 @@ namespace ContextSpeak.Cafe
         {
             if (wave == null || wave.Length > 8000000) { failure("Use a shorter recording."); yield break; }
             yield return Request("/transcribe", wave, bytes => {
-                try { success(ReadTranscript(bytes)); }
+                try { success(ReadTranscript(bytes, MaxTranscriptCharacters)); }
                 catch (FormatException error) { failure(error.Message); }
             }, failure, "audio/wav");
         }
-        public static string ReadTranscript(byte[] bytes)
+        public static string ReadTranscript(byte[] bytes, int maximumCharacters = 400)
         {
             Transcript result;
             try { result = JsonUtility.FromJson<Transcript>(Encoding.UTF8.GetString(bytes)); }
             catch (ArgumentException) { throw new FormatException("Recording could not be checked. Retry or type your reply."); }
             if (result == null || string.IsNullOrWhiteSpace(result.text)) throw new FormatException("No clear speech. Retry or type your reply.");
-            if (result.text.Length > 400) throw new FormatException("Use a shorter reply (maximum 400 characters). Your task is kept.");
+            if (result.text.Length > Math.Min(2400, Math.Max(400, maximumCharacters))) throw new FormatException("Use a shorter reply. Your task is kept.");
             return result.text;
         }
         public IEnumerator Speak(string text, Action<AudioClip> success, Action<string> failure)
@@ -110,7 +111,7 @@ namespace ContextSpeak.Cafe
                 if (connection == sessionGeneration &&
                     (request.result == UnityWebRequest.Result.ConnectionError || request.responseCode == 401))
                     token = "";
-                failure("Local AI is unavailable or busy. Your task is kept; retry or type a reply.");
+                failure("Local AI is unavailable or busy. Your task is kept; reconnect and retry.");
             }
             else success(request.downloadHandler.data);
         }

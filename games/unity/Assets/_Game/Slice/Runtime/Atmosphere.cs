@@ -33,20 +33,25 @@ namespace ContextSpeak.Slice
             var daylight = clock.Daylight;
             var rain = clock.Weather == Weather.Rain;
             var cloud = clock.Weather != Weather.Clear ? 0.55f : 1f;
-            if (Sun != null)
+            // With the dynamic sky installed, it owns the sun, sky, ambient light and fog.
+            var skyOwned = ContextSpeak.Life.SkySystem.Active != null;
+            if (Sun != null && !skyOwned)
             {
                 Sun.transform.rotation = Quaternion.Euler(Mathf.Lerp(-10, 190, Mathf.InverseLerp(5, 21, hour)), -38, 0);
                 Sun.intensity = Mathf.Lerp(0.08f, 1.7f, daylight) * cloud;
                 Sun.color = hour < 9 ? Color.Lerp(Dawn, Noon, (hour - 5) / 4f) : hour > 17 ? Color.Lerp(Noon, Dusk, (hour - 17) / 4f) : Noon;
                 if (daylight <= 0) Sun.color = Night;
             }
-            RenderSettings.ambientIntensity = Mathf.Lerp(0.35f, 1f, daylight) * (rain ? 0.8f : 1);
-            RenderSettings.reflectionIntensity = Mathf.Lerp(0.1f, 0.8f, daylight) * (rain ? 0.7f : 1);
-            if (RenderSettings.skybox != null && RenderSettings.skybox.HasProperty("_Exposure"))
-                RenderSettings.skybox.SetFloat("_Exposure", Mathf.Lerp(0.08f, 1f, daylight) * (rain ? 0.7f : 1));
-            RenderSettings.fogDensity = rain ? 0.018f : 0.004f;
+            if (!skyOwned)
+            {
+                RenderSettings.ambientIntensity = Mathf.Lerp(0.35f, 1f, daylight) * (rain ? 0.8f : 1);
+                RenderSettings.reflectionIntensity = Mathf.Lerp(0.1f, 0.8f, daylight) * (rain ? 0.7f : 1);
+                if (RenderSettings.skybox != null && RenderSettings.skybox.HasProperty("_Exposure"))
+                    RenderSettings.skybox.SetFloat("_Exposure", Mathf.Lerp(0.08f, 1f, daylight) * (rain ? 0.7f : 1));
+                RenderSettings.fogDensity = rain ? 0.018f : 0.004f;
+            }
             foreach (var warm in WarmLights) if (warm != null) warm.intensity = Mathf.Lerp(3.2f, 1.6f, daylight);
-            Toggle(Rain, rain);
+            Toggle(Rain, skyOwned ? ContextSpeak.Life.SkyState.Raining : rain);
             Toggle(Butterflies, daylight > 0.6f && !rain);
             Toggle(Fireflies, daylight < 0.3f && !rain);
             ambience.volume = rain ? 0.4f : 0.16f;

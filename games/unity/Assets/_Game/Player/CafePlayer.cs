@@ -26,6 +26,8 @@ namespace ContextSpeak.Cafe
         public float SprintSpeed = 9f;
         public float CrouchSpeed = 2.2f;
         public Gait DefaultGait = Gait.Walk;
+        [Tooltip("Multiplies movement speed (water drag, deep snow…). Set by CharacterWaterInteraction.")]
+        public float SpeedScale = 1;
         [Tooltip("How quickly the avatar reaches its target speed (m/s²).")]
         public float Acceleration = 22f;
         [Tooltip("How quickly the avatar stops (m/s²).")]
@@ -63,11 +65,26 @@ namespace ContextSpeak.Cafe
         public bool Grounded => controller != null && controller.isGrounded;
         public bool Crouching { get; private set; }
         public float Speed => horizontal.magnitude;
+        // Physics owns the jump arc; the skeleton only follows its ascent/descent phase.
+        public float AirProgress => Mathf.InverseLerp(Mathf.Sqrt(JumpHeight * -2f * Gravity),
+            -Mathf.Sqrt(JumpHeight * -2f * Gravity), vertical);
         public PlayerAnimState State { get; private set; }
         /// Gameplay activity override (sitting, fishing, talking…). Idle means "none".
         public PlayerAnimState Activity = PlayerAnimState.Idle;
         /// Fired on each footstep with the surface name ("wood", "grass", "stone", "water", "gravel").
         public event Action<string, float> Footstep;
+        /// A system that temporarily owns movement (swimming). While Active, CafePlayer only updates the camera look.
+        public interface ILocomotionOverride { bool Active { get; } PlayerAnimState AnimState { get; } void Tick(float dt); }
+        public ILocomotionOverride LocomotionOverride;
+        /// Camera overrides used by the swimming camera: target, distance multiplier and lowest lens height.
+        [NonSerialized] public bool OverrideCameraTarget;
+        [NonSerialized] public Vector3 CameraTarget;
+        [NonSerialized] public float CameraDistanceScale = 1;
+        [NonSerialized] public float CameraFloor = float.NegativeInfinity;
+        public float Yaw => yaw;
+        public Vector3 Velocity => horizontal + Vector3.up * vertical;
+        /// Hands momentum back to the walking controller when an override ends.
+        public void SetVelocity(Vector3 flat, float up) { horizontal = new Vector3(flat.x, 0, flat.z); vertical = up; }
 
         private CharacterController controller;
         private Animator animator;
@@ -98,10 +115,23 @@ namespace ContextSpeak.Cafe
                 return;
             }
             var dt = Time.deltaTime;
+            if (LocomotionOverride != null && LocomotionOverride.Active)
+            {
+                LocomotionOverride.Tick(dt);
+                State = LocomotionOverride.AnimState;
+                wasGrounded = false;
+                if (!Blocked)
+                {
+                    yaw += Controls.Look.x * 0.12f * MouseSensitivity;
+                    pitch = Mathf.Clamp(pitch - Controls.Look.y * 0.1f * MouseSensitivity * (InvertY ? -1 : 1), MinPitch, MaxPitch);
+                    distance = Mathf.Clamp(distance - Controls.Zoom * 0.35f, MinDistance, MaxDistance);
+                }
+                return;
+            }
             var direction = Vector3.zero;
             var targetSpeed = 0f;
             var followingRoute = false;
-            if (!Blocked && Activity == PlayerAnimState.Idle)
+            if (!Blocked && !Controls.Suspended && Activity == PlayerAnimState.Idle)
             {
                 if (Controls.Crouch) ToggleCrouch();
                 var movement = Controls.Movement;
@@ -124,6 +154,7 @@ namespace ContextSpeak.Cafe
                     direction = Quaternion.Euler(0, yaw, 0) * Vector3.ClampMagnitude(input, 1);
                     targetSpeed = InputSpeed(Crouching, Controls.Sprint, Controls.Walk);
                     targetSpeed *= Mathf.Clamp01(input.magnitude); // analogue sticks walk slowly at small tilt
+                    targetSpeed *= Mathf.Clamp(SpeedScale, 0.05f, 2f);
                 }
             }
 
@@ -195,15 +226,24 @@ namespace ContextSpeak.Cafe
                 animator.SetFloat("Speed", speed);
             }
             if (Model == null) return;
-            if (direction.sqrMagnitude > 0.01f)
-                Model.rotation = Quaternion.Slerp(Model.rotation, Quaternion.LookRotation(direction), dt * 14);
+            // Follow momentum during a reversal, rather than facing backwards while still moving forwards.
+            if (horizontal.sqrMagnitude > 0.01f)
+                Model.rotation = Quaternion.Slerp(Model.rotation, Quaternion.LookRotation(horizontal), 1 - Mathf.Exp(-14 * dt));
             if (controller.isGrounded && speed > 0.3f)
             {
                 var before = Mathf.Floor(stride / Mathf.PI);
                 stride += dt * Mathf.Lerp(8, 17, speed / SprintSpeed);
                 if (Mathf.Floor(stride / Mathf.PI) != before) Footstep?.Invoke(Surface(), Mathf.Clamp01(speed / SprintSpeed));
             }
-            // Procedural fallback motion for models without an Animator: bob, squash, crouch and sit offsets.
+            // Never stretch a supplied skinned rig. Its clips already contain body weight and foot motion.
+            if (Model.GetComponentInChildren<AuthoredMotion>() != null)
+            {
+                Model.localPosition = State == PlayerAnimState.Sit ? Vector3.down * .42f : Vector3.zero;
+                Model.localScale = Vector3.one;
+                squash = 0;
+                return;
+            }
+            // Procedural fallback for unanimated models.
             var bob = controller.isGrounded && speed > 0.3f ? Mathf.Abs(Mathf.Sin(stride)) * Mathf.Lerp(0.03f, 0.075f, speed / SprintSpeed) : 0;
             var lower = State == PlayerAnimState.Sit ? -0.42f : Crouching ? -0.25f : 0;
             Model.localPosition = Vector3.Lerp(Model.localPosition, new Vector3(0, bob + lower, 0), dt * 12);
@@ -263,8 +303,8 @@ namespace ContextSpeak.Cafe
         private void LateUpdate()
         {
             if (View == null) return;
-            var target = transform.position + Vector3.up * (Crouching ? 0.95f : 1.35f);
-            var wanted = distance;
+            var target = OverrideCameraTarget ? CameraTarget : transform.position + Vector3.up * (Crouching ? 0.95f : 1.35f);
+            var wanted = distance * CameraDistanceScale;
             var rotation = Quaternion.Euler(pitch, yaw, 0);
             if (ConversationPartner != null)
             {
@@ -292,6 +332,7 @@ namespace ContextSpeak.Cafe
             }
             currentDistance = wanted < currentDistance ? wanted : Mathf.Lerp(currentDistance, wanted, Time.deltaTime * 6f);
             var desired = target + back * currentDistance;
+            if (desired.y < CameraFloor && ConversationPartner == null) desired.y = CameraFloor;
             // Cinemachine is the only writer to the real camera transform.
             if (CameraPosition != null) CameraPosition.position = desired;
             if (CameraAim != null) CameraAim.position = target;

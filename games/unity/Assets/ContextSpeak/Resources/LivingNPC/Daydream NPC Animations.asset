@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 0}
+  m_Name: Daydream NPC Animations
+  m_EditorClassIdentifier: Assembly-CSharp:ContextSpeak.Life:NPCAnimationSet
+  ModelName: Daydream
+  Sit: {fileID: 7400000, guid: 643297a1a133d49d0bfcc7f8d129638a, type: 2}
+  Wave: {fileID: 7400000, guid: 1452d0c6a484b42cab7f9b655f325e75, type: 2}
+  Talk: {fileID: 7400000, guid: 9c1906515ed944fb8a09cba50745846f, type: 2}
+  LookAround: {fileID: 7400000, guid: 2b3ceecda7b424790a492d9e7695681a, type: 2}
+  Dance: {fileID: 7400000, guid: e1c88124d549b4ce8bb3c66ed700fb98, type: 2}
+  WalkClipSpeed: 1.35
+  RunClipSpeed: 2.775062
+  Notes: 'Authored: sit pose, wave, talk gesture, look-around (retargeted). TEMPORARY
+    procedural: phone, drink, eat, read, type, cook, wipe, machine, browse, pay,
+    point, shrug, nod, stretch, yawn, map, photo, lie down.'

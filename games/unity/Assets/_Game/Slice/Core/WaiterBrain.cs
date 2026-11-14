@@ -91,7 +91,13 @@ namespace ContextSpeak.Slice
 
             if (kinds.Contains(IntentKind.Greet) && kinds.Count == 1)
             {
-                turn.Line = B("Hi! I'm good, thanks. What would you like?", "I'm good, thanks for asking! So, what can I get you?", "Not bad at all, cheers! Now — what can I tempt you with?", "Living the dream, as they say. Right, what are we having?");
+                // Only answer "I'm good" when the learner actually asked how Rowan is.
+                var asked = System.Text.RegularExpressions.Regex.IsMatch(text.ToLowerInvariant(), @"how are you|how's it going|how are things|how is your day");
+                turn.Line = asked
+                    ? B("Hi! I'm good, thanks. What would you like?", "I'm good, thanks for asking! So, what can I get you?", "Not bad at all, cheers! Now — what can I tempt you with?", "Living the dream, as they say. Right, what are we having?")
+                    : B("Hi there! What would you like?", "Hello! So, what can I get you?", "Hi! What can I tempt you with today?", "Hello to you too! Right, what are we having?");
+                // A greeting alone is polite but does not order anything: show a fuller answer to aim for.
+                turn.ModelAnswer = "Hi! Could I get a medium latte, please?";
                 turn.Objective = "greet";
                 turn.Progress = true;
                 return turn;
@@ -357,10 +363,14 @@ namespace ContextSpeak.Slice
             return Finish(new WaiterTurn(), said);
         }
 
+        // What a learner could say back to the detail question just asked (shown when they answer something else).
+        private string askedModel = "";
+
         private string Ask(CartLine line)
         {
             var name = line.Menu.Name.ToLowerInvariant().Replace("english", "English");
             var group = line.Missing().First();
+            askedModel = group == OptionGroup.Temperature ? $"Iced, please." : $"A medium {name}, please.";
             if (group == OptionGroup.Temperature)
                 return B($"Hot or iced?", $"Would you like the {name} hot or iced?", $"Are we going hot or iced on the {name}?", $"Hot or iced on the {name}? Iced is the sensible choice in this weather, but I won't judge.");
             return B($"What size? Small, medium or large?", $"What size would you like — small, medium or large?", $"And what size are we thinking — small, medium or large?", $"Size-wise: small and civilised, medium, or large and unapologetic?");
@@ -369,6 +379,8 @@ namespace ContextSpeak.Slice
         private WaiterTurn Finish(WaiterTurn turn, List<string> said)
         {
             turn.Line = string.Join(" ", said.Where(line => line != "").Distinct());
+            if (turn.ModelAnswer == "" && askedModel != "") turn.ModelAnswer = askedModel;
+            askedModel = "";
             return turn;
         }
 

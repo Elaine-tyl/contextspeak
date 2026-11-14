@@ -7,6 +7,7 @@ import type { Server } from "node:http";
 import { createWorldServer } from "./server";
 import {
   reviewSlice,
+  applySliceGoal,
   SLICE_BANDS,
   sliceInput,
   sliceInstruction,
@@ -95,7 +96,7 @@ it("accepts only IELTS bands and short replies", () => {
   expect(sliceInput.safeParse(input).success).toBe(true);
   expect(sliceInput.safeParse({ ...input, band: "B2" }).success).toBe(false);
   expect(
-    sliceInput.safeParse({ ...input, text: "x".repeat(401) }).success,
+    sliceInput.safeParse({ ...input, text: "x".repeat(2401) }).success,
   ).toBe(false);
   expect(sliceInput.safeParse({ ...input, unlock: true }).success).toBe(false);
 });
@@ -206,4 +207,79 @@ it("reports a clear error when the companion was started without slice feedback"
     body: JSON.stringify(input),
   });
   expect(response.status).toBe(503);
+});
+
+it("accepts bounded V7 conversation memory as data without enabling game commands", () => {
+  const v7 = {
+    ...input,
+    reference: "Could I have a latte?",
+    history: ["You: I prefer tea."],
+  };
+  expect(sliceInput.safeParse(v7).success).toBe(true);
+  expect(
+    sliceInput.safeParse({ ...v7, history: Array(7).fill("x") }).success,
+  ).toBe(false);
+  expect(sliceInput.safeParse({ ...v7, reward: 100 }).success).toBe(false);
+  expect(sliceInstruction(v7)).toContain("untrusted data");
+  expect(sliceInstruction(v7)).toContain("preserve the original meaning");
+});
+
+it("requires an explicit goal decision from the local assessment model", async () => {
+  const { sliceModelOutput } = await import("./slice");
+  const legacy = {
+    relevant: true,
+    correction: "",
+    explanation: "",
+    lexicalTip: "",
+    acknowledgement: "Got it.",
+  };
+  expect(sliceModelOutput.safeParse(legacy).success).toBe(false);
+  expect(
+    sliceModelOutput.safeParse({ ...legacy, assessedGoal: true, goalMet: true })
+      .success,
+  ).toBe(true);
+});
+
+it("accepts a focused goal decision only with exact evidence from the current reply", async () => {
+  const { applySliceGoal } = await import("./slice");
+  const request = { ...input, goal: "Request a drink." };
+  const review = {
+    relevant: true,
+    correction: "Can I have a latte?",
+    explanation: "Use the base verb.",
+    lexicalTip: "",
+    acknowledgement: "Sure!",
+  };
+  expect(
+    applySliceGoal(request, review, { decision: "met", evidence: "a latte" })
+      .goalMet,
+  ).toBe(true);
+  expect(
+    applySliceGoal(request, review, { decision: "met", evidence: "a tea" })
+      .assessedGoal,
+  ).toBe(false);
+  expect(
+    applySliceGoal(request, review, { decision: "not_met", evidence: "" })
+      .goalMet,
+  ).toBe(false);
+});
+
+it("does not treat a changed drink choice as corrected repetition", () => {
+  const request = {
+    ...input,
+    goal: "Request a drink.",
+    reference: "Can I have a latte?",
+    text: "I would like a tea, please.",
+  };
+  const review = {
+    relevant: true,
+    correction: "",
+    explanation: "",
+    lexicalTip: "",
+    acknowledgement: "Sure!",
+  };
+  expect(
+    applySliceGoal(request, review, { decision: "met", evidence: request.text })
+      .goalMet,
+  ).toBe(false);
 });

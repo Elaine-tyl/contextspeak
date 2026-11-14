@@ -12,7 +12,7 @@ namespace ContextSpeak.Editor
     {
         private const string Source = "Assets/_Game/Art/Motion/";
         public const string Folder = "Assets/Generated/Motion/";
-        [Serializable] private sealed class Spec { public string model, motion, file; public float height; }
+        [Serializable] private sealed class Spec { public string model, motion, file, take; public float height; }
         [Serializable] private sealed class Catalog { public Spec[] items; }
 
         public static void BuildAndVerify()
@@ -24,7 +24,7 @@ namespace ContextSpeak.Editor
         private static Spec[] Read() => JsonUtility.FromJson<Catalog>("{\"items\":" + File.ReadAllText(Source + "manifest.json") + "}").items;
         public static string[] Names => Read().Select(entry => entry.model).Distinct().ToArray();
         public static string[] Roles(string model) => Read().Where(entry => entry.model == model).Select(entry => entry.motion)
-            .Concat(model == "Academy" ? new[] { "Walk", "Run" } : Array.Empty<string>()).Distinct().ToArray();
+            .Distinct().ToArray();
         public static bool Has(string name) => Names.Contains(name);
 
         public static void Build()
@@ -32,7 +32,7 @@ namespace ContextSpeak.Editor
             Directory.CreateDirectory(Folder);
             AssetDatabase.Refresh();
             var entries = Read();
-            foreach (var entry in entries)
+            foreach (var entry in entries.GroupBy(item => item.file).Select(group => group.First()))
             {
                 var path = Source + entry.file;
                 var importer = (ModelImporter)AssetImporter.GetAtPath(path);
@@ -54,18 +54,21 @@ namespace ContextSpeak.Editor
                 var motion = root.AddComponent<AuthoredMotion>();
                 motion.Player = animation;
                 motion.ModelName = spec.model;
+                var extras = new System.Collections.Generic.List<AnimationClip>();
+                foreach (var state in animation.Cast<AnimationState>().ToArray()) animation.RemoveClip(state.name);
                 var material = Material(spec.model);
                 foreach (var renderer in model.GetComponentsInChildren<Renderer>())
                     renderer.sharedMaterials = renderer.sharedMaterials.Select(_ => material).ToArray();
                 foreach (var entry in group)
                 {
                     var original = AssetDatabase.LoadAllAssetsAtPath(Source + entry.file).OfType<AnimationClip>()
-                        .FirstOrDefault(clip => !clip.name.StartsWith("__preview"));
+                        .FirstOrDefault(clip => !clip.name.StartsWith("__preview")
+                            && (string.IsNullOrEmpty(entry.take) || clip.name.Split('|').Contains(entry.take)));
                     if (original == null) throw new Exception("Supplied FBX clip missing: " + entry.file);
                     var clip = UnityEngine.Object.Instantiate(original);
                     clip.name = entry.model + "-" + entry.motion;
                     clip.legacy = true;
-                    clip.wrapMode = entry.motion == "Vault" ? WrapMode.Once : WrapMode.Loop;
+                    clip.wrapMode = entry.motion == "Walk" || entry.motion == "Run" ? WrapMode.Loop : WrapMode.Once;
                     // Remove only scene/root movement. Bone curves retain authored joint motion.
                     foreach (var binding in AnimationUtility.GetCurveBindings(clip))
                     {
@@ -81,22 +84,45 @@ namespace ContextSpeak.Editor
                         }
                     }
                     clip = SaveClip(clip);
-                    typeof(AuthoredMotion).GetField(entry.motion).SetValue(motion, clip);
+                    if (entry.motion == "Walk") motion.Walk = clip;
+                    else if (entry.motion == "Run") motion.Run = clip;
+                    else if (entry.motion == "Vault") motion.Vault = clip;
+                    else extras.Add(clip);
                 }
-                if (spec.model == "Academy")
+                motion.Extras = extras.ToArray();
+                // Idle = a real standing pose, not the first (mid-stride) frame of the walk: take the
+                // neutral start of a gesture clip, the end of a sit-to-stand, or else the walk frame
+                // with both feet planted.
+                AnimationClip reference = null;
+                var standTime = 0f;
+                foreach (var (take, atEnd) in new[] { ("Agree_Gesture", false), ("Big_Wave_Hello", false), ("Sit_to_Stand_Transition_F", true), ("Alert", false) })
                 {
-                    motion.Walk = Retarget(model, entries.First(entry => entry.model == "Daydream" && entry.motion == "Walk"));
-                    motion.Run = Retarget(model, entries.First(entry => entry.model == "Daydream" && entry.motion == "Run"));
+                    reference = extras.FirstOrDefault(clip => clip.name == spec.model + "-" + take);
+                    if (reference != null) { standTime = atEnd ? reference.length : 0; break; }
                 }
-                var reference = motion.Walk != null ? motion.Walk : motion.Vault;
+                if (reference == null)
+                {
+                    reference = motion.Walk != null ? motion.Walk : motion.Vault;
+                    if (motion.Walk != null) standTime = PlantedPose(motion.Walk, model);
+                }
                 var idle = new AnimationClip { name = spec.model + "-Idle", legacy = true, wrapMode = WrapMode.Loop };
                 foreach (var binding in AnimationUtility.GetCurveBindings(reference))
                 {
+                    if (binding.type == typeof(Transform) && string.IsNullOrEmpty(binding.path)) continue;
                     var curve = AnimationUtility.GetEditorCurve(reference, binding);
-                    AnimationUtility.SetEditorCurve(idle, binding, AnimationCurve.Constant(0, 1, curve.Evaluate(0)));
+                    var value = curve.Evaluate(standTime);
+                    if (binding.path.EndsWith("Hips") && (binding.propertyName == "m_LocalPosition.x" || binding.propertyName == "m_LocalPosition.z"))
+                        value = curve.Evaluate(0);   // keep the body centred over the actor
+                    AnimationUtility.SetEditorCurve(idle, binding, AnimationCurve.Constant(0, 1, value));
                 }
                 idle = SaveClip(idle);
                 motion.Idle = idle;
+                // The supplied leap contains a run-up and two hops. Extract its longest airborne
+                // section; keep all original takes available separately for the animation gallery.
+                var leap = motion.Find("Run_and_Leap");
+                if (leap != null) BuildJump(motion, leap, model, idle);
+                var crouch = motion.Find("air_squat") ?? motion.Find("Run_and_Jump");
+                if (crouch != null) BuildCrouch(motion, crouch, model, idle);
                 idle.SampleAnimation(model, 0);
                 // Normalize the posed visual child, keeping profile height/build on its outer root.
                 var skins = model.GetComponentsInChildren<SkinnedMeshRenderer>();
@@ -117,6 +143,8 @@ namespace ContextSpeak.Editor
                 var scale = spec.height / bounds.size.y;
                 model.transform.localScale *= scale;
                 model.transform.localPosition -= new Vector3(bounds.center.x, bounds.min.y, bounds.center.z) * scale;
+                var turned = CharacterFacing.Align(root.transform, model.transform);
+                if (turned != 0) Debug.Log("Motion " + spec.model + ": turned " + turned + "° to face forward.");
                 if (motion.Walk == null)
                 {
                     var joints = model.GetComponentsInChildren<Transform>();
@@ -135,66 +163,106 @@ namespace ContextSpeak.Editor
             AssetDatabase.SaveAssets();
         }
 
-        private static AnimationClip Retarget(GameObject target, Spec source)
+        private static void BuildCrouch(AuthoredMotion motion, AnimationClip source, GameObject model, AnimationClip idle)
         {
-            var actor = UnityEngine.Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(Source + source.file));
-            try
+            var hips = CharacterFacing.Bone(model.transform, "Hips");
+            var head = CharacterFacing.Bone(model.transform, "Head");
+            var left = CharacterFacing.Bone(model.transform, "LeftFoot");
+            var right = CharacterFacing.Bone(model.transform, "RightFoot");
+            idle.SampleAnimation(model, 0);
+            var floor = Mathf.Min(left.position.y, right.position.y);
+            var tolerance = (hips.position.y - floor) * .15f;
+            var lowest = hips.position.y; var at = 0f; var lift = 0f;
+            // Use a grounded squat/landing pose, never an airborne tuck or a scaled standing body.
+            for (var i = 0; i <= 120; i++)
             {
-                var original = AssetDatabase.LoadAllAssetsAtPath(Source + source.file).OfType<AnimationClip>()
-                    .First(clip => !clip.name.StartsWith("__preview"));
-                var from = actor.GetComponentsInChildren<Transform>().Where(bone => bone.name.StartsWith("mixamorig:"))
-                    .ToDictionary(bone => bone.name);
-                var to = target.GetComponentsInChildren<Transform>().Where(bone => from.ContainsKey(bone.name)).ToArray();
-                // FBX transforms can hold frame zero (a running/vault pose), not the skin bind pose.
-                var sourceBind = BindPose(actor);
-                var targetBind = BindPose(target);
-                var rests = to.ToDictionary(bone => bone.name, bone => (targetRotation: targetBind[bone].rotation,
-                    sourceRotation: sourceBind[from[bone.name]].rotation, position: (Vector3)targetBind[bone].GetColumn(3),
-                    sourceY: sourceBind[from[bone.name]].m13));
-                var clip = new AnimationClip { name = "Academy-" + source.motion, legacy = true, frameRate = 30, wrapMode = WrapMode.Loop };
-                var curves = to.ToDictionary(bone => bone.name, _ => new[] { new AnimationCurve(), new AnimationCurve(), new AnimationCurve(), new AnimationCurve() });
-                var hipsY = new AnimationCurve();
-                var steps = Mathf.CeilToInt(original.length * 30);
-                for (var frame = 0; frame <= steps; frame++)
-                {
-                    var time = Mathf.Min(frame / 30f, original.length);
-                    original.SampleAnimation(actor, time);
-                    foreach (var bone in to)
-                    {
-                        var rest = rests[bone.name];
-                        var rotation = rest.targetRotation * Quaternion.Inverse(rest.sourceRotation) * from[bone.name].localRotation;
-                        var values = new[] { rotation.x, rotation.y, rotation.z, rotation.w };
-                        for (var axis = 0; axis < 4; axis++) curves[bone.name][axis].AddKey(time, values[axis]);
-                        if (bone.name == "mixamorig:Hips")
-                        {
-                            var ratio = Mathf.Abs(rest.sourceY) > 0.001f ? rest.position.y / rest.sourceY : 1;
-                            hipsY.AddKey(time, rest.position.y + (from[bone.name].localPosition.y - rest.sourceY) * ratio);
-                        }
-                    }
-                }
-                foreach (var bone in to)
-                {
-                    var path = AnimationUtility.CalculateTransformPath(bone, target.transform);
-                    for (var axis = 0; axis < 4; axis++) clip.SetCurve(path, typeof(Transform), "localRotation." + "xyzw"[axis], curves[bone.name][axis]);
-                    var rest = rests[bone.name].position;
-                    clip.SetCurve(path, typeof(Transform), "localPosition.x", AnimationCurve.Constant(0, original.length, rest.x));
-                    clip.SetCurve(path, typeof(Transform), "localPosition.y", bone.name == "mixamorig:Hips" ? hipsY : AnimationCurve.Constant(0, original.length, rest.y));
-                    clip.SetCurve(path, typeof(Transform), "localPosition.z", AnimationCurve.Constant(0, original.length, rest.z));
-                }
-                clip.EnsureQuaternionContinuity();
-                return SaveClip(clip);
+                var time = source.length * i / 120;
+                source.SampleAnimation(model, time);
+                var feet = Mathf.Min(left.position.y, right.position.y);
+                var higherFoot = Mathf.Max(left.position.y, right.position.y);
+                var torso = head.position - hips.position;
+                if (higherFoot > floor + tolerance || hips.position.y - higherFoot < tolerance
+                    || torso.normalized.y < .65f || hips.position.y >= lowest) continue;
+                lowest = hips.position.y; at = time; lift = feet - floor;
             }
-            finally { UnityEngine.Object.DestroyImmediate(actor); }
+            var pose = new AnimationClip { name = motion.ModelName + "-Crouch", legacy = true, wrapMode = WrapMode.Loop };
+            var correction = hips.parent.InverseTransformVector(Vector3.up * lift).y;
+            foreach (var binding in AnimationUtility.GetCurveBindings(source))
+            {
+                var value = AnimationUtility.GetEditorCurve(source, binding).Evaluate(at);
+                if (binding.path.EndsWith("Hips") && binding.propertyName == "m_LocalPosition.y") value -= correction;
+                AnimationUtility.SetEditorCurve(pose, binding, AnimationCurve.Constant(0, 1, value));
+            }
+            motion.Crouch = SaveClip(pose);
         }
 
-        private static System.Collections.Generic.Dictionary<Transform, Matrix4x4> BindPose(GameObject model)
+        private static void BuildJump(AuthoredMotion motion, AnimationClip leap, GameObject model, AnimationClip idle)
         {
-            var world = new System.Collections.Generic.Dictionary<Transform, Matrix4x4>();
-            foreach (var skin in model.GetComponentsInChildren<SkinnedMeshRenderer>())
-                for (var index = 0; index < skin.bones.Length; index++)
-                    world[skin.bones[index]] = skin.transform.localToWorldMatrix * skin.sharedMesh.bindposes[index].inverse;
-            return world.ToDictionary(pair => pair.Key, pair =>
-                (world.TryGetValue(pair.Key.parent, out var parent) ? parent.inverse : pair.Key.parent.worldToLocalMatrix) * pair.Value);
+            var left = CharacterFacing.Bone(model.transform, "LeftFoot");
+            var right = CharacterFacing.Bone(model.transform, "RightFoot");
+            var hips = CharacterFacing.Bone(model.transform, "Hips");
+            if (left == null || right == null || hips == null) throw new Exception("Leap rig is missing feet/hips.");
+            idle.SampleAnimation(model, 0);
+            var hipHeight = hips.localPosition.y;
+            var clearance = Mathf.Abs(hips.position.y - Mathf.Min(left.position.y, right.position.y)) * .1f;
+            var steps = Mathf.CeilToInt(leap.length * 60);
+            var heights = new float[steps + 1];
+            for (var i = 0; i <= steps; i++)
+            {
+                leap.SampleAnimation(model, leap.length * i / steps);
+                heights[i] = Mathf.Min(left.position.y, right.position.y);
+            }
+            var floor = heights.Min();
+            var start = 0; var end = 0; var run = -1;
+            for (var i = 0; i <= steps + 1; i++)
+            {
+                if (i <= steps && heights[i] > floor + clearance) { if (run < 0) run = i; }
+                else if (run >= 0)
+                {
+                    if (i - run > end - start) { start = run; end = i; }
+                    run = -1;
+                }
+            }
+            if (end <= start) throw new Exception("No airborne section found in " + leap.name);
+            start = Mathf.Max(0, start - 2); end = Mathf.Min(steps, end + 2);
+            var from = leap.length * start / steps;
+            var duration = leap.length * (end - start) / steps;
+            var jump = new AnimationClip { name = motion.ModelName + "-Jump", legacy = true, wrapMode = WrapMode.ClampForever };
+            foreach (var binding in AnimationUtility.GetCurveBindings(leap))
+            {
+                var source = AnimationUtility.GetEditorCurve(leap, binding);
+                var keys = new Keyframe[end - start + 1];
+                for (var i = 0; i < keys.Length; i++)
+                {
+                    var t = duration * i / (keys.Length - 1);
+                    var value = binding.path.EndsWith("Hips") && binding.propertyName == "m_LocalPosition.y"
+                        ? hipHeight : source.Evaluate(from + t);
+                    keys[i] = new Keyframe(t, value);
+                }
+                AnimationUtility.SetEditorCurve(jump, binding, new AnimationCurve(keys));
+            }
+            jump.EnsureQuaternionContinuity();
+            motion.Jump = SaveClip(jump);
+            var apex = Array.IndexOf(heights, heights.Skip(start).Take(end - start + 1).Max(), start);
+            motion.JumpApex = (float)(apex - start) / (end - start);
+        }
+
+        /// Prefer double support over a passing pose with one foot raised.
+        private static float PlantedPose(AnimationClip walk, GameObject model)
+        {
+            var left = CharacterFacing.Bone(model.transform, "LeftFoot");
+            var right = CharacterFacing.Bone(model.transform, "RightFoot");
+            if (left == null || right == null) return 0;
+            var best = 0f; var closest = float.MaxValue;
+            for (var i = 0; i < 32; i++)
+            {
+                var t = walk.length * i / 32f;
+                walk.SampleAnimation(model, t);
+                var gap = left.position - right.position;
+                var score = Mathf.Abs(gap.y) * 100 + Vector3.ProjectOnPlane(gap, Vector3.up).magnitude;
+                if (score < closest) { closest = score; best = t; }
+            }
+            return best;
         }
 
         private static AnimationClip SaveClip(AnimationClip clip)

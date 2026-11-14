@@ -1,0 +1,16 @@
+.legacy-paper {
+    background-color: rgba(247, 243, 234, 0.96);
+    color: #1f2a26;
+    border-radius: 10px;
+    padding: 12px;
+    border-width: 1px;
+    border-color: rgba(31, 42, 38, 0.18);
+}
+.legacy-area { padding: 12px; }
+.legacy-area .unity-label { color: #1f2a26; margin-bottom: 8px; white-space: normal; }
+.legacy-area .unity-button { margin: 4px; min-height: 38px; flex-shrink: 1; white-space: normal; }
+.legacy-area .unity-text-field, .legacy-area .unity-toggle { margin: 4px; }
+.legacy-area .unity-scroll-view { min-height: 60px; flex-shrink: 1; }
+.legacy-area .unity-slider { min-width: 120px; min-height: 32px; }
+.legacy-subtitle { background-color: rgba(15, 24, 20, 0.94); color: #f7f3ea; }
+.legacy-subtitle .unity-label { color: #f7f3ea; }

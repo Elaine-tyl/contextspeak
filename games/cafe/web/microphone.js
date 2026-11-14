@@ -15,8 +15,19 @@
   function finish(session) {
     if (current !== session) return;
     current = null;
-    const rate = session.context.sampleRate;
-    const length = session.chunks.reduce((sum, chunk) => sum + chunk.length, 0);
+    const sourceRate = session.context.sampleRate;
+    const sourceLength = session.chunks.reduce(
+      (sum, chunk) => sum + chunk.length,
+      0,
+    );
+    const source = new Float32Array(sourceLength);
+    let offset = 0;
+    for (const chunk of session.chunks) {
+      source.set(chunk, offset);
+      offset += chunk.length;
+    }
+    const rate = 16000;
+    const length = Math.floor((sourceLength * rate) / sourceRate);
     const wave = new Uint8Array(44 + length * 2);
     const view = new DataView(wave.buffer);
     for (const [offset, text] of [
@@ -42,26 +53,28 @@
       [34, 16],
     ])
       view.setUint16(offset, value, true);
-    let cursor = 44;
-    for (const chunk of session.chunks) {
-      for (const sample of chunk) {
-        view.setInt16(
-          cursor,
-          Math.round(Math.max(-1, Math.min(1, sample)) * 32767),
-          true,
-        );
-        cursor += 2;
-      }
+    for (let index = 0; index < length; index++) {
+      const position = (index * sourceRate) / rate;
+      const left = Math.floor(position);
+      const fraction = position - left;
+      const sample =
+        source[left] * (1 - fraction) +
+        source[Math.min(left + 1, sourceLength - 1)] * fraction;
+      view.setInt16(
+        44 + index * 2,
+        Math.round(Math.max(-1, Math.min(1, sample)) * 32767),
+        true,
+      );
     }
     cleanup(session);
     session.done(wave);
   }
-  async function start(ready, activity, done, failed) {
+  async function start(ready, activity, done, failed, maxSeconds = 20) {
     cancel();
     const session = { chunks: [], frames: 0, done, failed };
     current = session;
     try {
-      session.context = new AudioContext({ sampleRate: 48000 });
+      session.context = new AudioContext({ sampleRate: 16000 });
       await session.context.resume();
       if (current !== session) return;
       session.stream = await navigator.mediaDevices.getUserMedia({
@@ -81,7 +94,9 @@
         return;
       }
       session.source = session.context.createMediaStreamSource(session.stream);
-      session.node = new AudioWorkletNode(session.context, "cafe-capture");
+      session.node = new AudioWorkletNode(session.context, "cafe-capture", {
+        processorOptions: { maxSeconds },
+      });
       session.node.port.onmessage = ({ data }) => {
         if (current !== session) return;
         if (data.done) {
@@ -121,8 +136,8 @@
       cancel();
       failed(
         error.name === "NotAllowedError"
-          ? "Microphone permission denied. Allow access and retry, or type your reply."
-          : "Microphone unavailable. Check your input device and retry, or type your reply.",
+          ? "Microphone permission denied. Allow access and retry recording."
+          : "Microphone unavailable. Check your input device and retry recording.",
       );
     }
   }

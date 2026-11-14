@@ -1,0 +1,29 @@
+#story-toolbar { position: absolute; top: 14px; right: 18px; flex-direction: row; align-items: center; background-color: rgba(30, 50, 43, .94); border-radius: 10px; padding: 6px 12px; }
+#story-toolbar Label { color: rgb(255, 245, 222); font-size: 16px; margin-right: 12px; }
+#story-overlay { position: absolute; left: 0; right: 0; top: 0; bottom: 0; background-color: rgba(10, 20, 17, .25); align-items: center; justify-content: flex-end; padding: 18px; }
+#story-card, #story-journal { width: 620px; max-width: 96%; max-height: 68%; background-color: rgba(247, 243, 234, .97); border-radius: 10px; padding: 20px 24px; border-width: 1px; border-color: rgb(172, 189, 168); }
+#story-journal { max-height: 88%; }
+#story-overlay Label { white-space: normal; color: #1F2A26; margin-bottom: 10px; font-size: 17px; }
+#story-overlay .story-title, #story-journal-title { font-size: 22px; -unity-font-style: bold; flex-grow: 1; }
+#story-overlay .story-prompt { font-size: 23px; margin-top: 10px; margin-bottom: 16px; }
+#story-overlay .story-muted { color: rgb(89, 110, 92); font-size: 15px; }
+#story-overlay .story-repair { color: rgb(154, 51, 43); background-color: rgb(252, 229, 218); border-radius: 9px; padding: 10px; }
+#story-overlay .story-feedback { color: rgb(29, 97, 75); -unity-font-style: bold; }
+.story-row { flex-direction: row; flex-wrap: wrap; align-items: center; }
+#story-overlay Button, #story-toolbar Button { background-color: #2E5E45; color: rgb(255, 249, 235); padding: 10px 14px; border-radius: 9px; margin: 3px; border-width: 1px; border-color: #2E5E45; font-size: 16px; }
+#story-overlay Button:hover { background-color: rgb(56, 123, 98); }
+#story-overlay Button:disabled { opacity: .45; }
+#story-choices { flex-direction: row; flex-wrap: wrap; margin-bottom: 12px; }
+#story-choices Button { background-color: rgb(237, 239, 224); color: rgb(36, 81, 63); }
+#story-choices Button.selected { background-color: rgb(224, 180, 103); color: rgb(45, 45, 31); border-color: rgb(145, 104, 48); }
+#story-overlay .story-close { background-color: transparent; color: #1F2A26; font-size: 25px; }
+#story-note, #story-target-note { font-size: 13px; color: rgb(105, 113, 95); margin-top: 10px; }
+#story-overlay TextField { min-height: 65px; margin: 8px 0; }
+.story-entry { border-top-width: 1px; border-top-color: rgb(212, 217, 195); padding-top: 12px; margin-top: 9px; }
+
+#story-journal { position: absolute; right: 32px; top: 32px; bottom: 32px; width: 440px; max-height: 94%; }
+#story-card .practice-note { font-size: 13px; color: #48574E; }
+
+#story-card { width: 860px; max-width: 94%; max-height: 38%; padding: 12px 18px; }
+#story-card .story-prompt { font-size: 22px; margin-top: 4px; margin-bottom: 6px; }
+#story-card .story-muted { margin-bottom: 5px; }

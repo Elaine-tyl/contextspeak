@@ -14,7 +14,7 @@ namespace ContextSpeak.Editor
     {
         public static void VerifySavedScenes()
         {
-            foreach (var scene in new[] { "ForestCafe", "LifeTown", "ForestSlice" })
+            foreach (var scene in new[] { "ForestSlice" })   // the old ForestCafe and LifeTown scenes were retired
             {
                 EditorSceneManager.OpenScene("Assets/Generated/" + scene + ".unity");
                 VerifyScene();
@@ -54,7 +54,7 @@ namespace ContextSpeak.Editor
                     if (!active.activeSelf || inactive.activeSelf) throw new Exception("Only the chosen protagonist should be visible.");
                     var mesh = active.GetComponentInChildren<SkinnedMeshRenderer>();
                     var expected = look == PlayerLook.Boy ? "Daydream" : "Academy";
-                    if (mesh == null || !AssetDatabase.GetAssetPath(mesh.sharedMesh).EndsWith("/" + expected + (look == PlayerLook.Boy ? "-Walk.fbx" : "-Vault.fbx")))
+                    if (mesh == null || !AssetDatabase.GetAssetPath(mesh.sharedMesh).EndsWith("/" + expected + "-All.fbx"))
                         throw new Exception("Protagonist does not match the supplied reference: " + look);
                     appearance.Restore();
                     if (appearance.Selected != look) throw new Exception("Appearance did not survive restoring preferences.");
@@ -108,7 +108,7 @@ namespace ContextSpeak.Editor
                 if (!assignedBodies.Add(source)) throw new Exception("Repeated NPC body in the same scene: " + actor.name);
                 if (humans.Any(mesh => {
                     var path = AssetDatabase.GetAssetPath(mesh);
-                    return path.EndsWith("/Academy.glb") || path.EndsWith("/Daydream.glb") || path.EndsWith("/Academy-Vault.fbx") || path.EndsWith("/Daydream-Walk.fbx");
+                    return path.EndsWith("/Academy.glb") || path.EndsWith("/Daydream.glb") || path.EndsWith("/Academy-All.fbx") || path.EndsWith("/Daydream-All.fbx");
                 })) throw new Exception("Protagonist reused as NPC: " + actor.name);
                 var old = meshes.Where(mesh => {
                     var path = AssetDatabase.GetAssetPath(mesh);

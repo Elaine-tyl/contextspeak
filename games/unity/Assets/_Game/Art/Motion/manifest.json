@@ -1,44 +1,5 @@
 [
   {
-    "model": "Academy",
-    "motion": "Vault",
-    "sourceHash": "74029dec0228fd44be003e69bf9894a565a02f00b665fc21033bbc5297381b4f",
-    "source": "Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault_74029dec02/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_Unarmed_Vault.fbx",
-    "height": 1.7,
-    "textures": {
-      "baseColor": "Textures/Academy/BaseColor.png",
-      "normal": "Textures/Academy/Normal.png",
-      "surface": "Textures/Academy/MetallicSmoothness.png"
-    },
-    "file": "Academy-Vault.fbx"
-  },
-  {
-    "model": "Daydream",
-    "motion": "Walk",
-    "sourceHash": "69bf1600ee27c43afe25d2fd4e297c8c1331881a83966b4a6363412f2b75c254",
-    "source": "Academy_Daydream_20261112_animated_mixamo_Casual_Walk_69bf1600ee/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_Casual_Walk.fbx",
-    "height": 1.7,
-    "textures": {
-      "baseColor": "Textures/Daydream/BaseColor.png",
-      "normal": "Textures/Daydream/Normal.png",
-      "surface": "Textures/Daydream/MetallicSmoothness.png"
-    },
-    "file": "Daydream-Walk.fbx"
-  },
-  {
-    "model": "Daydream",
-    "motion": "Run",
-    "sourceHash": "65f272262156a5acf7f83c3625619fccdac7b8502f23b5ae58180b0c2a61fca9",
-    "source": "Academy_Daydream_20261112_animated_mixamo_RunFast_65f2722621/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_RunFast.fbx",
-    "height": 1.7,
-    "textures": {
-      "baseColor": "Textures/Daydream/BaseColor.png",
-      "normal": "Textures/Daydream/Normal.png",
-      "surface": "Textures/Daydream/MetallicSmoothness.png"
-    },
-    "file": "Daydream-Run.fbx"
-  },
-  {
     "model": "TrenchElder",
     "motion": "Walk",
     "sourceHash": "81fedc64995f31dcaed2d0853c870f3fa6b937298876f4fb309a3173bba1f9bc",
@@ -81,5 +42,755 @@
       "baseColor": "Textures/OfficerTaylor/BaseColor.png"
     },
     "file": "OfficerTaylor-Walk.fbx"
+  },
+  {
+    "model": "Daydream",
+    "motion": "_360_Power_Spin_Jump",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "_360_Power_Spin_Jump",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Agree_Gesture",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Agree_Gesture",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "air_squat",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "air_squat",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Alert_Quick_Turn_Right",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Alert_Quick_Turn_Right",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Alert",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Alert",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "All_Night_Dance",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "All_Night_Dance",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Angry_Ground_Stomp_1",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Angry_Ground_Stomp_1",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Angry_Ground_Stomp_2",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Angry_Ground_Stomp_2",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Angry_Ground_Stomp",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Angry_Ground_Stomp",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Walk",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Casual_Walk",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Run_02",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Run_02",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Run_03",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Run_03",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "RunFast",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "RunFast",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Running_Reload",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Running_Reload",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Run",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Running",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Spear_Walk",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Spear_Walk",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Walk_Backward_inplace",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Walk_Backward_inplace",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Walk_Backward_While_Shooting",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Walk_Backward_While_Shooting",
+    "native": true
+  },
+  {
+    "model": "Daydream",
+    "motion": "Walking",
+    "sourceHash": "b6c02bff381b57bb874f15e59b9a91bd11268735f0d847ddcb016a12156ce7b2",
+    "source": "Academy_Daydream_20261112_animated_mixamo_All_animation_b6c02bff38/Meshy_AI_Academy_Daydream_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Daydream/BaseColor.png",
+      "normal": "Textures/Daydream/Normal.png",
+      "surface": "Textures/Daydream/MetallicSmoothness.png"
+    },
+    "file": "Daydream-All.fbx",
+    "take": "Walking",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Agree_Gesture",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Agree_Gesture",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Alert_Quick_Turn_Right",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Alert_Quick_Turn_Right",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "All_Night_Dance",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "All_Night_Dance",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Angry_Ground_Stomp_2",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Angry_Ground_Stomp_2",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Angry_Ground_Stomp",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Angry_Ground_Stomp",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Back_Jump",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Back_Jump",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Backflip_Jump",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Backflip_Jump",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Big_Wave_Hello",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Big_Wave_Hello",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Run_02",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Run_02",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Run_and_Jump",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Run_and_Jump",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Run_and_Leap",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Run_and_Leap",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "RunFast",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "RunFast",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Run",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Running",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Vault",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Unarmed_Vault",
+    "native": true
+  },
+  {
+    "model": "Academy",
+    "motion": "Walk",
+    "sourceHash": "baa95b91fb12f1d10aa49b658116b444d7d7751f7abb940d2dedea7b7cfb4b71",
+    "source": "Academy_Elegance_20261112_animated_mixamo_All_animation_baa95b91fb/Meshy_AI_Academy_Elegance_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Academy/BaseColor.png",
+      "normal": "Textures/Academy/Normal.png",
+      "surface": "Textures/Academy/MetallicSmoothness.png"
+    },
+    "file": "Academy-All.fbx",
+    "take": "Walking",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "_360_Power_Spin_Jump",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "_360_Power_Spin_Jump",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "Agree_Gesture",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "Agree_Gesture",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "air_squat",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "air_squat",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "Alert_Quick_Turn_Right",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "Alert_Quick_Turn_Right",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "Alert",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "Alert",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "All_Night_Dance",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "All_Night_Dance",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "Running_Reload",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "Running_Reload",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "Run",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "Running",
+    "native": true
+  },
+  {
+    "model": "Elliot",
+    "motion": "Walk",
+    "sourceHash": "8a0698469841c20171bdcfc67a76c69ba3a0335fd68a47948eec40ea10033274",
+    "source": "Elliot_20261112_animated_mixamo_All_animation_8a06984698/Meshy_AI_Elliot_20261112_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/Elliot/BaseColor.png",
+      "normal": "Textures/Elliot/Normal.png",
+      "surface": "Textures/Elliot/MetallicSmoothness.png"
+    },
+    "file": "Elliot-All.fbx",
+    "take": "Walking",
+    "native": true
+  },
+  {
+    "model": "CafeCharm",
+    "motion": "Hello_Run",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "source": "Caf\u00e9_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/CafeCharm/BaseColor.png",
+      "normal": "Textures/CafeCharm/Normal.png",
+      "surface": "Textures/CafeCharm/MetallicSmoothness.png"
+    },
+    "file": "CafeCharm-All.fbx",
+    "take": "Hello_Run",
+    "native": true
+  },
+  {
+    "model": "CafeCharm",
+    "motion": "RunFast",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "source": "Caf\u00e9_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/CafeCharm/BaseColor.png",
+      "normal": "Textures/CafeCharm/Normal.png",
+      "surface": "Textures/CafeCharm/MetallicSmoothness.png"
+    },
+    "file": "CafeCharm-All.fbx",
+    "take": "RunFast",
+    "native": true
+  },
+  {
+    "model": "CafeCharm",
+    "motion": "Run",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "source": "Caf\u00e9_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/CafeCharm/BaseColor.png",
+      "normal": "Textures/CafeCharm/Normal.png",
+      "surface": "Textures/CafeCharm/MetallicSmoothness.png"
+    },
+    "file": "CafeCharm-All.fbx",
+    "take": "Running",
+    "native": true
+  },
+  {
+    "model": "CafeCharm",
+    "motion": "Sit_to_Stand_Transition_F",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "source": "Caf\u00e9_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/CafeCharm/BaseColor.png",
+      "normal": "Textures/CafeCharm/Normal.png",
+      "surface": "Textures/CafeCharm/MetallicSmoothness.png"
+    },
+    "file": "CafeCharm-All.fbx",
+    "take": "Sit_to_Stand_Transition_F",
+    "native": true
+  },
+  {
+    "model": "CafeCharm",
+    "motion": "walking_2_inplace",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "source": "Caf\u00e9_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/CafeCharm/BaseColor.png",
+      "normal": "Textures/CafeCharm/Normal.png",
+      "surface": "Textures/CafeCharm/MetallicSmoothness.png"
+    },
+    "file": "CafeCharm-All.fbx",
+    "take": "walking_2_inplace",
+    "native": true
+  },
+  {
+    "model": "CafeCharm",
+    "motion": "walking_2",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "source": "Caf\u00e9_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/CafeCharm/BaseColor.png",
+      "normal": "Textures/CafeCharm/Normal.png",
+      "surface": "Textures/CafeCharm/MetallicSmoothness.png"
+    },
+    "file": "CafeCharm-All.fbx",
+    "take": "walking_2",
+    "native": true
+  },
+  {
+    "model": "CafeCharm",
+    "motion": "Walk",
+    "sourceHash": "d823ae6e3b8a3cc648624d3c7eed676dca31e45ae5a0dc1658047763946900e2",
+    "source": "Caf\u00e9_Charm_20261113_animated_mixamo_All_animation_d823ae6e3b/Meshy_AI_Caf\u00e9_Charm_20261113_animated_mixamo_All_animation.fbx",
+    "height": 1.7,
+    "textures": {
+      "baseColor": "Textures/CafeCharm/BaseColor.png",
+      "normal": "Textures/CafeCharm/Normal.png",
+      "surface": "Textures/CafeCharm/MetallicSmoothness.png"
+    },
+    "file": "CafeCharm-All.fbx",
+    "take": "Walking",
+    "native": true
   }
 ]

@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Restaurant Takeaway
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Restaurant Takeaway
+  Location: Restaurant
+  Steps:
+  - id: order
+    speaker: counter
+    simple: Takeaway? What would you like?
+    standard: Hi, is this for takeaway? What can I get you?
+    advanced: Hi there, are you ordering to take away? What would you like?
+    expert: 
+    goal: Order something to take away.
+    meaning: i'?d like|can i|could i|please|takeaway|take away|to go|have|get|soup|burger|pasta|salad|fish|chips
+    model: Could I get the pasta to take away, please?
+    vocabulary: 'takeaway: food you eat somewhere else'
+    onComplete: 
+  - id: wait
+    speaker: counter
+    simple: Ten minutes. Okay?
+    standard: That'll be about ten minutes. Is that okay?
+    advanced: That'll take about ten minutes. Would you like to wait here or come
+      back?
+    expert: 
+    goal: Say if that is fine.
+    meaning: yes|yeah|yep|sure|of course|okay|ok|please|that'?s right|correct|thank|thanks|cheers|great|perfect|lovely|okay|ok|fine|bye|that'?s
+      all|wait|come back|fine|no problem
+    model: That's fine, I'll wait here.
+    vocabulary: 
+    onComplete: takeaway-ordered

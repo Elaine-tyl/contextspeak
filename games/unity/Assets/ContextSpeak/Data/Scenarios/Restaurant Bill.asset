@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Restaurant Bill
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Restaurant Bill
+  Location: Restaurant
+  Steps:
+  - id: how
+    speaker: waiter
+    simple: Was it good?
+    standard: How was everything?
+    advanced: How was everything this evening? Was the food as you expected?
+    expert: 
+    goal: Say how the meal was.
+    meaning: good|great|delicious|nice|lovely|fine|amazing|tasty|excellent|bit|too|cold|salty|ok|okay|enjoy
+    model: It was delicious, thank you.
+    vocabulary: 'delicious: very tasty'
+    onComplete: 
+  - id: next
+    speaker: waiter
+    simple: Dessert or the bill?
+    standard: Would you like to see the dessert menu, or shall I bring the bill?
+    advanced: Can I tempt you with dessert or a coffee, or would you like the bill?
+    expert: 
+    goal: Ask for the bill.
+    meaning: bill|check|pay|dessert|no|just|full|that'?s all
+    model: Could we have the bill, please?
+    vocabulary: 'bill: the paper that shows what you must pay|tempt: make you want
+      something'
+    onComplete: bill

@@ -12,9 +12,19 @@
     owner: "CafeRuntime",
     mode: "cafe",
     characterBusy: false,
+    ready(instance) {
+      bridge.instance = instance;
+      // Airport/city/location presenters are native-only and may send no CS_State snapshot.
+      document.body.classList.toggle(
+        "native-unity-ui",
+        bridge.mode !== "character",
+      );
+    },
     state(json) {
       const state = JSON.parse(json);
       const creating = state.mode === "character";
+      // Native UI owns every game mode; HTML is retained only for the character bridge.
+      document.body.classList.toggle("native-unity-ui", !creating);
       // The outgoing additive scene may publish a final frame during loading.
       // Keep the creator open until Unity confirms a save/cancel transition.
       if (bridge.mode === "character" && !creating && !bridge.characterBusy)
@@ -126,7 +136,7 @@
             ? "Cancel request"
             : "Record reply";
     },
-    record(owner, generation) {
+    record(owner, generation, maxSeconds = 20) {
       const send = (method, value = "") =>
         bridge.instance?.SendMessage(
           owner,
@@ -135,7 +145,7 @@
         );
       window.contextSpeakMicrophone.start(
         () => send("OnMicReady"),
-        () => {},
+        (level) => bridge.instance?.SendMessage(owner, "OnMicActivity", JSON.stringify({ generation, level })),
         (bytes) => {
           let binary = "";
           for (let offset = 0; offset < bytes.length; offset += 8192)
@@ -145,6 +155,7 @@
           send("OnMicData", btoa(binary));
         },
         (error) => send("OnMicError", error),
+        maxSeconds,
       );
     },
   });

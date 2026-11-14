@@ -15,11 +15,10 @@ namespace ContextSpeak.Editor
     public static class CafeBuild
     {
         private const string Generated = "Assets/Generated";
-        private const string ScenePath = Generated + "/ForestCafe.unity";
-        private const string LifePath = Generated + "/LifeTown.unity";
         private const string SlicePath = Generated + "/ForestSlice.unity";
         private static string Root => Path.GetFullPath(Path.Combine(Application.dataPath, "../../.."));
-        [MenuItem("ContextSpeak/Rebuild cafe scene")]
+        // The old Forest Café (ForestCafe) and Life town (LifeTown) scenes were retired: the Forest Café world is
+        // ForestSlice and home is the villa. This now rebuilds the Forest Café world and character studio only.
         public static void CreateScene()
         {
             ConfigurePipeline();
@@ -30,19 +29,12 @@ namespace ContextSpeak.Editor
             foreach (var export in Directory.GetFiles("Assets/_Game/Art/Blender", "*.glb"))
                 AssetDatabase.ImportAsset(export, ImportAssetOptions.ForceUpdate);
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            CafeScene.Create();
-            EditorSceneManager.SaveScene(scene, ScenePath);
-            scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            LifeScene.Create();
-            EditorSceneManager.SaveScene(scene, LifePath);
-            scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
             SliceScene.Create();
             EditorSceneManager.SaveScene(scene, SlicePath);
             CharacterCreationScene.Create();
-            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(ScenePath, true), new EditorBuildSettingsScene(LifePath, true), new EditorBuildSettingsScene(SlicePath, true) };
             AssetDatabase.SaveAssets();
             WorldAddressables.Prepare();
-            EditorSceneManager.OpenScene(ScenePath);
+            EditorSceneManager.OpenScene(SlicePath);
         }
         public static void ConfigurePipeline()
         {
@@ -73,7 +65,10 @@ namespace ContextSpeak.Editor
             pipeline.shadowDistance = 28;
             pipeline.mainLightShadowmapResolution = 2048;
             GraphicsSettings.defaultRenderPipeline = pipeline;
-            QualitySettings.renderPipeline = pipeline;
+            // After ContextSpeak > Environment > Setup Realistic World/Lighting each quality level has its own
+            // Env-* URP asset (Performance/High/Ultra); don't overwrite that assignment on every rebuild.
+            if (AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(Generated + "/Env-High.asset") == null)
+                QualitySettings.renderPipeline = pipeline;
             // The pinned URP package requires its Editor-only global resources in player builds.
             var globals = typeof(UniversalRenderPipelineAsset).Assembly.GetType("UnityEngine.Rendering.Universal.UniversalRenderPipelineGlobalSettings");
             globals?.GetMethod("Ensure", BindingFlags.NonPublic | BindingFlags.Static)?.Invoke(null, new object[] { true });
@@ -87,11 +82,9 @@ namespace ContextSpeak.Editor
         }
         public static void Verify()
         {
-            CafeChecks.Verify();
             MicrophoneChecks.Verify();
             GameAudioChecks.Verify();
             ArcadeChecks.Verify();
-            LifeChecks.Verify();
             SliceChecks.Verify();
             CreateScene();
             MeshyChecks.Verify();
@@ -100,24 +93,6 @@ namespace ContextSpeak.Editor
             CharacterCreationChecks.Verify();
             CharacterCreationChecks.VerifyNavigationQueue();
             CharacterCreationChecks.VerifyScene();
-            WorldFrameworkChecks.VerifyNavigation("ForestCafe");
-            var game = UnityEngine.Object.FindFirstObjectByType<CafeGame>();
-            if (game == null || game.Player == null || game.Maya == null || game.Alex == null || game.Drinks == null)
-                throw new Exception("The native scene is missing a mission actor or reward.");
-            if (UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).Length < 10)
-                throw new Exception("The room and furniture need physical boundaries.");
-            if (UnityEngine.Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Length < 20)
-                throw new Exception("The cafe art was not imported into the native scene.");
-            Physics.SyncTransforms();
-            if (!Physics.Linecast(new Vector3(0, 1, 6), new Vector3(0, 1, 8)))
-                throw new Exception("The entrance boundary must prevent walking out of the cafe floor.");
-            NpcCastChecks.VerifyScene();
-            Debug.Log("ContextSpeak Unity scene checks passed");
-            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-            LifeScene.Create();
-            LifeChecks.VerifyScene();
-            NpcCastChecks.VerifyScene();
-            WorldFrameworkChecks.VerifyScene();
             EditorSceneManager.OpenScene(SlicePath);
             SliceSceneChecks.VerifyScene();
             NpcCastChecks.VerifyScene();
@@ -182,7 +157,7 @@ namespace ContextSpeak.Editor
         private static void Build(string output, BuildTarget target)
         {
             Directory.CreateDirectory(Path.GetDirectoryName(output));
-            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions { scenes = new[] { WorldAddressables.Bootstrap }, locationPathName = output, target = target, options = BuildOptions.None });
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions { scenes = LivingWorldBuilder.PlayerScenes(WorldAddressables.Bootstrap), locationPathName = output, target = target, options = BuildOptions.None });
             if (report.summary.result != BuildResult.Succeeded) throw new BuildFailedException("Unity export failed: " + report.summary.result);
             Debug.Log("ContextSpeak Unity export: " + output);
         }

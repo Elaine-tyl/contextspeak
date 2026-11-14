@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="../../../games/unity/Assets/_Game/Slice/Core/*.cs" />
+    <Compile Include="../../../games/unity/Assets/_Game/Learning/Core/*.cs" />
     <Compile Include="../../../games/unity/Assets/Editor/SliceChecks.cs" />
   </ItemGroup>
 </Project>

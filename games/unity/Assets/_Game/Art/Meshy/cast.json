@@ -321,6 +321,22 @@
       "role": "Motorcyclist",
       "x": 35,
       "z": -57
+    },
+    {
+      "id": "cafe:CafeCharm",
+      "model": "CafeCharm",
+      "name": "Mira",
+      "role": "Cafe host",
+      "x": -22,
+      "z": 35
+    },
+    {
+      "id": "mall:BraidedSchoolgirl",
+      "model": "BraidedSchoolgirl",
+      "name": "June",
+      "role": "Friend browsing the shops",
+      "x": -31,
+      "z": -43
     }
   ]
 }

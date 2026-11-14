@@ -342,3 +342,15 @@ footer {
   font-size: 13px;
   padding: 6px 12px;
 }
+
+.build-version { display: block; font: 10px/1.3 system-ui, sans-serif; opacity: .7; }
+/* UI Toolkit owns gameplay presentation; keep the brand/exit link and microphone bridge. */
+.native-unity-ui #mission,
+.native-unity-ui #life-menu,
+.native-unity-ui #dialogue,
+.native-unity-ui #interact,
+.native-unity-ui #travel-status,
+.native-unity-ui footer,
+.native-unity-ui header > :not(a) { display: none !important; }
+.native-unity-ui header { pointer-events: none; background: transparent; padding: 0; }
+.native-unity-ui header a { pointer-events: auto; }

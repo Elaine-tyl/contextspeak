@@ -1,0 +1,7 @@
+.voice-coach { margin-top: 5px; margin-bottom: 5px; }
+.voice-hints { flex-direction: row; flex-wrap: wrap; margin-bottom: 4px; }
+.voice-coach .voice-word { background-color: #fff0dc; color: #92520e; border-radius: 12px; padding: 4px 10px; margin-right: 5px; margin-bottom: 4px; font-size: 15px; }
+.voice-coach .voice-marks { color: #285847; background-color: #e8f1e9; border-radius: 8px; padding: 7px; font-size: 14px; white-space: normal; }
+.voice-coach .voice-corrected { color: #9b3b30; font-size: 16px; white-space: normal; }
+.voice-coach .voice-improved { color: #315e92; font-size: 16px; white-space: normal; }
+.voice-coach Label { white-space: normal; }

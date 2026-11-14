@@ -21,8 +21,8 @@ namespace ContextSpeak.Cafe
             if (samples == null || channels < 1 || channels > 2 || rate < 8000 || rate > 48000 || samples.Length % channels != 0)
                 throw new FormatException("Use a supported microphone format.");
             var frames = samples.Length / channels;
-            if (frames < rate / 10 || frames > rate * 20)
-                throw new FormatException("Speak for 0.1 to 20 seconds.");
+            if (frames < rate / 10 || frames > rate * 120)
+                throw new FormatException("Speak for 0.1 to 120 seconds.");
             using var stream = new MemoryStream(44 + frames * 2);
             using var writer = new BinaryWriter(stream);
             writer.Write(System.Text.Encoding.ASCII.GetBytes("RIFF"));
@@ -48,7 +48,7 @@ namespace ContextSpeak.Cafe
         }
         public static WaveData Decode(byte[] bytes)
         {
-            if (bytes == null || bytes.Length < 46 || bytes.Length > 3200000) throw new FormatException("Invalid AI audio.");
+            if (bytes == null || bytes.Length < 46 || bytes.Length > 4000000) throw new FormatException("Invalid AI audio.");
             using var reader = new BinaryReader(new MemoryStream(bytes));
             string Four() => System.Text.Encoding.ASCII.GetString(reader.ReadBytes(4));
             if (Four() != "RIFF" || reader.ReadInt32() != bytes.Length - 8 || Four() != "WAVE" || Four() != "fmt " || reader.ReadInt32() != 16 || reader.ReadInt16() != 1 || reader.ReadInt16() != 1)

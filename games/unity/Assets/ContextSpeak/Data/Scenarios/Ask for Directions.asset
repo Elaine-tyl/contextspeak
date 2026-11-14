@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Ask for Directions
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Ask for Directions
+  Location: Hospital
+  Steps:
+  - id: where
+    speaker: staff
+    simple: Hello. Can I help you?
+    standard: Hi, you look a bit lost. Where are you trying to get to?
+    advanced: Hello, can I help you find something? This building can be a bit of
+      a maze.
+    expert: 
+    goal: "Ask where something is (toilets, the pharmacy, the exit, the caf\xE9...)."
+    meaning: where|toilet|restroom|bathroom|pharmacy|exit|way out|room|reception|cafe|lift|elevator|find|looking|stairs|waiting
+    model: Excuse me, where is the pharmacy?
+    vocabulary: 'lift: elevator|corridor: a long hall|a maze: a confusing place'
+    onComplete: 
+  - id: thanks
+    speaker: staff
+    simple: Go straight, then left. Okay?
+    standard: Go straight down this corridor and it's on your left, next to the lifts.
+      Okay?
+    advanced: Head straight down this corridor, past the waiting area, and you'll
+      see it on your left, just next to the lifts. Anything else I can help with?
+    expert: 
+    goal: Thank them (or ask one more question).
+    meaning: thank|thanks|cheers|great|perfect|lovely|okay|ok|fine|bye|that'?s all|yes|yeah|yep|sure|of
+      course|okay|ok|please|that'?s right|correct|no|nope|not|never|none|nothing|i
+      don'?t|where|left|right|next to
+    model: Great, thank you so much.
+    vocabulary: 'head: go'
+    onComplete: 

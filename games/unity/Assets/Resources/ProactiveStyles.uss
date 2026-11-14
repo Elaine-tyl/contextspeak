@@ -1,0 +1,10 @@
+.proactive-ui .proactive-panel { position: absolute; background-color: rgba(247,244,234,.97); color: #263b31; border-radius: 14px; padding: 16px; border-width: 1px; border-color: #93aa9a; }
+.proactive-ui .proactive-panel Label { color: #263b31; white-space: normal; font-size: 17px; margin-bottom: 7px; }
+.proactive-ui .proactive-panel Button { background-color: #e1eade; color: #214e3e; border-radius: 8px; padding: 7px 12px; min-height: 35px; margin: 3px; }
+.proactive-ui .proactive-panel Button:disabled { opacity: .5; }
+.proactive-ui #proactive-offer { bottom: 170px; left: 28px; width: 370px; }
+.proactive-ui #proactive-dialogue { bottom: 22px; left: 12%; width: 76%; max-height: 38%; }
+.proactive-ui #proactive-settings { top: 55px; left: 28px; width: 340px; }
+.proactive-ui .proactive-actions { flex-direction: row; flex-wrap: wrap; }
+.proactive-ui .proactive-settings-button { position: absolute; top: 13px; left: 43%; background-color: #f5f1e4; color: #214e3e; border-radius: 8px; padding: 5px 10px; }
+.proactive-ui .proactive-ambient { position: absolute; bottom: 140px; left: 28px; max-width: 420px; background-color: #f5f1e4; color: #214e3e; border-radius: 12px; padding: 12px; white-space: normal; }

@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da921e371b16e416b82bbd5893c2eb99, type: 3}
+  m_Name: Forest Cafe Menu
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.MenuCatalog
+  Title: "Forest Caf\xE9 \u2014 Drinks & Bakes"
+  Categories:
+  - Hot Drinks
+  - Cold Drinks
+  - Bakery
+  Items:
+  - id: latte
+    name: Latte
+    category: Hot Drinks
+    description: Espresso with steamed milk.
+    cents: 420
+    allergens: dairy (unless plant milk)
+    icon: LATTE
+    colour: {r: 0.8, g: 0.65, b: 0.45, a: 1}
+    options: 'Size:Small/Regular+50/Large+90
+
+      Milk:Whole/Oat+60/Soy+60/Skimmed
+
+      Sugar:No
+      sugar/One sugar/Two sugars'
+  - id: cappuccino
+    name: Cappuccino
+    category: Hot Drinks
+    description: Espresso, milk and thick foam.
+    cents: 400
+    allergens: dairy (unless plant milk)
+    icon: CAPP
+    colour: {r: 0.75, g: 0.58, b: 0.4, a: 1}
+    options: 'Size:Small/Regular+50/Large+90
+
+      Milk:Whole/Oat+60/Soy+60/Skimmed'
+  - id: americano
+    name: Americano
+    category: Hot Drinks
+    description: Espresso with hot water.
+    cents: 320
+    allergens: 
+    icon: AMER
+    colour: {r: 0.3, g: 0.2, b: 0.12, a: 1}
+    options: 'Size:Small/Regular+50/Large+90
+
+      Milk:Black/A little milk'
+  - id: mint-tea
+    name: Fresh Mint Tea
+    category: Hot Drinks
+    description: Mint leaves from the forest garden.
+    cents: 350
+    allergens: 
+    icon: TEA
+    colour: {r: 0.45, g: 0.75, b: 0.45, a: 1}
+    options: Size:Small/Regular+50/Large+90
+  - id: iced-latte
+    name: Iced Latte
+    category: Cold Drinks
+    description: Espresso and cold milk over ice.
+    cents: 460
+    allergens: dairy (unless plant milk)
+    icon: ICED
+    colour: {r: 0.85, g: 0.75, b: 0.6, a: 1}
+    options: 'Size:Small/Regular+50/Large+90
+
+      Milk:Whole/Oat+60/Soy+60/Skimmed'
+  - id: berry-smoothie
+    name: Berry Smoothie
+    category: Cold Drinks
+    description: Strawberry, blueberry, banana and yoghurt.
+    cents: 520
+    allergens: dairy
+    icon: BERRY
+    colour: {r: 0.7, g: 0.25, b: 0.45, a: 1}
+    options: Size:Small/Regular+50/Large+90
+  - id: croissant
+    name: Butter Croissant
+    category: Bakery
+    description: Baked this morning.
+    cents: 300
+    allergens: gluten, dairy
+    icon: CROIS
+    colour: {r: 0.9, g: 0.7, b: 0.35, a: 1}
+    options: Warm:Warmed/Not warmed
+  - id: brownie
+    name: Walnut Brownie
+    category: Bakery
+    description: Dark chocolate and walnuts.
+    cents: 350
+    allergens: gluten, dairy, egg, nuts
+    icon: BROWN
+    colour: {r: 0.35, g: 0.2, b: 0.12, a: 1}
+    options: 

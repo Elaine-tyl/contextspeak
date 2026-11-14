@@ -84,3 +84,24 @@ games/unity/Assets/_Game/Art/Motion/Textures/
 games/unity/Assets/_Game/Art/WorldAssets/*.glb*
 games/unity/Assets/_Game/Art/WorldAssets/World*.json*
 games/unity/Assets/_Game/Art/WorldAssets/.staging/
+
+# Unity-independent living-world regression runner
+tools/unity/living-world-checks/bin/
+tools/unity/living-world-checks/obj/
+
+# Native immersive UI evidence and local regression build outputs
+games/unity/UIShots/
+tools/unity/immersive-checks/bin/
+tools/unity/immersive-checks/obj/
+tools/unity/immersive-ui-checks/bin/
+tools/unity/immersive-ui-checks/obj/
+tools/unity/legacy-checks/bin/
+tools/unity/legacy-checks/obj/
+
+# Saved-scene export regression runner
+tools/unity/world-export-checks/bin/
+tools/unity/world-export-checks/obj/
+
+# Unity-independent adaptive IELTS regression runner
+tools/unity/adaptive-checks/bin/
+tools/unity/adaptive-checks/obj/

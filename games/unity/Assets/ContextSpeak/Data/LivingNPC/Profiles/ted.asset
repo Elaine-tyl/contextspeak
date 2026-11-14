@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: ted
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: ted
+  DisplayName: Ted Morgan
+  Age: 4
+  Occupation: Tourist
+  Home: riverside
+  Work: 
+  Model: TrenchElder
+  Personality:
+    Sociability: 0.7
+    Shyness: 0.15
+    Patience: 0.7
+    Busyness: 0.4
+    Distraction: 0.8
+    CommunicationStyle: friendly
+  Friends: []
+  Family: []
+  Coworkers: []
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 8, \"activity\": \"Sleep\",
+    \"location\": \"home\" },\n  { \"startHour\": 8, \"endHour\": 12, \"activity\":
+    \"Explore\", \"location\": \"street\" },\n  { \"startHour\": 12, \"endHour\":
+    13, \"activity\": \"Coffee\", \"location\": \"Forest Caf\xE9\" },\n  { \"startHour\":
+    13, \"endHour\": 18, \"activity\": \"Explore\", \"location\": \"street\" },\n 
+    { \"startHour\": 18, \"endHour\": 20, \"activity\": \"Socialize\", \"location\":
+    \"caf\xE9\" },\n  { \"startHour\": 20, \"endHour\": 24, \"activity\": \"Sleep\",
+    \"location\": \"home\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 9
+  Voice:
+    Accent: 6
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Hello there!
+  - Good morning to you!
+  SmallTalk:
+  - What a charming street!
+  - Is the tram this way?
+  MemorySummary: 

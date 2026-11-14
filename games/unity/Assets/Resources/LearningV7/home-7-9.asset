@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eacb2f7c41a246efb537575538b1ef0f, type: 3}
+  m_Name: home-7-9
+  m_EditorClassIdentifier: 
+  Definition:
+    Id: "home"
+    Npc: "Alex"
+    Topic: "household plans"
+    ItemId: "polite-requests"
+    Prompt: "Your household has conflicting schedules and a limited budget. Negotiate a practical plan, explaining trade-offs and responding to another viewpoint."
+    Goal: "Respond to the current question with a relevant, clear request or explanation. Accept natural alternatives; study vocabulary is optional."
+    Model: "Could we plan our meals together? Although our schedules differ, we could prepare food ahead to save money. We might take turns cooking when each of us is free."
+    ObjectWord: "kitchen|table|sofa"
+    RecallPrompt: "Ask someone at home for help with a new task without reading a sentence."
+    StressTip: "Reference practice, not a diagnosis: stress the key information word. In \"Could you help me?\", /kəd jə/ is a common connected form. Intonation depends on intent; understandable accents are welcome."
+    Band: 7
+    Vocabulary:
+    - "dinner"
+    - "cooking"
+    - "family"
+    - "chores"
+  MinBand: 7
+  MaxBand: 9
+  ReviewDays: 0100000003000000070000000e000000

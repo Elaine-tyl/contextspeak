@@ -113,13 +113,17 @@ namespace ContextSpeak.Editor
         public static GameObject Furniture(string id, Vector3 position, float height, float yaw, bool solid)
         {
             var item = Copy(id, "Downloaded café furniture", position);
-            item.transform.localScale *= height / Bounds(item).size.y;
             item.transform.rotation = Quaternion.Euler(0, yaw, 0);
+            item.transform.localScale *= height / Bounds(item).size.y;
+            // Exports keep their own pivot (often the middle of the mesh): stand the model on the floor.
+            var bounds = Bounds(item);
+            item.transform.position += new Vector3(position.x - bounds.center.x, position.y - bounds.min.y, position.z - bounds.center.z);
             if (solid)
             {
+                bounds = Bounds(item);
                 var collider = item.AddComponent<BoxCollider>();
                 var scale = item.transform.localScale.x;
-                collider.center = Vector3.up * height / (2 * scale);
+                collider.center = item.transform.InverseTransformPoint(bounds.center);
                 collider.size = new Vector3(1.1f, height, 1.1f) / scale;
             }
             return item;

@@ -1,0 +1,11 @@
+# Dynamic living world
+
+Implement the user's attached Dynamic Living World & AI Story System request in the existing Unity6 project. Reuse existing local speech/AI-review/TTS services, character prefabs, player controls, world clock/weather and scene transitions. Preserve concurrent world-art/city work and existing saves.
+
+The first complete chain is a tourist at Forest Café, a reunion/invitation at the Night Market, and a flight-delay discussion at the existing Airport. Valid choices include politely declining and asking follow-up questions. Only assessed spoken responses progress learning-mode stories; corrections require an independently checked spoken retry. A service failure never grants completion. User interaction is required to start microphone recording. Typed text is rehearsal.
+
+Build a reusable template-driven engine, bounded NPC facts/relationships/promises, replay-safe branching actions, versioned local story persistence, native responsive dialogue/journal UI, proximity-based NPC invitations, and authored IELTS3–9 targets. AI checks meaning and language but cannot directly award currency/items or mutate quests. Pronunciation is not scored from a transcript. All content and actions come from validated templates; no arbitrary executable generated instructions.
+
+Seven small reusable activity areas (Night Market, Camping Ground, Detective Office, Pet Adoption Centre, Cooking Academy, Music Festival, Cruise Terminal) use existing assets and original short conversations. They are compact interaction spaces, not seven new full-sized maps. Inspectable ScriptableObject templates and source C# content allow later expansion. The story module activates only when ordinary dialogue/gameplay is idle and restores input after close, errors and scene transitions.
+
+Use an independent runtime director and pure C# story engine rather than duplicating or rewriting SliceGame/CityGame. Shared story state survives scene changes while existing gameplay saves keep their identities. Include a first-class story journal with next destination, relationships, promises, outcome and clear retry/defer controls. Document implemented versus incomplete scope and genuine verification limits.

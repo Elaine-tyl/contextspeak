@@ -26,6 +26,8 @@ namespace ContextSpeak.Cafe
     {
         public CafePlayer Player;
         public Func<RoomPose> Capture;
+        /// Rooms are per world, so friends meet in the same district.
+        public string World = "ForestSlice";
         public string Endpoint { get; private set; } = "http://127.0.0.1:4330";
         public string Code { get; private set; } = "";
         public string Status { get; private set; } = "Preparing friend rooms…";
@@ -94,8 +96,8 @@ namespace ContextSpeak.Cafe
             Status = code == "" ? "Creating room…" : "Joining room…";
             var name = PlayerName();
             var look = Appearance().Selected.ToString();
-            var body = code == "" ? JsonUtility.ToJson(new RoomHello { name = name, look = look, pose = Capture() })
-                : JsonUtility.ToJson(new RoomJoin { name = name, look = look, code = code, pose = Capture() });
+            var body = code == "" ? JsonUtility.ToJson(new RoomHello { name = name, look = look, world = World, pose = Capture() })
+                : JsonUtility.ToJson(new RoomJoin { name = name, look = look, world = World, code = code, pose = Capture() });
             var current = ++generation;
             var endpoint = Endpoint;
             StartCoroutine(Request(endpoint, code == "" ? "create" : "join", body, "", (reply, error) => {

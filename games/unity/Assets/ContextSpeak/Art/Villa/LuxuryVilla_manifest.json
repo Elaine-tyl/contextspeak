@@ -1,0 +1,3649 @@
+{
+ "units": "metres, Blender coordinates (Unity = (-x, z, -y))",
+ "rooms": [
+  {
+   "name": "Garage",
+   "floor": 0,
+   "min": [
+    -11,
+    0,
+    0.0
+   ],
+   "max": [
+    -4,
+    7.5,
+    3.15
+   ],
+   "kind": "garage"
+  },
+  {
+   "name": "Laundry",
+   "floor": 0,
+   "min": [
+    -11,
+    7.5,
+    0.0
+   ],
+   "max": [
+    -7.5,
+    10.5,
+    3.15
+   ],
+   "kind": "laundry"
+  },
+  {
+   "name": "GuestBathroom",
+   "floor": 0,
+   "min": [
+    -7.5,
+    7.5,
+    0.0
+   ],
+   "max": [
+    -4,
+    10.5,
+    3.15
+   ],
+   "kind": "bathroom"
+  },
+  {
+   "name": "GuestBedroom",
+   "floor": 0,
+   "min": [
+    -11,
+    10.5,
+    0.0
+   ],
+   "max": [
+    -4,
+    16,
+    3.15
+   ],
+   "kind": "bedroom"
+  },
+  {
+   "name": "Foyer",
+   "floor": 0,
+   "min": [
+    -4,
+    0,
+    0.0
+   ],
+   "max": [
+    1.5,
+    4.5,
+    3.15
+   ],
+   "kind": "foyer"
+  },
+  {
+   "name": "Study",
+   "floor": 0,
+   "min": [
+    1.5,
+    0,
+    0.0
+   ],
+   "max": [
+    5,
+    4.5,
+    3.15
+   ],
+   "kind": "study"
+  },
+  {
+   "name": "LivingRoom",
+   "floor": 0,
+   "min": [
+    -4,
+    4.5,
+    0.0
+   ],
+   "max": [
+    4,
+    16,
+    3.15
+   ],
+   "kind": "living"
+  },
+  {
+   "name": "Dining",
+   "floor": 0,
+   "min": [
+    4,
+    4.5,
+    0.0
+   ],
+   "max": [
+    11,
+    9,
+    3.15
+   ],
+   "kind": "dining"
+  },
+  {
+   "name": "Kitchen",
+   "floor": 0,
+   "min": [
+    4,
+    9,
+    0.0
+   ],
+   "max": [
+    11,
+    16,
+    3.15
+   ],
+   "kind": "kitchen"
+  },
+  {
+   "name": "StairHall",
+   "floor": 0,
+   "min": [
+    5,
+    0,
+    0.0
+   ],
+   "max": [
+    7.7,
+    4.5,
+    3.15
+   ],
+   "kind": "stairs"
+  },
+  {
+   "name": "MasterBedroom",
+   "floor": 1,
+   "min": [
+    -11,
+    0,
+    3.4
+   ],
+   "max": [
+    -4,
+    7.5,
+    6.55
+   ],
+   "kind": "bedroom"
+  },
+  {
+   "name": "WalkInWardrobe",
+   "floor": 1,
+   "min": [
+    -11,
+    7.5,
+    3.4
+   ],
+   "max": [
+    -8,
+    10.5,
+    6.55
+   ],
+   "kind": "wardrobe"
+  },
+  {
+   "name": "MasterBathroom",
+   "floor": 1,
+   "min": [
+    -8,
+    7.5,
+    3.4
+   ],
+   "max": [
+    -4,
+    10.5,
+    6.55
+   ],
+   "kind": "bathroom"
+  },
+  {
+   "name": "BedroomA",
+   "floor": 1,
+   "min": [
+    -11,
+    10.5,
+    3.4
+   ],
+   "max": [
+    -4,
+    16,
+    6.55
+   ],
+   "kind": "bedroom"
+  },
+  {
+   "name": "FamilyLounge",
+   "floor": 1,
+   "min": [
+    -4,
+    0,
+    3.4
+   ],
+   "max": [
+    1.5,
+    4.5,
+    6.55
+   ],
+   "kind": "lounge"
+  },
+  {
+   "name": "SharedBathroom",
+   "floor": 1,
+   "min": [
+    1.5,
+    0,
+    3.4
+   ],
+   "max": [
+    5,
+    4.5,
+    6.55
+   ],
+   "kind": "bathroom"
+  },
+  {
+   "name": "Gallery",
+   "floor": 1,
+   "min": [
+    -4,
+    4.5,
+    3.4
+   ],
+   "max": [
+    11,
+    8,
+    6.55
+   ],
+   "kind": "gallery"
+  },
+  {
+   "name": "SideGallery",
+   "floor": 1,
+   "min": [
+    -4,
+    8,
+    3.4
+   ],
+   "max": [
+    -2.8,
+    16,
+    6.55
+   ],
+   "kind": "gallery"
+  },
+  {
+   "name": "Landing",
+   "floor": 1,
+   "min": [
+    5,
+    0,
+    3.4
+   ],
+   "max": [
+    7.7,
+    4.5,
+    6.55
+   ],
+   "kind": "stairs"
+  },
+  {
+   "name": "BedroomB",
+   "floor": 1,
+   "min": [
+    4,
+    8,
+    3.4
+   ],
+   "max": [
+    11,
+    16,
+    6.55
+   ],
+   "kind": "bedroom"
+  },
+  {
+   "name": "MediaRoom",
+   "floor": 2,
+   "min": [
+    -4,
+    0,
+    6.8
+   ],
+   "max": [
+    3,
+    4.5,
+    9.95
+   ],
+   "kind": "media"
+  },
+  {
+   "name": "Gym",
+   "floor": 2,
+   "min": [
+    -4,
+    4.5,
+    6.8
+   ],
+   "max": [
+    3,
+    8,
+    9.95
+   ],
+   "kind": "gym"
+  },
+  {
+   "name": "SkyLounge",
+   "floor": 2,
+   "min": [
+    3,
+    4.5,
+    6.8
+   ],
+   "max": [
+    11,
+    8,
+    9.95
+   ],
+   "kind": "lounge"
+  },
+  {
+   "name": "PowderRoom",
+   "floor": 2,
+   "min": [
+    3,
+    0,
+    6.8
+   ],
+   "max": [
+    5,
+    2.5,
+    9.95
+   ],
+   "kind": "bathroom"
+  },
+  {
+   "name": "TopLanding",
+   "floor": 2,
+   "min": [
+    5,
+    0,
+    6.8
+   ],
+   "max": [
+    7.7,
+    4.5,
+    9.95
+   ],
+   "kind": "stairs"
+  },
+  {
+   "name": "RoofTerraceWest",
+   "floor": 2,
+   "min": [
+    -11,
+    0,
+    6.8
+   ],
+   "max": [
+    -4,
+    16,
+    9.8
+   ],
+   "kind": "terrace"
+  },
+  {
+   "name": "RoofTerraceEast",
+   "floor": 2,
+   "min": [
+    4,
+    8,
+    6.8
+   ],
+   "max": [
+    11,
+    16,
+    9.8
+   ],
+   "kind": "terrace"
+  }
+ ],
+ "doors": [
+  {
+   "name": "Door_Entrance",
+   "hinge": [
+    -2.05,
+    0,
+    0
+   ],
+   "width": 1.6,
+   "along": "+x",
+   "opens": 1,
+   "lockable": true,
+   "room": "Foyer"
+  },
+  {
+   "name": "Door_GarageHall",
+   "hinge": [
+    -4,
+    5.35,
+    0
+   ],
+   "width": 0.9,
+   "along": "+y",
+   "opens": 1,
+   "lockable": false,
+   "room": "Garage"
+  },
+  {
+   "name": "Door_Laundry",
+   "hinge": [
+    -9.7,
+    7.5,
+    0
+   ],
+   "width": 0.9,
+   "along": "+x",
+   "opens": 1,
+   "lockable": false,
+   "room": "Laundry"
+  },
+  {
+   "name": "Door_GuestBedroom",
+   "hinge": [
+    -4,
+    11.55,
+    0
+   ],
+   "width": 0.9,
+   "along": "+y",
+   "opens": -1,
+   "lockable": false,
+   "room": "GuestBedroom"
+  },
+  {
+   "name": "Door_GuestBathroom",
+   "hinge": [
+    -4,
+    8.55,
+    0
+   ],
+   "width": 0.9,
+   "along": "+y",
+   "opens": -1,
+   "lockable": true,
+   "room": "GuestBathroom"
+  },
+  {
+   "name": "Door_Study",
+   "hinge": [
+    1.8,
+    4.5,
+    0
+   ],
+   "width": 0.9,
+   "along": "+x",
+   "opens": -1,
+   "lockable": false,
+   "room": "Study"
+  },
+  {
+   "name": "Door_Master",
+   "hinge": [
+    -4,
+    5.35,
+    3.4
+   ],
+   "width": 0.9,
+   "along": "+y",
+   "opens": -1,
+   "lockable": false,
+   "room": "MasterBedroom"
+  },
+  {
+   "name": "Door_Wardrobe",
+   "hinge": [
+    -9.45,
+    7.5,
+    3.4
+   ],
+   "width": 0.9,
+   "along": "+x",
+   "opens": -1,
+   "lockable": false,
+   "room": "WalkInWardrobe"
+  },
+  {
+   "name": "Door_MasterBathroom",
+   "hinge": [
+    -6.45,
+    7.5,
+    3.4
+   ],
+   "width": 0.9,
+   "along": "+x",
+   "opens": -1,
+   "lockable": true,
+   "room": "MasterBathroom"
+  },
+  {
+   "name": "Door_BedroomA",
+   "hinge": [
+    -4,
+    12.55,
+    3.4
+   ],
+   "width": 0.9,
+   "along": "+y",
+   "opens": -1,
+   "lockable": false,
+   "room": "BedroomA"
+  },
+  {
+   "name": "Door_SharedBathroom",
+   "hinge": [
+    1.8,
+    4.5,
+    3.4
+   ],
+   "width": 0.9,
+   "along": "+x",
+   "opens": -1,
+   "lockable": true,
+   "room": "SharedBathroom"
+  },
+  {
+   "name": "Door_BedroomB",
+   "hinge": [
+    5.05,
+    8,
+    3.4
+   ],
+   "width": 0.9,
+   "along": "+x",
+   "opens": 1,
+   "lockable": false,
+   "room": "BedroomB"
+  },
+  {
+   "name": "Door_Terrace",
+   "hinge": [
+    4.8,
+    16,
+    0
+   ],
+   "width": 2.4,
+   "along": "+x",
+   "opens": 1,
+   "lockable": false,
+   "room": "Kitchen"
+  },
+  {
+   "name": "Door_RearBalcony",
+   "hinge": [
+    6.0,
+    16,
+    3.4
+   ],
+   "width": 3.0,
+   "along": "+x",
+   "opens": 1,
+   "lockable": false,
+   "room": "BedroomB"
+  },
+  {
+   "name": "Door_FrontBalcony",
+   "hinge": [
+    -9.5,
+    0,
+    3.4
+   ],
+   "width": 4.0,
+   "along": "+x",
+   "opens": -1,
+   "lockable": false,
+   "room": "MasterBedroom"
+  },
+  {
+   "name": "Door_Media",
+   "hinge": [
+    -2.45,
+    4.5,
+    6.8
+   ],
+   "width": 0.9,
+   "along": "+x",
+   "opens": 1,
+   "lockable": false,
+   "room": "MediaRoom"
+  },
+  {
+   "name": "Door_PowderRoom",
+   "hinge": [
+    5,
+    0.8,
+    6.8
+   ],
+   "width": 0.8,
+   "along": "+y",
+   "opens": -1,
+   "lockable": true,
+   "room": "PowderRoom"
+  },
+  {
+   "name": "Door_MediaTerrace",
+   "hinge": [
+    -4,
+    1.45,
+    6.8
+   ],
+   "width": 1.6,
+   "along": "+y",
+   "opens": 1,
+   "lockable": false,
+   "room": "MediaRoom"
+  },
+  {
+   "name": "Door_GymTerrace",
+   "hinge": [
+    -4,
+    5.05,
+    6.8
+   ],
+   "width": 2.4,
+   "along": "+y",
+   "opens": 1,
+   "lockable": false,
+   "room": "Gym"
+  },
+  {
+   "name": "Door_SkyTerrace",
+   "hinge": [
+    6.0,
+    8,
+    6.8
+   ],
+   "width": 3.0,
+   "along": "+x",
+   "opens": 1,
+   "lockable": false,
+   "room": "SkyLounge"
+  }
+ ],
+ "anchors": [
+  {
+   "kind": "Sofa",
+   "pos": [
+    1.125,
+    11.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "LivingRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    0.375,
+    11.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "LivingRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -0.375,
+    11.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "LivingRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -1.125,
+    11.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "LivingRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -2.8,
+    12.4,
+    0
+   ],
+   "yaw": 270,
+   "room": "LivingRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -2.8,
+    13.4,
+    0
+   ],
+   "yaw": 270,
+   "room": "LivingRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    2.6,
+    13.3,
+    0
+   ],
+   "yaw": 45,
+   "room": "LivingRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    -2.35,
+    14.75,
+    0
+   ],
+   "yaw": 315,
+   "room": "LivingRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "TV",
+   "pos": [
+    0,
+    15.0,
+    0
+   ],
+   "yaw": 180,
+   "room": "LivingRoom"
+  },
+  {
+   "kind": "Family",
+   "pos": [
+    0,
+    9.6,
+    0
+   ],
+   "yaw": 0,
+   "room": "LivingRoom"
+  },
+  {
+   "kind": "Fridge",
+   "pos": [
+    9.6,
+    13.4,
+    0
+   ],
+   "yaw": 270,
+   "room": "Kitchen"
+  },
+  {
+   "kind": "Stove",
+   "pos": [
+    7.0,
+    14.85,
+    0
+   ],
+   "yaw": 0,
+   "room": "Kitchen"
+  },
+  {
+   "kind": "Sink",
+   "pos": [
+    9.4,
+    14.85,
+    0
+   ],
+   "yaw": 0,
+   "room": "Kitchen"
+  },
+  {
+   "kind": "Counter",
+   "pos": [
+    7.5,
+    13.3,
+    0
+   ],
+   "yaw": 180,
+   "room": "Kitchen"
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    6.6,
+    11.25,
+    0
+   ],
+   "yaw": 0,
+   "room": "Kitchen",
+   "seat": 0.68
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    7.5,
+    11.25,
+    0
+   ],
+   "yaw": 0,
+   "room": "Kitchen",
+   "seat": 0.68
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    8.4,
+    11.25,
+    0
+   ],
+   "yaw": 0,
+   "room": "Kitchen",
+   "seat": 0.68
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    6.7,
+    5.8,
+    0
+   ],
+   "yaw": 0,
+   "room": "Dining",
+   "seat": 0.47
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    8.3,
+    5.8,
+    0
+   ],
+   "yaw": 0,
+   "room": "Dining",
+   "seat": 0.47
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    6.7,
+    7.7,
+    0
+   ],
+   "yaw": 180,
+   "room": "Dining",
+   "seat": 0.47
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    8.3,
+    7.7,
+    0
+   ],
+   "yaw": 180,
+   "room": "Dining",
+   "seat": 0.47
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    5.75,
+    6.75,
+    0
+   ],
+   "yaw": 270,
+   "room": "Dining",
+   "seat": 0.47
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    9.25,
+    6.75,
+    0
+   ],
+   "yaw": 90,
+   "room": "Dining",
+   "seat": 0.47
+  },
+  {
+   "kind": "Desk",
+   "pos": [
+    3.25,
+    1.65,
+    0
+   ],
+   "yaw": 180,
+   "room": "Study",
+   "seat": 0.47
+  },
+  {
+   "kind": "Computer",
+   "pos": [
+    3.25,
+    0.95,
+    0
+   ],
+   "yaw": 180,
+   "room": "Study"
+  },
+  {
+   "kind": "Bed",
+   "pos": [
+    -7.9,
+    14.7,
+    0
+   ],
+   "yaw": 180,
+   "room": "GuestBedroom",
+   "seat": 0.55,
+   "head": 0
+  },
+  {
+   "kind": "Bed",
+   "pos": [
+    -7.1,
+    14.7,
+    0
+   ],
+   "yaw": 180,
+   "room": "GuestBedroom",
+   "seat": 0.55,
+   "head": 0
+  },
+  {
+   "kind": "Wardrobe",
+   "pos": [
+    -9.8,
+    12.3,
+    0
+   ],
+   "yaw": 90,
+   "room": "GuestBedroom"
+  },
+  {
+   "kind": "Washbasin",
+   "pos": [
+    -6.6,
+    9.6,
+    0
+   ],
+   "yaw": 0,
+   "room": "GuestBathroom"
+  },
+  {
+   "kind": "Laundry",
+   "pos": [
+    -9.9,
+    9.1,
+    0
+   ],
+   "yaw": 90,
+   "room": "Laundry"
+  },
+  {
+   "kind": "Bed",
+   "pos": [
+    -7.975,
+    1.4,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "MasterBedroom",
+   "seat": 0.55,
+   "head": 0
+  },
+  {
+   "kind": "Bed",
+   "pos": [
+    -7.025,
+    1.4,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "MasterBedroom",
+   "seat": 0.55,
+   "head": 0
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -5.1,
+    6.6,
+    3.4
+   ],
+   "yaw": 90,
+   "room": "MasterBedroom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -5.1,
+    6.2,
+    3.4
+   ],
+   "yaw": 90,
+   "room": "MasterBedroom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Wardrobe",
+   "pos": [
+    -9.5,
+    9.35,
+    3.4
+   ],
+   "yaw": 0,
+   "room": "WalkInWardrobe"
+  },
+  {
+   "kind": "Wardrobe",
+   "pos": [
+    -9.8,
+    8.9,
+    3.4
+   ],
+   "yaw": 90,
+   "room": "WalkInWardrobe"
+  },
+  {
+   "kind": "Washbasin",
+   "pos": [
+    -7.5,
+    8.4,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "MasterBathroom"
+  },
+  {
+   "kind": "Bed",
+   "pos": [
+    -7.5,
+    14.7,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "BedroomA",
+   "seat": 0.55,
+   "head": 0
+  },
+  {
+   "kind": "Desk",
+   "pos": [
+    -9.75,
+    11.8,
+    3.4
+   ],
+   "yaw": 90,
+   "room": "BedroomA",
+   "seat": 0.47
+  },
+  {
+   "kind": "Computer",
+   "pos": [
+    -10.45,
+    11.8,
+    3.4
+   ],
+   "yaw": 90,
+   "room": "BedroomA"
+  },
+  {
+   "kind": "Wardrobe",
+   "pos": [
+    -5.17,
+    11.9,
+    3.4
+   ],
+   "yaw": 270,
+   "room": "BedroomA"
+  },
+  {
+   "kind": "Bed",
+   "pos": [
+    9.7,
+    13.2,
+    3.4
+   ],
+   "yaw": 90,
+   "room": "BedroomB",
+   "seat": 0.55,
+   "head": 270
+  },
+  {
+   "kind": "Desk",
+   "pos": [
+    5.7,
+    13.5,
+    3.4
+   ],
+   "yaw": 90,
+   "room": "BedroomB",
+   "seat": 0.47
+  },
+  {
+   "kind": "Computer",
+   "pos": [
+    5.0,
+    13.5,
+    3.4
+   ],
+   "yaw": 90,
+   "room": "BedroomB"
+  },
+  {
+   "kind": "Wardrobe",
+   "pos": [
+    8.3,
+    9.17,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "BedroomB"
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -2.05,
+    3.5,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "FamilyLounge",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -1.25,
+    3.5,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "FamilyLounge",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -0.45,
+    3.5,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "FamilyLounge",
+   "seat": 0.45
+  },
+  {
+   "kind": "TV",
+   "pos": [
+    -1.25,
+    0.8,
+    3.4
+   ],
+   "yaw": 0,
+   "room": "FamilyLounge"
+  },
+  {
+   "kind": "Washbasin",
+   "pos": [
+    2.45,
+    0.95,
+    3.4
+   ],
+   "yaw": 180,
+   "room": "SharedBathroom"
+  },
+  {
+   "kind": "TV",
+   "pos": [
+    -0.5,
+    1.2,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "MediaRoom"
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -1.625,
+    2.3,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "MediaRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -0.875,
+    2.3,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "MediaRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -0.125,
+    2.3,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "MediaRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    0.625,
+    2.3,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "MediaRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -1.625,
+    3.6,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "MediaRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -0.875,
+    3.6,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "MediaRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -0.125,
+    3.6,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "MediaRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    0.625,
+    3.6,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "MediaRoom",
+   "seat": 0.45
+  },
+  {
+   "kind": "Exercise",
+   "pos": [
+    -3.2,
+    6.0,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "Gym"
+  },
+  {
+   "kind": "Exercise",
+   "pos": [
+    1.2,
+    6.3,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "Gym"
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    7.0,
+    5.75,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "SkyLounge",
+   "seat": 0.76
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    8.0,
+    5.75,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "SkyLounge",
+   "seat": 0.76
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    9.0,
+    5.75,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "SkyLounge",
+   "seat": 0.76
+  },
+  {
+   "kind": "Counter",
+   "pos": [
+    8.0,
+    4.3,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "SkyLounge"
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    5.3,
+    5.85,
+    6.8
+   ],
+   "yaw": 270,
+   "room": "SkyLounge",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    5.3,
+    6.95,
+    6.8
+   ],
+   "yaw": 270,
+   "room": "SkyLounge",
+   "seat": 0.45
+  },
+  {
+   "kind": "Washbasin",
+   "pos": [
+    4.4,
+    1.55,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "PowderRoom"
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -6.633,
+    3.1,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "RoofTerraceWest",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -7.5,
+    3.1,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "RoofTerraceWest",
+   "seat": 0.45
+  },
+  {
+   "kind": "Sofa",
+   "pos": [
+    -8.367,
+    3.1,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "RoofTerraceWest",
+   "seat": 0.45
+  },
+  {
+   "kind": "Lounger",
+   "pos": [
+    -8.3,
+    9.5,
+    6.8
+   ],
+   "yaw": 90,
+   "room": "RoofTerraceWest",
+   "seat": 0.38
+  },
+  {
+   "kind": "Lounger",
+   "pos": [
+    -8.3,
+    11.5,
+    6.8
+   ],
+   "yaw": 90,
+   "room": "RoofTerraceWest",
+   "seat": 0.38
+  },
+  {
+   "kind": "Lounger",
+   "pos": [
+    -8.3,
+    13.5,
+    6.8
+   ],
+   "yaw": 90,
+   "room": "RoofTerraceWest",
+   "seat": 0.38
+  },
+  {
+   "kind": "Plants",
+   "pos": [
+    -9.7,
+    1.0,
+    6.8
+   ],
+   "yaw": 270,
+   "room": "RoofTerraceWest"
+  },
+  {
+   "kind": "Plants",
+   "pos": [
+    -9.7,
+    7.0,
+    6.8
+   ],
+   "yaw": 270,
+   "room": "RoofTerraceWest"
+  },
+  {
+   "kind": "Plants",
+   "pos": [
+    -9.7,
+    15.0,
+    6.8
+   ],
+   "yaw": 270,
+   "room": "RoofTerraceWest"
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    7.0,
+    11.2,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "RoofTerraceEast",
+   "seat": 0.47
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    8.0,
+    11.2,
+    6.8
+   ],
+   "yaw": 0,
+   "room": "RoofTerraceEast",
+   "seat": 0.47
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    7.0,
+    12.8,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "RoofTerraceEast",
+   "seat": 0.47
+  },
+  {
+   "kind": "DiningSeat",
+   "pos": [
+    8.0,
+    12.8,
+    6.8
+   ],
+   "yaw": 180,
+   "room": "RoofTerraceEast",
+   "seat": 0.47
+  },
+  {
+   "kind": "Umbrella",
+   "pos": [
+    -3.55,
+    1.0,
+    0
+   ],
+   "yaw": 180,
+   "room": "Foyer"
+  },
+  {
+   "kind": "Lounger",
+   "pos": [
+    -3.5,
+    28.4,
+    0
+   ],
+   "yaw": 180,
+   "room": "Garden",
+   "seat": 0.38
+  },
+  {
+   "kind": "Lounger",
+   "pos": [
+    -1.5,
+    28.4,
+    0
+   ],
+   "yaw": 180,
+   "room": "Garden",
+   "seat": 0.38
+  },
+  {
+   "kind": "Lounger",
+   "pos": [
+    1.5,
+    28.4,
+    0
+   ],
+   "yaw": 180,
+   "room": "Garden",
+   "seat": 0.38
+  },
+  {
+   "kind": "Lounger",
+   "pos": [
+    3.5,
+    28.4,
+    0
+   ],
+   "yaw": 180,
+   "room": "Garden",
+   "seat": 0.38
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    11.5,
+    17.7,
+    0
+   ],
+   "yaw": 0,
+   "room": "Garden",
+   "seat": 0.47
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    11.5,
+    19.9,
+    0
+   ],
+   "yaw": 180,
+   "room": "Garden",
+   "seat": 0.47
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    10.4,
+    18.8,
+    0
+   ],
+   "yaw": 270,
+   "room": "Garden",
+   "seat": 0.47
+  },
+  {
+   "kind": "Seat",
+   "pos": [
+    12.6,
+    18.8,
+    0
+   ],
+   "yaw": 90,
+   "room": "Garden",
+   "seat": 0.47
+  },
+  {
+   "kind": "Plants",
+   "pos": [
+    -14,
+    17.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "Garden"
+  },
+  {
+   "kind": "Plants",
+   "pos": [
+    -14,
+    22.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "Garden"
+  },
+  {
+   "kind": "Plants",
+   "pos": [
+    14,
+    22.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "Garden"
+  },
+  {
+   "kind": "Plants",
+   "pos": [
+    -6.0,
+    30.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "Garden"
+  },
+  {
+   "kind": "Plants",
+   "pos": [
+    8,
+    30.1,
+    0
+   ],
+   "yaw": 0,
+   "room": "Garden"
+  }
+ ],
+ "lights": [
+  {
+   "kind": "lamp",
+   "pos": [
+    -1.85,
+    10.95,
+    0.9
+   ],
+   "room": "LivingRoom",
+   "colour": [
+    1,
+    0.78,
+    0.55
+   ],
+   "intensity": 0.7,
+   "range": 3.5
+  },
+  {
+   "kind": "lamp",
+   "pos": [
+    1.85,
+    10.95,
+    0.9
+   ],
+   "room": "LivingRoom",
+   "colour": [
+    1,
+    0.78,
+    0.55
+   ],
+   "intensity": 0.7,
+   "range": 3.5
+  },
+  {
+   "kind": "task",
+   "pos": [
+    8.0,
+    15.6,
+    1.45
+   ],
+   "room": "Kitchen",
+   "colour": [
+    1,
+    0.9,
+    0.75
+   ],
+   "intensity": 0.8,
+   "range": 3
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -7.5,
+    3.75,
+    3.05
+   ],
+   "room": "Garage",
+   "colour": [
+    1,
+    0.95,
+    0.88
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -9.25,
+    9.0,
+    3.05
+   ],
+   "room": "Laundry",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -5.75,
+    9.0,
+    3.05
+   ],
+   "room": "GuestBathroom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -7.5,
+    13.25,
+    3.05
+   ],
+   "room": "GuestBedroom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -1.25,
+    2.25,
+    3.05
+   ],
+   "room": "Foyer",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    3.25,
+    2.25,
+    3.05
+   ],
+   "room": "Study",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -2,
+    7,
+    3.05
+   ],
+   "room": "LivingRoom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    2,
+    7,
+    3.05
+   ],
+   "room": "LivingRoom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "pendant",
+   "pos": [
+    0,
+    12,
+    4.8
+   ],
+   "room": "LivingRoom",
+   "colour": [
+    1.0,
+    0.8,
+    0.58
+   ],
+   "intensity": 2.0,
+   "range": 12
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    7.5,
+    6.75,
+    3.05
+   ],
+   "room": "Dining",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    7.5,
+    12.5,
+    3.05
+   ],
+   "room": "Kitchen",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    6.35,
+    2.25,
+    3.05
+   ],
+   "room": "StairHall",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -7.5,
+    3.75,
+    6.45
+   ],
+   "room": "MasterBedroom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -9.5,
+    9.0,
+    6.45
+   ],
+   "room": "WalkInWardrobe",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -6.0,
+    9.0,
+    6.45
+   ],
+   "room": "MasterBathroom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -7.5,
+    13.25,
+    6.45
+   ],
+   "room": "BedroomA",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -1.25,
+    2.25,
+    6.45
+   ],
+   "room": "FamilyLounge",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    3.25,
+    2.25,
+    6.45
+   ],
+   "room": "SharedBathroom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -1,
+    6.2,
+    6.45
+   ],
+   "room": "Gallery",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -3.4,
+    12.0,
+    6.45
+   ],
+   "room": "SideGallery",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    6.35,
+    2.25,
+    6.45
+   ],
+   "room": "Landing",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    7.5,
+    12.0,
+    6.45
+   ],
+   "room": "BedroomB",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -0.5,
+    2.25,
+    9.85
+   ],
+   "room": "MediaRoom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    -0.5,
+    6.25,
+    9.85
+   ],
+   "room": "Gym",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    7.0,
+    6.25,
+    9.85
+   ],
+   "room": "SkyLounge",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    4.0,
+    1.25,
+    9.85
+   ],
+   "room": "PowderRoom",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "ceiling",
+   "pos": [
+    6.35,
+    2.25,
+    9.85
+   ],
+   "room": "TopLanding",
+   "colour": [
+    1.0,
+    0.82,
+    0.62
+   ],
+   "intensity": 1.0,
+   "range": 8.0
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    -10.6,
+    0.4,
+    7.3
+   ],
+   "room": "RoofTerraceWest",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    -4.4,
+    15.6,
+    7.3
+   ],
+   "room": "RoofTerraceWest",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    -10.6,
+    15.6,
+    7.3
+   ],
+   "room": "RoofTerraceWest",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    4.4,
+    8.4,
+    7.3
+   ],
+   "room": "RoofTerraceEast",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    10.6,
+    15.6,
+    7.3
+   ],
+   "room": "RoofTerraceEast",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    4.4,
+    15.6,
+    7.3
+   ],
+   "room": "RoofTerraceEast",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "task",
+   "pos": [
+    7.5,
+    12.2,
+    2.2
+   ],
+   "room": "Kitchen",
+   "colour": [
+    1,
+    0.9,
+    0.78
+   ],
+   "intensity": 1.4,
+   "range": 4
+  },
+  {
+   "kind": "task",
+   "pos": [
+    8.0,
+    15.2,
+    1.45
+   ],
+   "room": "Kitchen",
+   "colour": [
+    1,
+    0.92,
+    0.8
+   ],
+   "intensity": 0.8,
+   "range": 3
+  },
+  {
+   "kind": "lamp",
+   "pos": [
+    -8.9,
+    0.5,
+    4.1
+   ],
+   "room": "MasterBedroom",
+   "colour": [
+    1,
+    0.76,
+    0.5
+   ],
+   "intensity": 0.6,
+   "range": 3
+  },
+  {
+   "kind": "lamp",
+   "pos": [
+    -6.1,
+    0.5,
+    4.1
+   ],
+   "room": "MasterBedroom",
+   "colour": [
+    1,
+    0.76,
+    0.5
+   ],
+   "intensity": 0.6,
+   "range": 3
+  },
+  {
+   "kind": "lamp",
+   "pos": [
+    -9.6,
+    15.6,
+    4.3
+   ],
+   "room": "BedroomA",
+   "colour": [
+    1,
+    0.76,
+    0.5
+   ],
+   "intensity": 0.6,
+   "range": 3
+  },
+  {
+   "kind": "lamp",
+   "pos": [
+    10.4,
+    11.9,
+    4.3
+   ],
+   "room": "BedroomB",
+   "colour": [
+    1,
+    0.76,
+    0.5
+   ],
+   "intensity": 0.6,
+   "range": 3
+  },
+  {
+   "kind": "lamp",
+   "pos": [
+    -9.0,
+    15.6,
+    0.9
+   ],
+   "room": "GuestBedroom",
+   "colour": [
+    1,
+    0.76,
+    0.5
+   ],
+   "intensity": 0.6,
+   "range": 3
+  },
+  {
+   "kind": "stair",
+   "pos": [
+    7.9,
+    0.9,
+    0.3
+   ],
+   "room": "StairHall",
+   "colour": [
+    1,
+    0.85,
+    0.65
+   ],
+   "intensity": 0.3,
+   "range": 2
+  },
+  {
+   "kind": "stair",
+   "pos": [
+    9.02,
+    0.9,
+    1.06
+   ],
+   "room": "StairHall",
+   "colour": [
+    1,
+    0.85,
+    0.65
+   ],
+   "intensity": 0.3,
+   "range": 2
+  },
+  {
+   "kind": "stair",
+   "pos": [
+    7.9,
+    2.4,
+    1.82
+   ],
+   "room": "StairHall",
+   "colour": [
+    1,
+    0.85,
+    0.65
+   ],
+   "intensity": 0.3,
+   "range": 2
+  },
+  {
+   "kind": "stair",
+   "pos": [
+    9.02,
+    2.4,
+    2.58
+   ],
+   "room": "StairHall",
+   "colour": [
+    1,
+    0.85,
+    0.65
+   ],
+   "intensity": 0.3,
+   "range": 2
+  },
+  {
+   "kind": "stair",
+   "pos": [
+    7.9,
+    2.4,
+    3.34
+   ],
+   "room": "StairHall",
+   "colour": [
+    1,
+    0.85,
+    0.65
+   ],
+   "intensity": 0.3,
+   "range": 2
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    -16,
+    16.5,
+    0.85
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    16,
+    16.5,
+    0.85
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    -16,
+    33,
+    0.85
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    16,
+    33,
+    0.85
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    -6,
+    21.6,
+    0.85
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    6,
+    21.6,
+    0.85
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    -6,
+    27,
+    0.85
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "garden",
+   "pos": [
+    6,
+    27,
+    0.85
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.6,
+   "range": 5
+  },
+  {
+   "kind": "pool",
+   "pos": [
+    -2.5,
+    22.05,
+    -0.7
+   ],
+   "room": "Pool",
+   "colour": [
+    0.6,
+    0.85,
+    1.0
+   ],
+   "intensity": 2.0,
+   "range": 6
+  },
+  {
+   "kind": "pool",
+   "pos": [
+    2.5,
+    22.05,
+    -0.9
+   ],
+   "room": "Pool",
+   "colour": [
+    0.6,
+    0.85,
+    1.0
+   ],
+   "intensity": 2.0,
+   "range": 6
+  },
+  {
+   "kind": "pool",
+   "pos": [
+    -2.5,
+    26.45,
+    -0.7
+   ],
+   "room": "Pool",
+   "colour": [
+    0.6,
+    0.85,
+    1.0
+   ],
+   "intensity": 2.0,
+   "range": 6
+  },
+  {
+   "kind": "pool",
+   "pos": [
+    2.5,
+    26.45,
+    -0.9
+   ],
+   "room": "Pool",
+   "colour": [
+    0.6,
+    0.85,
+    1.0
+   ],
+   "intensity": 2.0,
+   "range": 6
+  },
+  {
+   "kind": "wall",
+   "pos": [
+    -2.35,
+    -0.47,
+    2.25
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.8,
+   "range": 4
+  },
+  {
+   "kind": "wall",
+   "pos": [
+    -0.1,
+    -0.47,
+    2.25
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.8,
+   "range": 4
+  },
+  {
+   "kind": "wall",
+   "pos": [
+    -10.85,
+    -0.47,
+    2.8
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.8,
+   "range": 4
+  },
+  {
+   "kind": "wall",
+   "pos": [
+    -4.15,
+    -0.47,
+    2.8
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.8,
+   "range": 4
+  },
+  {
+   "kind": "wall",
+   "pos": [
+    4.3,
+    16.470000000000002,
+    2.3
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.8,
+   "range": 4
+  },
+  {
+   "kind": "wall",
+   "pos": [
+    -3.7,
+    16.470000000000002,
+    2.3
+   ],
+   "room": "Garden",
+   "colour": [
+    1,
+    0.8,
+    0.55
+   ],
+   "intensity": 0.8,
+   "range": 4
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -75,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -67.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -60,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -52.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -45,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -37.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -30,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -22.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -15,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    -7.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    0,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    7.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    15,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    22.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    30,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    37.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    45,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    52.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    60,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    67.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    75,
+    -11.9,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  },
+  {
+   "kind": "street",
+   "pos": [
+    82.5,
+    -22.3,
+    5.7
+   ],
+   "room": "Street",
+   "colour": [
+    1,
+    0.82,
+    0.6
+   ],
+   "intensity": 1.6,
+   "range": 14
+  }
+ ],
+ "windows": [
+  {
+   "min": [
+    5.3,
+    0,
+    0.3
+   ],
+   "max": [
+    10.7,
+    0,
+    9.9
+   ]
+  },
+  {
+   "min": [
+    2.05,
+    0,
+    0.9
+   ],
+   "max": [
+    4.449999999999999,
+    0,
+    2.5
+   ]
+  },
+  {
+   "min": [
+    -2.75,
+    0,
+    4.3
+   ],
+   "max": [
+    0.25,
+    0,
+    5.9
+   ]
+  },
+  {
+   "min": [
+    2.6500000000000004,
+    0,
+    4.8
+   ],
+   "max": [
+    3.8499999999999996,
+    0,
+    5.8
+   ]
+  },
+  {
+   "min": [
+    -2.8,
+    0,
+    7.9
+   ],
+   "max": [
+    0.7999999999999998,
+    0,
+    9.3
+   ]
+  },
+  {
+   "min": [
+    3.5999999999999996,
+    0,
+    8.4
+   ],
+   "max": [
+    4.4,
+    0,
+    9.2
+   ]
+  },
+  {
+   "min": [
+    -3.7,
+    16,
+    0
+   ],
+   "max": [
+    3.7,
+    16,
+    6.4
+   ]
+  },
+  {
+   "min": [
+    -11.0,
+    8.3,
+    0.9
+   ],
+   "max": [
+    -11.0,
+    9.7,
+    2.4
+   ]
+  },
+  {
+   "min": [
+    -11.0,
+    12.25,
+    0.9
+   ],
+   "max": [
+    -11.0,
+    14.25,
+    2.5
+   ]
+  },
+  {
+   "min": [
+    -11.0,
+    3.0,
+    4.3
+   ],
+   "max": [
+    -11.0,
+    5.0,
+    5.9
+   ]
+  },
+  {
+   "min": [
+    -11.0,
+    12.25,
+    4.3
+   ],
+   "max": [
+    -11.0,
+    14.25,
+    5.9
+   ]
+  },
+  {
+   "min": [
+    11.0,
+    5.55,
+    0.9
+   ],
+   "max": [
+    11.0,
+    7.95,
+    2.5
+   ]
+  },
+  {
+   "min": [
+    11.0,
+    11.3,
+    1.1
+   ],
+   "max": [
+    11.0,
+    13.7,
+    2.5
+   ]
+  },
+  {
+   "min": [
+    11.0,
+    10.8,
+    4.3
+   ],
+   "max": [
+    11.0,
+    13.2,
+    5.9
+   ]
+  },
+  {
+   "min": [
+    11.0,
+    5.05,
+    7.7
+   ],
+   "max": [
+    11.0,
+    7.45,
+    9.3
+   ]
+  },
+  {
+   "min": [
+    -2.5,
+    8,
+    7.7
+   ],
+   "max": [
+    1.5,
+    8,
+    9.3
+   ]
+  },
+  {
+   "min": [
+    -8.7,
+    16,
+    0.9
+   ],
+   "max": [
+    -6.3,
+    16,
+    2.5
+   ]
+  },
+  {
+   "min": [
+    -8.7,
+    16,
+    4.3
+   ],
+   "max": [
+    -6.3,
+    16,
+    5.9
+   ]
+  },
+  {
+   "min": [
+    8.0,
+    16,
+    0.9
+   ],
+   "max": [
+    10.0,
+    16,
+    2.5
+   ]
+  }
+ ],
+ "stairs": {
+  "bottom": [
+   7.21,
+   0.9,
+   0
+  ],
+  "top": [
+   6.3,
+   3.75,
+   3.4
+  ],
+  "top2": [
+   6.3,
+   3.75,
+   6.8
+  ],
+  "risers": 18,
+  "rise": 0.18888888888888888,
+  "run": 0.28
+ },
+ "garage": {
+  "door": {
+   "min": [
+    -10.5,
+    -0.15,
+    0
+   ],
+   "max": [
+    -4.5,
+    0.15,
+    2.6
+   ]
+  },
+  "car": [
+   -8.9,
+   3.6,
+   0
+  ],
+  "car_yaw": 180,
+  "spare_bay": [
+   -5.9,
+   3.6,
+   0
+  ]
+ },
+ "cars": {
+  "names": [
+   "FamilySUV",
+   "SportsCar_Red",
+   "SportsCar_Yellow",
+   "SportsCar_Blue"
+  ],
+  "spots": [
+   -8.9,
+   3.6,
+   180,
+   -5.9,
+   3.6,
+   180,
+   5.0,
+   -4.7,
+   180,
+   8.9,
+   -4.7,
+   180
+  ]
+ },
+ "pool": {
+  "min": [
+   -5.0,
+   22.0,
+   -2.0
+  ],
+  "max": [
+   5.0,
+   26.5,
+   -0.12
+  ],
+  "water_level": -0.12,
+  "shallow": 1.1,
+  "deep": 2.0,
+  "ladder_bottom": [
+   4.45,
+   24.25,
+   -0.12
+  ],
+  "ladder_top": [
+   5.55,
+   24.25,
+   0.02
+  ],
+  "steps": [
+   -4.4,
+   22.8,
+   -0.3
+  ],
+  "lights": [
+   [
+    -2.5,
+    22.05,
+    -0.7
+   ],
+   [
+    2.5,
+    22.05,
+    -0.9
+   ],
+   [
+    -2.5,
+    26.45,
+    -0.7
+   ],
+   [
+    2.5,
+    26.45,
+    -0.9
+   ]
+  ]
+ },
+ "elevator": {
+  "floors": [
+   0,
+   3.4,
+   6.8
+  ],
+  "names": [
+   "Ground",
+   "First",
+   "Second"
+  ],
+  "inside": [
+   4.0,
+   3.5
+  ],
+  "cab_min": [
+   3.17,
+   2.67
+  ],
+  "cab_max": [
+   4.83,
+   4.33
+  ],
+  "door_slide": 0.5,
+  "door_axis": [
+   0,
+   1,
+   0
+  ],
+  "hall": [
+   5.6,
+   3.5
+  ],
+  "call": [
+   5.11,
+   4.36,
+   1.15,
+   5.11,
+   4.36,
+   4.55,
+   5.11,
+   4.36,
+   7.949999999999999
+  ],
+  "indicator": [
+   5.11,
+   3.5,
+   2.42,
+   5.11,
+   3.5,
+   5.82,
+   5.11,
+   3.5,
+   9.219999999999999
+  ]
+ },
+ "gate": {
+  "pivot": [
+   -7.5,
+   -10.0,
+   0
+  ],
+  "slide": [
+   -6.2,
+   0,
+   0
+  ]
+ },
+ "umbrellas": {
+  "parasols": [
+   -2.5,
+   28.6,
+   0,
+   2.5,
+   28.6,
+   0,
+   -7.5,
+   5.6,
+   6.8,
+   10.0,
+   14.5,
+   6.8
+  ],
+  "stand": [
+   -3.55,
+   0.45,
+   0
+  ]
+ },
+ "flowerbeds": [
+  12.0,
+  -8.5,
+  16.6,
+  -6.2,
+  0.34,
+  12.0,
+  -5.0,
+  16.6,
+  -1.0,
+  0.34,
+  -16.2,
+  17.6,
+  -15.0,
+  32.6,
+  0.34,
+  15.0,
+  17.6,
+  16.2,
+  32.6,
+  0.34,
+  -5.5,
+  32.0,
+  -1.5,
+  33.1,
+  0.34,
+  1.5,
+  32.0,
+  5.5,
+  33.1,
+  0.34,
+  -10.8,
+  2.0,
+  -9.8,
+  6.0,
+  7.14,
+  8.6,
+  15.2,
+  10.8,
+  15.8,
+  7.14
+ ],
+ "koipond": {
+  "min": [
+   -13.0,
+   28.2,
+   -0.7
+  ],
+  "max": [
+   -8.6,
+   32.6,
+   -0.12
+  ],
+  "water_level": -0.12
+ },
+ "wildlife": {
+  "lawn": [
+   -14.5,
+   27.5,
+   14.5,
+   33.0
+  ],
+  "front": [
+   11.8,
+   -8.6,
+   16.8,
+   -0.5
+  ],
+  "perches": [
+   -15.6,
+   31.8,
+   5.5,
+   14,
+   30,
+   6.0,
+   -14,
+   8,
+   4.5,
+   14,
+   8,
+   5.0,
+   14.5,
+   -5,
+   5.5
+  ]
+ },
+ "street": {
+  "gate": [
+   -7.5,
+   -10.0,
+   0
+  ],
+  "road_y": -17.0,
+  "city_exit": [
+   0,
+   -17.0,
+   0
+  ]
+ },
+ "entrance": [
+  -1.25,
+  -1.2,
+  0
+ ],
+ "pet": [
+  6.0,
+  19.0,
+  0
+ ]
+}

@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5635d4d36103f4f06aa892600916323f, type: 3}
+  m_Name: emma
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.NPCProfile
+  Id: emma
+  DisplayName: Emma Carter
+  Age: 3
+  Occupation: "Forest Caf\xE9 Barista"
+  Home: riverside
+  Work: forest_cafe
+  Model: CafeCharm
+  Personality:
+    Sociability: 0.55
+    Shyness: 0.55
+    Patience: 0.85
+    Busyness: 0.65
+    Distraction: 0.2
+    CommunicationStyle: friendly
+  Friends:
+  - mei
+  Family: []
+  Coworkers:
+  - liam
+  WalkWith: 
+  PreferredActivities:
+  - Coffee
+  - Wander
+  ScheduleJson: "[\n  { \"startHour\": 0, \"endHour\": 7, \"activity\": \"Sleep\",
+    \"location\": \"\u4F4F\u5B85\" },\n  { \"startHour\": 7, \"endHour\": 8, \"activity\":
+    \"Breakfast\", \"location\": \"\u4F4F\u5B85\" },\n  { \"startHour\": 8, \"endHour\":
+    9, \"activity\": \"Commute\", \"location\": \"\u57CE\u5E02 / Tram\" },\n  { \"startHour\":
+    9, \"endHour\": 12, \"activity\": \"ServeCustomers\", \"location\": \"Forest
+    Caf\xE9\" },\n  { \"startHour\": 12, \"endHour\": 13, \"activity\": \"Break\",
+    \"location\": \"\u5458\u5DE5\u4F11\u606F\u533A\" },\n  { \"startHour\": 13, \"endHour\":
+    17, \"activity\": \"Work\", \"location\": \"Forest Caf\xE9\" },\n  { \"startHour\":
+    17, \"endHour\": 18, \"activity\": \"LeaveWork\", \"location\": \"\u57CE\u5E02\"
+    },\n  { \"startHour\": 18, \"endHour\": 20, \"activity\": \"Socialize\", \"location\":
+    \"\u5546\u573A / \u9910\u5385\" },\n  { \"startHour\": 20, \"endHour\": 23, \"activity\":
+    \"Relax\", \"location\": \"\u4F4F\u5B85\" },\n  { \"startHour\": 23, \"endHour\":
+    24, \"activity\": \"Sleep\", \"location\": \"\u4F4F\u5B85\" }\n]"
+  Punctuality: 5
+  RelationshipToPlayer: stranger
+  EnglishBand: 7
+  Voice:
+    Accent: 0
+    Rate: 1
+    Pitch: 0
+    Tone: warm
+  Greetings:
+  - Hi there!
+  - Morning!
+  - Hey, welcome in!
+  SmallTalk:
+  - It's been busy this morning!
+  - Have you tried the new oat latte?
+  - I love this time of day.
+  MemorySummary: 

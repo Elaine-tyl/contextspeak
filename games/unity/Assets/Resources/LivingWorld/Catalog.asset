@@ -1,0 +1,551 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1faa5cdf0949249f7b01361a692ab53e, type: 3}
+  m_Name: Catalog
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.LivingWorld.LivingWorldCatalog
+  Events:
+  - Id: tourist-cafe
+    Title: A new face in town
+    Location: cafe
+    NpcId: jordan
+    NpcName: Jordan
+    Role: Visitor from Canada
+    Prerequisite: 
+    StartMinute: 0
+    EndMinute: 1440
+    OnlyRain: 0
+    Steps:
+    - Simple: Hey! Where's Pine House Hotel? I'm a bit lost.
+      Everyday: Hey, sorry to bother you. I'm staying at Pine House Hotel, but my
+        map's acting up. Could you point me in the right direction?
+      Advanced: Sorry to interrupt. My map keeps sending me round in circles. Could
+        you suggest a straightforward route to Pine House Hotel?
+      Vocabulary:
+      - turn left
+      - across from
+      - landmark
+      - within walking distance
+      Choices:
+      - Id: directions
+        Label: Give directions
+        Goal: Explain a plausible route using a direction and a landmark.
+        Fact: You helped Jordan find the hotel.
+        Promise: 
+        Next: 1
+        Action: 0
+      - Id: unable
+        Label: Offer another way to help
+        Goal: Politely explain you are unsure and suggest asking staff or checking
+          a map.
+        Fact: You offered another way to find the hotel.
+        Promise: 
+        Next: 1
+        Action: 0
+    - Simple: Thanks! Want to meet at the night market at six?
+      Everyday: Thanks, that really helps. I'm checking out the night market after
+        six. Want to meet me there?
+      Advanced: I appreciate the help. Would you be up for the night market this
+        evening, or have you already got plans?
+      Vocabulary:
+      - meet up
+      - sounds good
+      - I'm afraid
+      - what time
+      Choices:
+      - Id: meet
+        Label: Accept the invitation
+        Goal: Accept meeting at the night market and confirm a practical detail.
+        Fact: You agreed to meet Jordan at the night market.
+        Promise: Meet at the night market
+        Next: -1
+        Action: 1
+      - Id: details
+        Label: Ask for details
+        Goal: Ask a relevant question about the night market before deciding.
+        Fact: You asked Jordan about the evening plans.
+        Promise: 
+        Next: 2
+        Action: 0
+      - Id: decline
+        Label: Politely decline
+        Goal: Politely decline the invitation, optionally giving a reason.
+        Fact: You politely declined tonight's invitation.
+        Promise: 
+        Next: -1
+        Action: 2
+    - Simple: It's by the market square. Shall we meet at six?
+      Everyday: It's the food stalls by the market square, from six onwards. We can
+        keep it low-key. Does that work for you?
+      Advanced: The stalls open around six in the market square. There's no booking
+        or commitment; we can head off whenever we like. Would that suit you?
+      Vocabulary:
+      - from six onwards
+      - keep it low-key
+      - that works
+      - another time
+      Choices:
+      - Id: meet
+        Label: Confirm the plan
+        Goal: Accept the plan and confirm when or where to meet.
+        Fact: You confirmed the night-market meeting.
+        Promise: Meet at the night market
+        Next: -1
+        Action: 1
+      - Id: decline
+        Label: Suggest another time
+        Goal: Politely decline tonight and suggest another time or wish them a good
+          evening.
+        Fact: You suggested catching up another time.
+        Promise: 
+        Next: -1
+        Action: 2
+  - Id: tourist-market
+    Title: See you at the night market
+    Location: night-market
+    NpcId: jordan
+    NpcName: Jordan
+    Role: Your new friend
+    Prerequisite: market-invitation
+    StartMinute: 1080
+    EndMinute: 1440
+    OnlyRain: 0
+    Steps:
+    - Simple: Hey, you made it! What food should we try?
+      Everyday: Hey, good to see you again! I found the hotel, thanks to you. What
+        looks good here?
+      Advanced: Good to see you again! Thanks again for helping me find the hotel.
+        If we only try a couple of things, what would you recommend and why?
+      Vocabulary:
+      - food stall
+      - mild
+      - ingredients
+      - worth trying
+      Choices:
+      - Id: recommend
+        Label: Recommend something
+        Goal: Recommend a food or drink and give a relevant reason or preference.
+        Fact: You and Jordan explored the food stalls.
+        Promise: 
+        Next: 1
+        Action: 0
+    - Simple: Some friends are going to Seattle this weekend. Want to come?
+      Everyday: A few friends and I are heading to Seattle this weekend. You'd be
+        welcome to come along. What do you think?
+      Advanced: We're planning a weekend in Seattle. Would joining a small group
+        appeal to you, or do you prefer travelling independently?
+      Vocabulary:
+      - come along
+      - budget
+      - itinerary
+      - I'd rather
+      Choices:
+      - Id: join
+        Label: Join the trip
+        Goal: Accept the trip and ask or confirm a practical travel detail.
+        Fact: You accepted Jordan's weekend-trip invitation.
+        Promise: Discuss travel plans at the airport
+        Next: -1
+        Action: 3
+      - Id: decline
+        Label: Decline the trip
+        Goal: Politely decline the trip or explain why the timing does not work.
+        Fact: You declined the trip while staying on friendly terms.
+        Promise: 
+        Next: -1
+        Action: 4
+  - Id: tourist-airport
+    Title: A change of plans
+    Location: airport
+    NpcId: airline-casey
+    NpcName: Casey
+    Role: Airline service agent
+    Prerequisite: trip-invitation
+    StartMinute: 0
+    EndMinute: 1440
+    OnlyRain: 0
+    Steps:
+    - Simple: Your flight is delayed. Do you want another flight, or refund information?
+      Everyday: I'm sorry, your Seattle flight's delayed because of the earlier weather.
+        Would you like me to check other flights, or explain the refund options?
+      Advanced: The earlier weather disruption is still affecting departures. We
+        can look at rerouting you or discuss the applicable refund options. What
+        would work best for you?
+      Vocabulary:
+      - flight delay
+      - rebook
+      - available seats
+      - refund options
+      Choices:
+      - Id: options
+        Label: Ask about another flight
+        Goal: Ask about alternative flights and a relevant constraint such as timing
+          or the group booking.
+        Fact: You asked Casey for alternative flight options.
+        Promise: 
+        Next: 1
+        Action: 0
+      - Id: refund
+        Label: Ask about a refund
+        Goal: Request refund information politely and explain what you need to know.
+        Fact: You requested refund information rather than accepting a new flight.
+        Promise: 
+        Next: -1
+        Action: 6
+    - Simple: There's a flight tomorrow morning. Would that work?
+      Everyday: I can check seats on tomorrow morning's flight. Before I request
+        the change, does that work for everyone in your group?
+      Advanced: Tomorrow morning may keep your group together, but it shortens your
+        weekend. Would you like me to request those seats, or would you prefer the
+        refund route?
+      Vocabulary:
+      - subject to availability
+      - keep the group together
+      - trade-off
+      - confirm
+      Choices:
+      - Id: morning
+        Label: Request the morning flight
+        Goal: Request the morning alternative and confirm a relevant detail or trade-off.
+        Fact: You requested the morning flight, subject to availability.
+        Promise: 
+        Next: -1
+        Action: 5
+      - Id: refund
+        Label: Choose refund information
+        Goal: Explain why the alternative does not suit you and request refund information.
+        Fact: You decided the alternative did not fit your plans.
+        Promise: 
+        Next: -1
+        Action: 6
+  - Id: camp-rain
+    Title: Rain on the camping trip
+    Location: camping
+    NpcId: ranger-sam
+    NpcName: Sam
+    Role: Camping friend
+    Prerequisite: 
+    StartMinute: 0
+    EndMinute: 1440
+    OnlyRain: 1
+    Steps:
+    - Simple: It's raining. Where can we stay dry?
+      Everyday: Well, so much for clear skies! How should we change our plans?
+      Advanced: The weather's turned. How would you balance keeping the trip enjoyable
+        with keeping everyone safe?
+      Vocabulary:
+      - shelter
+      - forecast
+      - put off
+      - backup plan
+      Choices:
+      - Id: shelter
+        Label: Suggest a safe plan
+        Goal: Suggest a practical safe response to the rain.
+        Fact: You helped Sam make a rainy-day camping plan.
+        Promise: 
+        Next: 1
+        Action: 0
+    - Simple: What should we bring inside first?
+      Everyday: What would you keep dry first, and why?
+      Advanced: If we can only move a few things under cover, how would you prioritise
+        them?
+      Vocabulary:
+      - keep dry
+      - first-aid kit
+      - essential
+      - prioritise
+      Choices:
+      - Id: priorities
+        Label: Explain your priorities
+        Goal: Prioritise camping supplies and explain a sensible reason.
+        Fact: You agreed which camping supplies to protect.
+        Promise: 
+        Next: -1
+        Action: 7
+  - Id: missing-parcel
+    Title: The missing parcel
+    Location: detective
+    NpcId: detective-lee
+    NpcName: Lee
+    Role: Neighbourhood investigator
+    Prerequisite: 
+    StartMinute: 0
+    EndMinute: 1440
+    OnlyRain: 0
+    Steps:
+    - Simple: A parcel is missing. What should I ask the neighbour?
+      Everyday: A parcel's gone missing from the lobby. What would you ask the neighbour
+        who saw the delivery?
+      Advanced: Two neighbours remember the delivery differently. How would you clarify
+        the timeline without accusing either of them?
+      Vocabulary:
+      - delivery
+      - witness
+      - timeline
+      - clarify
+      Choices:
+      - Id: question
+        Label: Ask a witness question
+        Goal: Ask a useful non-accusatory question about the missing delivery.
+        Fact: You helped Lee question a witness fairly.
+        Promise: 
+        Next: 1
+        Action: 0
+    - Simple: The delivery photo shows a different door. What now?
+      Everyday: The photo shows the wrong door number. What should we do next?
+      Advanced: The delivery photo contradicts the original assumption. How should
+        that change our next steps?
+      Vocabulary:
+      - evidence
+      - assumption
+      - check with
+      - follow up
+      Choices:
+      - Id: evidence
+        Label: Use the new evidence
+        Goal: Use the wrong-door evidence to suggest a reasonable next step.
+        Fact: You followed evidence instead of blaming a neighbour.
+        Promise: 
+        Next: -1
+        Action: 7
+  - Id: pet-help
+    Title: A home for a rescue pet
+    Location: pet-centre
+    NpcId: rescue-noor
+    NpcName: Noor
+    Role: Animal rescue volunteer
+    Prerequisite: 
+    StartMinute: 0
+    EndMinute: 1440
+    OnlyRain: 0
+    Steps:
+    - Simple: What pet would suit your home?
+      Everyday: Before we talk about adoption, what would a normal day look like
+        for a pet in your home?
+      Advanced: How would you judge whether your lifestyle can meet a rescue animal's
+        needs over the long term?
+      Vocabulary:
+      - adopt
+      - routine
+      - exercise
+      - long-term care
+      Choices:
+      - Id: routine
+        Label: Describe a realistic routine
+        Goal: Describe a realistic home routine and a pet-care responsibility.
+        Fact: You discussed responsible pet care with Noor.
+        Promise: 
+        Next: 1
+        Action: 0
+    - Simple: What would you do when you travel?
+      Everyday: Who could care for the pet while you're away?
+      Advanced: How would you plan for travel, unexpected costs and changes in your
+        routine?
+      Vocabulary:
+      - pet sitter
+      - vet
+      - backup care
+      - responsibility
+      Choices:
+      - Id: care
+        Label: Plan backup care
+        Goal: Explain a responsible backup-care plan.
+        Fact: You planned backup care; no adoption was made automatically.
+        Promise: 
+        Next: -1
+        Action: 7
+  - Id: recipe-swap
+    Title: A missing ingredient
+    Location: cooking
+    NpcId: chef-theo
+    NpcName: Theo
+    Role: Cooking instructor
+    Prerequisite: 
+    StartMinute: 0
+    EndMinute: 1440
+    OnlyRain: 0
+    Steps:
+    - Simple: We're out of milk. What could we use?
+      Everyday: We've run out of milk just as we're about to start. What substitute
+        would you suggest?
+      Advanced: We need a substitute that works for both the recipe and a guest's
+        dietary needs. How would you choose one?
+      Vocabulary:
+      - substitute
+      - dietary needs
+      - texture
+      - check the label
+      Choices:
+      - Id: substitute
+        Label: Suggest a substitute
+        Goal: Suggest a plausible substitute and explain a relevant reason.
+        Fact: You suggested a recipe substitution to Theo.
+        Promise: 
+        Next: 1
+        Action: 0
+    - Simple: How should we check it's safe for our guest?
+      Everyday: What would you ask the guest before we use it?
+      Advanced: How would you check the guest's needs without making assumptions
+        about allergies or preferences?
+      Vocabulary:
+      - ingredient
+      - allergy
+      - preference
+      - double-check
+      Choices:
+      - Id: check
+        Label: Check with the guest
+        Goal: Ask a careful ingredient or dietary-needs question; do not guarantee
+          allergy safety.
+        Fact: You checked the guest's needs before changing the recipe.
+        Promise: 
+        Next: -1
+        Action: 7
+  - Id: festival-seats
+    Title: The ticket mix-up
+    Location: music-festival
+    NpcId: usher-robin
+    NpcName: Robin
+    Role: Festival usher
+    Prerequisite: 
+    StartMinute: 0
+    EndMinute: 1440
+    OnlyRain: 0
+    Steps:
+    - Simple: Is there a problem with your seat?
+      Everyday: Hey, can I help? It looks like someone else has your seat number
+        too.
+      Advanced: It seems two tickets show the same seat. How would you explain the
+        problem and suggest a fair resolution?
+      Vocabulary:
+      - seat number
+      - booking confirmation
+      - mix-up
+      - resolve
+      Choices:
+      - Id: explain
+        Label: Explain the ticket issue
+        Goal: Explain the duplicate-seat problem politely and ask for help.
+        Fact: You explained the ticket mix-up to Robin.
+        Promise: 
+        Next: 1
+        Action: 0
+    - Simple: We can move you together a little farther back. Is that okay?
+      Everyday: There's space for your group a few rows back. Would that work, or
+        do you need a different option?
+      Advanced: We can keep the group together farther back, or split you into closer
+        seats. Which would you prioritise and why?
+      Vocabulary:
+      - a few rows back
+      - together
+      - alternative
+      - priority
+      Choices:
+      - Id: resolve
+        Label: Discuss the alternative
+        Goal: Accept or decline the seating alternative and explain your preference.
+        Fact: You discussed a seating solution without changing a real ticket.
+        Promise: 
+        Next: -1
+        Action: 7
+  - Id: cruise-weather
+    Title: A different day ashore
+    Location: cruise-terminal
+    NpcId: host-avery
+    NpcName: Avery
+    Role: Cruise excursion host
+    Prerequisite: 
+    StartMinute: 0
+    EndMinute: 1440
+    OnlyRain: 0
+    Steps:
+    - Simple: Our boat trip is cancelled. What would you like to do instead?
+      Everyday: The weather's cancelled today's boat trip. What kind of alternative
+        would you enjoy?
+      Advanced: Today's excursion is cancelled. How would you weigh an on-board activity
+        against a shorter visit ashore?
+      Vocabulary:
+      - excursion
+      - cancelled
+      - alternative
+      - shore
+      Choices:
+      - Id: alternative
+        Label: Suggest another activity
+        Goal: Suggest a realistic alternative activity and a preference.
+        Fact: You discussed a weather-safe excursion alternative with Avery.
+        Promise: 
+        Next: 1
+        Action: 0
+    - Simple: What do you need to know before choosing?
+      Everyday: What would you want me to confirm before you decide?
+      Advanced: What information would help you make an informed choice without assuming
+        a refund or replacement is guaranteed?
+      Vocabulary:
+      - departure time
+      - included
+      - availability
+      - conditions
+      Choices:
+      - Id: confirm
+        Label: Ask a practical question
+        Goal: Ask a relevant practical question before agreeing to the alternative.
+        Fact: You checked the excursion conditions before making a decision.
+        Promise: 
+        Next: -1
+        Action: 7
+  Venues:
+  - Id: cafe
+    Title: "Jordan \xB7 a visitor needs directions"
+    Scene: ForestSlice
+    Model: CafeCharm
+    Position: {x: 8, y: 0.05, z: 8}
+  - Id: night-market
+    Title: Night Market
+    Scene: LivingWorldDistrict
+    Model: CafeCharm
+    Position: {x: -28, y: 0.05, z: -14}
+  - Id: camping
+    Title: Camping Ground
+    Scene: LivingWorldDistrict
+    Model: TrenchElder
+    Position: {x: 0, y: 0.05, z: -14}
+  - Id: detective
+    Title: Detective Office
+    Scene: LivingWorldDistrict
+    Model: AnimeDetective
+    Position: {x: 28, y: 0.05, z: -14}
+  - Id: pet-centre
+    Title: Pet Adoption Centre
+    Scene: LivingWorldDistrict
+    Model: BraidedSchoolgirl
+    Position: {x: -28, y: 0.05, z: 15}
+  - Id: cooking
+    Title: Cooking Academy
+    Scene: LivingWorldDistrict
+    Model: Ali
+    Position: {x: 0, y: 0.05, z: 15}
+  - Id: music-festival
+    Title: Music Festival
+    Scene: LivingWorldDistrict
+    Model: Plaid
+    Position: {x: 28, y: 0.05, z: 15}
+  - Id: cruise-terminal
+    Title: Cruise Terminal
+    Scene: LivingWorldDistrict
+    Model: Secretary
+    Position: {x: 0, y: 0.05, z: 42}
+  - Id: airport
+    Title: "Casey \xB7 airline service desk"
+    Scene: Airport
+    Model: Executive
+    Position: {x: 10, y: 0.05, z: -20}

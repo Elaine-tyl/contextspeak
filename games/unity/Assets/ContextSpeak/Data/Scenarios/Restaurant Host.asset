@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33b6cfb8e845d4eb0b8a01c56b5c1ae6, type: 3}
+  m_Name: Restaurant Host
+  m_EditorClassIdentifier: Assembly-CSharp::ContextSpeak.Life.ScenarioDefinition
+  Title: Restaurant Host
+  Location: Restaurant
+  Steps:
+  - id: booking
+    speaker: host
+    simple: Hello. Do you have a booking?
+    standard: Good evening, welcome to Harbour Table. Do you have a reservation?
+    advanced: Good evening and welcome to Harbour Table. Have you booked with us
+      tonight, or are you hoping for a walk-in table?
+    expert: 
+    goal: Say if you have a reservation.
+    meaning: yes|yeah|yep|sure|of course|okay|ok|please|that'?s right|correct|no|nope|not|never|none|nothing|i
+      don'?t|reservation|book|under|name|walk in|table|hoping
+    model: No, I don't have a reservation. Do you have a table?
+    vocabulary: 'reservation: a booked table|walk-in: without booking'
+    onComplete: 
+  - id: party
+    speaker: host
+    simple: How many people?
+    standard: No problem. How many people are in your party?
+    advanced: That shouldn't be a problem. How many will be dining with you this
+      evening?
+    expert: 
+    goal: Say how many people.
+    meaning: \d|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|zero|oh|twenty|thirty|just
+      me|myself|alone|people|of us|party|person|couple
+    model: Just two of us, please.
+    vocabulary: 'party: your group|dining: eating a meal'
+    onComplete: 
+  - id: table
+    speaker: host
+    simple: Inside or outside?
+    standard: Would you prefer a table inside, by the window, or out on the terrace?
+    advanced: We have a quiet corner inside, a window table overlooking the harbour,
+      or a seat out on the terrace. Do you have a preference?
+    expert: 
+    goal: Choose where to sit.
+    meaning: window|inside|indoors|outside|terrace|quiet|corner|booth|anywhere|any|near|don'?t
+      mind|prefer|harbour
+    model: A window table would be lovely, please.
+    vocabulary: 'terrace: an outdoor area|overlooking: with a view of'
+    onComplete: choose-table
